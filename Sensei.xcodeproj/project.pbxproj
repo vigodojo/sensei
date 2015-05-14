@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */; };
+		4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */; };
+		4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F3321B04EDF200728202 /* SenseiViewController.swift */; };
+		402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402C32B11B0392180045BAD7 /* SenseiTabController.swift */; };
 		4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */; };
-		4084CFDE1AFA611B000F8D47 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFDD1AFA611B000F8D47 /* ViewController.swift */; };
 		4084CFE11AFA611B000F8D47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFDF1AFA611B000F8D47 /* Main.storyboard */; };
 		4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFE21AFA611B000F8D47 /* Images.xcassets */; };
 		4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFE41AFA611B000F8D47 /* LaunchScreen.xib */; };
 		4084CFF21AFA611B000F8D47 /* SenseiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFF11AFA611B000F8D47 /* SenseiTests.swift */; };
+		409325871B048D0700370C44 /* TabSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409325861B048D0700370C44 /* TabSegue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,16 +30,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleView.swift; sourceTree = "<group>"; };
+		4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
+		4016F3321B04EDF200728202 /* SenseiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiViewController.swift; sourceTree = "<group>"; };
+		402C32B11B0392180045BAD7 /* SenseiTabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiTabController.swift; sourceTree = "<group>"; };
 		4084CFD61AFA611B000F8D47 /* Sensei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sensei.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4084CFDA1AFA611B000F8D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4084CFDD1AFA611B000F8D47 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4084CFE01AFA611B000F8D47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4084CFE21AFA611B000F8D47 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4084CFE51AFA611B000F8D47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		4084CFEB1AFA611B000F8D47 /* SenseiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SenseiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4084CFF01AFA611B000F8D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4084CFF11AFA611B000F8D47 /* SenseiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseiTests.swift; sourceTree = "<group>"; };
+		409325861B048D0700370C44 /* TabSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSegue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +64,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4016F32F1B04EC7E00728202 /* CollectionViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */,
+			);
+			path = CollectionViewCells;
+			sourceTree = "<group>";
+		};
+		402C32AE1B0392180045BAD7 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				409325861B048D0700370C44 /* TabSegue.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		402C32AF1B0392180045BAD7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		402C32B01B0392180045BAD7 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				402C32B11B0392180045BAD7 /* SenseiTabController.swift */,
+				4016F3321B04EDF200728202 /* SenseiViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		402C32B21B0392180045BAD7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4016F32F1B04EC7E00728202 /* CollectionViewCells */,
+				4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		4084CFCD1AFA611B000F8D47 = {
 			isa = PBXGroup;
 			children = (
@@ -77,11 +126,13 @@
 		4084CFD81AFA611B000F8D47 /* Sensei */ = {
 			isa = PBXGroup;
 			children = (
+				402C32AE1B0392180045BAD7 /* Classes */,
+				402C32AF1B0392180045BAD7 /* Models */,
+				402C32B01B0392180045BAD7 /* ViewControllers */,
+				402C32B21B0392180045BAD7 /* Views */,
 				4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */,
-				4084CFDD1AFA611B000F8D47 /* ViewController.swift */,
 				4084CFDF1AFA611B000F8D47 /* Main.storyboard */,
 				4084CFE21AFA611B000F8D47 /* Images.xcassets */,
-				4084CFE41AFA611B000F8D47 /* LaunchScreen.xib */,
 				4084CFD91AFA611B000F8D47 /* Supporting Files */,
 			);
 			path = Sensei;
@@ -90,6 +141,7 @@
 		4084CFD91AFA611B000F8D47 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4084CFE41AFA611B000F8D47 /* LaunchScreen.xib */,
 				4084CFDA1AFA611B000F8D47 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -212,8 +264,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4084CFDE1AFA611B000F8D47 /* ViewController.swift in Sources */,
+				4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */,
+				402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */,
+				4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */,
+				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,
+				409325871B048D0700370C44 /* TabSegue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +347,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -329,7 +385,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -341,8 +397,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Sensei/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Debug;
 		};
@@ -351,8 +409,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Sensei/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Release;
 		};
@@ -409,6 +469,7 @@
 				4084CFF71AFA611B000F8D47 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4084CFF81AFA611B000F8D47 /* Build configuration list for PBXNativeTarget "SenseiTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +478,7 @@
 				4084CFFA1AFA611B000F8D47 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

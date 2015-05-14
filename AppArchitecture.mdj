@@ -281,12 +281,12 @@
 							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": false,
-							"left": 416,
+							"left": 396,
 							"top": 420,
-							"width": 87,
+							"width": 127,
 							"height": 25,
 							"autoResize": false,
-							"text": "TabController",
+							"text": "SenseiTabController",
 							"wordWrap": true
 						},
 						{
