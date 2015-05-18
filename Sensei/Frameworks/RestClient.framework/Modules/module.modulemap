@@ -1,0 +1,6 @@
+framework module RestClient {
+  umbrella header "RestClient.h"
+
+  export *
+  module * { export * }
+}

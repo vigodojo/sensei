@@ -14,6 +14,7 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
         static let SelectedButtonFont = UIFont(name: "HelveticaNeue-Bold", size: 17)!
         static let DefaultButtonFont = UIFont(name: "HelveticaNeue", size: 20)!
         static let SenseiViewControllerSegueIdentifier = "SwitchToSenseiViewController"
+        static let MoreViewControllerSegueIdentifier = "SwitchToMoreViewController"
     }
     
     @IBOutlet weak var senseiTabButton: UIButton!
@@ -28,17 +29,23 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
     }
 
     @IBAction func openSensei() {
-        senseiTabButton.selected = true
-        moreTabButton.selected = false
-        senseiTabButton.titleLabel?.font = Constants.SelectedButtonFont
-        moreTabButton.titleLabel?.font = Constants.DefaultButtonFont
+        if !senseiTabButton.selected {
+            senseiTabButton.selected = true
+            moreTabButton.selected = false
+            senseiTabButton.titleLabel?.font = Constants.SelectedButtonFont
+            moreTabButton.titleLabel?.font = Constants.DefaultButtonFont
+            performSegueWithIdentifier(Constants.SenseiViewControllerSegueIdentifier, sender: senseiTabButton)
+        }
     }
 
     @IBAction func openMore() {
-        senseiTabButton.selected = false
-        moreTabButton.selected = true
-        senseiTabButton.titleLabel?.font = Constants.DefaultButtonFont
-        moreTabButton.titleLabel?.font = Constants.SelectedButtonFont
+        if !moreTabButton.selected {
+            senseiTabButton.selected = false
+            moreTabButton.selected = true
+            senseiTabButton.titleLabel?.font = Constants.DefaultButtonFont
+            moreTabButton.titleLabel?.font = Constants.SelectedButtonFont
+            performSegueWithIdentifier(Constants.MoreViewControllerSegueIdentifier, sender: moreTabButton)
+        }
     }
 }
 

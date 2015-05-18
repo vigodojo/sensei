@@ -11,12 +11,18 @@
 		4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */; };
 		4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F3321B04EDF200728202 /* SenseiViewController.swift */; };
 		402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402C32B11B0392180045BAD7 /* SenseiTabController.swift */; };
+		402F144C1B09F98D000C4261 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144B1B09F98D000C4261 /* Message.swift */; };
+		402F144E1B09F9D2000C4261 /* Affirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144D1B09F9D2000C4261 /* Affirmation.swift */; };
+		402F14501B09FBF6000C4261 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144F1B09FBF6000C4261 /* Question.swift */; };
+		402F14531B0A08AC000C4261 /* RestClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 402F14521B0A08AC000C4261 /* RestClient.framework */; };
+		402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F14561B0A0A24000C4261 /* TabSegue.swift */; };
+		402F14591B0A0A42000C4261 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F14581B0A0A42000C4261 /* APIManager.swift */; };
 		4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */; };
 		4084CFE11AFA611B000F8D47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFDF1AFA611B000F8D47 /* Main.storyboard */; };
 		4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFE21AFA611B000F8D47 /* Images.xcassets */; };
 		4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFE41AFA611B000F8D47 /* LaunchScreen.xib */; };
 		4084CFF21AFA611B000F8D47 /* SenseiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFF11AFA611B000F8D47 /* SenseiTests.swift */; };
-		409325871B048D0700370C44 /* TabSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409325861B048D0700370C44 /* TabSegue.swift */; };
+		40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +40,12 @@
 		4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		4016F3321B04EDF200728202 /* SenseiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiViewController.swift; sourceTree = "<group>"; };
 		402C32B11B0392180045BAD7 /* SenseiTabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiTabController.swift; sourceTree = "<group>"; };
+		402F144B1B09F98D000C4261 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		402F144D1B09F9D2000C4261 /* Affirmation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Affirmation.swift; sourceTree = "<group>"; };
+		402F144F1B09FBF6000C4261 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		402F14521B0A08AC000C4261 /* RestClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RestClient.framework; sourceTree = "<group>"; };
+		402F14561B0A0A24000C4261 /* TabSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSegue.swift; sourceTree = "<group>"; };
+		402F14581B0A0A42000C4261 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		4084CFD61AFA611B000F8D47 /* Sensei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sensei.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4084CFDA1AFA611B000F8D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,7 +55,7 @@
 		4084CFEB1AFA611B000F8D47 /* SenseiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SenseiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4084CFF01AFA611B000F8D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4084CFF11AFA611B000F8D47 /* SenseiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseiTests.swift; sourceTree = "<group>"; };
-		409325861B048D0700370C44 /* TabSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSegue.swift; sourceTree = "<group>"; };
+		40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeechBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				402F14531B0A08AC000C4261 /* RestClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */,
+				40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -75,7 +89,8 @@
 		402C32AE1B0392180045BAD7 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				409325861B048D0700370C44 /* TabSegue.swift */,
+				402F14541B0A0A24000C4261 /* Managers */,
+				402F14551B0A0A24000C4261 /* Segues */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -83,6 +98,9 @@
 		402C32AF1B0392180045BAD7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				402F144B1B09F98D000C4261 /* Message.swift */,
+				402F144D1B09F9D2000C4261 /* Affirmation.swift */,
+				402F144F1B09FBF6000C4261 /* Question.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -103,6 +121,30 @@
 				4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		402F14511B0A08AC000C4261 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				402F14521B0A08AC000C4261 /* RestClient.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		402F14541B0A0A24000C4261 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				402F14581B0A0A42000C4261 /* APIManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		402F14551B0A0A24000C4261 /* Segues */ = {
+			isa = PBXGroup;
+			children = (
+				402F14561B0A0A24000C4261 /* TabSegue.swift */,
+			);
+			path = Segues;
 			sourceTree = "<group>";
 		};
 		4084CFCD1AFA611B000F8D47 = {
@@ -126,10 +168,11 @@
 		4084CFD81AFA611B000F8D47 /* Sensei */ = {
 			isa = PBXGroup;
 			children = (
+				402F14511B0A08AC000C4261 /* Frameworks */,
 				402C32AE1B0392180045BAD7 /* Classes */,
 				402C32AF1B0392180045BAD7 /* Models */,
-				402C32B01B0392180045BAD7 /* ViewControllers */,
 				402C32B21B0392180045BAD7 /* Views */,
+				402C32B01B0392180045BAD7 /* ViewControllers */,
 				4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */,
 				4084CFDF1AFA611B000F8D47 /* Main.storyboard */,
 				4084CFE21AFA611B000F8D47 /* Images.xcassets */,
@@ -246,6 +289,7 @@
 			files = (
 				4084CFE11AFA611B000F8D47 /* Main.storyboard in Resources */,
 				4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */,
+				40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */,
 				4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,10 +310,14 @@
 			files = (
 				4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */,
 				402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */,
+				402F14591B0A0A42000C4261 /* APIManager.swift in Sources */,
+				402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */,
 				4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */,
+				402F14501B09FBF6000C4261 /* Question.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
+				402F144E1B09F9D2000C4261 /* Affirmation.swift in Sources */,
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,
-				409325871B048D0700370C44 /* TabSegue.swift in Sources */,
+				402F144C1B09F98D000C4261 /* Message.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +444,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Sensei/Frameworks",
+				);
 				INFOPLIST_FILE = Sensei/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -408,6 +460,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Sensei/Frameworks",
+				);
 				INFOPLIST_FILE = Sensei/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
