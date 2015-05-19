@@ -14,6 +14,12 @@ protocol AnswerableInputAccessoryViewProtocol {
     var didCancel: (() -> Void)? { get set}
 }
 
+protocol AnswerableViewDelegate: class {
+    
+    func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: String)
+    func answerableViewDidCancel(answerableView: AnswerableView)
+}
+
 class AnswerableView: UIView {
     
     private struct Constants {
@@ -23,6 +29,8 @@ class AnswerableView: UIView {
     private var textInputAccessoryView = TextInputAccessoryView(frame: CGRectZero)
     private var pickerInputAccessoryView = PickerInputAccessoryView(frame: CGRectZero)
     private var answerType = AnswerType.Text
+    
+    weak var delegate: AnswerableViewDelegate?
     
     // MARK: - Lifecycle
     
@@ -77,9 +85,15 @@ class AnswerableView: UIView {
         textInputAccessoryView.textField.delegate = self
         textInputAccessoryView.didCancel = { [weak self] () -> Void in
             self?.textInputAccessoryView.textField.resignFirstResponder()
-            self?.resignFirstResponder()
+            self?.cancel()
         }
         pickerInputAccessoryView.frame = rect
+        pickerInputAccessoryView.didCancel = { [weak self] () -> Void in
+            self?.cancel()
+        }
+        pickerInputAccessoryView.didSubmit = { [weak self] () -> Void in
+            self?.submitAnswer("Answer")
+        }
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: nil) { [weak self] (notification) -> Void in
             if self?.inputView == nil {
@@ -93,6 +107,19 @@ class AnswerableView: UIView {
             } else {
                 self?.resignFirstResponder()
             }
+        }
+    }
+    
+    private func cancel() {
+        self.resignFirstResponder()
+        if let delegate = delegate {
+            delegate.answerableViewDidCancel(self)
+        }
+    }
+    
+    private func submitAnswer(answer: String) {
+        if let delegate = delegate {
+            delegate.answerableView(self, didSubmitAnswer: answer)
         }
     }
 }

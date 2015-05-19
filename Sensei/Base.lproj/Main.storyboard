@@ -140,7 +140,7 @@
                                     <size key="itemSize" width="300" height="142"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="60"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
                                 <connections>
@@ -213,11 +213,11 @@
                             <constraint firstItem="nFe-3X-0rD" firstAttribute="trailing" secondItem="rLE-xd-apt" secondAttribute="trailing" id="5jE-AI-9dl"/>
                             <constraint firstAttribute="centerX" secondItem="nFe-3X-0rD" secondAttribute="centerX" id="8aX-zn-2lV"/>
                             <constraint firstItem="nFe-3X-0rD" firstAttribute="leading" secondItem="i7j-O7-g18" secondAttribute="leading" id="AkW-u5-ti1"/>
+                            <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="91" id="FvM-UG-dxG"/>
                             <constraint firstItem="mpr-qy-yfa" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" constant="11" id="GTy-Jk-70e"/>
                             <constraint firstItem="i7j-O7-g18" firstAttribute="top" secondItem="rLE-xd-apt" secondAttribute="top" id="PFY-5r-9mW"/>
                             <constraint firstItem="rLE-xd-apt" firstAttribute="top" secondItem="nFe-3X-0rD" secondAttribute="bottom" constant="16" id="QLU-Vr-H79"/>
                             <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="mpr-qy-yfa" secondAttribute="bottom" constant="52" id="Y1e-hN-ZRq"/>
-                            <constraint firstItem="nFe-3X-0rD" firstAttribute="top" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="15" id="ezt-hD-05x"/>
                             <constraint firstAttribute="trailing" secondItem="mpr-qy-yfa" secondAttribute="trailing" constant="76" id="odT-nM-ic6"/>
                             <constraint firstAttribute="trailing" secondItem="8zt-ws-naK" secondAttribute="trailing" constant="16" id="t9k-db-GJC"/>
                             <constraint firstItem="mpr-qy-yfa" firstAttribute="top" secondItem="8ZL-mD-K9c" secondAttribute="bottom" id="uM6-w9-2XN"/>
@@ -225,6 +225,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="mpr-qy-yfa" id="k0h-Ok-4eD"/>
+                        <outlet property="senseiBottomSpaceConstraint" destination="FvM-UG-dxG" id="FNy-Mi-9ET"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S8z-Z5-MYz" userLabel="First Responder" sceneMemberID="firstResponder"/>

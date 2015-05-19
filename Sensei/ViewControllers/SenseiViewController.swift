@@ -15,20 +15,31 @@ class SenseiViewController: BaseViewController {
         static let CellNibName = "SpeechBubbleCollectionViewCell"
         static let MinOpacity = CGFloat(0.2)
         static let DefaultCellHeight = CGFloat(30.0)
+        static let DefaultSenseiBottomSpace = CGFloat(91)
+        static let DefaultCollectionViewBottomSpace = CGFloat(48)
+        static let DefaultCollectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
+        static let DefaultAnimationDuration = 0.25
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var senseiBottomSpaceConstraint: NSLayoutConstraint!
     
     lazy var sizingCell: SpeechBubbleCollectionViewCell = {
         NSBundle.mainBundle().loadNibNamed(Constants.CellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
     }()
+    
+    var maxContentOffset: CGPoint {
+        return CGPoint(x: 0, y: collectionView.contentSize.height - CGRectGetHeight(collectionView.frame) + collectionView.contentInset.bottom)
+    }
     
     var dataSource = [Message]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.registerNib(UINib(nibName: Constants.CellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.CellReuseIdentifier)
+        collectionView.contentInset = Constants.DefaultCollectionViewContentInset
         requestMessages()
+        addKeyboardObservers()
     }
     
     private func requestMessages() {
@@ -46,36 +57,78 @@ class SenseiViewController: BaseViewController {
     }
     
     private func didLoadMessages(newMessages: [Message]) {
+        
+        var indexPathes = [NSIndexPath]()
+        for index in dataSource.count..<(dataSource.count + newMessages.count) {
+            indexPathes.append(NSIndexPath(forItem: index, inSection: 0))
+        }
+            
         dataSource += newMessages
         
-        collectionView.reloadData()
-        collectionView.layoutIfNeeded()
-        collectionView.contentOffset = CGPoint(x: 0, y: collectionView.contentSize.height - CGRectGetHeight(collectionView.frame))
-        collectionView.layoutIfNeeded()
-        fadeCells(collectionView.visibleCells() as! [UICollectionViewCell])
+        collectionView.performBatchUpdates({ () -> Void in
+            self.collectionView.insertItemsAtIndexPaths(indexPathes)
+        }, completion: { (finished) -> Void in
+            self.collectionView.setContentOffset(self.maxContentOffset, animated: true)
+
+        })
         
-        askQuestion(Question())
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) { () -> Void in
+            self.askQuestion(Question())
+        }
     }
     
-    private func askQuestion(question: Question) {
-        
-        (view as? AnswerableView)?.askQuestion(question)
+    private func askQuestion(var question: Question) {
+        question.text = "What is your name, bisness humen?"
+        dataSource.append(question)
+        collectionView.performBatchUpdates({ () -> Void in
+            self.collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: self.dataSource.count - 1 , inSection: 0)])
+        }, completion: { (finished) -> Void in
+            (self.view as? AnswerableView)?.askQuestion(question)
+        })
     }
     
-    func fadeCells(cells: [UICollectionViewCell]) {
+    func fadeCells() {
+        var cells = collectionView.visibleCells() as! [UICollectionViewCell]
         if cells.count == 0 {
             return
         }
         
         let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         let height = CGRectGetHeight(collectionView.bounds) - layout.sectionInset.bottom
-        let maxY = CGRectGetMaxY(collectionView.bounds) - layout.sectionInset.bottom
+        let maxY = CGRectGetMaxY(collectionView.bounds) - layout.sectionInset.bottom - collectionView.contentInset.bottom
         
         for (_, cell) in enumerate(cells) {
             let opacity = 1 - ((maxY - CGRectGetMaxY(cell.frame)) / height)
             cell.alpha = max(opacity, Constants.MinOpacity)
             cell.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
         }
+    }
+    
+    // MARK: - Keyboard
+    
+    override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        if size.height > senseiBottomSpaceConstraint.constant {
+            var contentInset = UIEdgeInsetsZero
+            contentInset.bottom = size.height - Constants.DefaultCollectionViewBottomSpace
+            view.layoutIfNeeded()
+            self.collectionView.contentInset = contentInset
+            UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
+                self.senseiBottomSpaceConstraint.constant = size.height
+                self.collectionView.contentOffset = self.maxContentOffset
+                self.fadeCells()
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
+    }
+    
+    override func keyboardWillHideWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        view.layoutIfNeeded()
+        UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
+            self.senseiBottomSpaceConstraint.constant = Constants.DefaultSenseiBottomSpace
+            self.collectionView.contentInset = Constants.DefaultCollectionViewContentInset
+            self.fadeCells()
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
 }
 
@@ -104,7 +157,6 @@ extension SenseiViewController: UICollectionViewDelegateFlowLayout {
 extension SenseiViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        var visibleCells = collectionView.visibleCells() as! [UICollectionViewCell]
-        fadeCells(visibleCells)
+        fadeCells()
     }
 }
