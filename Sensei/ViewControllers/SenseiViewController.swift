@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SenseiViewController: UIViewController {
+class SenseiViewController: BaseViewController {
     
     private struct Constants {
         static let CellReuseIdentifier = "SpeechBubbleCollectionViewCell"
@@ -18,10 +18,6 @@ class SenseiViewController: UIViewController {
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
-    
-    lazy var answerTextField: UITextField = {
-       UITextField(frame: CGRectMake(0, 0, CGRectGetWidth(UIScreen.mainScreen().bounds), 44))
-    }()
     
     lazy var sizingCell: SpeechBubbleCollectionViewCell = {
         NSBundle.mainBundle().loadNibNamed(Constants.CellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
@@ -33,14 +29,6 @@ class SenseiViewController: UIViewController {
         super.viewDidLoad()
         collectionView.registerNib(UINib(nibName: Constants.CellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.CellReuseIdentifier)
         requestMessages()
-    }
-    
-    override func canBecomeFirstResponder() -> Bool {
-        return true
-    }
-    
-    override var inputAccessoryView: UIView? {
-        return answerTextField
     }
     
     private func requestMessages() {
@@ -65,8 +53,13 @@ class SenseiViewController: UIViewController {
         collectionView.contentOffset = CGPoint(x: 0, y: collectionView.contentSize.height - CGRectGetHeight(collectionView.frame))
         collectionView.layoutIfNeeded()
         fadeCells(collectionView.visibleCells() as! [UICollectionViewCell])
-        view.becomeFirstResponder()
-//        becomeFirstResponder()
+        
+        askQuestion(Question())
+    }
+    
+    private func askQuestion(question: Question) {
+        
+        (view as? AnswerableView)?.askQuestion(question)
     }
     
     func fadeCells(cells: [UICollectionViewCell]) {

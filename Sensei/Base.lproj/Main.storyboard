@@ -129,11 +129,11 @@
                         <viewControllerLayoutGuide type="top" id="8ZL-mD-K9c"/>
                         <viewControllerLayoutGuide type="bottom" id="ZT2-S9-L03"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="nBU-UE-xiJ">
+                    <view key="view" contentMode="scaleToFill" id="nBU-UE-xiJ" customClass="AnswerableView" customModule="Sensei" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mpr-qy-yfa">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mpr-qy-yfa">
                                 <rect key="frame" x="11" y="0.0" width="513" height="548"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="18" minimumInteritemSpacing="0.0" id="p2R-qG-dl1">

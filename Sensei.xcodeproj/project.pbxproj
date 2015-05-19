@@ -22,7 +22,13 @@
 		4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFE21AFA611B000F8D47 /* Images.xcassets */; };
 		4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFE41AFA611B000F8D47 /* LaunchScreen.xib */; };
 		4084CFF21AFA611B000F8D47 /* SenseiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFF11AFA611B000F8D47 /* SenseiTests.swift */; };
+		408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B32091B0B7295001BB455 /* AnswerableView.swift */; };
+		408B320C1B0B7632001BB455 /* TextInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B320B1B0B7632001BB455 /* TextInputAccessoryView.swift */; };
+		408B320E1B0B7645001BB455 /* TextInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */; };
 		40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */; };
+		40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */; };
+		40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */; };
+		40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078F1B0B86D8009A2000 /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +61,13 @@
 		4084CFEB1AFA611B000F8D47 /* SenseiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SenseiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4084CFF01AFA611B000F8D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4084CFF11AFA611B000F8D47 /* SenseiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseiTests.swift; sourceTree = "<group>"; };
+		408B32091B0B7295001BB455 /* AnswerableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerableView.swift; sourceTree = "<group>"; };
+		408B320B1B0B7632001BB455 /* TextInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputAccessoryView.swift; sourceTree = "<group>"; };
+		408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextInputAccessoryView.xib; sourceTree = "<group>"; };
 		40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeechBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
+		40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerInputAccessoryView.swift; sourceTree = "<group>"; };
+		40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerInputAccessoryView.xib; sourceTree = "<group>"; };
+		40EC078F1B0B86D8009A2000 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +122,7 @@
 			children = (
 				402C32B11B0392180045BAD7 /* SenseiTabController.swift */,
 				4016F3321B04EDF200728202 /* SenseiViewController.swift */,
+				40EC078F1B0B86D8009A2000 /* BaseViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -119,6 +132,11 @@
 			children = (
 				4016F32F1B04EC7E00728202 /* CollectionViewCells */,
 				4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */,
+				408B32091B0B7295001BB455 /* AnswerableView.swift */,
+				408B320B1B0B7632001BB455 /* TextInputAccessoryView.swift */,
+				408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */,
+				40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */,
+				40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -290,6 +308,8 @@
 				4084CFE11AFA611B000F8D47 /* Main.storyboard in Resources */,
 				4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */,
 				40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */,
+				408B320E1B0B7645001BB455 /* TextInputAccessoryView.xib in Resources */,
+				40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */,
 				4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,8 +332,12 @@
 				402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */,
 				402F14591B0A0A42000C4261 /* APIManager.swift in Sources */,
 				402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */,
+				40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */,
+				40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */,
+				408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */,
 				4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */,
 				402F14501B09FBF6000C4261 /* Question.swift in Sources */,
+				408B320C1B0B7632001BB455 /* TextInputAccessoryView.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				402F144E1B09F9D2000C4261 /* Affirmation.swift in Sources */,
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,

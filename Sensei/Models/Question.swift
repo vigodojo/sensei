@@ -11,7 +11,7 @@ import Foundation
 enum AnswerType {
     case Text
     case Date
-    case Choice
+    case Choice(options: [String])
 }
 
 class Question: Message {
