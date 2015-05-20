@@ -34,60 +34,83 @@ class SenseiViewController: BaseViewController {
     
     var dataSource = [Message]()
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        (view as? AnswerableView)?.delegate = self
+        
         collectionView.registerNib(UINib(nibName: Constants.CellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.CellReuseIdentifier)
         collectionView.contentInset = Constants.DefaultCollectionViewContentInset
+        
         requestMessages()
         addKeyboardObservers()
     }
     
+    //MARK: - Logic
+    
     private func requestMessages() {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * NSEC_PER_SEC)), dispatch_get_main_queue()) { () -> Void in
-            let message0 = Message(); message0.text = "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus."
-            let message1 = Message(); message1.text = "Alle warten auf das Licht\nFürchtet euch fürchtet euch nicht\nDie Sonne scheint mir aus den Augen\nsie wird heut Nacht nicht untergehen\nund die Welt zählt laut bis zehn"
-            let message2 = Message(); message2.text = "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne"
-            let message3 = Message(); message3.text = "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus."
-            let message4 = Message(); message4.text = "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus."
-            let message5 = Message(); message5.text = "Alle warten auf das Licht. Fürchtet euch fürchtet euch nicht. Die Sonne scheint mir aus den Augen. sie wird heut Nacht nicht untergehen. und die Welt zählt laut bis zehn"
-            let message6 = Message(); message6.text = "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus."
-            let message7 = Message(); message7.text = "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne"
-            self.didLoadMessages([message0, message1, message2, message3, message4, message5, message6, message7])
-        }
-    }
-    
-    private func didLoadMessages(newMessages: [Message]) {
-        
-        var indexPathes = [NSIndexPath]()
-        for index in dataSource.count..<(dataSource.count + newMessages.count) {
-            indexPathes.append(NSIndexPath(forItem: index, inSection: 0))
-        }
-            
-        dataSource += newMessages
-        
-        collectionView.performBatchUpdates({ () -> Void in
-            self.collectionView.insertItemsAtIndexPaths(indexPathes)
-        }, completion: { (finished) -> Void in
-            self.collectionView.setContentOffset(self.maxContentOffset, animated: true)
-
-        })
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) { () -> Void in
-            self.askQuestion(Question())
+            let message0 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
+            let message1 = Lesson(text: "Alle warten auf das Licht\nFürchtet euch fürchtet euch nicht\nDie Sonne scheint mir aus den Augen\nsie wird heut Nacht nicht untergehen\nund die Welt zählt laut bis zehn")
+            let message2 = Lesson(text: "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne")
+            let message3 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
+            let message4 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
+            let message5 = Lesson(text: "Alle warten auf das Licht. Fürchtet euch fürchtet euch nicht. Die Sonne scheint mir aus den Augen. sie wird heut Nacht nicht untergehen. und die Welt zählt laut bis zehn")
+            let message6 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
+            let message7 = Lesson(text: "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne")
+            self.addMessages([message0, message1, message2, message3, message4, message5, message6, message7], scroll: true) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                    self.askQuestion(Question())
+                }
+            }
         }
     }
     
     private func askQuestion(var question: Question) {
-        question.text = "What is your name, bisness humen?"
-        dataSource.append(question)
-        collectionView.performBatchUpdates({ () -> Void in
-            self.collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: self.dataSource.count - 1 , inSection: 0)])
-        }, completion: { (finished) -> Void in
+        question.text = "What is your favorite division?"
+        question.answerType = AnswerType.Choice(options: ["Das Reich", "Totenkopf"])
+        addMessages([question], scroll: false) {
             (self.view as? AnswerableView)?.askQuestion(question)
+        }
+    }
+    
+    private func addMessages(messages: [Message], scroll: Bool, completion: (() -> Void)?) {
+        var indexPathes = [NSIndexPath]()
+        for index in dataSource.count..<(dataSource.count + messages.count) {
+            indexPathes.append(NSIndexPath(forItem: index, inSection: 0))
+        }
+        
+        dataSource += messages
+        
+        collectionView.performBatchUpdates({ () -> Void in
+            self.collectionView.insertItemsAtIndexPaths(indexPathes)
+        }, completion: { (finished) -> Void in
+            if scroll {
+                self.collectionView.setContentOffset(self.maxContentOffset, animated: true)
+            }
+            if let completion = completion {
+                completion()
+            }
         })
     }
     
-    func fadeCells() {
+    private func deleteMessageAtIndexPath(indexPath: NSIndexPath) {
+        dataSource.removeAtIndex(indexPath.item)
+
+        collectionView.performBatchUpdates({ () -> Void in
+            self.collectionView.deleteItemsAtIndexPaths([indexPath])
+        }, completion: { (finished) -> Void in
+            self.collectionView.reloadData()
+            self.collectionView.layoutIfNeeded()
+            self.fadeCells()
+        })
+    }
+    
+    //MARK: - UI
+    
+    private func fadeCells() {
         var cells = collectionView.visibleCells() as! [UICollectionViewCell]
         if cells.count == 0 {
             return
@@ -100,7 +123,6 @@ class SenseiViewController: BaseViewController {
         for (_, cell) in enumerate(cells) {
             let opacity = 1 - ((maxY - CGRectGetMaxY(cell.frame)) / height)
             cell.alpha = max(opacity, Constants.MinOpacity)
-            cell.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
         }
     }
     
@@ -132,6 +154,8 @@ class SenseiViewController: BaseViewController {
     }
 }
 
+// MARK: - UICollectionViewDataSource
+
 extension SenseiViewController: UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -140,10 +164,15 @@ extension SenseiViewController: UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.CellReuseIdentifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
-        cell.titleLabel.text = dataSource[indexPath.item].text
+        cell.delegate = self
+        let message = dataSource[indexPath.item]
+        cell.titleLabel.text = message.text
+        cell.type = message is Answer ? SpeechBubbleCollectionViewCellType.Me : SpeechBubbleCollectionViewCellType.Sensei
         return cell;
     }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension SenseiViewController: UICollectionViewDelegateFlowLayout {
     
@@ -154,9 +183,38 @@ extension SenseiViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - UIScrollViewDelegate
+
 extension SenseiViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         fadeCells()
+    }
+}
+
+// MARK: - AnswerableViewDelegate
+
+extension SenseiViewController: AnswerableViewDelegate {
+    
+    func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: String) {
+        addMessages([Answer(answer: answer)], scroll: true) {
+            self.requestMessages()
+        }
+        println("\(self) submitted answer: \(answer)")
+    }
+    
+    func answerableViewDidCancel(answerableView: AnswerableView) {
+        println("\(self) canceled question")
+    }
+}
+
+// MARK: - SpeechBubbleCollectionViewCellDelegate
+
+extension SenseiViewController: SpeechBubbleCollectionViewCellDelegate {
+    
+    func speechBubbleCollectionViewCellDidClose(cell: SpeechBubbleCollectionViewCell) {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            deleteMessageAtIndexPath(indexPath)
+        }
     }
 }

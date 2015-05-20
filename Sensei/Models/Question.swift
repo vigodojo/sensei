@@ -16,6 +16,7 @@ enum AnswerType {
 
 class Question: Message {
     
+    var text = ""
     var answerType = AnswerType.Text
     var required = false
 }

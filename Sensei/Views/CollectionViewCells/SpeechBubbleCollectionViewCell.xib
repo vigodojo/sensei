@@ -27,6 +27,9 @@
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="close" destination="kvc-o9-MLK" eventType="touchUpInside" id="SsL-xn-NxU"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Guten Morgen" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SKo-um-p2v">
                                 <rect key="frame" x="8" y="8" width="244" height="126"/>
@@ -59,7 +62,11 @@
                 <constraint firstItem="EWJ-4P-st8" firstAttribute="leading" secondItem="kvc-o9-MLK" secondAttribute="leading" id="xBP-7r-CDd"/>
             </constraints>
             <connections>
+                <outlet property="closeButton" destination="GBn-PW-Mrd" id="D0h-ii-EvP"/>
+                <outlet property="speechBubbleView" destination="EWJ-4P-st8" id="Nps-ED-Wke"/>
                 <outlet property="titleLabel" destination="SKo-um-p2v" id="iJq-LH-NeQ"/>
+                <outlet property="titleLabelLeadingConstraint" destination="Wpu-aC-ivl" id="NTg-AY-SfV"/>
+                <outlet property="titleLabelTrailingConstraint" destination="1pS-FG-cCB" id="EbU-oC-bH1"/>
             </connections>
             <point key="canvasLocation" x="452" y="249"/>
         </collectionViewCell>

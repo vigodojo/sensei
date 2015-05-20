@@ -26,9 +26,54 @@ class AnswerableView: UIView {
         static let InputAccessotyViewHeight: CGFloat = 40
     }
     
-    private var textInputAccessoryView = TextInputAccessoryView(frame: CGRectZero)
-    private var pickerInputAccessoryView = PickerInputAccessoryView(frame: CGRectZero)
     private var answerType = AnswerType.Text
+    private var pickerOptions = [String]()
+    
+    private lazy var pickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
+        let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: Constants.InputAccessotyViewHeight))
+        let inputAccessoryView = PickerInputAccessoryView(frame: rect)
+        inputAccessoryView.didCancel = { [weak self] () -> Void in
+            self?.cancel()
+        }
+        inputAccessoryView.didSubmit = { [weak self] () -> Void in
+            if let answer = self?.pickerAnswer() {
+                self?.submitAnswer(answer)
+            } else {
+                self?.cancel()
+            }
+        }
+        return inputAccessoryView
+    }()
+    
+    private lazy var textInputAccessoryView: TextInputAccessoryView = { [unowned self] in
+        let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: Constants.InputAccessotyViewHeight))
+        let inputAccessoryView = TextInputAccessoryView(frame: rect)
+        inputAccessoryView.textField.delegate = self
+        inputAccessoryView.didCancel = { [weak self] () -> Void in
+            self?.textInputAccessoryView.textField.resignFirstResponder()
+            self?.cancel()
+        }
+        return inputAccessoryView
+    }()
+    
+    private lazy var dateInputView: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = UIDatePickerMode.Date
+        return datePicker
+    }()
+    
+    private lazy var pickerInputView: UIPickerView = { [unowned self] in
+        let pickerView = UIPickerView()
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        return pickerView
+    }()
+    
+    private lazy var dateFormatter: NSDateFormatter = {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        return dateFormatter
+    }()
     
     weak var delegate: AnswerableViewDelegate?
     
@@ -55,6 +100,14 @@ class AnswerableView: UIView {
         return true
     }
     
+    override func becomeFirstResponder() -> Bool {
+        if textInputAccessoryView.textField.isFirstResponder() {
+            return false
+        } else {
+            return super.becomeFirstResponder()
+        }
+    }
+    
     override var inputAccessoryView: UIView? {
         switch answerType {
             case .Text: return textInputAccessoryView
@@ -62,11 +115,16 @@ class AnswerableView: UIView {
         }
     }
     
-    override func becomeFirstResponder() -> Bool {
-        if textInputAccessoryView.textField.isFirstResponder() {
-            return false
-        } else {
-            return super.becomeFirstResponder()
+    override var inputView: UIView? {
+        switch answerType {
+            case .Date:
+                return dateInputView
+            case .Choice(let options):
+                pickerOptions = options
+                pickerInputView.reloadAllComponents()
+                return pickerInputView
+            default:
+                return nil
         }
     }
     
@@ -80,21 +138,6 @@ class AnswerableView: UIView {
     // MARK: - Private
     
     private func setup() {
-        let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(bounds), height: Constants.InputAccessotyViewHeight))
-        textInputAccessoryView.frame = rect
-        textInputAccessoryView.textField.delegate = self
-        textInputAccessoryView.didCancel = { [weak self] () -> Void in
-            self?.textInputAccessoryView.textField.resignFirstResponder()
-            self?.cancel()
-        }
-        pickerInputAccessoryView.frame = rect
-        pickerInputAccessoryView.didCancel = { [weak self] () -> Void in
-            self?.cancel()
-        }
-        pickerInputAccessoryView.didSubmit = { [weak self] () -> Void in
-            self?.submitAnswer("Answer")
-        }
-        
         NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: nil) { [weak self] (notification) -> Void in
             if self?.inputView == nil {
                 self?.textInputAccessoryView.textField.becomeFirstResponder()
@@ -110,6 +153,22 @@ class AnswerableView: UIView {
         }
     }
     
+    private func pickerAnswer() -> String? {
+        switch answerType {
+            case .Date:
+                let date = dateInputView.date
+                return dateFormatter.stringFromDate(date)
+            case .Choice(let options):
+                let selectedRow = pickerInputView.selectedRowInComponent(0)
+                if selectedRow > -1 {
+                    return pickerOptions[selectedRow]
+                }
+                return nil
+            default:
+                return nil
+        }
+    }
+    
     private func cancel() {
         self.resignFirstResponder()
         if let delegate = delegate {
@@ -118,17 +177,42 @@ class AnswerableView: UIView {
     }
     
     private func submitAnswer(answer: String) {
+        resignFirstResponder()
         if let delegate = delegate {
             delegate.answerableView(self, didSubmitAnswer: answer)
         }
     }
 }
 
+// MARK: - UITextFieldDelegate
+
 extension AnswerableView: UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        resignFirstResponder()
+        submitAnswer(textField.text)
         return true;
+    }
+}
+
+// MARK: - UIPickerViewDataSource
+
+extension AnswerableView: UIPickerViewDataSource {
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerOptions.count
+    }
+}
+
+// MARK: - UIPickerViewDelegate
+
+extension AnswerableView: UIPickerViewDelegate {
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        return pickerOptions[row]
     }
 }

@@ -11,12 +11,13 @@
 		4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */; };
 		4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F3321B04EDF200728202 /* SenseiViewController.swift */; };
 		402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402C32B11B0392180045BAD7 /* SenseiTabController.swift */; };
-		402F144C1B09F98D000C4261 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144B1B09F98D000C4261 /* Message.swift */; };
+		402F144C1B09F98D000C4261 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144B1B09F98D000C4261 /* Lesson.swift */; };
 		402F144E1B09F9D2000C4261 /* Affirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144D1B09F9D2000C4261 /* Affirmation.swift */; };
 		402F14501B09FBF6000C4261 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144F1B09FBF6000C4261 /* Question.swift */; };
 		402F14531B0A08AC000C4261 /* RestClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 402F14521B0A08AC000C4261 /* RestClient.framework */; };
 		402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F14561B0A0A24000C4261 /* TabSegue.swift */; };
 		402F14591B0A0A42000C4261 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F14581B0A0A42000C4261 /* APIManager.swift */; };
+		404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60F61B0C9D0600A16FCC /* Answer.swift */; };
 		4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */; };
 		4084CFE11AFA611B000F8D47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFDF1AFA611B000F8D47 /* Main.storyboard */; };
 		4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFE21AFA611B000F8D47 /* Images.xcassets */; };
@@ -46,12 +47,13 @@
 		4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		4016F3321B04EDF200728202 /* SenseiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiViewController.swift; sourceTree = "<group>"; };
 		402C32B11B0392180045BAD7 /* SenseiTabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiTabController.swift; sourceTree = "<group>"; };
-		402F144B1B09F98D000C4261 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		402F144B1B09F98D000C4261 /* Lesson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		402F144D1B09F9D2000C4261 /* Affirmation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Affirmation.swift; sourceTree = "<group>"; };
 		402F144F1B09FBF6000C4261 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		402F14521B0A08AC000C4261 /* RestClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RestClient.framework; sourceTree = "<group>"; };
 		402F14561B0A0A24000C4261 /* TabSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSegue.swift; sourceTree = "<group>"; };
 		402F14581B0A0A42000C4261 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		404F60F61B0C9D0600A16FCC /* Answer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		4084CFD61AFA611B000F8D47 /* Sensei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sensei.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4084CFDA1AFA611B000F8D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -110,9 +112,10 @@
 		402C32AF1B0392180045BAD7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				402F144B1B09F98D000C4261 /* Message.swift */,
+				402F144B1B09F98D000C4261 /* Lesson.swift */,
 				402F144D1B09F9D2000C4261 /* Affirmation.swift */,
 				402F144F1B09FBF6000C4261 /* Question.swift */,
+				404F60F61B0C9D0600A16FCC /* Answer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -340,8 +343,9 @@
 				408B320C1B0B7632001BB455 /* TextInputAccessoryView.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				402F144E1B09F9D2000C4261 /* Affirmation.swift in Sources */,
+				404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */,
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,
-				402F144C1B09F98D000C4261 /* Message.swift in Sources */,
+				402F144C1B09F98D000C4261 /* Lesson.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

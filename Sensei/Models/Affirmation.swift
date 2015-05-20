@@ -16,5 +16,6 @@ enum ReceivingTime {
 
 class Affirmation: Message {
     
+    var text = ""
     var receivingTime = ReceivingTime.AnyTime
 }
