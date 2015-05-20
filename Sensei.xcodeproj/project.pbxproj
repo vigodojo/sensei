@@ -18,6 +18,9 @@
 		402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F14561B0A0A24000C4261 /* TabSegue.swift */; };
 		402F14591B0A0A42000C4261 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F14581B0A0A42000C4261 /* APIManager.swift */; };
 		404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60F61B0C9D0600A16FCC /* Answer.swift */; };
+		404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */; };
+		404F60FC1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */; };
+		404F60FD1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */; };
 		4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */; };
 		4084CFE11AFA611B000F8D47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFDF1AFA611B000F8D47 /* Main.storyboard */; };
 		4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFE21AFA611B000F8D47 /* Images.xcassets */; };
@@ -54,6 +57,9 @@
 		402F14561B0A0A24000C4261 /* TabSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSegue.swift; sourceTree = "<group>"; };
 		402F14581B0A0A42000C4261 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		404F60F61B0C9D0600A16FCC /* Answer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
+		404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiNavigationController.swift; sourceTree = "<group>"; };
+		404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationCollectionViewCell.swift; sourceTree = "<group>"; };
+		404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NavigationCollectionViewCell.xib; sourceTree = "<group>"; };
 		4084CFD61AFA611B000F8D47 /* Sensei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sensei.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4084CFDA1AFA611B000F8D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +102,8 @@
 			children = (
 				4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */,
 				40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */,
+				404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */,
+				404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -126,6 +134,7 @@
 				402C32B11B0392180045BAD7 /* SenseiTabController.swift */,
 				4016F3321B04EDF200728202 /* SenseiViewController.swift */,
 				40EC078F1B0B86D8009A2000 /* BaseViewController.swift */,
+				404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -308,6 +317,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				404F60FD1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib in Resources */,
 				4084CFE11AFA611B000F8D47 /* Main.storyboard in Resources */,
 				4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */,
 				40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */,
@@ -332,6 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */,
+				404F60FC1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift in Sources */,
 				402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */,
 				402F14591B0A0A42000C4261 /* APIManager.swift in Sources */,
 				402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */,
@@ -343,6 +354,7 @@
 				408B320C1B0B7632001BB455 /* TextInputAccessoryView.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				402F144E1B09F9D2000C4261 /* Affirmation.swift in Sources */,
+				404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */,
 				404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */,
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,
 				402F144C1B09F98D000C4261 /* Lesson.swift in Sources */,
