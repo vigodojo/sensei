@@ -57,8 +57,6 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func close() {
-        if let delegate = delegate {
-            delegate.speechBubbleCollectionViewCellDidClose(self)
-        }
+        delegate?.speechBubbleCollectionViewCellDidClose(self)
     }
 }

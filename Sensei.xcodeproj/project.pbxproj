@@ -21,6 +21,7 @@
 		404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */; };
 		404F60FC1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */; };
 		404F60FD1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */; };
+		406428401B0E1CD2008E2023 /* PlaceholderedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4064283F1B0E1CD2008E2023 /* PlaceholderedTextView.swift */; };
 		4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */; };
 		4084CFE11AFA611B000F8D47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFDF1AFA611B000F8D47 /* Main.storyboard */; };
 		4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFE21AFA611B000F8D47 /* Images.xcassets */; };
@@ -29,6 +30,13 @@
 		408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B32091B0B7295001BB455 /* AnswerableView.swift */; };
 		408B320C1B0B7632001BB455 /* TextInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B320B1B0B7632001BB455 /* TextInputAccessoryView.swift */; };
 		408B320E1B0B7645001BB455 /* TextInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */; };
+		40A139A21B0DB19A0010176D /* TutorialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A01B0DB19A0010176D /* TutorialCollectionViewCell.swift */; };
+		40A139A31B0DB19A0010176D /* TutorialCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A139A11B0DB19A0010176D /* TutorialCollectionViewCell.xib */; };
+		40A139A51B0DB72C0010176D /* UserMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A41B0DB72C0010176D /* UserMessageViewController.swift */; };
+		40A139A71B0DC5450010176D /* MessageSwitchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A61B0DC5450010176D /* MessageSwitchCollectionViewCell.swift */; };
+		40A139A91B0DC68D0010176D /* SlotCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */; };
+		40A139AC1B0DFFED0010176D /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139AB1B0DFFED0010176D /* SwitchTableViewCell.swift */; };
+		40A139AE1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */; };
 		40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */; };
 		40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */; };
 		40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */; };
@@ -60,6 +68,7 @@
 		404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiNavigationController.swift; sourceTree = "<group>"; };
 		404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationCollectionViewCell.swift; sourceTree = "<group>"; };
 		404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NavigationCollectionViewCell.xib; sourceTree = "<group>"; };
+		4064283F1B0E1CD2008E2023 /* PlaceholderedTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderedTextView.swift; sourceTree = "<group>"; };
 		4084CFD61AFA611B000F8D47 /* Sensei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sensei.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4084CFDA1AFA611B000F8D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +81,13 @@
 		408B32091B0B7295001BB455 /* AnswerableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerableView.swift; sourceTree = "<group>"; };
 		408B320B1B0B7632001BB455 /* TextInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputAccessoryView.swift; sourceTree = "<group>"; };
 		408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextInputAccessoryView.xib; sourceTree = "<group>"; };
+		40A139A01B0DB19A0010176D /* TutorialCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialCollectionViewCell.swift; sourceTree = "<group>"; };
+		40A139A11B0DB19A0010176D /* TutorialCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialCollectionViewCell.xib; sourceTree = "<group>"; };
+		40A139A41B0DB72C0010176D /* UserMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMessageViewController.swift; sourceTree = "<group>"; };
+		40A139A61B0DC5450010176D /* MessageSwitchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageSwitchCollectionViewCell.swift; sourceTree = "<group>"; };
+		40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotCollectionViewCell.swift; sourceTree = "<group>"; };
+		40A139AB1B0DFFED0010176D /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
+		40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffirmationCollectionViewCell.swift; sourceTree = "<group>"; };
 		40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeechBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerInputAccessoryView.swift; sourceTree = "<group>"; };
 		40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerInputAccessoryView.xib; sourceTree = "<group>"; };
@@ -104,6 +120,11 @@
 				40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */,
 				404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */,
 				404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */,
+				40A139A01B0DB19A0010176D /* TutorialCollectionViewCell.swift */,
+				40A139A11B0DB19A0010176D /* TutorialCollectionViewCell.xib */,
+				40A139A61B0DC5450010176D /* MessageSwitchCollectionViewCell.swift */,
+				40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */,
+				40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -135,6 +156,7 @@
 				4016F3321B04EDF200728202 /* SenseiViewController.swift */,
 				40EC078F1B0B86D8009A2000 /* BaseViewController.swift */,
 				404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */,
+				40A139A41B0DB72C0010176D /* UserMessageViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -142,6 +164,7 @@
 		402C32B21B0392180045BAD7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				40A139AA1B0DFFD20010176D /* TableViewCells */,
 				4016F32F1B04EC7E00728202 /* CollectionViewCells */,
 				4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */,
 				408B32091B0B7295001BB455 /* AnswerableView.swift */,
@@ -149,6 +172,7 @@
 				408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */,
 				40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */,
 				40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */,
+				4064283F1B0E1CD2008E2023 /* PlaceholderedTextView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -237,6 +261,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		40A139AA1B0DFFD20010176D /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				40A139AB1B0DFFED0010176D /* SwitchTableViewCell.swift */,
+			);
+			path = TableViewCells;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -319,6 +351,7 @@
 			files = (
 				404F60FD1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib in Resources */,
 				4084CFE11AFA611B000F8D47 /* Main.storyboard in Resources */,
+				40A139A31B0DB19A0010176D /* TutorialCollectionViewCell.xib in Resources */,
 				4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */,
 				40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */,
 				408B320E1B0B7645001BB455 /* TextInputAccessoryView.xib in Resources */,
@@ -343,21 +376,28 @@
 			files = (
 				4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */,
 				404F60FC1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift in Sources */,
+				406428401B0E1CD2008E2023 /* PlaceholderedTextView.swift in Sources */,
+				40A139A71B0DC5450010176D /* MessageSwitchCollectionViewCell.swift in Sources */,
 				402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */,
 				402F14591B0A0A42000C4261 /* APIManager.swift in Sources */,
 				402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */,
 				40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */,
+				40A139A21B0DB19A0010176D /* TutorialCollectionViewCell.swift in Sources */,
 				40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */,
 				408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */,
 				4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */,
 				402F14501B09FBF6000C4261 /* Question.swift in Sources */,
+				40A139A91B0DC68D0010176D /* SlotCollectionViewCell.swift in Sources */,
+				40A139AC1B0DFFED0010176D /* SwitchTableViewCell.swift in Sources */,
 				408B320C1B0B7632001BB455 /* TextInputAccessoryView.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				402F144E1B09F9D2000C4261 /* Affirmation.swift in Sources */,
 				404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */,
 				404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */,
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,
+				40A139AE1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift in Sources */,
 				402F144C1B09F98D000C4261 /* Lesson.swift in Sources */,
+				40A139A51B0DB72C0010176D /* UserMessageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

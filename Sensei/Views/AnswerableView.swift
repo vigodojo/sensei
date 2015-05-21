@@ -171,16 +171,12 @@ class AnswerableView: UIView {
     
     private func cancel() {
         self.resignFirstResponder()
-        if let delegate = delegate {
-            delegate.answerableViewDidCancel(self)
-        }
+        delegate?.answerableViewDidCancel(self)
     }
     
     private func submitAnswer(answer: String) {
         resignFirstResponder()
-        if let delegate = delegate {
-            delegate.answerableView(self, didSubmitAnswer: answer)
-        }
+        delegate?.answerableView(self, didSubmitAnswer: answer)
     }
 }
 

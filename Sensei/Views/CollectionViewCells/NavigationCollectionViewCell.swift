@@ -8,11 +8,18 @@
 
 import UIKit
 
+protocol NavigationCollectionViewCellDelegate: class {
+    
+    func navigationCollectionViewCellDidBack(cell: NavigationCollectionViewCell)
+}
+
 class NavigationCollectionViewCell: UICollectionViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    weak var delegate: NavigationCollectionViewCellDelegate?
+    
+    @IBAction func back() {
+        delegate?.navigationCollectionViewCellDidBack(self)
     }
-
 }

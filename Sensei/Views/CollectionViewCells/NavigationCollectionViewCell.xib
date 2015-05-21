@@ -18,9 +18,12 @@
                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="back" destination="gTV-IL-0wX" eventType="touchUpInside" id="FVs-eD-WqU"/>
+                        </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1M5-a7-rCf">
-                        <rect key="frame" x="139" y="11" width="42" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1M5-a7-rCf">
+                        <rect key="frame" x="144" y="10" width="33" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -30,9 +33,16 @@
             </view>
             <color key="backgroundColor" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="1M5-a7-rCf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="7Ml-Dc-iYc" secondAttribute="trailing" id="9RF-9n-WZj"/>
+                <constraint firstAttribute="centerX" secondItem="1M5-a7-rCf" secondAttribute="centerX" priority="750" id="F0V-UA-ig4"/>
                 <constraint firstItem="7Ml-Dc-iYc" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="b1L-nV-PPR"/>
+                <constraint firstAttribute="centerY" secondItem="1M5-a7-rCf" secondAttribute="centerY" id="cfD-3w-coz"/>
                 <constraint firstAttribute="centerY" secondItem="7Ml-Dc-iYc" secondAttribute="centerY" id="rM1-eB-ZmA"/>
             </constraints>
+            <connections>
+                <outlet property="titleLabel" destination="1M5-a7-rCf" id="1Bg-du-2ZD"/>
+            </connections>
+            <point key="canvasLocation" x="-65" y="447"/>
         </collectionViewCell>
     </objects>
 </document>

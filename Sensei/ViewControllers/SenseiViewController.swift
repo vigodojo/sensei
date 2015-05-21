@@ -19,6 +19,8 @@ class SenseiViewController: BaseViewController {
         static let DefaultCollectionViewBottomSpace = CGFloat(48)
         static let DefaultCollectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
         static let DefaultAnimationDuration = 0.25
+        static let ToAffirmationSegueIdentifier = "ToAffirmation"
+        static let ToVizualizationSegueIdentifier = "ToVisualization"
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -46,6 +48,11 @@ class SenseiViewController: BaseViewController {
         
         requestMessages()
         addKeyboardObservers()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeAllExeptLessons()
     }
     
     //MARK: - Logic
@@ -108,6 +115,13 @@ class SenseiViewController: BaseViewController {
         })
     }
     
+    func removeAllExeptLessons() {
+        dataSource = dataSource.filter { $0 is Lesson }
+        collectionView.reloadData()
+        collectionView.layoutIfNeeded()
+        fadeCells()
+    }
+    
     //MARK: - UI
     
     private func fadeCells() {
@@ -151,6 +165,21 @@ class SenseiViewController: BaseViewController {
             self.fadeCells()
             self.view.layoutIfNeeded()
         }, completion: nil)
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let identifier = segue.identifier, destinationViewController = segue.destinationViewController as? UserMessageViewController {
+            switch identifier {
+                case Constants.ToAffirmationSegueIdentifier:
+                    destinationViewController.userMessageType = UserMessageType.Affirmation
+                case Constants.ToVizualizationSegueIdentifier:
+                    destinationViewController.userMessageType = UserMessageType.Visualization
+                default:
+                    break
+            }
+        }
     }
 }
 

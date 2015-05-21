@@ -8,14 +8,23 @@
 
 import Foundation
 
-enum ReceivingTime {
+enum ReceiveTime: Printable {
+    
     case AnyTime
     case Morning
     case Evening
+    
+    var description: String {
+        switch self {
+            case .AnyTime: return "ANY TIME"
+            case .Morning: return "START OF DAY"
+            case .Evening: return "END OF DAY"
+        }
+    }
 }
 
 class Affirmation: Message {
     
     var text = ""
-    var receivingTime = ReceivingTime.AnyTime
+    var receiveTime = ReceiveTime.AnyTime
 }
