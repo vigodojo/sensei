@@ -9,13 +9,37 @@
 import Foundation
 import RestClient
 
-class APIManager {
+class APIManager: NSObject {
     
     static let sharedInstance = APIManager()
+    static let BaseURL = NSURL(string: "www.google.com")!
     
-    private struct Constants {
-       static let BaseURL = NSURL(string: "www.google.com")!
+    private struct APIPath {
+        static let Login = "/user/signIn"
     }
     
-    let sessionManager = RCSessionManager(baseURL: Constants.BaseURL)
+    lazy var sessionManager: RCSessionManager = { [unowned self] in
+        let manager = RCSessionManager(baseURL: APIManager.BaseURL)
+        manager.delegate = self
+        return manager
+    }()
+    
+    func loginWithDeviceId(deveiceId: String, timeZone: Int, handler: ((error: NSError) -> Void)?) {
+        sessionManager.performRequestWithBuilderBlock({ (requestBuilder) -> Void in
+            requestBuilder.path = APIPath.Login
+            requestBuilder.requestMethod = RCRequestMethod.POST
+            requestBuilder.object = ["deviceId": deveiceId, "timeZone": NSNumber(integer: timeZone)]
+        }, completion: { (response) -> Void in
+            if let handler = handler {
+                handler(error: response.error)
+            }
+        })
+    }
+}
+
+extension APIManager: RCSessionManagerDelegate {
+    
+    func sessionManager(sessionManager: RCSessionManager!, didReceivedResponse response: RCResponse!) {
+        //
+    }
 }

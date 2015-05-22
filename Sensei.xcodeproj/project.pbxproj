@@ -39,6 +39,8 @@
 		40A139AE1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */; };
 		40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */; };
 		40D1FD151B0F157B004AB814 /* VisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */; };
+		40D1FD171B0F57ED004AB814 /* EditVisualizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */; };
+		40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */; };
 		40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */; };
 		40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */; };
 		40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078F1B0B86D8009A2000 /* BaseViewController.swift */; };
@@ -91,6 +93,8 @@
 		40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffirmationCollectionViewCell.swift; sourceTree = "<group>"; };
 		40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeechBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
+		40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVisualizationViewController.swift; sourceTree = "<group>"; };
+		40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
 		40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerInputAccessoryView.swift; sourceTree = "<group>"; };
 		40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerInputAccessoryView.xib; sourceTree = "<group>"; };
 		40EC078F1B0B86D8009A2000 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -128,6 +132,7 @@
 				40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */,
 				40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */,
 				40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */,
+				40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				40EC078F1B0B86D8009A2000 /* BaseViewController.swift */,
 				404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */,
 				40A139A41B0DB72C0010176D /* UserMessageViewController.swift */,
+				40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -378,6 +384,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */,
+				40D1FD171B0F57ED004AB814 /* EditVisualizationViewController.swift in Sources */,
 				404F60FC1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift in Sources */,
 				406428401B0E1CD2008E2023 /* PlaceholderedTextView.swift in Sources */,
 				40A139A71B0DC5450010176D /* MessageSwitchCollectionViewCell.swift in Sources */,
@@ -394,6 +401,7 @@
 				40A139A91B0DC68D0010176D /* SlotCollectionViewCell.swift in Sources */,
 				40A139AC1B0DFFED0010176D /* SwitchTableViewCell.swift in Sources */,
 				408B320C1B0B7632001BB455 /* TextInputAccessoryView.swift in Sources */,
+				40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				402F144E1B09F9D2000C4261 /* Affirmation.swift in Sources */,
 				404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */,

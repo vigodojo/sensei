@@ -20,6 +20,15 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var textLabel: UILabel!
     
+    var editButtonHidden: Bool {
+        get {
+            return editButton.hidden
+        }
+        set {
+            editButton.hidden = newValue
+        }
+    }
+    
     weak var delegate: VisualizationCollectionViewCellDelegate?
     
     override func awakeFromNib() {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AdSupport
 
 class SenseiViewController: BaseViewController {
     
@@ -48,6 +49,7 @@ class SenseiViewController: BaseViewController {
         
         requestMessages()
         addKeyboardObservers()
+        login()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -77,7 +79,7 @@ class SenseiViewController: BaseViewController {
     
     private func askQuestion(var question: Question) {
         question.text = "What is your favorite division?"
-        question.answerType = AnswerType.Choice(options: ["Das Reich", "Totenkopf"])
+//        question.answerType = AnswerType.Choice(options: ["Das Reich", "Totenkopf"])
         addMessages([question], scroll: false) {
             (self.view as? AnswerableView)?.askQuestion(question)
         }
@@ -120,6 +122,13 @@ class SenseiViewController: BaseViewController {
         collectionView.reloadData()
         collectionView.layoutIfNeeded()
         fadeCells()
+    }
+    
+    func login() {
+        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+        let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
+        println("IDFA = \(idfa)")
+        println("timezone = \(currentTimeZone)")
     }
     
     //MARK: - UI

@@ -53,10 +53,15 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
     override func viewDidLoad() {
         super.viewDidLoad()
         setupItems()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         addKeyboardObservers()
     }
     
-    deinit {
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
