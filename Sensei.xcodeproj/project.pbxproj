@@ -38,6 +38,7 @@
 		40A139AC1B0DFFED0010176D /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139AB1B0DFFED0010176D /* SwitchTableViewCell.swift */; };
 		40A139AE1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */; };
 		40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */; };
+		40D1FD151B0F157B004AB814 /* VisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */; };
 		40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */; };
 		40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */; };
 		40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078F1B0B86D8009A2000 /* BaseViewController.swift */; };
@@ -89,6 +90,7 @@
 		40A139AB1B0DFFED0010176D /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffirmationCollectionViewCell.swift; sourceTree = "<group>"; };
 		40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeechBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
+		40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
 		40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerInputAccessoryView.swift; sourceTree = "<group>"; };
 		40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerInputAccessoryView.xib; sourceTree = "<group>"; };
 		40EC078F1B0B86D8009A2000 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				40A139A61B0DC5450010176D /* MessageSwitchCollectionViewCell.swift */,
 				40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */,
 				40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */,
+				40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */,
 				408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */,
 				4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */,
+				40D1FD151B0F157B004AB814 /* VisualizationCollectionViewCell.swift in Sources */,
 				402F14501B09FBF6000C4261 /* Question.swift in Sources */,
 				40A139A91B0DC68D0010176D /* SlotCollectionViewCell.swift in Sources */,
 				40A139AC1B0DFFED0010176D /* SwitchTableViewCell.swift in Sources */,

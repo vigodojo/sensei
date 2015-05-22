@@ -29,6 +29,10 @@ class SenseiNavigationController: BaseViewController {
         return CGRectGetHeight(UIScreen.mainScreen().bounds) - currentHeight
     }
     
+    var tutorialOn: Bool {
+        return true
+    }
+    
     weak var tutorialCell: TutorialCollectionViewCell?
     weak var navigationCell: NavigationCollectionViewCell?
     
@@ -38,8 +42,8 @@ class SenseiNavigationController: BaseViewController {
         super.viewDidLoad()
         collectionView.registerNib(UINib(nibName: Constants.TutorialCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.TutorialCellNibName)
         collectionView.registerNib(UINib(nibName: Constants.NavigationCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.NavigationCellNibName)
-        let isTutorialOn = true
-        if isTutorialOn {
+        
+        if tutorialOn {
             items.append(Item(reuseIdentifier: Constants.TutorialCellNibName, height: Constants.TutorialCellHeight))
         }
         items.append(Item(reuseIdentifier: Constants.NavigationCellNibName, height: Constants.NavigationCellHeight))

@@ -21,13 +21,14 @@ enum UserMessageType: Printable {
     }
 }
 
-class UserMessageViewController: SenseiNavigationController {
+class UserMessageViewController: SenseiNavigationController, UINavigationControllerDelegate {
     
     private struct Constants {
         static let MessageSwitchCellReuseIdentifier = "MessageSwitchCollectionViewCell"
         static let MessageSwitchCellHeight: CGFloat = 170
         static let AffirmationCellReuseIdentifier = "AffirmationCollectionViewCell"
         static let AffirmationCellHeight: CGFloat = 110
+        static let VisuaizationCellReuseIdentifier = "VisualizationCollectionViewCell"
     }
     
     override weak var navigationCell: NavigationCollectionViewCell? {
@@ -36,7 +37,16 @@ class UserMessageViewController: SenseiNavigationController {
         }
     }
     
+    var visualizationCell: VisualizationCollectionViewCell?
+    
     var userMessageType = UserMessageType.Affirmation
+    
+    override var tutorialOn: Bool {
+        switch userMessageType {
+            case .Affirmation: return true
+            case .Visualization: return false
+        }
+    }
     
     // MARK: - Lifecycle
 
@@ -56,6 +66,9 @@ class UserMessageViewController: SenseiNavigationController {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
         if cell is MessageSwitchCollectionViewCell {
             (cell as! MessageSwitchCollectionViewCell).delegate = self
+        } else if cell is VisualizationCollectionViewCell {
+            visualizationCell = (cell as? VisualizationCollectionViewCell)
+            visualizationCell?.delegate = self
         }
         return cell
     }
@@ -68,9 +81,17 @@ class UserMessageViewController: SenseiNavigationController {
             case UserMessageType.Affirmation:
                 items.append(Item(reuseIdentifier: Constants.AffirmationCellReuseIdentifier, height: Constants.AffirmationCellHeight))
             case UserMessageType.Visualization:
-                // TODO: - Add Visualization Cell
+                items.append(Item(reuseIdentifier: Constants.VisuaizationCellReuseIdentifier, height: remainingHeight))
                 break
         }
+    }
+    
+    func presentImagePickerControllerWithSourceType(sourceType: UIImagePickerControllerSourceType) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = sourceType
+        presentViewController(imagePicker, animated: true, completion: nil)
     }
     
     // MARK: - Keyboard
@@ -92,6 +113,12 @@ class UserMessageViewController: SenseiNavigationController {
             self.collectionView.contentInset = UIEdgeInsetsZero
         }, completion: nil)
     }
+    
+    // MARK: - ABAction
+    
+    @IBAction func visualizationImageViewTap(sender: UITapGestureRecognizer) {
+        println("Tap Image")
+    }
 }
 
 // MARK: - MessageSwitchCollectionViewCellDelegate
@@ -108,5 +135,42 @@ extension UserMessageViewController: MessageSwitchCollectionViewCellDelegate {
     
     func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectReceiveTime receiveTime: ReceiveTime) {
         println("\(self) ReceiveTime \(receiveTime)")
+    }
+}
+
+// MARK: - VisualizationCollectionViewCellDelegate
+
+extension UserMessageViewController: VisualizationCollectionViewCellDelegate {
+    
+    func visualizationCollectionViewCellDidTakePhoto(cell: VisualizationCollectionViewCell) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        alert.addAction(UIAlertAction(title: "Take Photo", style: UIAlertActionStyle.Default, handler: { [weak self] (action) -> Void in
+            self?.presentImagePickerControllerWithSourceType(UIImagePickerControllerSourceType.Camera)
+        }))
+        alert.addAction(UIAlertAction(title: "Select Picture", style: UIAlertActionStyle.Default, handler: { [weak self] (action) -> Void in
+            self?.presentImagePickerControllerWithSourceType(UIImagePickerControllerSourceType.PhotoLibrary)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func visualizationCollectionViewCellDidEdit(cell: VisualizationCollectionViewCell) {
+        //
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+
+extension UserMessageViewController: UIImagePickerControllerDelegate {
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+            visualizationCell?.imageView.image = image
+            picker.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
     }
 }

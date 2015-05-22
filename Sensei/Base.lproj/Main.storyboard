@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Xez-Ze-1AV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Xez-Ze-1AV">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
         <!--Sensei Tab Controller-->
@@ -290,7 +290,7 @@
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ar2-Xy-RXj">
                                                                         <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
@@ -360,7 +360,7 @@
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UsL-3M-2VJ">
                                                                         <rect key="frame" x="0.0" y="8" width="238" height="18"/>
                                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
@@ -449,6 +449,79 @@
                                             <outlet property="textView" destination="BRQ-20-WwH" id="Jo3-W5-QpT"/>
                                         </connections>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="VisualizationCollectionViewCell" id="5w6-2d-lFw" customClass="VisualizationCollectionViewCell" customModule="Sensei" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vfN-Ix-5FW">
+                                                    <rect key="frame" x="45" y="8" width="235" height="163"/>
+                                                    <color key="backgroundColor" red="0.84313725490000002" green="0.84313725490000002" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <gestureRecognizers/>
+                                                    <connections>
+                                                        <outletCollection property="gestureRecognizers" destination="G04-dH-xtX" appends="YES" id="KVB-tm-nRC"/>
+                                                    </connections>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xvy-WR-o2M">
+                                                    <rect key="frame" x="18" y="170" width="20" height="22"/>
+                                                    <state key="normal" image="camera_icone">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="takePhoto" destination="5w6-2d-lFw" eventType="touchUpInside" id="ebI-hO-qX8"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="egX-cX-0eM">
+                                                    <rect key="frame" x="266" y="171" width="46" height="29"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="29" id="Rot-6R-iNj"/>
+                                                        <constraint firstAttribute="width" constant="46" id="gNe-mM-Usa"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                    <state key="normal" title="EDIT">
+                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="edit" destination="5w6-2d-lFw" eventType="touchUpInside" id="4sF-IH-B2Z"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sgi-ky-bK9" userLabel="Schwarzalbenheims Gewurm Schmiedet solch schimmerndes Gold Der Gotter Glorie gestaltend Aus der erde Geader">
+                                                    <rect key="frame" x="45" y="77" width="235" height="90"/>
+                                                    <string key="text">Schwarzalbenheims Gewurm
+Schmiedet solch schimmerndes Gold
+Der Gotter Glorie gestaltend
+Aus der erde Geader</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="vfN-Ix-5FW" firstAttribute="bottom" secondItem="Sgi-ky-bK9" secondAttribute="bottom" constant="4" id="09S-NA-2bW"/>
+                                            <constraint firstItem="vfN-Ix-5FW" firstAttribute="top" secondItem="5w6-2d-lFw" secondAttribute="top" constant="8" id="2jl-ya-0vR"/>
+                                            <constraint firstAttribute="bottom" secondItem="egX-cX-0eM" secondAttribute="bottom" id="36U-qN-MGm"/>
+                                            <constraint firstItem="Xvy-WR-o2M" firstAttribute="leading" secondItem="5w6-2d-lFw" secondAttribute="leading" constant="18" id="4GU-gh-eDR"/>
+                                            <constraint firstAttribute="trailing" secondItem="vfN-Ix-5FW" secondAttribute="trailing" constant="40" id="AEv-6y-HBF"/>
+                                            <constraint firstAttribute="trailing" secondItem="egX-cX-0eM" secondAttribute="trailing" constant="8" id="G7Z-u0-UeG"/>
+                                            <constraint firstItem="vfN-Ix-5FW" firstAttribute="trailing" secondItem="Sgi-ky-bK9" secondAttribute="trailing" id="KGO-pb-h5j"/>
+                                            <constraint firstItem="vfN-Ix-5FW" firstAttribute="leading" secondItem="Sgi-ky-bK9" secondAttribute="leading" id="PK2-pk-0OZ"/>
+                                            <constraint firstAttribute="bottom" secondItem="vfN-Ix-5FW" secondAttribute="bottom" constant="29" id="VrP-F3-AKm"/>
+                                            <constraint firstAttribute="bottom" secondItem="Xvy-WR-o2M" secondAttribute="bottom" constant="8" id="ZuW-S7-0Pa"/>
+                                            <constraint firstItem="vfN-Ix-5FW" firstAttribute="leading" secondItem="5w6-2d-lFw" secondAttribute="leading" constant="45" id="dbZ-iK-0Gu"/>
+                                            <constraint firstItem="Sgi-ky-bK9" firstAttribute="top" relation="greaterThanOrEqual" secondItem="5w6-2d-lFw" secondAttribute="top" constant="8" id="hBe-bZ-bYA"/>
+                                        </constraints>
+                                        <size key="customSize" width="320" height="200"/>
+                                        <connections>
+                                            <outlet property="editButton" destination="egX-cX-0eM" id="Gu5-7N-b9M"/>
+                                            <outlet property="imageView" destination="vfN-Ix-5FW" id="Eg3-SY-7Pn"/>
+                                            <outlet property="textLabel" destination="Sgi-ky-bK9" id="SlS-jx-53T"/>
+                                        </connections>
+                                    </collectionViewCell>
                                 </cells>
                                 <connections>
                                     <outlet property="dataSource" destination="jn6-3W-nyd" id="15i-oO-DKi"/>
@@ -469,6 +542,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V0Z-jt-1kT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="G04-dH-xtX">
+                    <connections>
+                        <action selector="visualizationImageViewTap:" destination="jn6-3W-nyd" id="3qp-0m-Z9S"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2783" y="119"/>
         </scene>
@@ -493,6 +571,7 @@
     </scenes>
     <resources>
         <image name="VigoSensei" width="69" height="128"/>
+        <image name="camera_icone" width="20" height="16"/>
         <image name="radio_button_selected" width="20" height="20"/>
         <image name="radio_button_unselected" width="20" height="20"/>
         <image name="tab_default_background" width="50" height="50"/>
