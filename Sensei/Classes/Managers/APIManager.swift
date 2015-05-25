@@ -12,7 +12,7 @@ import RestClient
 class APIManager: NSObject {
     
     static let sharedInstance = APIManager()
-    static let BaseURL = NSURL(string: "www.google.com")!
+    static let BaseURL = NSURL(string: "http://134.249.164.53:8831")!
     
     private struct APIPath {
         static let Login = "/user/signIn"
@@ -24,7 +24,7 @@ class APIManager: NSObject {
         return manager
     }()
     
-    func loginWithDeviceId(deveiceId: String, timeZone: Int, handler: ((error: NSError) -> Void)?) {
+    func loginWithDeviceId(deveiceId: String, timeZone: Int, handler: ((error: NSError?) -> Void)?) {
         sessionManager.performRequestWithBuilderBlock({ (requestBuilder) -> Void in
             requestBuilder.path = APIPath.Login
             requestBuilder.requestMethod = RCRequestMethod.POST

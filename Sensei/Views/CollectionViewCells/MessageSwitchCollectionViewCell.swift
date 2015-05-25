@@ -11,7 +11,9 @@ import UIKit
 protocol MessageSwitchCollectionViewCellDelegate: class {
     
     func messageSwitchCollectionViewCellDidSave(cell: MessageSwitchCollectionViewCell)
-    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectMessageAtIndex index: Int)
+    func numberOfSlotsInMessageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell) -> Int
+    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectSlotAtIndex index: Int)
+    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, isSlotEmptyAtIndex index: Int) -> Bool
     func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectReceiveTime receiveTime: ReceiveTime)
 }
 
@@ -20,6 +22,8 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     private struct Constants {
         static let SlotCellReuseIdentifier = "SlotCollectionViewCell"
         static let SwitchCellReuseIdentifier = "SwitchTableViewCell"
+        static let EmtySlotTextColor = UIColor(hexColor: 0xEA212D)
+        static let FilledSlotTextColor = UIColor.blackColor()
     }
     
     @IBOutlet weak var slotsCollectionView: UICollectionView!
@@ -38,7 +42,30 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     }
     
     let switchItems = [ReceiveTime.Morning, ReceiveTime.AnyTime, ReceiveTime.Evening]
-    var messageNumber = 6
+    
+    var reseiveTime: ReceiveTime? {
+        get {
+            if let indexPath = switchTableView.indexPathForSelectedRow() {
+                return switchItems[indexPath.item]
+            }
+            return nil
+        }
+        set {
+            if let value = newValue, index = find(switchItems, value) {
+                switchTableView.selectRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), animated: false, scrollPosition: UITableViewScrollPosition.None)
+            }
+        }
+    }
+    var selectedSlot: Int? {
+        get {
+            return slotsCollectionView.indexPathsForSelectedItems().first?.item
+        }
+        set {
+            if let index = newValue {
+                slotsCollectionView.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: false, scrollPosition: UICollectionViewScrollPosition.None)
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -55,12 +82,14 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
 extension MessageSwitchCollectionViewCell: UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return messageNumber
+        return delegate?.numberOfSlotsInMessageSwitchCollectionViewCell(self) ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.SlotCellReuseIdentifier, forIndexPath: indexPath) as! SlotCollectionViewCell
         cell.titleLabel.text = "\(indexPath.item + 1)"
+        let isEmpty = delegate?.messageSwitchCollectionViewCell(self, isSlotEmptyAtIndex: indexPath.item) ?? true
+        cell.titleLabel.textColor = isEmpty ? Constants.EmtySlotTextColor: Constants.FilledSlotTextColor
         return cell
     }
 }
@@ -70,7 +99,7 @@ extension MessageSwitchCollectionViewCell: UICollectionViewDataSource {
 extension MessageSwitchCollectionViewCell: UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        delegate?.messageSwitchCollectionViewCell(self, didSelectMessageAtIndex: indexPath.item)
+        delegate?.messageSwitchCollectionViewCell(self, didSelectSlotAtIndex: indexPath.item)
     }
 }
 
@@ -84,7 +113,7 @@ extension MessageSwitchCollectionViewCell: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(Constants.SwitchCellReuseIdentifier, forIndexPath: indexPath) as! SwitchTableViewCell
-        cell.titleLabel.text = "\(switchItems[indexPath.row])"
+        cell.titleLabel.text = "\(switchItems[indexPath.row].rawValue)"
         return cell
     }
 }
@@ -95,5 +124,21 @@ extension MessageSwitchCollectionViewCell: UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         delegate?.messageSwitchCollectionViewCell(self, didSelectReceiveTime: switchItems[indexPath.row])
+    }
+}
+
+// MARK: - UIColor+Hex
+
+extension UIColor {
+    
+    convenience init(hexColor: Int, alpha: CGFloat) {
+        let red: CGFloat = CGFloat((hexColor >> 16) & 0xff) / 255.0
+        let green: CGFloat = CGFloat((hexColor >> 8) & 0xff) / 255.0
+        let blue: CGFloat = CGFloat(hexColor & 0xff) / 255.0
+        self.init(red: red, green: green, blue: blue, alpha: 1.0)
+    }
+    
+    convenience init(hexColor: Int) {
+        self.init(hexColor: hexColor, alpha: 1.0)
     }
 }

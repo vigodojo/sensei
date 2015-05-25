@@ -129,6 +129,9 @@ class SenseiViewController: BaseViewController {
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         println("IDFA = \(idfa)")
         println("timezone = \(currentTimeZone)")
+        APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone) { (error) -> Void in
+            println("Logined \(error)")
+        }
     }
     
     //MARK: - UI
