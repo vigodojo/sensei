@@ -16,6 +16,7 @@ class APIManager: NSObject {
     
     private struct APIPath {
         static let Login = "/user/signIn"
+        static let LessonsHistory = "/user/history"
     }
     
     lazy var sessionManager: RCSessionManager = { [unowned self] in
@@ -43,3 +44,14 @@ extension APIManager: RCSessionManagerDelegate {
         //
     }
 }
+
+//[
+//    {
+//        "text": "123456",
+//        "date": "2015-05-22T09:10:41.755Z"
+//    },
+//    {
+//        "text": "qwerty",
+//        "date": "2015-05-22T14:51:09.566Z"
+//    }
+//]

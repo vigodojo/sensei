@@ -11,7 +11,7 @@ import CoreData
 
 class Affirmation: UserMessage {
     
-    private static let EntityName = "Affirmation"
+    static let EntityName = "Affirmation"
     
     class func createAffirmationNumber(number: NSNumber, text: String, receiveTime: ReceiveTime) -> Affirmation {
         let newAffirmation = NSEntityDescription.insertNewObjectForEntityForName(Affirmation.EntityName, inManagedObjectContext: CoreDataManager.sharedInstance.managedObjectContext!) as! Affirmation
@@ -26,6 +26,16 @@ class Affirmation: UserMessage {
         let predicate = NSPredicate(format: "number == %@", number)
         let objects = CoreDataManager.sharedInstance.fetchObjectsWithEntityName(Affirmation.EntityName, sortDescriptors: sortDescriptors, predicate: predicate)
         return objects?.first as? Affirmation
+    }
+    
+    func saveAffirmationWithNumber(number: NSNumber, text: String, receiveTime: ReceiveTime) {
+        if let affirmaton = Affirmation.affirmationWithNumber(number) {
+            affirmaton.text = text
+            affirmaton.receiveTime = receiveTime
+        } else {
+            Affirmation.createAffirmationNumber(number, text: text, receiveTime: receiveTime)
+        }
+        CoreDataManager.sharedInstance.saveContext()
     }
     
     class var affirmations: [Affirmation] {

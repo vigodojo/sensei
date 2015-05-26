@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 enum UserMessageType: Printable {
     
@@ -38,25 +39,40 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
         }
     }
     
-    var messageSwitchCell: MessageSwitchCollectionViewCell?
-    var affirmationCell: AffirmationCollectionViewCell? {
+    private var messageSwitchCell: MessageSwitchCollectionViewCell?
+    private var affirmationCell: AffirmationCollectionViewCell? {
         didSet {
             if messageSwitchCell?.selectedSlot == nil {
                 selectUserMessageWithNumber(NSNumber(integer:1))
             }
         }
     }
-    var visualizationCell: VisualizationCollectionViewCell? {
+    private var visualizationCell: VisualizationCollectionViewCell? {
         didSet {
             if messageSwitchCell?.selectedSlot == nil {
                 selectUserMessageWithNumber(NSNumber(integer:1))
             }
         }
     }
+    
+    private lazy var userMessagesFetchedResultController: NSFetchedResultsController = { [unowned self] in
+        let fetchRequest = NSFetchRequest(entityName: self.entityName)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "number", ascending: true)]
+        let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.sharedInstance.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultController.delegate = self
+        return fetchedResultController
+    }()
     
     var userMessageType = UserMessageType.Affirmation
     
-    var userMessages = [UserMessage]()
+    var entityName: String {
+        switch userMessageType {
+            case .Affirmation: return Affirmation.EntityName
+            case .Visualization: return Visualization.EntityName
+        }
+    }
+    
+//    var userMessages = [UserMessage]()
     
     override var tutorialOn: Bool {
         switch userMessageType {
@@ -113,9 +129,9 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
     }
     
     private func fetchUserMessages() {
-        switch userMessageType {
-            case .Affirmation: userMessages = Affirmation.affirmations
-            case .Visualization: userMessages = Visualization.visualizations
+        var error: NSError? = nil
+        if !userMessagesFetchedResultController.performFetch(&error) {
+            println("Failed to fetch user messages with error: \(error)")
         }
     }
     
@@ -146,19 +162,29 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
         let index = messageSwitchCell?.selectedSlot
         let receiveTime = messageSwitchCell?.reseiveTime
         let text = affirmationCell?.textView.text
-        if let index = index, receiveTime = receiveTime, text = text where !text.isEmpty {
+        if let index = index, receiveTime = receiveTime, text = text {
             if let userMessage = userMessageWithNumber(index + 1) {
-                userMessage.text = text
-                userMessage.receiveTime = receiveTime
-            } else {
-                userMessages.append(Affirmation.createAffirmationNumber(index + 1, text: text, receiveTime: receiveTime))
+                if text.isEmpty {
+                    CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(userMessage)
+                    CoreDataManager.sharedInstance.saveContext()
+                } else if userMessage.text != text || userMessage.receiveTime != receiveTime {
+                    userMessage.text = text
+                    userMessage.receiveTime = receiveTime
+                    CoreDataManager.sharedInstance.saveContext()
+                }
+            } else if !text.isEmpty {
+                Affirmation.createAffirmationNumber(index + 1, text: text, receiveTime: receiveTime)
+                CoreDataManager.sharedInstance.saveContext()
             }
         }
     }
     
     private func userMessageWithNumber(number: NSNumber) -> UserMessage? {
-        let filteredMessages = userMessages.filter(){ $0.number.compare(number) == .OrderedSame }
-        return filteredMessages.first
+        if let fetchedObjects = userMessagesFetchedResultController.fetchedObjects as? [UserMessage] {
+            let filteredMessages = fetchedObjects.filter(){ $0.number.compare(number) == .OrderedSame }
+            return filteredMessages.first
+        }
+        return nil
     }
     
     private func presentImagePickerControllerWithSourceType(sourceType: UIImagePickerControllerSourceType) {
@@ -204,10 +230,10 @@ extension UserMessageViewController: MessageSwitchCollectionViewCellDelegate {
         switch userMessageType {
             case .Affirmation:
                 saveAffirmation()
+                affirmationCell?.textView.resignFirstResponder()
             case .Visualization:
                 break;
         }
-        println("\(self) Save")
     }
     
     func numberOfSlotsInMessageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell) -> Int {
@@ -261,5 +287,29 @@ extension UserMessageViewController: UIImagePickerControllerDelegate {
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension UserMessageViewController: NSFetchedResultsControllerDelegate {
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        if let userMessage = anObject as? UserMessage {
+            switch type {
+                case .Insert:
+                    messageSwitchCell?.reloadSlotAtIndex(userMessage.number.integerValue - 1)
+                    let number = ((userMessage.number.integerValue) % Constants.NumberOfUserMessages) + 1
+                    selectUserMessageWithNumber(number)
+                case .Update:
+                    let number = ((userMessage.number.integerValue) % Constants.NumberOfUserMessages) + 1
+                    selectUserMessageWithNumber(number)
+                case .Delete:
+                    messageSwitchCell?.reloadSlotAtIndex(userMessage.number.integerValue - 1)
+                    messageSwitchCell?.selectedSlot = userMessage.number.integerValue - 1
+                default:
+                    break
+            }
+        }
     }
 }

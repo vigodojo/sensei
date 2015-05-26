@@ -49,6 +49,6 @@ class EditVisualizationViewController: SenseiNavigationController {
     // MARK: - Keyboard
     
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
-
+        
     }
 }

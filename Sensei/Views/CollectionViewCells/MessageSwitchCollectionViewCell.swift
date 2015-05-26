@@ -56,6 +56,7 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
             }
         }
     }
+    
     var selectedSlot: Int? {
         get {
             return slotsCollectionView.indexPathsForSelectedItems().first?.item
@@ -67,13 +68,23 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    // MARK: - Lifecycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
     }
     
+    // MARK: - IBActions
+    
     @IBAction func save() {
         delegate?.messageSwitchCollectionViewCellDidSave(self)
+    }
+    
+    // MARK: - Public
+    
+    func reloadSlotAtIndex(index: Int) {
+        slotsCollectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
     }
 }
 

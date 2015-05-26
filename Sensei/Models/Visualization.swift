@@ -11,7 +11,7 @@ import CoreData
 
 class Visualization: UserMessage {
     
-    private static let EntityName = "Visualization"
+    static let EntityName = "Visualization"
 
     @NSManaged private var pictureData: NSData?
     

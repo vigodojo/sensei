@@ -11,8 +11,6 @@ import UIKit
 class SenseiTabController: UIViewController, TabSegueProtocol {
     
     private struct Constants {
-        static let SelectedButtonFont = UIFont(name: "HelveticaNeue-Bold", size: 17)!
-        static let DefaultButtonFont = UIFont(name: "HelveticaNeue", size: 20)!
         static let SenseiViewControllerSegueIdentifier = "SwitchToSenseiViewController"
         static let MoreViewControllerSegueIdentifier = "SwitchToMoreViewController"
     }
@@ -32,8 +30,6 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
         if !senseiTabButton.selected {
             senseiTabButton.selected = true
             moreTabButton.selected = false
-            senseiTabButton.titleLabel?.font = Constants.SelectedButtonFont
-            moreTabButton.titleLabel?.font = Constants.DefaultButtonFont
             performSegueWithIdentifier(Constants.SenseiViewControllerSegueIdentifier, sender: senseiTabButton)
         }
     }
@@ -42,8 +38,6 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
         if !moreTabButton.selected {
             senseiTabButton.selected = false
             moreTabButton.selected = true
-            senseiTabButton.titleLabel?.font = Constants.DefaultButtonFont
-            moreTabButton.titleLabel?.font = Constants.SelectedButtonFont
             performSegueWithIdentifier(Constants.MoreViewControllerSegueIdentifier, sender: moreTabButton)
         }
     }

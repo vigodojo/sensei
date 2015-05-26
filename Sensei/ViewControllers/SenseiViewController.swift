@@ -16,9 +16,7 @@ class SenseiViewController: BaseViewController {
         static let CellNibName = "SpeechBubbleCollectionViewCell"
         static let MinOpacity = CGFloat(0.2)
         static let DefaultCellHeight = CGFloat(30.0)
-        static let DefaultSenseiBottomSpace = CGFloat(91)
-        static let DefaultCollectionViewBottomSpace = CGFloat(48)
-        static let DefaultCollectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
+        static let DefaultBottomSpace = CGFloat(90)
         static let DefaultAnimationDuration = 0.25
         static let ToAffirmationSegueIdentifier = "ToAffirmation"
         static let ToVizualizationSegueIdentifier = "ToVisualization"
@@ -45,7 +43,6 @@ class SenseiViewController: BaseViewController {
         (view as? AnswerableView)?.delegate = self
         
         collectionView.registerNib(UINib(nibName: Constants.CellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.CellReuseIdentifier)
-        collectionView.contentInset = Constants.DefaultCollectionViewContentInset
         
         requestMessages()
         addKeyboardObservers()
@@ -157,7 +154,7 @@ class SenseiViewController: BaseViewController {
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
         if size.height > senseiBottomSpaceConstraint.constant {
             var contentInset = UIEdgeInsetsZero
-            contentInset.bottom = size.height - Constants.DefaultCollectionViewBottomSpace
+            contentInset.bottom = size.height - Constants.DefaultBottomSpace
             view.layoutIfNeeded()
             self.collectionView.contentInset = contentInset
             UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
@@ -172,8 +169,8 @@ class SenseiViewController: BaseViewController {
     override func keyboardWillHideWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
         view.layoutIfNeeded()
         UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
-            self.senseiBottomSpaceConstraint.constant = Constants.DefaultSenseiBottomSpace
-            self.collectionView.contentInset = Constants.DefaultCollectionViewContentInset
+            self.senseiBottomSpaceConstraint.constant = Constants.DefaultBottomSpace
+            self.collectionView.contentInset = UIEdgeInsetsZero
             self.fadeCells()
             self.view.layoutIfNeeded()
         }, completion: nil)
