@@ -24,16 +24,19 @@ class SenseiViewController: BaseViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var senseiBottomSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet weak var senseiImageView: UIImageView!
     
-    lazy var sizingCell: SpeechBubbleCollectionViewCell = {
+    private lazy var sizingCell: SpeechBubbleCollectionViewCell = {
         NSBundle.mainBundle().loadNibNamed(Constants.CellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
     }()
     
-    var maxContentOffset: CGPoint {
-        return CGPoint(x: 0, y: collectionView.contentSize.height - CGRectGetHeight(collectionView.frame) + collectionView.contentInset.bottom)
+    private var maxContentOffset: CGPoint {
+        let y = collectionView.contentSize.height - CGRectGetHeight(collectionView.frame) + collectionView.contentInset.bottom
+        return CGPoint(x: 0, y: max(y, -collectionView.contentInset.top))
     }
     
-    var dataSource = [Message]()
+    private var dataSource = [Message]()
+    private var lastQuestion: Question?
     
     // MARK: - Lifecycle
     
@@ -43,10 +46,13 @@ class SenseiViewController: BaseViewController {
         (view as? AnswerableView)?.delegate = self
         
         collectionView.registerNib(UINib(nibName: Constants.CellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.CellReuseIdentifier)
-        
-        requestMessages()
         addKeyboardObservers()
-        login()
+        
+        if APIManager.sharedInstance.logined {
+            requestNextQuestion()
+        } else {
+            login()
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -54,29 +60,50 @@ class SenseiViewController: BaseViewController {
         removeAllExeptLessons()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let offset = CGRectGetMinY(senseiImageView.frame)
+        collectionView.contentInset.top = offset
+    }
+    
     //MARK: - Logic
     
-    private func requestMessages() {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * NSEC_PER_SEC)), dispatch_get_main_queue()) { () -> Void in
-            let message0 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
-            let message1 = Lesson(text: "Alle warten auf das Licht\nFürchtet euch fürchtet euch nicht\nDie Sonne scheint mir aus den Augen\nsie wird heut Nacht nicht untergehen\nund die Welt zählt laut bis zehn")
-            let message2 = Lesson(text: "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne")
-            let message3 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
-            let message4 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
-            let message5 = Lesson(text: "Alle warten auf das Licht. Fürchtet euch fürchtet euch nicht. Die Sonne scheint mir aus den Augen. sie wird heut Nacht nicht untergehen. und die Welt zählt laut bis zehn")
-            let message6 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
-            let message7 = Lesson(text: "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne")
-            self.addMessages([message0, message1, message2, message3, message4, message5, message6, message7], scroll: true) {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                    self.askQuestion(Question())
-                }
+    private func requestLessonsHistory() {
+        APIManager.sharedInstance.lessonsHistoryWithCompletion { [weak self] (lessons, error) -> Void in
+            if let lessons = lessons {
+                self?.addMessages(lessons.map {$0 as Message}, scroll: true, completion: nil)
             }
         }
     }
     
-    private func askQuestion(var question: Question) {
-        question.text = "What is your favorite division?"
-//        question.answerType = AnswerType.Choice(options: ["Das Reich", "Totenkopf"])
+    private func requestNextQuestion() {
+        APIManager.sharedInstance.nextQuestionyWithCompletion { [weak self](question, error) -> Void in
+            if question == nil && error == nil {
+                self?.requestLessonsHistory()
+            } else if let question = question {
+                self?.askQuestion(question)
+            }
+        }
+    }
+    
+    private func testLessons() {
+        let message0 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
+        let message1 = Lesson(text: "Alle warten auf das Licht\nFürchtet euch fürchtet euch nicht\nDie Sonne scheint mir aus den Augen\nsie wird heut Nacht nicht untergehen\nund die Welt zählt laut bis zehn")
+        let message2 = Lesson(text: "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne")
+        let message3 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
+        let message4 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
+        let message5 = Lesson(text: "Alle warten auf das Licht. Fürchtet euch fürchtet euch nicht. Die Sonne scheint mir aus den Augen. sie wird heut Nacht nicht untergehen. und die Welt zählt laut bis zehn")
+        let message6 = Lesson(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
+        let message7 = Lesson(text: "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne")
+        self.addMessages([message0, message1, message2, message3, message4, message5, message6, message7], scroll: true)  {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                self.askQuestion(Question())
+            }
+        }
+    }
+    
+    private func askQuestion(question: Question) {
+        lastQuestion = question
         addMessages([question], scroll: false) {
             (self.view as? AnswerableView)?.askQuestion(question)
         }
@@ -94,6 +121,7 @@ class SenseiViewController: BaseViewController {
             self.collectionView.insertItemsAtIndexPaths(indexPathes)
         }, completion: { (finished) -> Void in
             if scroll {
+                println("maxContentOffset = \(self.maxContentOffset)")
                 self.collectionView.setContentOffset(self.maxContentOffset, animated: true)
             }
             if let completion = completion {
@@ -103,8 +131,11 @@ class SenseiViewController: BaseViewController {
     }
     
     private func deleteMessageAtIndexPath(indexPath: NSIndexPath) {
-        dataSource.removeAtIndex(indexPath.item)
-
+        let message = dataSource.removeAtIndex(indexPath.item)
+        if message is Lesson {
+            APIManager.sharedInstance.blockLessonWithId((message as! Lesson).lessonId, handler: nil)
+        }
+        
         collectionView.performBatchUpdates({ () -> Void in
             self.collectionView.deleteItemsAtIndexPaths([indexPath])
         }, completion: { (finished) -> Void in
@@ -122,12 +153,19 @@ class SenseiViewController: BaseViewController {
     }
     
     func login() {
-        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+        // TODO: - DELETE HARDCODED IDFA
+//        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+        let idfa = "8B83C19B-E20F-4179-9B1D-E65CA6494F36"
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         println("IDFA = \(idfa)")
         println("timezone = \(currentTimeZone)")
-        APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone) { (error) -> Void in
-            println("Logined \(error)")
+        APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone) { [weak self] (error) -> Void in
+            if let error = error {
+                println("Failed to login with error \(error)")
+            } else {
+                println("Logined successfuly")
+                self?.requestNextQuestion()
+            }
         }
     }
     
@@ -170,7 +208,7 @@ class SenseiViewController: BaseViewController {
         view.layoutIfNeeded()
         UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
             self.senseiBottomSpaceConstraint.constant = Constants.DefaultBottomSpace
-            self.collectionView.contentInset = UIEdgeInsetsZero
+            self.collectionView.contentInset.bottom = 0
             self.fadeCells()
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -235,8 +273,14 @@ extension SenseiViewController: UIScrollViewDelegate {
 extension SenseiViewController: AnswerableViewDelegate {
     
     func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: String) {
-        addMessages([Answer(answer: answer)], scroll: true) {
-            self.requestMessages()
+        addMessages([Answer(answer: answer)], scroll: true) { [weak self] in
+            if let question = self?.lastQuestion {
+                APIManager.sharedInstance.answerQuestionWithId(question.id, answerText: answer) { [weak self] (error) -> Void in
+                    if error == nil {
+                        self?.requestNextQuestion()
+                    }
+                }
+            }
         }
         println("\(self) submitted answer: \(answer)")
     }

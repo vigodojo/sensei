@@ -7,22 +7,32 @@
 //
 
 import Foundation
+import RestClient
 
-protocol Message {
+protocol Message: NSObjectProtocol {
     
     var text: String { get set }
 }
 
-class Lesson: Message {
+class Lesson: NSObject, Message {
     
-    var id = ""
+    var lessonId = ""
     var text = ""
-    init(id: String, text: String) {
-        self.id = id
+    var date = NSDate()
+    
+    override init() {
+        super.init()
+    }
+    
+    init(text: String) {
         self.text = text
     }
     
-    convenience init(text: String) {
-        self.init(id: "", text: text)
+    class var objectMapping: RCObjectMapping {
+        return RCObjectMapping(objectClass: Lesson.self, mappingArray: ["lessonId", "text", "date"])
+    }
+    
+    class var responseDescriptor: RCResponseDescriptor {
+        return RCResponseDescriptor(objectMapping: Lesson.objectMapping, pathPattern: APIManager.APIPath.LessonsHistory)
     }
 }

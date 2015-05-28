@@ -8,9 +8,10 @@
 
 import Foundation
 
-class Answer: Message {
+class Answer: NSObject, Message {
     
     var text = ""
+    
     init(answer: String) {
         text = answer
     }

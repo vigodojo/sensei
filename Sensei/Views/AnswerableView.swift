@@ -45,12 +45,19 @@ class AnswerableView: UIView {
         return inputAccessoryView
     }()
     
-    private lazy var textInputAccessoryView: TextInputAccessoryView = { [unowned self] in
+    private lazy var keyboardInputAccessoryView: KeyboardInputAccessoryView = { [unowned self] in
         let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: Constants.InputAccessotyViewHeight))
-        let inputAccessoryView = TextInputAccessoryView(frame: rect)
+        let inputAccessoryView = KeyboardInputAccessoryView(frame: rect)
         inputAccessoryView.textField.delegate = self
+        inputAccessoryView.didSubmit = { [weak self] () -> Void in
+            if let answer = self?.keyboardInputAccessoryView.textField.text where !answer.isEmpty {
+                self?.submitAnswer(answer)
+            } else {
+                self?.cancel()
+            }
+        }
         inputAccessoryView.didCancel = { [weak self] () -> Void in
-            self?.textInputAccessoryView.textField.resignFirstResponder()
+            self?.keyboardInputAccessoryView.textField.resignFirstResponder()
             self?.cancel()
         }
         return inputAccessoryView
@@ -101,7 +108,7 @@ class AnswerableView: UIView {
     }
     
     override func becomeFirstResponder() -> Bool {
-        if textInputAccessoryView.textField.isFirstResponder() {
+        if keyboardInputAccessoryView.textField.isFirstResponder() {
             return false
         } else {
             return super.becomeFirstResponder()
@@ -110,7 +117,12 @@ class AnswerableView: UIView {
     
     override var inputAccessoryView: UIView? {
         switch answerType {
-            case .Text: return textInputAccessoryView
+            case .Text:
+                keyboardInputAccessoryView.type = KeyboardInputAccessoryViewType.Text
+                return keyboardInputAccessoryView
+            case .Number:
+                keyboardInputAccessoryView.type = KeyboardInputAccessoryViewType.Number
+                return keyboardInputAccessoryView
             default : return pickerInputAccessoryView
         }
     }
@@ -119,8 +131,7 @@ class AnswerableView: UIView {
         switch answerType {
             case .Date:
                 return dateInputView
-            case .Choice(let options):
-                pickerOptions = options
+            case .Choice: 
                 pickerInputView.reloadAllComponents()
                 return pickerInputView
             default:
@@ -132,6 +143,7 @@ class AnswerableView: UIView {
     
     func askQuestion(question: Question) {
         answerType = question.answerType
+        pickerOptions = question.answers
         becomeFirstResponder()
     }
     
@@ -140,13 +152,13 @@ class AnswerableView: UIView {
     private func setup() {
         NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: nil) { [weak self] (notification) -> Void in
             if self?.inputView == nil {
-                self?.textInputAccessoryView.textField.becomeFirstResponder()
+                self?.keyboardInputAccessoryView.textField.becomeFirstResponder()
             }
         }
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: nil) { [weak self] (notification) -> Void in
             if self?.inputView == nil {
-                self?.textInputAccessoryView.textField.resignFirstResponder()
+                self?.keyboardInputAccessoryView.textField.resignFirstResponder()
             } else {
                 self?.resignFirstResponder()
             }

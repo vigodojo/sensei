@@ -27,7 +27,7 @@
 		4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4084CFE41AFA611B000F8D47 /* LaunchScreen.xib */; };
 		4084CFF21AFA611B000F8D47 /* SenseiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFF11AFA611B000F8D47 /* SenseiTests.swift */; };
 		408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B32091B0B7295001BB455 /* AnswerableView.swift */; };
-		408B320C1B0B7632001BB455 /* TextInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B320B1B0B7632001BB455 /* TextInputAccessoryView.swift */; };
+		408B320C1B0B7632001BB455 /* KeyboardInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B320B1B0B7632001BB455 /* KeyboardInputAccessoryView.swift */; };
 		408B320E1B0B7645001BB455 /* TextInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */; };
 		40A139A21B0DB19A0010176D /* TutorialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A01B0DB19A0010176D /* TutorialCollectionViewCell.swift */; };
 		40A139A31B0DB19A0010176D /* TutorialCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A139A11B0DB19A0010176D /* TutorialCollectionViewCell.xib */; };
@@ -85,7 +85,7 @@
 		4084CFF01AFA611B000F8D47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4084CFF11AFA611B000F8D47 /* SenseiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseiTests.swift; sourceTree = "<group>"; };
 		408B32091B0B7295001BB455 /* AnswerableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerableView.swift; sourceTree = "<group>"; };
-		408B320B1B0B7632001BB455 /* TextInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputAccessoryView.swift; sourceTree = "<group>"; };
+		408B320B1B0B7632001BB455 /* KeyboardInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInputAccessoryView.swift; sourceTree = "<group>"; };
 		408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextInputAccessoryView.xib; sourceTree = "<group>"; };
 		40A139A01B0DB19A0010176D /* TutorialCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialCollectionViewCell.swift; sourceTree = "<group>"; };
 		40A139A11B0DB19A0010176D /* TutorialCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -157,10 +157,10 @@
 		402C32AF1B0392180045BAD7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				402F144B1B09F98D000C4261 /* Lesson.swift */,
 				40A7B6F91B1328810097852F /* UserMessage.swift */,
 				40A7B6C41B12FC2F0097852F /* Affirmation.swift */,
 				40A7B6C61B12FC300097852F /* Visualization.swift */,
-				402F144B1B09F98D000C4261 /* Lesson.swift */,
 				402F144F1B09FBF6000C4261 /* Question.swift */,
 				404F60F61B0C9D0600A16FCC /* Answer.swift */,
 			);
@@ -187,7 +187,7 @@
 				4016F32F1B04EC7E00728202 /* CollectionViewCells */,
 				4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */,
 				408B32091B0B7295001BB455 /* AnswerableView.swift */,
-				408B320B1B0B7632001BB455 /* TextInputAccessoryView.swift */,
+				408B320B1B0B7632001BB455 /* KeyboardInputAccessoryView.swift */,
 				408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */,
 				40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */,
 				40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */,
@@ -416,7 +416,7 @@
 				40A139A91B0DC68D0010176D /* SlotCollectionViewCell.swift in Sources */,
 				40A139AC1B0DFFED0010176D /* SwitchTableViewCell.swift in Sources */,
 				40A7B6C31B12F8240097852F /* SenseiModel.xcdatamodeld in Sources */,
-				408B320C1B0B7632001BB455 /* TextInputAccessoryView.swift in Sources */,
+				408B320C1B0B7632001BB455 /* KeyboardInputAccessoryView.swift in Sources */,
 				40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */,

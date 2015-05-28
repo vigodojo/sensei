@@ -8,16 +8,41 @@
 
 import UIKit
 
-class TextInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
+enum KeyboardInputAccessoryViewType {
+    case Text
+    case Number
+}
+
+class KeyboardInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
     
     private struct Constants {
         static let NibName = "TextInputAccessoryView"
+        static let DefaultIndent: CGFloat = 8
     }
 
+    @IBOutlet weak var textFieldLeadingConstraint: NSLayoutConstraint!
+    
     var didSubmit: (() -> Void)?
     var didCancel: (() -> Void)?
     
+    var type = KeyboardInputAccessoryViewType.Text {
+        didSet {
+            switch type {
+                case .Text:
+                    textFieldLeadingConstraint.constant = Constants.DefaultIndent
+                    rightButton.setTitle("Cancel", forState: UIControlState.Normal)
+                    textField.keyboardType = UIKeyboardType.Default
+                case .Number:
+                    textFieldLeadingConstraint.constant = Constants.DefaultIndent * 2 + CGRectGetWidth(leftButton.bounds)
+                    rightButton.setTitle("Submit", forState: UIControlState.Normal)
+                    textField.keyboardType = UIKeyboardType.NumberPad
+            }
+        }
+    }
+    
     @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var rightButton: UIButton!
+    @IBOutlet weak var leftButton: UIButton!
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -29,9 +54,22 @@ class TextInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
         setup()
     }
     
-    @IBAction func cancel() {
+    @IBAction func leftButtonAction() {
         if let didCancel = didCancel {
             didCancel()
+        }
+    }
+    
+    @IBAction func rightButtonAction() {
+        switch type {
+            case .Text:
+                if let didCancel = didCancel {
+                    didCancel()
+                }
+            case .Number:
+                if let didSubmit = didSubmit {
+                    didSubmit()
+                }
         }
     }
     
