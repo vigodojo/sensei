@@ -48,6 +48,7 @@
 		40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */; };
 		40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */; };
 		40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078F1B0B86D8009A2000 /* BaseViewController.swift */; };
+		C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E32E9E1B184662008A2233 /* OSTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerInputAccessoryView.swift; sourceTree = "<group>"; };
 		40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerInputAccessoryView.xib; sourceTree = "<group>"; };
 		40EC078F1B0B86D8009A2000 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		C7E32E9E1B184662008A2233 /* OSTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OSTextField.swift; path = Sensei/Classes/Extensions/OSTextField.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 		402C32AE1B0392180045BAD7 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C7E32E9D1B184619008A2233 /* Extensions */,
 				402F14541B0A0A24000C4261 /* Managers */,
 				402F14551B0A0A24000C4261 /* Segues */,
 			);
@@ -290,6 +293,15 @@
 			path = TableViewCells;
 			sourceTree = "<group>";
 		};
+		C7E32E9D1B184619008A2233 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C7E32E9E1B184662008A2233 /* OSTextField.swift */,
+			);
+			name = Extensions;
+			path = Managers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -339,6 +351,7 @@
 				TargetAttributes = {
 					4084CFD51AFA611B000F8D47 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = KWNCHNHPA6;
 					};
 					4084CFEA1AFA611B000F8D47 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -418,6 +431,7 @@
 				40A7B6C31B12F8240097852F /* SenseiModel.xcdatamodeld in Sources */,
 				408B320C1B0B7632001BB455 /* KeyboardInputAccessoryView.swift in Sources */,
 				40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */,
+				C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */,
 				404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */,
@@ -552,6 +566,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sensei/Frameworks",
@@ -560,7 +576,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b8743c7c-f63a-4cb9-9651-78b881200746";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -568,6 +584,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sensei/Frameworks",
@@ -576,7 +594,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b8743c7c-f63a-4cb9-9651-78b881200746";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
