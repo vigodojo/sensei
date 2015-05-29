@@ -16,7 +16,7 @@ enum KeyboardInputAccessoryViewType {
 class KeyboardInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
     
     private struct Constants {
-        static let NibName = "TextInputAccessoryView"
+        static let NibName = "KeyboardInputAccessoryView"
         static let DefaultIndent: CGFloat = 8
     }
 

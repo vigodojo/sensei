@@ -154,8 +154,9 @@ class SenseiViewController: BaseViewController {
     
     func login() {
         // TODO: - DELETE HARDCODED IDFA
-//        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-        let idfa = "8B83C19B-E20F-4179-9B1D-E65CA6494F36"
+        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+//        let idfa = "8B83C19B-E20F-4179-9B1D-E65CA6494F36"
+//        let idfa = NSUUID().UUIDString
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         println("IDFA = \(idfa)")
         println("timezone = \(currentTimeZone)")
@@ -275,7 +276,7 @@ extension SenseiViewController: AnswerableViewDelegate {
     func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: String) {
         addMessages([Answer(answer: answer)], scroll: true) { [weak self] in
             if let question = self?.lastQuestion {
-                APIManager.sharedInstance.answerQuestionWithId(question.id, answerText: answer) { [weak self] (error) -> Void in
+                APIManager.sharedInstance.answerQuestionWithId(question.id!, answerText: answer) { [weak self] (error) -> Void in
                     if error == nil {
                         self?.requestNextQuestion()
                     }

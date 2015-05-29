@@ -83,8 +83,9 @@ class APIManager: NSObject {
             builder.path = APIPath.NextQuestion
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
+            let question = (response.object as? Question)?.id != nil ? (response.object as? Question): nil
             if let handler = handler {
-                handler(question: response.object as? Question , error: response.error)
+                handler(question: question , error: response.error)
             }
         })
     }

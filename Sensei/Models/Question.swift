@@ -19,18 +19,31 @@ enum AnswerType: String {
 
 class Question: NSObject, Message {
     
-    var id = ""
-    var text = ""
+    var id: String?
+    var questionText: String?
+    var potentialAnswers: [AnyObject]?
+    var answerTypeRawValue: String?
+    
+    var text: String {
+        get {
+            return questionText ?? ""
+        }
+        set {
+            questionText = newValue
+        }
+    }
+    
     var answerType: AnswerType {
-        return AnswerType(rawValue: answerTypeRawValue) ?? AnswerType.Text
+        if let rawValue = answerTypeRawValue {
+            return AnswerType(rawValue: rawValue) ?? AnswerType.Text
+        }
+        return AnswerType.Text
     }
     
     var answers: [String] {
         return (potentialAnswers as? [String]) ?? [String]()
     }
-    
-    var potentialAnswers: [AnyObject]?
-    var answerTypeRawValue = AnswerType.Text.rawValue
+
     
     class var objectMapping: RCObjectMapping {
         let mapping = RCObjectMapping(objectClass: Question.self, mappingArray: ["text", "potentialAnswers"])

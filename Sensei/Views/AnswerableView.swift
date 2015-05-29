@@ -188,7 +188,9 @@ class AnswerableView: UIView {
     
     private func submitAnswer(answer: String) {
         resignFirstResponder()
+        keyboardInputAccessoryView.textField.resignFirstResponder()
         delegate?.answerableView(self, didSubmitAnswer: answer)
+        keyboardInputAccessoryView.textField.text = ""
     }
 }
 

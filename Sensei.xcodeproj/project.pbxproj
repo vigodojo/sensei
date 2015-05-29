@@ -28,7 +28,7 @@
 		4084CFF21AFA611B000F8D47 /* SenseiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFF11AFA611B000F8D47 /* SenseiTests.swift */; };
 		408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B32091B0B7295001BB455 /* AnswerableView.swift */; };
 		408B320C1B0B7632001BB455 /* KeyboardInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B320B1B0B7632001BB455 /* KeyboardInputAccessoryView.swift */; };
-		408B320E1B0B7645001BB455 /* TextInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */; };
+		408B320E1B0B7645001BB455 /* KeyboardInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 408B320D1B0B7645001BB455 /* KeyboardInputAccessoryView.xib */; };
 		40A139A21B0DB19A0010176D /* TutorialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A01B0DB19A0010176D /* TutorialCollectionViewCell.swift */; };
 		40A139A31B0DB19A0010176D /* TutorialCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A139A11B0DB19A0010176D /* TutorialCollectionViewCell.xib */; };
 		40A139A51B0DB72C0010176D /* UserMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A41B0DB72C0010176D /* UserMessageViewController.swift */; };
@@ -48,6 +48,8 @@
 		40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */; };
 		40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */; };
 		40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078F1B0B86D8009A2000 /* BaseViewController.swift */; };
+		C76E77721B189FE000986B6F /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76E77711B189FE000986B6F /* SettingsTableViewController.swift */; };
+		C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E32E9E1B184662008A2233 /* OSTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,7 +88,7 @@
 		4084CFF11AFA611B000F8D47 /* SenseiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseiTests.swift; sourceTree = "<group>"; };
 		408B32091B0B7295001BB455 /* AnswerableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerableView.swift; sourceTree = "<group>"; };
 		408B320B1B0B7632001BB455 /* KeyboardInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInputAccessoryView.swift; sourceTree = "<group>"; };
-		408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextInputAccessoryView.xib; sourceTree = "<group>"; };
+		408B320D1B0B7645001BB455 /* KeyboardInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyboardInputAccessoryView.xib; sourceTree = "<group>"; };
 		40A139A01B0DB19A0010176D /* TutorialCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialCollectionViewCell.swift; sourceTree = "<group>"; };
 		40A139A11B0DB19A0010176D /* TutorialCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialCollectionViewCell.xib; sourceTree = "<group>"; };
 		40A139A41B0DB72C0010176D /* UserMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMessageViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,8 @@
 		40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerInputAccessoryView.swift; sourceTree = "<group>"; };
 		40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerInputAccessoryView.xib; sourceTree = "<group>"; };
 		40EC078F1B0B86D8009A2000 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		C76E77711B189FE000986B6F /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		C7E32E9E1B184662008A2233 /* OSTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OSTextField.swift; path = Sensei/Classes/Extensions/OSTextField.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +152,7 @@
 		402C32AE1B0392180045BAD7 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C7E32E9D1B184619008A2233 /* Extensions */,
 				402F14541B0A0A24000C4261 /* Managers */,
 				402F14551B0A0A24000C4261 /* Segues */,
 			);
@@ -176,6 +181,7 @@
 				404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */,
 				40A139A41B0DB72C0010176D /* UserMessageViewController.swift */,
 				40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */,
+				C76E77711B189FE000986B6F /* SettingsTableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -188,7 +194,7 @@
 				4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */,
 				408B32091B0B7295001BB455 /* AnswerableView.swift */,
 				408B320B1B0B7632001BB455 /* KeyboardInputAccessoryView.swift */,
-				408B320D1B0B7645001BB455 /* TextInputAccessoryView.xib */,
+				408B320D1B0B7645001BB455 /* KeyboardInputAccessoryView.xib */,
 				40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */,
 				40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */,
 				4064283F1B0E1CD2008E2023 /* PlaceholderedTextView.swift */,
@@ -290,6 +296,15 @@
 			path = TableViewCells;
 			sourceTree = "<group>";
 		};
+		C7E32E9D1B184619008A2233 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C7E32E9E1B184662008A2233 /* OSTextField.swift */,
+			);
+			name = Extensions;
+			path = Managers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -339,6 +354,7 @@
 				TargetAttributes = {
 					4084CFD51AFA611B000F8D47 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = KWNCHNHPA6;
 					};
 					4084CFEA1AFA611B000F8D47 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -375,7 +391,7 @@
 				40A139A31B0DB19A0010176D /* TutorialCollectionViewCell.xib in Resources */,
 				4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */,
 				40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */,
-				408B320E1B0B7645001BB455 /* TextInputAccessoryView.xib in Resources */,
+				408B320E1B0B7645001BB455 /* KeyboardInputAccessoryView.xib in Resources */,
 				40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */,
 				4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */,
 			);
@@ -409,6 +425,7 @@
 				40A7B6C51B12FC2F0097852F /* Affirmation.swift in Sources */,
 				40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */,
 				408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */,
+				C76E77721B189FE000986B6F /* SettingsTableViewController.swift in Sources */,
 				4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */,
 				40D1FD151B0F157B004AB814 /* VisualizationCollectionViewCell.swift in Sources */,
 				40A7B6FA1B1328810097852F /* UserMessage.swift in Sources */,
@@ -418,6 +435,7 @@
 				40A7B6C31B12F8240097852F /* SenseiModel.xcdatamodeld in Sources */,
 				408B320C1B0B7632001BB455 /* KeyboardInputAccessoryView.swift in Sources */,
 				40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */,
+				C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */,
 				404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */,
@@ -506,6 +524,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -543,6 +562,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -552,6 +572,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sensei/Frameworks",
@@ -560,7 +582,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1c205e46-ab4e-470d-8f4d-0142b2f64d36";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Debug;
 		};
@@ -568,6 +590,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sensei/Frameworks",
@@ -576,7 +600,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1c205e46-ab4e-470d-8f4d-0142b2f64d36";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Release;
 		};
