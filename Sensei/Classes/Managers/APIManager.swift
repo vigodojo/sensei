@@ -105,7 +105,7 @@ class APIManager: NSObject {
     
     private func addResponseDescriptoresForSessionManager(manager: RCSessionManager) {
         manager.addResponseDescriptor(Lesson.responseDescriptor)
-        manager.addResponseDescriptor(Question.responseDescriptor)
+        //manager.addResponseDescriptor(Question.responseDescriptor)
     }
     
     private func addRequestDescriptoresForSessionManager(manager: RCSessionManager) {

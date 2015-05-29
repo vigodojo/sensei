@@ -48,6 +48,7 @@
 		40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */; };
 		40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */; };
 		40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078F1B0B86D8009A2000 /* BaseViewController.swift */; };
+		C76E77721B189FE000986B6F /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76E77711B189FE000986B6F /* SettingsTableViewController.swift */; };
 		C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E32E9E1B184662008A2233 /* OSTextField.swift */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +108,7 @@
 		40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerInputAccessoryView.swift; sourceTree = "<group>"; };
 		40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerInputAccessoryView.xib; sourceTree = "<group>"; };
 		40EC078F1B0B86D8009A2000 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		C76E77711B189FE000986B6F /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		C7E32E9E1B184662008A2233 /* OSTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OSTextField.swift; path = Sensei/Classes/Extensions/OSTextField.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -179,6 +181,7 @@
 				404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */,
 				40A139A41B0DB72C0010176D /* UserMessageViewController.swift */,
 				40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */,
+				C76E77711B189FE000986B6F /* SettingsTableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				40A7B6C51B12FC2F0097852F /* Affirmation.swift in Sources */,
 				40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */,
 				408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */,
+				C76E77721B189FE000986B6F /* SettingsTableViewController.swift in Sources */,
 				4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */,
 				40D1FD151B0F157B004AB814 /* VisualizationCollectionViewCell.swift in Sources */,
 				40A7B6FA1B1328810097852F /* UserMessage.swift in Sources */,
