@@ -16,7 +16,7 @@ class SenseiViewController: BaseViewController {
         static let CellNibName = "SpeechBubbleCollectionViewCell"
         static let MinOpacity = CGFloat(0.2)
         static let DefaultCellHeight = CGFloat(30.0)
-        static let DefaultBottomSpace = CGFloat(90)
+        static let DefaultBottomSpace = CGFloat(66.0)
         static let DefaultAnimationDuration = 0.25
         static let ToAffirmationSegueIdentifier = "ToAffirmation"
         static let ToVizualizationSegueIdentifier = "ToVisualization"
@@ -31,8 +31,14 @@ class SenseiViewController: BaseViewController {
     }()
     
     private var maxContentOffset: CGPoint {
-        let y = collectionView.contentSize.height - CGRectGetHeight(collectionView.frame) + collectionView.contentInset.bottom
+        let y = collectionView.contentSize.height - CGRectGetHeight(collectionView.frame) + collectionView.contentInset.bottom + min(0, bottomContentInset)
         return CGPoint(x: 0, y: max(y, -collectionView.contentInset.top))
+    }
+    
+    private var bottomContentInset: CGFloat = 0
+    
+    private var collectionViewBottomContentInset: CGFloat {
+        return max(0, bottomContentInset)
     }
     
     private var dataSource = [Message]()
@@ -71,7 +77,8 @@ class SenseiViewController: BaseViewController {
     private func requestLessonsHistory() {
         APIManager.sharedInstance.lessonsHistoryWithCompletion { [weak self] (lessons, error) -> Void in
             if let lessons = lessons {
-                self?.addMessages(lessons.map {$0 as Message}, scroll: true, completion: nil)
+                self?.testLessons()
+//                self?.addMessages(lessons.map {$0 as Message}, scroll: true, completion: nil)
             }
         }
     }
@@ -97,7 +104,9 @@ class SenseiViewController: BaseViewController {
         let message7 = Lesson(text: "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne")
         self.addMessages([message0, message1, message2, message3, message4, message5, message6, message7], scroll: true)  {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                self.askQuestion(Question())
+                let question = Question()
+                question.text = "What is your favorit Black Metal band?"
+                self.askQuestion(question)
             }
         }
     }
@@ -117,9 +126,11 @@ class SenseiViewController: BaseViewController {
         
         dataSource += messages
         
-        collectionView.performBatchUpdates({ () -> Void in
+        collectionView.performBatchUpdates({ [unowned self] () -> Void in
             self.collectionView.insertItemsAtIndexPaths(indexPathes)
-        }, completion: { (finished) -> Void in
+        }, completion: { [unowned self] (finished) -> Void in
+            self.bottomContentInset = self.calculateBottomContentInset()
+            self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
             if scroll {
                 println("maxContentOffset = \(self.maxContentOffset)")
                 self.collectionView.setContentOffset(self.maxContentOffset, animated: true)
@@ -130,6 +141,25 @@ class SenseiViewController: BaseViewController {
         })
     }
     
+    private func calculateBottomContentInset() -> CGFloat {
+        if dataSource.count > 0 {
+            var index = dataSource.count - 1
+            var height: CGFloat = 0
+            while index > -1 && dataSource[index] is Answer {
+                let indexPath = NSIndexPath(forItem: index, inSection: 0)
+                let cellSize = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAtIndexPath: indexPath)
+                height += cellSize.height + (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing
+                index--
+            }
+            if index > -1 {
+                let lastIndexPath = NSIndexPath(forItem: index, inSection: 0)
+                let lastCellSize = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAtIndexPath: lastIndexPath)
+                return CGRectGetHeight(senseiImageView.frame) - lastCellSize.height - height
+            }
+        }
+        return 0
+    }
+    
     private func deleteMessageAtIndexPath(indexPath: NSIndexPath) {
         let message = dataSource.removeAtIndex(indexPath.item)
         if message is Lesson {
@@ -138,18 +168,12 @@ class SenseiViewController: BaseViewController {
         
         collectionView.performBatchUpdates({ () -> Void in
             self.collectionView.deleteItemsAtIndexPaths([indexPath])
-        }, completion: { (finished) -> Void in
-            self.collectionView.reloadData()
-            self.collectionView.layoutIfNeeded()
-            self.fadeCells()
-        })
+        }, completion: nil)
     }
     
     func removeAllExeptLessons() {
         dataSource = dataSource.filter { $0 is Lesson }
         collectionView.reloadData()
-        collectionView.layoutIfNeeded()
-        fadeCells()
     }
     
     func login() {
@@ -163,6 +187,7 @@ class SenseiViewController: BaseViewController {
         APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone) { [weak self] (error) -> Void in
             if let error = error {
                 println("Failed to login with error \(error)")
+                self?.testLessons()
             } else {
                 println("Logined successfuly")
                 self?.requestNextQuestion()
@@ -170,36 +195,15 @@ class SenseiViewController: BaseViewController {
         }
     }
     
-    //MARK: - UI
-    
-    private func fadeCells() {
-        var cells = collectionView.visibleCells() as! [UICollectionViewCell]
-        if cells.count == 0 {
-            return
-        }
-        
-        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        let height = CGRectGetHeight(collectionView.bounds) - layout.sectionInset.bottom
-        let maxY = CGRectGetMaxY(collectionView.bounds) - layout.sectionInset.bottom - collectionView.contentInset.bottom
-        
-        for (_, cell) in enumerate(cells) {
-            let opacity = 1 - ((maxY - CGRectGetMaxY(cell.frame)) / height)
-            cell.alpha = max(opacity, Constants.MinOpacity)
-        }
-    }
-    
     // MARK: - Keyboard
     
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
         if size.height > senseiBottomSpaceConstraint.constant {
-            var contentInset = UIEdgeInsetsZero
-            contentInset.bottom = size.height - Constants.DefaultBottomSpace
             view.layoutIfNeeded()
-            self.collectionView.contentInset = contentInset
-            UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
+            self.collectionView.contentInset.bottom = size.height - Constants.DefaultBottomSpace + collectionViewBottomContentInset
+            UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [unowned self] () -> Void in
                 self.senseiBottomSpaceConstraint.constant = size.height
                 self.collectionView.contentOffset = self.maxContentOffset
-                self.fadeCells()
                 self.view.layoutIfNeeded()
             }, completion: nil)
         }
@@ -207,10 +211,9 @@ class SenseiViewController: BaseViewController {
     
     override func keyboardWillHideWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
         view.layoutIfNeeded()
-        UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
+        UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [unowned self] () -> Void in
             self.senseiBottomSpaceConstraint.constant = Constants.DefaultBottomSpace
-            self.collectionView.contentInset.bottom = 0
-            self.fadeCells()
+            self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
@@ -260,22 +263,13 @@ extension SenseiViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: - UIScrollViewDelegate
-
-extension SenseiViewController: UIScrollViewDelegate {
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        fadeCells()
-    }
-}
-
 // MARK: - AnswerableViewDelegate
 
 extension SenseiViewController: AnswerableViewDelegate {
     
     func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: String) {
         addMessages([Answer(answer: answer)], scroll: true) { [weak self] in
-            if let question = self?.lastQuestion {
+            if let question = self?.lastQuestion where question.id != nil {
                 APIManager.sharedInstance.answerQuestionWithId(question.id!, answerText: answer) { [weak self] (error) -> Void in
                     if error == nil {
                         self?.requestNextQuestion()

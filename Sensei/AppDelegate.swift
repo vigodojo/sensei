@@ -30,10 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         token = token.stringByReplacingOccurrencesOfString(" ", withString: "", options: .CaseInsensitiveSearch, range: nil)
         token = token.stringByReplacingOccurrencesOfString("_", withString: "", options: .CaseInsensitiveSearch, range: nil)
         println("Sensei Device Token: \(token)")
-        let textField = UITextField(frame: CGRect(x: 50, y: 50, width: 300, height: 50))
-        textField.text = token;
-        window?.addSubview(textField);
-        let alert = UIAlertView(title: nil, message: token, delegate: nil, cancelButtonTitle: "OK")
     }
     
     func testCoreDataCreation() {

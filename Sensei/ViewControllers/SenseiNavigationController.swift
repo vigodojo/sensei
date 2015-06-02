@@ -14,7 +14,7 @@ class SenseiNavigationController: BaseViewController {
         static let TutorialCellNibName = "TutorialCollectionViewCell"
         static let TutorialCellHeight: CGFloat = 100
         static let NavigationCellNibName = "NavigationCollectionViewCell"
-        static let NavigationCellHeight: CGFloat = 40
+        static let NavigationCellHeight: CGFloat = 31
     }
 
     struct Item {

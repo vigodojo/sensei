@@ -16,8 +16,8 @@ enum UserMessageType: Printable {
     
     var description: String {
         switch self {
-            case .Affirmation: return "Affirmation"
-            case .Visualization: return "Visualization"
+            case .Affirmation: return "AFFIRMATION"
+            case .Visualization: return "VISUALIZATION"
         }
     }
 }
@@ -190,7 +190,6 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
     private func presentImagePickerControllerWithSourceType(sourceType: UIImagePickerControllerSourceType) {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        imagePicker.allowsEditing = true
         imagePicker.sourceType = sourceType
         presentViewController(imagePicker, animated: true, completion: nil)
     }
