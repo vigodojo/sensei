@@ -20,6 +20,22 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var textLabel: UILabel!
     
+    private let outlinedTextAttributes = [NSStrokeColorAttributeName: UIColor.whiteColor(),
+        NSForegroundColorAttributeName: UIColor.blackColor(),
+        NSStrokeWidthAttributeName:-6.0]
+    
+    var text: String? {
+        get {
+            return textLabel.text
+        } set {
+            if let text = newValue {
+                textLabel.attributedText = NSAttributedString(string: text, attributes: outlinedTextAttributes)
+            } else {
+                textLabel.text = ""
+            }
+        }
+    }
+    
     var editButtonHidden: Bool {
         get {
             return editButton.hidden

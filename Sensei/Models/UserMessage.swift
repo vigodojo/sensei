@@ -8,18 +8,27 @@
 
 import Foundation
 import CoreData
+import RestClient
 
-enum ReceiveTime: String {
+enum ReceiveTime: String, Printable {
     
-    case AnyTime = "ANY TIME"
-    case Morning = "START OF DAY"
-    case Evening = "END OF DAY"
+    case AnyTime = "any"
+    case Morning = "morning"
+    case Evening = "evening"
     
     init(string: String) {
         switch string {
-        case "START OF DAY": self = .Morning
-        case "END OF DAY": self = .Evening
-        default: self = .AnyTime
+            case "morning": self = .Morning
+            case "evening": self = .Evening
+            default: self = .AnyTime
+        }
+    }
+    
+    var description: String {
+        switch self {
+            case .AnyTime: return "ANY TIME"
+            case .Morning: return "START OF DAY"
+            case .Evening: return "END OF DAY"
         }
     }
 }
@@ -39,4 +48,21 @@ class UserMessage: NSManagedObject, Message {
             receiveTimeString = newValue.rawValue
         }
     }
+    
+    class var objectMapping: RCObjectMapping {
+        let mapping = RCObjectMapping(objectClass: Question.self, mappingArray: ["text"])
+        mapping.addPropertyMappingFromDictionary(["receiveTimeString": "timeToSend"])
+        return mapping
+    }
 }
+
+//class UserMessageNumberTransformer: NSObject, RCValueTransformerProtocol {
+//    
+//    @objc static func objectValueFromJSONValue(jsonValue: String!) -> AnyObject! {
+//        return NSNumber(integer: (jsonValue as NSString).integerValue)
+//    }
+//    
+//    @objc static func JSONValueFromObjectValue(objectValue: AnyObject!) -> String! {
+//        return (objectValue as! NSNumber).stringValue
+//    }
+//}

@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import RestClient
 
 class Affirmation: UserMessage {
     
@@ -45,5 +46,9 @@ class Affirmation: UserMessage {
         } else {
             return [Affirmation]()
         }
+    }
+    
+    class var requestDescriptor: RCRequestDescriptor {
+        return RCRequestDescriptor(objectMapping: Affirmation.objectMapping.inversMapping(), pathPattern: APIManager.APIPath.AffirmationPathPattern)
     }
 }

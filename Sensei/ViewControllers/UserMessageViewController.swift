@@ -14,6 +14,13 @@ enum UserMessageType: Printable {
     case Affirmation
     case Visualization
     
+    var numberOfUserMessages: Int {
+        switch self {
+            case .Affirmation: return 6
+            case .Visualization: return 5
+        }
+    }
+    
     var description: String {
         switch self {
             case .Affirmation: return "AFFIRMATION"
@@ -30,7 +37,6 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
         static let AffirmationCellReuseIdentifier = "AffirmationCollectionViewCell"
         static let AffirmationCellHeight: CGFloat = 110
         static let VisuaizationCellReuseIdentifier = "VisualizationCollectionViewCell"
-        static let NumberOfUserMessages = 6
     }
     
     override weak var navigationCell: NavigationCollectionViewCell? {
@@ -43,14 +49,14 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
     private var affirmationCell: AffirmationCollectionViewCell? {
         didSet {
             if messageSwitchCell?.selectedSlot == nil {
-                selectUserMessageWithNumber(NSNumber(integer:1))
+                selectUserMessageWithNumber(NSNumber(integer:0))
             }
         }
     }
     private var visualizationCell: VisualizationCollectionViewCell? {
         didSet {
             if messageSwitchCell?.selectedSlot == nil {
-                selectUserMessageWithNumber(NSNumber(integer:1))
+                selectUserMessageWithNumber(NSNumber(integer:0))
             }
         }
     }
@@ -71,8 +77,6 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
             case .Visualization: return Visualization.EntityName
         }
     }
-    
-//    var userMessages = [UserMessage]()
     
     override var tutorialOn: Bool {
         switch userMessageType {
@@ -111,6 +115,7 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
             visualizationCell?.delegate = self
         } else if cell is AffirmationCollectionViewCell {
             affirmationCell = (cell as? AffirmationCollectionViewCell)
+            affirmationCell?.delegate = self
         }
         return cell
     }
@@ -136,7 +141,7 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
     }
     
     private func selectUserMessageWithNumber(number: NSNumber) {
-        messageSwitchCell?.selectedSlot = number.integerValue - 1
+        messageSwitchCell?.selectedSlot = number.integerValue
         if let userMessage = userMessageWithNumber(number) {
             messageSwitchCell?.reseiveTime = userMessage.receiveTime
             switch userMessageType {
@@ -152,7 +157,7 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
             case .Affirmation:
                 affirmationCell?.textView.text = ""
             case .Visualization:
-                visualizationCell?.textLabel.text = ""
+                visualizationCell?.text = "ENTERED TEXT SUPER EMPOSED ON TOP OF IMAGE AT THE BOTTOM"
                 visualizationCell?.imageView.image = nil
             }
         }
@@ -163,7 +168,7 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
         let receiveTime = messageSwitchCell?.reseiveTime
         let text = affirmationCell?.textView.text
         if let index = index, receiveTime = receiveTime, text = text {
-            if let userMessage = userMessageWithNumber(index + 1) {
+            if let userMessage = userMessageWithNumber(index) {
                 if text.isEmpty {
                     CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(userMessage)
                     CoreDataManager.sharedInstance.saveContext()
@@ -173,10 +178,40 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
                     CoreDataManager.sharedInstance.saveContext()
                 }
             } else if !text.isEmpty {
-                Affirmation.createAffirmationNumber(index + 1, text: text, receiveTime: receiveTime)
+                Affirmation.createAffirmationNumber(index, text: text, receiveTime: receiveTime)
                 CoreDataManager.sharedInstance.saveContext()
             }
         }
+    }
+    
+    private func hasChangesBeenMade() -> Bool {
+        if let index = messageSwitchCell?.selectedSlot {
+            let receiveTime = messageSwitchCell?.reseiveTime ?? ReceiveTime.Morning
+            switch userMessageType {
+                case .Affirmation:
+                    let text = affirmationCell?.textView.text ?? ""
+                    if let affirmation = userMessageWithNumber(index) as? Affirmation {
+                        return hasAffirmationBeenChanged(affirmation, newText: text, newReceiveTime: receiveTime)
+                    }
+                    return !text.isEmpty
+                case .Visualization:
+                    let text = visualizationCell?.text ?? ""
+                    let image = visualizationCell?.imageView?.image
+                    if let visualization = userMessageWithNumber(index) as? Visualization {
+                        return hasVisualizationBeenChanged(visualization, newText: text, newReceiveTime: receiveTime, newImage: image)
+                    }
+                    return !text.isEmpty || image != nil
+            }
+        }
+        return false
+    }
+    
+    private func hasAffirmationBeenChanged(affirmation: Affirmation, newText: String, newReceiveTime: ReceiveTime) -> Bool {
+        return affirmation.text != newText || affirmation.receiveTime != newReceiveTime
+    }
+    
+    private func hasVisualizationBeenChanged(visualization: Visualization, newText: String, newReceiveTime: ReceiveTime, newImage: UIImage?) -> Bool {
+        return visualization.text != newText || visualization.receiveTime != newReceiveTime || visualization.picture != newImage
     }
     
     private func userMessageWithNumber(number: NSNumber) -> UserMessage? {
@@ -236,19 +271,29 @@ extension UserMessageViewController: MessageSwitchCollectionViewCellDelegate {
     }
     
     func numberOfSlotsInMessageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell) -> Int {
-        return Constants.NumberOfUserMessages
+        return userMessageType.numberOfUserMessages
     }
     
     func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectSlotAtIndex index: Int) {
-        selectUserMessageWithNumber(NSNumber(integer: index + 1))
+        selectUserMessageWithNumber(NSNumber(integer: index))
     }
     
     func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, isSlotEmptyAtIndex index: Int) -> Bool {
-        return userMessageWithNumber(NSNumber(integer: index + 1)) == nil
+        return userMessageWithNumber(NSNumber(integer: index)) == nil
     }
     
     func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectReceiveTime receiveTime: ReceiveTime) {
+        messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
         println("\(self) ReceiveTime \(receiveTime.rawValue)")
+    }
+}
+
+// MARK: - AffirmationCollectionViewCellDelegate
+
+extension UserMessageViewController: AffirmationCollectionViewCellDelegate {
+    
+    func affirmationCollectionViewCellDidChange(cell: AffirmationCollectionViewCell) {
+        messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
     }
 }
 
@@ -278,7 +323,7 @@ extension UserMessageViewController: VisualizationCollectionViewCellDelegate {
 extension UserMessageViewController: UIImagePickerControllerDelegate {
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             visualizationCell?.imageView.image = image
             picker.dismissViewControllerAnimated(true, completion: nil)
         }
@@ -297,18 +342,22 @@ extension UserMessageViewController: NSFetchedResultsControllerDelegate {
         if let userMessage = anObject as? UserMessage {
             switch type {
                 case .Insert:
-                    messageSwitchCell?.reloadSlotAtIndex(userMessage.number.integerValue - 1)
-                    let number = ((userMessage.number.integerValue) % Constants.NumberOfUserMessages) + 1
+                    messageSwitchCell?.reloadSlotAtIndex(userMessage.number.integerValue)
+                    let number = ((userMessage.number.integerValue + 1) % userMessageType.numberOfUserMessages)
                     selectUserMessageWithNumber(number)
+                    APIManager.sharedInstance.saveUserMessage(userMessage, handler: nil)
                 case .Update:
-                    let number = ((userMessage.number.integerValue) % Constants.NumberOfUserMessages) + 1
+                    let number = ((userMessage.number.integerValue + 1) % userMessageType.numberOfUserMessages)
                     selectUserMessageWithNumber(number)
+                    APIManager.sharedInstance.saveUserMessage(userMessage, handler: nil)
                 case .Delete:
-                    messageSwitchCell?.reloadSlotAtIndex(userMessage.number.integerValue - 1)
-                    messageSwitchCell?.selectedSlot = userMessage.number.integerValue - 1
+                    messageSwitchCell?.reloadSlotAtIndex(userMessage.number.integerValue)
+                    messageSwitchCell?.selectedSlot = userMessage.number.integerValue
+                    APIManager.sharedInstance.deleteUserMessage(userMessage, handler: nil)
                 default:
                     break
             }
+            messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
         }
     }
 }

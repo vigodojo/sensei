@@ -124,7 +124,7 @@ extension MessageSwitchCollectionViewCell: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(Constants.SwitchCellReuseIdentifier, forIndexPath: indexPath) as! SwitchTableViewCell
-        cell.titleLabel.text = "\(switchItems[indexPath.row].rawValue)"
+        cell.titleLabel.text = "\(switchItems[indexPath.row])"
         return cell
     }
 }

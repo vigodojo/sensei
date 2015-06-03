@@ -35,7 +35,24 @@ class SenseiViewController: BaseViewController {
         return CGPoint(x: 0, y: max(y, -collectionView.contentInset.top))
     }
     
-    private var bottomContentInset: CGFloat = 0
+    private var bottomContentInset: CGFloat {
+        if dataSource.count > 0 {
+            var index = dataSource.count - 1
+            var height: CGFloat = 0
+            while index > -1 && dataSource[index] is Answer {
+                let indexPath = NSIndexPath(forItem: index, inSection: 0)
+                let cellSize = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAtIndexPath: indexPath)
+                height += cellSize.height + (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing
+                index--
+            }
+            if index > -1 {
+                let lastIndexPath = NSIndexPath(forItem: index, inSection: 0)
+                let lastCellSize = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAtIndexPath: lastIndexPath)
+                return CGRectGetHeight(senseiImageView.frame) - lastCellSize.height - height
+            }
+        }
+        return 0
+    }
     
     private var collectionViewBottomContentInset: CGFloat {
         return max(0, bottomContentInset)
@@ -129,7 +146,6 @@ class SenseiViewController: BaseViewController {
         collectionView.performBatchUpdates({ [unowned self] () -> Void in
             self.collectionView.insertItemsAtIndexPaths(indexPathes)
         }, completion: { [unowned self] (finished) -> Void in
-            self.bottomContentInset = self.calculateBottomContentInset()
             self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
             if scroll {
                 println("maxContentOffset = \(self.maxContentOffset)")
@@ -139,25 +155,6 @@ class SenseiViewController: BaseViewController {
                 completion()
             }
         })
-    }
-    
-    private func calculateBottomContentInset() -> CGFloat {
-        if dataSource.count > 0 {
-            var index = dataSource.count - 1
-            var height: CGFloat = 0
-            while index > -1 && dataSource[index] is Answer {
-                let indexPath = NSIndexPath(forItem: index, inSection: 0)
-                let cellSize = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAtIndexPath: indexPath)
-                height += cellSize.height + (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing
-                index--
-            }
-            if index > -1 {
-                let lastIndexPath = NSIndexPath(forItem: index, inSection: 0)
-                let lastCellSize = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAtIndexPath: lastIndexPath)
-                return CGRectGetHeight(senseiImageView.frame) - lastCellSize.height - height
-            }
-        }
-        return 0
     }
     
     private func deleteMessageAtIndexPath(indexPath: NSIndexPath) {
@@ -174,6 +171,7 @@ class SenseiViewController: BaseViewController {
     func removeAllExeptLessons() {
         dataSource = dataSource.filter { $0 is Lesson }
         collectionView.reloadData()
+        collectionView.contentInset.bottom = collectionViewBottomContentInset
     }
     
     func login() {

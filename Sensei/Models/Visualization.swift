@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import RestClient
 
 class Visualization: UserMessage {
     
@@ -54,5 +55,9 @@ class Visualization: UserMessage {
         } else {
             return [Visualization]()
         }
+    }
+    
+    class var requestDescriptor: RCRequestDescriptor {
+        return RCRequestDescriptor(objectMapping: Visualization.objectMapping.inversMapping(), pathPattern: APIManager.APIPath.VisualizationPathPattern)
     }
 }

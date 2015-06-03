@@ -22,7 +22,11 @@ class APIManager: NSObject {
         static let BlockLesson = "/user/blockLesson"
         static let NextQuestion = "/question/next"
         static let AnswerQuestion = "/question/answer/"
-        static let AnswerQuestionPathPattern = "/question/answer/:id"
+        static let Affirmation = "/user/affirmation/"
+        static let AffirmationPathPattern = "/user/affirmation/:id"
+        static let Visualization = "/user/visualisation/"
+        static let VisualizationPathPattern = "/user/visualisation/:id"
+
     }
     
     var logined = false
@@ -102,6 +106,76 @@ class APIManager: NSObject {
         })
     }
     
+    // MARK: - User Message 
+    
+    func saveUserMessage(userMessage: UserMessage, handler: ErrorHandlerClosure?) {
+        if userMessage is Affirmation {
+            saveAffirmation(userMessage as! Affirmation, handler: handler)
+        } else if userMessage is Visualization {
+            saveVisualization(userMessage as! Visualization, handler: handler)
+        }
+    }
+    
+    func deleteUserMessage(userMessage: UserMessage, handler: ErrorHandlerClosure?) {
+        if userMessage is Affirmation {
+            deleteAffirmation(userMessage as! Affirmation, handler: handler)
+        } else if userMessage is Visualization {
+            deleteVisualization(userMessage as! Visualization, handler: handler)
+        }
+    }
+    
+    // MARK: - Affirmations
+    
+    func saveAffirmation(affirmation: Affirmation, handler: ErrorHandlerClosure?) {
+        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
+            builder.path = APIPath.Affirmation + "\(affirmation.number.integerValue)"
+            builder.requestMethod = RCRequestMethod.POST
+            builder.object = affirmation
+        }, completion: { (response) -> Void in
+            println("\(response)")
+            if let handler = handler {
+                handler(error: response.error)
+            }
+        })
+    }
+    
+    func deleteAffirmation(affirmation: Affirmation, handler: ErrorHandlerClosure?) {
+        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
+            builder.path = APIPath.Affirmation + "\(affirmation.number.integerValue)"
+            builder.requestMethod = RCRequestMethod.DELETE
+        }, completion: { (response) -> Void in
+            println("\(response)")
+            if let handler = handler {
+                handler(error: response.error)
+            }
+        })
+    }
+    
+    // MARK: - Visualizations
+    
+    func saveVisualization(visualization: Visualization, handler: ErrorHandlerClosure?) {
+        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
+            builder.path = APIPath.Visualization + "\(visualization.number.integerValue)"
+            builder.requestMethod = RCRequestMethod.POST
+            builder.object = visualization
+            }, completion: { (response) -> Void in
+                if let handler = handler {
+                    handler(error: response.error)
+                }
+        })
+    }
+    
+    func deleteVisualization(visualization: Visualization, handler: ErrorHandlerClosure?) {
+        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
+            builder.path = APIPath.Visualization + "\(visualization.number)"
+            builder.requestMethod = RCRequestMethod.DELETE
+        }, completion: { (response) -> Void in
+            if let handler = handler {
+                handler(error: response.error)
+            }
+        })
+    }
+    
     // MARK: - Private
     
     private func addResponseDescriptoresForSessionManager(manager: RCSessionManager) {
@@ -110,7 +184,7 @@ class APIManager: NSObject {
     }
     
     private func addRequestDescriptoresForSessionManager(manager: RCSessionManager) {
-        
+        manager.addRequestDescriptor(Affirmation.requestDescriptor)
     }
 }
 
