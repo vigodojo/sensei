@@ -10,8 +10,9 @@
 		4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */; };
 		4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */; };
 		4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F3321B04EDF200728202 /* SenseiViewController.swift */; };
+		401FBF931B20A221001DC2D0 /* SenseiModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 401FBF911B20A221001DC2D0 /* SenseiModel.xcdatamodeld */; };
 		402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402C32B11B0392180045BAD7 /* SenseiTabController.swift */; };
-		402F144C1B09F98D000C4261 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144B1B09F98D000C4261 /* Lesson.swift */; };
+		402F144C1B09F98D000C4261 /* LessonLite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144B1B09F98D000C4261 /* LessonLite.swift */; };
 		402F14501B09FBF6000C4261 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144F1B09FBF6000C4261 /* Question.swift */; };
 		402F14531B0A08AC000C4261 /* RestClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 402F14521B0A08AC000C4261 /* RestClient.framework */; };
 		402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F14561B0A0A24000C4261 /* TabSegue.swift */; };
@@ -39,10 +40,10 @@
 		40A139AE1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */; };
 		40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */; };
 		40A7B6C01B12F7A00097852F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7B6BF1B12F7A00097852F /* CoreDataManager.swift */; };
-		40A7B6C31B12F8240097852F /* SenseiModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 40A7B6C11B12F8240097852F /* SenseiModel.xcdatamodeld */; };
 		40A7B6C51B12FC2F0097852F /* Affirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7B6C41B12FC2F0097852F /* Affirmation.swift */; };
 		40A7B6C71B12FC300097852F /* Visualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7B6C61B12FC300097852F /* Visualization.swift */; };
 		40A7B6FA1B1328810097852F /* UserMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7B6F91B1328810097852F /* UserMessage.swift */; };
+		40B18CE61B205B9600817018 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B18CE51B205B9600817018 /* Lesson.swift */; };
 		40D1FD151B0F157B004AB814 /* VisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */; };
 		40D1FD171B0F57ED004AB814 /* EditVisualizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */; };
 		40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */; };
@@ -67,8 +68,9 @@
 		4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleView.swift; sourceTree = "<group>"; };
 		4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		4016F3321B04EDF200728202 /* SenseiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiViewController.swift; sourceTree = "<group>"; };
+		401FBF921B20A221001DC2D0 /* SenseiModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModel.xcdatamodel; sourceTree = "<group>"; };
 		402C32B11B0392180045BAD7 /* SenseiTabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiTabController.swift; sourceTree = "<group>"; };
-		402F144B1B09F98D000C4261 /* Lesson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
+		402F144B1B09F98D000C4261 /* LessonLite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonLite.swift; sourceTree = "<group>"; };
 		402F144F1B09FBF6000C4261 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		402F14521B0A08AC000C4261 /* RestClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RestClient.framework; sourceTree = "<group>"; };
 		402F14561B0A0A24000C4261 /* TabSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSegue.swift; sourceTree = "<group>"; };
@@ -100,10 +102,10 @@
 		40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffirmationCollectionViewCell.swift; sourceTree = "<group>"; };
 		40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeechBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		40A7B6BF1B12F7A00097852F /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		40A7B6C21B12F8240097852F /* SenseiModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModel.xcdatamodel; sourceTree = "<group>"; };
 		40A7B6C41B12FC2F0097852F /* Affirmation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Affirmation.swift; sourceTree = "<group>"; };
 		40A7B6C61B12FC300097852F /* Visualization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Visualization.swift; sourceTree = "<group>"; };
 		40A7B6F91B1328810097852F /* UserMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMessage.swift; sourceTree = "<group>"; };
+		40B18CE51B205B9600817018 /* Lesson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
 		40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVisualizationViewController.swift; sourceTree = "<group>"; };
 		40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -164,7 +166,8 @@
 		402C32AF1B0392180045BAD7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				402F144B1B09F98D000C4261 /* Lesson.swift */,
+				40B18CE51B205B9600817018 /* Lesson.swift */,
+				402F144B1B09F98D000C4261 /* LessonLite.swift */,
 				40A7B6F91B1328810097852F /* UserMessage.swift */,
 				40A7B6C41B12FC2F0097852F /* Affirmation.swift */,
 				40A7B6C61B12FC300097852F /* Visualization.swift */,
@@ -251,6 +254,7 @@
 		4084CFD81AFA611B000F8D47 /* Sensei */ = {
 			isa = PBXGroup;
 			children = (
+				401FBF911B20A221001DC2D0 /* SenseiModel.xcdatamodeld */,
 				402F14511B0A08AC000C4261 /* Frameworks */,
 				402C32AE1B0392180045BAD7 /* Classes */,
 				402C32AF1B0392180045BAD7 /* Models */,
@@ -258,7 +262,6 @@
 				402C32B01B0392180045BAD7 /* ViewControllers */,
 				4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */,
 				4084CFDF1AFA611B000F8D47 /* Main.storyboard */,
-				40A7B6C11B12F8240097852F /* SenseiModel.xcdatamodeld */,
 				4084CFE21AFA611B000F8D47 /* Images.xcassets */,
 				4084CFD91AFA611B000F8D47 /* Supporting Files */,
 			);
@@ -419,9 +422,11 @@
 				404F60FC1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift in Sources */,
 				406266DB1B1D9FF700F161B6 /* FadingGradientView.swift in Sources */,
 				406428401B0E1CD2008E2023 /* PlaceholderedTextView.swift in Sources */,
+				40B18CE61B205B9600817018 /* Lesson.swift in Sources */,
 				40A139A71B0DC5450010176D /* MessageSwitchCollectionViewCell.swift in Sources */,
 				402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */,
 				402F14591B0A0A42000C4261 /* APIManager.swift in Sources */,
+				401FBF931B20A221001DC2D0 /* SenseiModel.xcdatamodeld in Sources */,
 				40A7B6C71B12FC300097852F /* Visualization.swift in Sources */,
 				402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */,
 				40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */,
@@ -436,7 +441,6 @@
 				402F14501B09FBF6000C4261 /* Question.swift in Sources */,
 				40A139A91B0DC68D0010176D /* SlotCollectionViewCell.swift in Sources */,
 				40A139AC1B0DFFED0010176D /* SwitchTableViewCell.swift in Sources */,
-				40A7B6C31B12F8240097852F /* SenseiModel.xcdatamodeld in Sources */,
 				408B320C1B0B7632001BB455 /* KeyboardInputAccessoryView.swift in Sources */,
 				40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */,
 				C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */,
@@ -445,7 +449,7 @@
 				404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */,
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,
 				40A139AE1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift in Sources */,
-				402F144C1B09F98D000C4261 /* Lesson.swift in Sources */,
+				402F144C1B09F98D000C4261 /* LessonLite.swift in Sources */,
 				40A7B6C01B12F7A00097852F /* CoreDataManager.swift in Sources */,
 				40A139A51B0DB72C0010176D /* UserMessageViewController.swift in Sources */,
 			);
@@ -675,12 +679,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		40A7B6C11B12F8240097852F /* SenseiModel.xcdatamodeld */ = {
+		401FBF911B20A221001DC2D0 /* SenseiModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				40A7B6C21B12F8240097852F /* SenseiModel.xcdatamodel */,
+				401FBF921B20A221001DC2D0 /* SenseiModel.xcdatamodel */,
 			);
-			currentVersion = 40A7B6C21B12F8240097852F /* SenseiModel.xcdatamodel */;
+			currentVersion = 401FBF921B20A221001DC2D0 /* SenseiModel.xcdatamodel */;
 			path = SenseiModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

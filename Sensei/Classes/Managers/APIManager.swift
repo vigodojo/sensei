@@ -57,14 +57,24 @@ class APIManager: NSObject {
     
     // MARK: - Lessons
     
-    func lessonsHistoryWithCompletion(handler: ((lessons: [Lesson]?, error: NSError?) -> Void)?) {
+    func lessonsHistoryWithCompletion(handler: ((lessons: [LessonLite]?, error: NSError?) -> Void)?) {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
             builder.path = APIPath.LessonsHistory
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
-            if let handler = handler {
-                handler(lessons: response.object as? [Lesson], error: response.error)
-            }
+//            response.object = [["lessonId": "0", "text": "qwerty", "date": "2015-05-22T09:10:41.755Z"],
+//            ["lessonId": "1", "text": "asdfg", "date": "2015-05-22T09:15:41.755Z"],
+//            ["lessonId": "2", "text": "zxcv", "date": "2015-05-23T09:09:41.755Z"],
+//            ["lessonId": "0", "text": "qwerty", "date": "2015-05-24T09:10:00.755Z"]]
+            response.object = [["lessonId": "1", "text": "asdfg", "date": "2015-05-22T09:15:41.755Z"],
+                ["lessonId": "2", "text": "vcxz", "date": "2015-05-23T09:09:41.755Z"],
+                ["lessonId": "0", "text": "qwerty", "date": "2015-05-24T09:10:00.755Z"],
+                ["lessonId": "3", "text": "yuio", "date": "2015-05-27T09:12:00.755Z"],
+                ["lessonId": "5", "text": "Black", "date": "2015-05-29T09:19:00.755Z"]]
+            let lessons = CoreDataManager.sharedInstance.mergeJSONs(response.object as? [[NSObject: AnyObject]], entityMapping: Lesson.entityMapping)
+//            if let handler = handler {
+//                handler(lessons: lessons as? [Lesson], error: response.error)
+//            }
         })
     }
     
@@ -179,7 +189,7 @@ class APIManager: NSObject {
     // MARK: - Private
     
     private func addResponseDescriptoresForSessionManager(manager: RCSessionManager) {
-        manager.addResponseDescriptor(Lesson.responseDescriptor)
+        manager.addResponseDescriptor(LessonLite.responseDescriptor)
         manager.addResponseDescriptor(Question.responseDescriptor)
     }
     

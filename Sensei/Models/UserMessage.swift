@@ -55,14 +55,3 @@ class UserMessage: NSManagedObject, Message {
         return mapping
     }
 }
-
-//class UserMessageNumberTransformer: NSObject, RCValueTransformerProtocol {
-//    
-//    @objc static func objectValueFromJSONValue(jsonValue: String!) -> AnyObject! {
-//        return NSNumber(integer: (jsonValue as NSString).integerValue)
-//    }
-//    
-//    @objc static func JSONValueFromObjectValue(objectValue: AnyObject!) -> String! {
-//        return (objectValue as! NSNumber).stringValue
-//    }
-//}

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Affirmation" representedClassName="Sensei.Affirmation" parentEntity="UserMessage" syncable="YES"/>
+    <entity name="Lesson" representedClassName="Sensei.Lesson" syncable="YES">
+        <attribute name="date" attributeType="Date" syncable="YES"/>
+        <attribute name="lessonId" attributeType="String" syncable="YES"/>
+        <attribute name="text" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="UserMessage" representedClassName="Sensei.UserMessage" isAbstract="YES" syncable="YES">
         <attribute name="number" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="receiveTimeString" attributeType="String" defaultValueString="ANY TIME" syncable="YES"/>
@@ -11,8 +16,9 @@
         <attribute name="pictureData" optional="YES" attributeType="Binary" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Affirmation" positionX="133" positionY="117" width="128" height="43"/>
+        <element name="Lesson" positionX="-378" positionY="-18" width="128" height="90"/>
         <element name="UserMessage" positionX="-63" positionY="-18" width="128" height="103"/>
         <element name="Visualization" positionX="-234" positionY="108" width="128" height="58"/>
-        <element name="Affirmation" positionX="133" positionY="117" width="128" height="43"/>
     </elements>
 </model>

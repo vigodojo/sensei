@@ -1,38 +1,45 @@
 //
-//  Message.swift
+//  Lesson.swift
 //  Sensei
 //
-//  Created by Sauron Black on 5/18/15.
+//  Created by Sauron Black on 6/4/15.
 //  Copyright (c) 2015 ThinkMobiles. All rights reserved.
 //
 
 import Foundation
 import RestClient
+import CoreData
 
-protocol Message: NSObjectProtocol {
+class Lesson: NSManagedObject, Message {
+
+    static let EntityName = "Lesson"
     
-    var text: String { get set }
+    @NSManaged var lessonId: String
+    @NSManaged var text: String
+    @NSManaged var date: NSDate
+
+    class var entityMapping: EntityMapping {
+        let propertyMapping = ["lessonId": "lessonId", "text": "text", "date": "date"]
+        return EntityMapping(entityName: "Lesson", propertyMapping: propertyMapping, primaryProperty: "date", valueTransformers: ["date": LessonDateTransformer()])
+    }
 }
 
-class Lesson: NSObject, Message {
+class LessonDateTransformer: JSONValueTransformerProtocol {
     
-    var lessonId = ""
-    var text = ""
-    var date = NSDate()
+    static var dateFormatter: NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return formatter
+    }()
     
-    override init() {
-        super.init()
+    func valueFromString(string: String) -> AnyObject? {
+        return LessonDateTransformer.dateFormatter.dateFromString(string)
     }
     
-    init(text: String) {
-        self.text = text
-    }
-    
-    class var objectMapping: RCObjectMapping {
-        return RCObjectMapping(objectClass: Lesson.self, mappingArray: ["lessonId", "text", "date"])
-    }
-    
-    class var responseDescriptor: RCResponseDescriptor {
-        return RCResponseDescriptor(objectMapping: Lesson.objectMapping, pathPattern: APIManager.APIPath.LessonsHistory)
+    func stringFromValue(value: AnyObject) -> String? {
+        if let date = value as? NSDate {
+            return LessonDateTransformer.dateFormatter.stringFromDate(date)
+        }
+        return nil
     }
 }
