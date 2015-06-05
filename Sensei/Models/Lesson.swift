@@ -7,8 +7,13 @@
 //
 
 import Foundation
-import RestClient
 import CoreData
+
+protocol Message: NSObjectProtocol {
+    
+    var text: String { get set }
+    var date: NSDate { get set }
+}
 
 class Lesson: NSManagedObject, Message {
 

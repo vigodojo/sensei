@@ -100,7 +100,7 @@ class SenseiViewController: BaseViewController {
         collectionView.contentInset.top = offset
     }
     
-    //MARK: - Logic
+    // MARK: - Private
     
     private func fetchLessons() {
         var error: NSError? = nil
@@ -110,16 +110,12 @@ class SenseiViewController: BaseViewController {
         }
         if let lessons = lessonsFetchedResultController.fetchedObjects as? [Lesson] {
             dataSource += lessons.map {$0 as Message}
+            reloadSectionAnimated()
         }
     }
     
     private func requestLessonsHistory() {
-        APIManager.sharedInstance.lessonsHistoryWithCompletion { [weak self] (lessons, error) -> Void in
-            if let lessons = lessons where lessons.count > 0 {
-//                self?.testLessons()
-                self?.addMessages(lessons.map {$0 as Message}, scroll: true, completion: nil)
-            }
-        }
+        APIManager.sharedInstance.lessonsHistory()
     }
     
     private func requestNextQuestion() {
@@ -128,24 +124,6 @@ class SenseiViewController: BaseViewController {
                 self?.requestLessonsHistory()
             } else if let question = question {
                 self?.askQuestion(question)
-            }
-        }
-    }
-    
-    private func testLessons() {
-        let message0 = LessonLite(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
-        let message1 = LessonLite(text: "Alle warten auf das Licht\nFürchtet euch fürchtet euch nicht\nDie Sonne scheint mir aus den Augen\nsie wird heut Nacht nicht untergehen\nund die Welt zählt laut bis zehn")
-        let message2 = LessonLite(text: "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne")
-        let message3 = LessonLite(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
-        let message4 = LessonLite(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
-        let message5 = LessonLite(text: "Alle warten auf das Licht. Fürchtet euch fürchtet euch nicht. Die Sonne scheint mir aus den Augen. sie wird heut Nacht nicht untergehen. und die Welt zählt laut bis zehn")
-        let message6 = LessonLite(text: "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.")
-        let message7 = LessonLite(text: "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne")
-        self.addMessages([message0, message1, message2, message3, message4, message5, message6, message7], scroll: true)  {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                let question = Question()
-                question.text = "What is your favorit Black Metal band?"
-                self.askQuestion(question)
             }
         }
     }
@@ -196,10 +174,19 @@ class SenseiViewController: BaseViewController {
         collectionView.contentInset.bottom = collectionViewBottomContentInset
     }
     
+    func reloadSectionAnimated() {
+        collectionView.performBatchUpdates({ [unowned self] () -> Void in
+            self.collectionView.reloadSections(NSIndexSet(index: 0))
+        }, completion: { [unowned self] (finished) -> Void in
+            self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
+            self.collectionView.setContentOffset(self.maxContentOffset, animated: true)
+        })
+    }
+    
     func login() {
         // TODO: - DELETE HARDCODED IDFA
-        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-//        let idfa = "8B83C19B-E20F-4179-9B1D-E65CA6494F36"
+//        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+        let idfa = "8B83C19B-E20F-4179-9B1D-E65CA6494F36"
 //        let idfa = NSUUID().UUIDString
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         println("IDFA = \(idfa)")
@@ -207,7 +194,6 @@ class SenseiViewController: BaseViewController {
         APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone) { [weak self] (error) -> Void in
             if let error = error {
                 println("Failed to login with error \(error)")
-                self?.requestLessonsHistory()
             } else {
                 println("Logined successfuly")
                 self?.requestNextQuestion()
@@ -326,16 +312,14 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
                 case .Delete:
                     dataSource = dataSource.filter() {
                         if $0 is Lesson {
-                            return ($0 as! Lesson).lessonId != lesson.lessonId
+                            return ($0 as! Lesson).date != lesson.date
                         }
                         return true
                     }
-                    println("Deleted \(lesson.date) \(lesson.text)")
-                case .Update:
-                    break
+                    println("Deleted \(lesson.date)")
                 case .Insert:
                     dataSource.append(lesson as Message)
-                    println("Inserted \(lesson.date) \(lesson.text)")
+                    println("Inserted \(lesson.date)")
                     break
                 default:
                     break
@@ -345,12 +329,7 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
     }
 
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        collectionView.performBatchUpdates({ [unowned self] () -> Void in
-            self.collectionView.reloadSections(NSIndexSet(index: 0))
-        }, completion: { [unowned self] (finished) -> Void in
-            self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
-            self.collectionView.setContentOffset(self.maxContentOffset, animated: true)
-        })
-        
+        dataSource.sort { $0.date.compare($1.date) == .OrderedAscending }
+        reloadSectionAnimated()
     }
 }

@@ -23,6 +23,7 @@ class Question: NSObject, Message {
     var questionText: String?
     var potentialAnswers: [AnyObject]?
     var answerTypeRawValue: String?
+    var date = NSDate()
     
     var text: String {
         get {

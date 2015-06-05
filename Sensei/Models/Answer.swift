@@ -11,6 +11,7 @@ import Foundation
 class Answer: NSObject, Message {
     
     var text = ""
+    var date = NSDate()
     
     init(answer: String) {
         text = answer

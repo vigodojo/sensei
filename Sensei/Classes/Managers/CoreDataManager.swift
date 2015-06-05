@@ -85,16 +85,19 @@ class CoreDataManager {
     
     // MARK: Merging
     
-    func mergeJSONs(jsons: [[NSObject: AnyObject]]?, entityMapping: EntityMapping) -> [NSManagedObject]? {
+    func mergeJSONs(jsons: [[NSObject: AnyObject]]?, entityMapping: EntityMapping) {
         if let jsons = jsons where NSJSONSerialization.isValidJSONObject(jsons) {
             let newPrimaryValues = jsons.map { entityMapping.valueForProperty(entityMapping.primaryProperty, json: $0)! }
             let sortDescriptor = [NSSortDescriptor(key: entityMapping.primaryProperty, ascending: true)]
+            
             if let fetchedObjects = fetchObjectsWithEntityName(entityMapping.entityName, sortDescriptors: sortDescriptor) {
-                for (_, managedObject) in enumerate(fetchedObjects) {
+                
+                for managedObject in fetchedObjects {
                     if !(newPrimaryValues as NSArray).containsObject(managedObject.valueForKey(entityMapping.primaryProperty)!) {
                         self.managedObjectContext!.deleteObject(managedObject)
                     }
                 }
+                
                 let oldPrimaryValues = fetchedObjects.map { $0.valueForKey(entityMapping.primaryProperty)! }
                 for json in jsons {
                     let jsonPrimaryKey = entityMapping.propertyMapping[entityMapping.primaryProperty]!
@@ -112,7 +115,6 @@ class CoreDataManager {
             }
         }
         saveContext()
-        return nil
     }
     
     func createEntityObjectFromJSON(json: [NSObject: AnyObject], entityMapping: EntityMapping) -> NSManagedObject {
@@ -123,20 +125,20 @@ class CoreDataManager {
         return object
     }
     
-    func updateEntityObject(object: NSManagedObject, withJSON json: [NSObject: AnyObject], entityMapping: EntityMapping) -> NSManagedObject {
+    func updateEntityObject(object: NSManagedObject, withJSON json: [NSObject: AnyObject], entityMapping: EntityMapping) {
         for (objectKey, jsonKey) in entityMapping.propertyMapping {
             let jsonValue = entityMapping.valueForProperty(objectKey, json: json) as? NSObject
             if (object.valueForKey(objectKey) as? NSObject) != jsonValue {
                 object.setValue(jsonValue, forKey: objectKey)
             }
         }
-        return object
     }
 }
 
 // MARK: - MAPPING
 
-protocol JSONValueTransformerProtocol {
+protocol JSONValueTransformerProtocol
+{
     func valueFromString(string: String) -> AnyObject?
     func stringFromValue(value: AnyObject) -> String?
 }

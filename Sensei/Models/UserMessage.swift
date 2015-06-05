@@ -39,6 +39,7 @@ class UserMessage: NSManagedObject, Message {
     @NSManaged var text: String
     @NSManaged var savedOnServer: NSNumber
     @NSManaged private var receiveTimeString: String
+    var date = NSDate()
 
     var receiveTime: ReceiveTime {
         get {

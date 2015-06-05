@@ -57,24 +57,14 @@ class APIManager: NSObject {
     
     // MARK: - Lessons
     
-    func lessonsHistoryWithCompletion(handler: ((lessons: [LessonLite]?, error: NSError?) -> Void)?) {
+    func lessonsHistory() {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
             builder.path = APIPath.LessonsHistory
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
-//            response.object = [["lessonId": "0", "text": "qwerty", "date": "2015-05-22T09:10:41.755Z"],
-//            ["lessonId": "1", "text": "asdfg", "date": "2015-05-22T09:15:41.755Z"],
-//            ["lessonId": "2", "text": "zxcv", "date": "2015-05-23T09:09:41.755Z"],
-//            ["lessonId": "0", "text": "qwerty", "date": "2015-05-24T09:10:00.755Z"]]
-            response.object = [["lessonId": "1", "text": "asdfg", "date": "2015-05-22T09:15:41.755Z"],
-                ["lessonId": "2", "text": "vcxz", "date": "2015-05-23T09:09:41.755Z"],
-                ["lessonId": "0", "text": "qwerty", "date": "2015-05-24T09:10:00.755Z"],
-                ["lessonId": "3", "text": "yuio", "date": "2015-05-27T09:12:00.755Z"],
-                ["lessonId": "5", "text": "Black", "date": "2015-05-29T09:19:00.755Z"]]
-            let lessons = CoreDataManager.sharedInstance.mergeJSONs(response.object as? [[NSObject: AnyObject]], entityMapping: Lesson.entityMapping)
-//            if let handler = handler {
-//                handler(lessons: lessons as? [Lesson], error: response.error)
-//            }
+            if response.error == nil {
+                CoreDataManager.sharedInstance.mergeJSONs(response.object as? [[NSObject: AnyObject]], entityMapping: Lesson.entityMapping)
+            }
         })
     }
     
@@ -189,7 +179,6 @@ class APIManager: NSObject {
     // MARK: - Private
     
     private func addResponseDescriptoresForSessionManager(manager: RCSessionManager) {
-        manager.addResponseDescriptor(LessonLite.responseDescriptor)
         manager.addResponseDescriptor(Question.responseDescriptor)
     }
     
@@ -202,5 +191,27 @@ extension APIManager: RCSessionManagerDelegate {
     
     func sessionManager(sessionManager: RCSessionManager!, didReceivedResponse response: RCResponse!) {
         //
+    }
+}
+
+// MARK: - Test Data
+
+extension APIManager {
+    
+    func testLessonJSONsForFirstWeek() -> [[NSObject: AnyObject]] {
+        let lessonJSON0 = ["lessonId": "0", "text": "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.", "date": "2015-05-22T09:00:00.755Z"]
+        let lessonJSON1 = ["lessonId": "1", "text": "Alle warten auf das Licht\nFürchtet euch fürchtet euch nicht\nDie Sonne scheint mir aus den Augen\nsie wird heut Nacht nicht untergehen\nund die Welt zählt laut bis zehn", "date": "2015-05-22T010:00:00.755Z"]
+        let lessonJSON2 = ["lessonId": "2", "text": "eins\nHier kommt die Sonne\nzwei\n Hier kommt die Sonne \ndrei\nSie ist der hellste Stern von allen\nvier\nHier kommt die Sonne", "date": "2015-05-23T09:40:00.755Z"]
+        let lessonJSON3 = ["lessonId": "0", "text": "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.", "date": "2015-05-24T09:10:00.755Z"]
+        return [lessonJSON0, lessonJSON1, lessonJSON2, lessonJSON3]
+    }
+    
+    func testLessonJSONsForSecondWeek() -> [[NSObject: AnyObject]] {
+        let lessonJSON0 = ["lessonId": "1", "text": "Alle warten auf das Licht\nFürchtet euch fürchtet euch nicht\nDie Sonne scheint mir aus den Augen\nsie wird heut Nacht nicht untergehen\nund die Welt zählt laut bis zehn", "date": "2015-05-22T10:00:00.755Z"]
+        let lessonJSON1 = ["lessonId": "2", "text": "Schwarzalbenheims Gewurm\nSchmiedet solch schimmerndes Gold\nDer Gotter Glorie gestaltend\nAus der erde Geader", "date": "2015-05-23T09:40:00.755Z"]
+        let lessonJSON2 = ["lessonId": "0", "text": "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.", "date": "2015-05-24T09:10:00.755Z"]
+        let lessonJSON3 = ["lessonId": "3", "text": "Eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, aus.", "date": "2015-05-25T16:30:00.755Z"]
+        let lessonJSON4 = ["lessonId": "2", "text": "Schwarzalbenheims Gewurm\nSchmiedet solch schimmerndes Gold\nDer Gotter Glorie gestaltend\nAus der erde Geader", "date": "2015-05-27T13:00:00.755Z"]
+        return [lessonJSON0, lessonJSON1, lessonJSON2, lessonJSON3, lessonJSON4]
     }
 }

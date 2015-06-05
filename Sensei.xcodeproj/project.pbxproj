@@ -12,7 +12,6 @@
 		4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F3321B04EDF200728202 /* SenseiViewController.swift */; };
 		401FBF931B20A221001DC2D0 /* SenseiModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 401FBF911B20A221001DC2D0 /* SenseiModel.xcdatamodeld */; };
 		402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402C32B11B0392180045BAD7 /* SenseiTabController.swift */; };
-		402F144C1B09F98D000C4261 /* LessonLite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144B1B09F98D000C4261 /* LessonLite.swift */; };
 		402F14501B09FBF6000C4261 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F144F1B09FBF6000C4261 /* Question.swift */; };
 		402F14531B0A08AC000C4261 /* RestClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 402F14521B0A08AC000C4261 /* RestClient.framework */; };
 		402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F14561B0A0A24000C4261 /* TabSegue.swift */; };
@@ -70,7 +69,6 @@
 		4016F3321B04EDF200728202 /* SenseiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiViewController.swift; sourceTree = "<group>"; };
 		401FBF921B20A221001DC2D0 /* SenseiModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModel.xcdatamodel; sourceTree = "<group>"; };
 		402C32B11B0392180045BAD7 /* SenseiTabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiTabController.swift; sourceTree = "<group>"; };
-		402F144B1B09F98D000C4261 /* LessonLite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonLite.swift; sourceTree = "<group>"; };
 		402F144F1B09FBF6000C4261 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		402F14521B0A08AC000C4261 /* RestClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RestClient.framework; sourceTree = "<group>"; };
 		402F14561B0A0A24000C4261 /* TabSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSegue.swift; sourceTree = "<group>"; };
@@ -167,7 +165,6 @@
 			isa = PBXGroup;
 			children = (
 				40B18CE51B205B9600817018 /* Lesson.swift */,
-				402F144B1B09F98D000C4261 /* LessonLite.swift */,
 				40A7B6F91B1328810097852F /* UserMessage.swift */,
 				40A7B6C41B12FC2F0097852F /* Affirmation.swift */,
 				40A7B6C61B12FC300097852F /* Visualization.swift */,
@@ -449,7 +446,6 @@
 				404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */,
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,
 				40A139AE1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift in Sources */,
-				402F144C1B09F98D000C4261 /* LessonLite.swift in Sources */,
 				40A7B6C01B12F7A00097852F /* CoreDataManager.swift in Sources */,
 				40A139A51B0DB72C0010176D /* UserMessageViewController.swift in Sources */,
 			);
