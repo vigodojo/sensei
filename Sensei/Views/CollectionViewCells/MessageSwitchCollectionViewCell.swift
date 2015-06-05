@@ -20,8 +20,8 @@ protocol MessageSwitchCollectionViewCellDelegate: class {
 class MessageSwitchCollectionViewCell: UICollectionViewCell {
     
     private struct Constants {
-        static let SlotCellReuseIdentifier = "SlotCollectionViewCell"
-        static let SwitchCellReuseIdentifier = "SwitchTableViewCell"
+        static let SlotCellNibName = "SlotCollectionViewCell"
+        static let SwitchCellNibName = "SwitchTableViewCell"
         static let EmtySlotTextColor = UIColor(hexColor: 0xEA212D)
         static let FilledSlotTextColor = UIColor.blackColor()
     }
@@ -72,6 +72,8 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        slotsCollectionView.registerNib(UINib(nibName: Constants.SlotCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.SlotCellNibName)
+        switchTableView.registerNib(UINib(nibName: Constants.SwitchCellNibName, bundle: nil), forCellReuseIdentifier: Constants.SwitchCellNibName)
         contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
     }
     
@@ -97,7 +99,7 @@ extension MessageSwitchCollectionViewCell: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.SlotCellReuseIdentifier, forIndexPath: indexPath) as! SlotCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.SlotCellNibName, forIndexPath: indexPath) as! SlotCollectionViewCell
         cell.titleLabel.text = "\(indexPath.item + 1)"
         let isEmpty = delegate?.messageSwitchCollectionViewCell(self, isSlotEmptyAtIndex: indexPath.item) ?? true
         cell.titleLabel.textColor = isEmpty ? Constants.EmtySlotTextColor: Constants.FilledSlotTextColor
@@ -123,7 +125,7 @@ extension MessageSwitchCollectionViewCell: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(Constants.SwitchCellReuseIdentifier, forIndexPath: indexPath) as! SwitchTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(Constants.SwitchCellNibName, forIndexPath: indexPath) as! SwitchTableViewCell
         cell.titleLabel.text = "\(switchItems[indexPath.row])"
         return cell
     }

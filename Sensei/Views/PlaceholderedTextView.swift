@@ -29,13 +29,12 @@ class PlaceholderedTextView: UITextView {
             }
         }
         set {
-            if !newValue.isEmpty {
+            if !newValue.isEmpty && newValue != placeholder {
                 super.text = newValue
                 textColor = normalTextColor
             } else {
                 super.text = placeholder
                 textColor = placeholderColor
-                
             }
             delegate?.textViewDidChange?(self)
         }

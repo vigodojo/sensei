@@ -19,8 +19,6 @@ class SenseiViewController: BaseViewController {
         static let DefaultCellHeight = CGFloat(30.0)
         static let DefaultBottomSpace = CGFloat(66.0)
         static let DefaultAnimationDuration = 0.25
-        static let ToAffirmationSegueIdentifier = "ToAffirmation"
-        static let ToVizualizationSegueIdentifier = "ToVisualization"
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -185,8 +183,8 @@ class SenseiViewController: BaseViewController {
     
     func login() {
         // TODO: - DELETE HARDCODED IDFA
-//        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-        let idfa = "8B83C19B-E20F-4179-9B1D-E65CA6494F36"
+        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+//        let idfa = "8B83C19B-E20F-4179-9B1D-E65CA6494F36"
 //        let idfa = NSUUID().UUIDString
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         println("IDFA = \(idfa)")
@@ -222,21 +220,6 @@ class SenseiViewController: BaseViewController {
             self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
             self.view.layoutIfNeeded()
         }, completion: nil)
-    }
-    
-    // MARK: - Navigation
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let identifier = segue.identifier, destinationViewController = segue.destinationViewController as? UserMessageViewController {
-            switch identifier {
-                case Constants.ToAffirmationSegueIdentifier:
-                    destinationViewController.userMessageType = UserMessageType.Affirmation
-                case Constants.ToVizualizationSegueIdentifier:
-                    destinationViewController.userMessageType = UserMessageType.Visualization
-                default:
-                    break
-            }
-        }
     }
 }
 

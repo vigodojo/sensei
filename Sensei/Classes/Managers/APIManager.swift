@@ -26,7 +26,6 @@ class APIManager: NSObject {
         static let AffirmationPathPattern = "/user/affirmation/:id"
         static let Visualization = "/user/visualisation/"
         static let VisualizationPathPattern = "/user/visualisation/:id"
-
     }
     
     var logined = false

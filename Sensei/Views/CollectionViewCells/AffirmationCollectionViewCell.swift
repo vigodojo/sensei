@@ -19,6 +19,8 @@ class AffirmationCollectionViewCell: UICollectionViewCell {
     weak var delegate: AffirmationCollectionViewCellDelegate?
 }
 
+// MARK: - UITextViewDelegate
+
 extension AffirmationCollectionViewCell: UITextViewDelegate {
     
     func textViewDidChange(textView: UITextView) {

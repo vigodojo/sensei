@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MessageSwitchCollectionViewCell" id="eaN-KN-cME" customClass="MessageSwitchCollectionViewCell" customModule="Sensei" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="245" horizontalCompressionResistancePriority="740" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Lxt-n0-lHH" userLabel="Slots Collection View">
+                        <rect key="frame" x="15" y="14" width="234" height="29"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="29" id="bcT-9x-dRk"/>
+                        </constraints>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="Cx7-Y7-wdh">
+                            <size key="itemSize" width="28" height="28"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells/>
+                        <connections>
+                            <outlet property="dataSource" destination="eaN-KN-cME" id="Pvc-aP-xhA"/>
+                            <outlet property="delegate" destination="eaN-KN-cME" id="9ds-GX-pZ7"/>
+                        </connections>
+                    </collectionView>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfZ-FQ-nS2">
+                        <rect key="frame" x="257" y="16" width="49" height="24"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="6P1-2Z-9Sc"/>
+                            <constraint firstAttribute="width" constant="49" id="zif-Ag-JaD"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                        <state key="normal" title="SAVE">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                <real key="value" value="1.5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="save" destination="eaN-KN-cME" eventType="touchUpInside" id="dsG-Mw-WiE"/>
+                        </connections>
+                    </button>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="34" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="1mc-oh-ogv">
+                        <rect key="frame" x="40" y="61" width="266" height="102"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="266" id="UbA-yU-e2w"/>
+                            <constraint firstAttribute="height" constant="102" id="vyM-hv-lYT"/>
+                        </constraints>
+                        <sections/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="UbA-yU-e2w"/>
+                            </mask>
+                        </variation>
+                        <connections>
+                            <outlet property="dataSource" destination="eaN-KN-cME" id="V5J-eO-atp"/>
+                            <outlet property="delegate" destination="eaN-KN-cME" id="fSv-1b-B9P"/>
+                        </connections>
+                    </tableView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="wfZ-FQ-nS2" firstAttribute="top" secondItem="eaN-KN-cME" secondAttribute="top" constant="16" id="5Yy-73-AmS"/>
+                <constraint firstItem="1mc-oh-ogv" firstAttribute="top" secondItem="Lxt-n0-lHH" secondAttribute="bottom" constant="18" id="Fvm-hK-Tqq"/>
+                <constraint firstAttribute="trailing" secondItem="1mc-oh-ogv" secondAttribute="trailing" constant="14" id="Nfh-lZ-dcp"/>
+                <constraint firstItem="wfZ-FQ-nS2" firstAttribute="leading" secondItem="Lxt-n0-lHH" secondAttribute="trailing" constant="8" id="P4x-T1-Gs1"/>
+                <constraint firstAttribute="trailing" secondItem="wfZ-FQ-nS2" secondAttribute="trailing" constant="14" id="cUZ-np-dFF"/>
+                <constraint firstItem="Lxt-n0-lHH" firstAttribute="top" secondItem="eaN-KN-cME" secondAttribute="top" constant="14" id="dKM-f7-ulH"/>
+                <constraint firstItem="1mc-oh-ogv" firstAttribute="leading" secondItem="eaN-KN-cME" secondAttribute="leading" constant="40" id="dzq-oz-k7P"/>
+                <constraint firstItem="Lxt-n0-lHH" firstAttribute="leading" secondItem="eaN-KN-cME" secondAttribute="leading" constant="15" id="wJz-fa-U7d"/>
+            </constraints>
+            <size key="customSize" width="320" height="170"/>
+            <connections>
+                <outlet property="saveButton" destination="wfZ-FQ-nS2" id="huZ-u5-rEe"/>
+                <outlet property="slotsCollectionView" destination="Lxt-n0-lHH" id="uJw-Sb-fOR"/>
+                <outlet property="switchTableView" destination="1mc-oh-ogv" id="G5L-Qn-fGS"/>
+            </connections>
+            <point key="canvasLocation" x="462" y="280"/>
+        </collectionViewCell>
+    </objects>
+</document>
