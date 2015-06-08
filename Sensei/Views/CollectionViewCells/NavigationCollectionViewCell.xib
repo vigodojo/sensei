@@ -13,12 +13,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="31"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ml-Dc-iYc">
-                        <rect key="frame" x="8" y="5" width="34" height="22"/>
+                        <rect key="frame" x="0.0" y="0.0" width="31" height="31"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="34" id="NWk-go-RyO"/>
-                            <constraint firstAttribute="height" constant="22" id="rcY-zH-X1Y"/>
+                            <constraint firstAttribute="width" constant="31" id="NWk-go-RyO"/>
                         </constraints>
-                        <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                        <inset key="contentEdgeInsets" minX="7" minY="8" maxX="14" maxY="9"/>
                         <state key="normal" image="back_button">
                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -39,15 +38,17 @@
             <color key="backgroundColor" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="1M5-a7-rCf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="7Ml-Dc-iYc" secondAttribute="trailing" id="9RF-9n-WZj"/>
+                <constraint firstAttribute="bottom" secondItem="7Ml-Dc-iYc" secondAttribute="bottom" id="Dyz-gn-rsx"/>
                 <constraint firstAttribute="centerX" secondItem="1M5-a7-rCf" secondAttribute="centerX" priority="750" id="F0V-UA-ig4"/>
-                <constraint firstItem="7Ml-Dc-iYc" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="b1L-nV-PPR"/>
+                <constraint firstItem="7Ml-Dc-iYc" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="GI1-2q-Vxq"/>
+                <constraint firstItem="7Ml-Dc-iYc" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="b1L-nV-PPR"/>
                 <constraint firstAttribute="centerY" secondItem="1M5-a7-rCf" secondAttribute="centerY" id="cfD-3w-coz"/>
                 <constraint firstAttribute="centerY" secondItem="7Ml-Dc-iYc" secondAttribute="centerY" id="rM1-eB-ZmA"/>
             </constraints>
             <connections>
                 <outlet property="titleLabel" destination="1M5-a7-rCf" id="1Bg-du-2ZD"/>
             </connections>
-            <point key="canvasLocation" x="-65" y="447"/>
+            <point key="canvasLocation" x="-65" y="446.5"/>
         </collectionViewCell>
     </objects>
     <resources>

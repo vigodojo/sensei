@@ -26,6 +26,7 @@ class APIManager: NSObject {
         static let AffirmationPathPattern = "/user/affirmation/:id"
         static let Visualization = "/user/visualisation/"
         static let VisualizationPathPattern = "/user/visualisation/:id"
+        static let DeviceToken = "/push/pushURL"
     }
     
     var logined = false
@@ -51,6 +52,18 @@ class APIManager: NSObject {
             if let handler = handler {
                 handler(error: response.error)
             }
+        })
+    }
+    
+    // MARK: - Push Notifications
+    
+    func sendDeviceToken(token: String) {
+        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
+            builder.path = APIPath.DeviceToken
+            builder.requestMethod = RCRequestMethod.POST
+            builder.object = ["provider": "APPLE", "deviceURL": token]
+        }, completion: { (response) -> Void in
+            println("\(response)")
         })
     }
     
@@ -103,24 +116,6 @@ class APIManager: NSObject {
                 handler(error: response.error)
             }
         })
-    }
-    
-    // MARK: - User Message 
-    
-    func saveUserMessage(userMessage: UserMessage, handler: ErrorHandlerClosure?) {
-        if userMessage is Affirmation {
-            saveAffirmation(userMessage as! Affirmation, handler: handler)
-        } else if userMessage is Visualization {
-            saveVisualization(userMessage as! Visualization, handler: handler)
-        }
-    }
-    
-    func deleteUserMessage(userMessage: UserMessage, handler: ErrorHandlerClosure?) {
-        if userMessage is Affirmation {
-            deleteAffirmation(userMessage as! Affirmation, handler: handler)
-        } else if userMessage is Visualization {
-            deleteVisualization(userMessage as! Visualization, handler: handler)
-        }
     }
     
     // MARK: - Affirmations

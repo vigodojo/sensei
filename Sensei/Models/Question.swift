@@ -9,7 +9,7 @@
 import Foundation
 import RestClient
 
-enum AnswerType: String {
+enum QuestionType: String {
     
     case Text = "TEXT"
     case Number = "NUMBER"
@@ -22,7 +22,7 @@ class Question: NSObject, Message {
     var id: String?
     var questionText: String?
     var potentialAnswers: [AnyObject]?
-    var answerTypeRawValue: String?
+    var questionTypeRawValue: String?
     var date = NSDate()
     
     var text: String {
@@ -34,11 +34,11 @@ class Question: NSObject, Message {
         }
     }
     
-    var answerType: AnswerType {
-        if let rawValue = answerTypeRawValue {
-            return AnswerType(rawValue: rawValue) ?? AnswerType.Text
+    var questionType: QuestionType {
+        if let rawValue = questionTypeRawValue {
+            return QuestionType(rawValue: rawValue) ?? QuestionType.Text
         }
-        return AnswerType.Text
+        return QuestionType.Text
     }
     
     var answers: [String] {
@@ -48,7 +48,7 @@ class Question: NSObject, Message {
     
     class var objectMapping: RCObjectMapping {
         let mapping = RCObjectMapping(objectClass: Question.self, mappingArray: ["text", "potentialAnswers"])
-        mapping.addPropertyMappingFromDictionary(["id": "_id", "answerTypeRawValue": "type"])
+        mapping.addPropertyMappingFromDictionary(["id": "_id", "questionTypeRawValue": "type"])
         return mapping
     }
     

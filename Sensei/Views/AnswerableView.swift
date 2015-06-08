@@ -16,7 +16,7 @@ protocol AnswerableInputAccessoryViewProtocol {
 
 protocol AnswerableViewDelegate: class {
     
-    func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: String)
+    func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: Answer)
     func answerableViewDidCancel(answerableView: AnswerableView)
 }
 
@@ -26,7 +26,7 @@ class AnswerableView: UIView {
         static let InputAccessotyViewHeight: CGFloat = 40
     }
     
-    private var answerType = AnswerType.Text
+    private var questionType = QuestionType.Text
     private var pickerOptions = [String]()
     
     private lazy var pickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
@@ -50,8 +50,8 @@ class AnswerableView: UIView {
         let inputAccessoryView = KeyboardInputAccessoryView(frame: rect)
         inputAccessoryView.textField.delegate = self
         inputAccessoryView.didSubmit = { [weak self] () -> Void in
-            if let answer = self?.keyboardInputAccessoryView.textField.text where !answer.isEmpty {
-                self?.submitAnswer(answer)
+            if let answerText = self?.keyboardInputAccessoryView.textField.text where !answerText.isEmpty {
+                self?.submitAnswer(Answer.Text(answerText))
             } else {
                 self?.cancel()
             }
@@ -74,12 +74,6 @@ class AnswerableView: UIView {
         pickerView.dataSource = self
         pickerView.delegate = self
         return pickerView
-    }()
-    
-    private lazy var dateFormatter: NSDateFormatter = {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd MMMM yyyy"
-        return dateFormatter
     }()
     
     weak var delegate: AnswerableViewDelegate?
@@ -116,7 +110,7 @@ class AnswerableView: UIView {
     }
     
     override var inputAccessoryView: UIView? {
-        switch answerType {
+        switch questionType {
             case .Text:
                 keyboardInputAccessoryView.type = KeyboardInputAccessoryViewType.Text
                 return keyboardInputAccessoryView
@@ -128,7 +122,7 @@ class AnswerableView: UIView {
     }
     
     override var inputView: UIView? {
-        switch answerType {
+        switch questionType {
             case .Date:
                 return dateInputView
             case .Choice: 
@@ -142,7 +136,7 @@ class AnswerableView: UIView {
     // MARK: - Public
     
     func askQuestion(question: Question) {
-        answerType = question.answerType
+        questionType = question.questionType
         pickerOptions = question.answers
         becomeFirstResponder()
     }
@@ -165,15 +159,14 @@ class AnswerableView: UIView {
         }
     }
     
-    private func pickerAnswer() -> String? {
-        switch answerType {
+    private func pickerAnswer() -> Answer? {
+        switch questionType {
             case .Date:
-                let date = dateInputView.date
-                return dateFormatter.stringFromDate(date)
-            case .Choice(let options):
+                return Answer.Date(dateInputView.date)
+            case .Choice:
                 let selectedRow = pickerInputView.selectedRowInComponent(0)
                 if selectedRow > -1 {
-                    return pickerOptions[selectedRow]
+                    return  Answer.Text(pickerOptions[selectedRow])
                 }
                 return nil
             default:
@@ -186,7 +179,7 @@ class AnswerableView: UIView {
         delegate?.answerableViewDidCancel(self)
     }
     
-    private func submitAnswer(answer: String) {
+    private func submitAnswer(answer: Answer) {
         resignFirstResponder()
         keyboardInputAccessoryView.textField.resignFirstResponder()
         delegate?.answerableView(self, didSubmitAnswer: answer)
@@ -200,7 +193,7 @@ extension AnswerableView: UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        submitAnswer(textField.text)
+        submitAnswer(Answer.Text(textField.text))
         return true;
     }
 }

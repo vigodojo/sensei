@@ -38,7 +38,7 @@ class SenseiViewController: BaseViewController {
         if dataSource.count > 0 {
             var index = dataSource.count - 1
             var height: CGFloat = 0
-            while index > -1 && dataSource[index] is Answer {
+            while index > -1 && dataSource[index] is AnswerMessage {
                 let indexPath = NSIndexPath(forItem: index, inSection: 0)
                 let cellSize = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAtIndexPath: indexPath)
                 height += cellSize.height + (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing
@@ -236,7 +236,7 @@ extension SenseiViewController: UICollectionViewDataSource {
         cell.delegate = self
         let message = dataSource[indexPath.item]
         cell.titleLabel.text = message.text
-        cell.type = message is Answer ? SpeechBubbleCollectionViewCellType.Me : SpeechBubbleCollectionViewCellType.Sensei
+        cell.type = message is AnswerMessage ? SpeechBubbleCollectionViewCellType.Me : SpeechBubbleCollectionViewCellType.Sensei
         return cell;
     }
 }
@@ -256,17 +256,18 @@ extension SenseiViewController: UICollectionViewDelegateFlowLayout {
 
 extension SenseiViewController: AnswerableViewDelegate {
     
-    func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: String) {
-        addMessages([Answer(answer: answer)], scroll: true) { [weak self] in
+    func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: Answer) {
+        let answerMessage = AnswerMessage(answer: answer)
+        addMessages([answerMessage], scroll: true) { [weak self] in
             if let question = self?.lastQuestion where question.id != nil {
-                APIManager.sharedInstance.answerQuestionWithId(question.id!, answerText: answer) { [weak self] (error) -> Void in
+                APIManager.sharedInstance.answerQuestionWithId(question.id!, answerText: "\(answerMessage)") { [weak self] (error) -> Void in
                     if error == nil {
                         self?.requestNextQuestion()
                     }
                 }
             }
         }
-        println("\(self) submitted answer: \(answer)")
+        println("\(self) submitted answer: \(answerMessage.text)")
     }
     
     func answerableViewDidCancel(answerableView: AnswerableView) {

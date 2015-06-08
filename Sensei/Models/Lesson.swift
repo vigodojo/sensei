@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-protocol Message: NSObjectProtocol {
+protocol Message {
     
     var text: String { get set }
     var date: NSDate { get set }
