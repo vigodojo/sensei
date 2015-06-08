@@ -79,15 +79,3 @@ class KeyboardInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
         }
     }
 }
-
-extension UIView {
-    
-    func addEdgePinnedSubview(view: UIView) {
-        view.frame = bounds
-        addSubview(view)
-        view.setTranslatesAutoresizingMaskIntoConstraints(false)
-        let bindings = ["view": view]
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0.0-[view]-0.0-|", options: NSLayoutFormatOptions.allZeros, metrics: nil, views: bindings))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0.0-[view]-0.0-|", options: NSLayoutFormatOptions.allZeros, metrics: nil, views: bindings))
-    }
-}

@@ -139,19 +139,3 @@ extension MessageSwitchCollectionViewCell: UITableViewDelegate {
         delegate?.messageSwitchCollectionViewCell(self, didSelectReceiveTime: switchItems[indexPath.row])
     }
 }
-
-// MARK: - UIColor+Hex
-
-extension UIColor {
-    
-    convenience init(hexColor: Int, alpha: CGFloat) {
-        let red: CGFloat = CGFloat((hexColor >> 16) & 0xff) / 255.0
-        let green: CGFloat = CGFloat((hexColor >> 8) & 0xff) / 255.0
-        let blue: CGFloat = CGFloat(hexColor & 0xff) / 255.0
-        self.init(red: red, green: green, blue: blue, alpha: 1.0)
-    }
-    
-    convenience init(hexColor: Int) {
-        self.init(hexColor: hexColor, alpha: 1.0)
-    }
-}

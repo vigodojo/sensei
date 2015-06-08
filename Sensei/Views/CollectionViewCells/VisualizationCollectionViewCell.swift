@@ -30,11 +30,16 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var textView: PlaceholderedTextView!
     
-    private let outlinedTextAttributes: [String: AnyObject] = [NSStrokeColorAttributeName: UIColor.whiteColor(),
-        NSForegroundColorAttributeName: UIColor.blackColor(),
-        NSStrokeWidthAttributeName: NSNumber(double:-6.0),
-        NSFontAttributeName: UIFont(name: "HelveticaNeue-Bold", size: 13.0)!,
-    ]
+    lazy var outlinedTextAttributes: [String: AnyObject] = {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = NSTextAlignment.Center
+        
+        return [NSStrokeColorAttributeName: UIColor.whiteColor(),
+            NSForegroundColorAttributeName: UIColor.blackColor(),
+            NSStrokeWidthAttributeName: NSNumber(double:-6.0),
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-Bold", size: 13.0)!,
+            NSParagraphStyleAttributeName: paragraphStyle]
+    }()
     
     var mode = VisualizationCollectionViewCellMode.Default {
         didSet {
@@ -45,7 +50,7 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
                     editButton.setTitle("DELETE", forState: UIControlState.Normal)
                 case .Default:
                     textView.userInteractionEnabled = false
-                    delegate?.visualizationCollectionViewCellDidEndEditing(self)
+//                    delegate?.visualizationCollectionViewCellDidEndEditing(self)
                     editButton.setTitle("EDIT", forState: UIControlState.Normal)
                     textView.resignFirstResponder()
                 
@@ -59,7 +64,6 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         } set {
             if !newValue.isEmpty {
                 textView.attributedText = NSAttributedString(string: newValue, attributes: outlinedTextAttributes)
-                textView.textAlignment = NSTextAlignment.Center
             } else {
                 textView.text = ""
             }
@@ -84,10 +88,15 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
         textView.addObserver(self, forKeyPath: "contentSize", options: NSKeyValueObservingOptions.New, context: TextViewContentSizeContext)
         text = "ENTERED TEXT SUPER EMPOSED ON TOP OF IMAGE AT THE BOTTOM"
-//        text = ""
+        NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: nil) { [weak self] (notification) -> Void in
+            if self != nil {
+                self!.delegate?.visualizationCollectionViewCellDidEndEditing(self!)
+            }
+        }
     }
     
     deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         textView.removeObserver(self, forKeyPath: "contentSize", context: TextViewContentSizeContext)
     }
     
@@ -98,7 +107,6 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
             if let contentSize = (change[NSKeyValueChangeNewKey] as? NSValue)?.CGSizeValue() where contentSize.height < CGRectGetHeight(textView.frame) {
                 let offset = CGRectGetHeight(textView.frame) - contentSize.height
                 textView.contentInset = UIEdgeInsets(top: offset, left: 0, bottom: 0, right: 0)
-                println("Neue Content Size = \(contentSize), offset = \(offset)")
             }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)

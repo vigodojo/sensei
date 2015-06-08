@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import AVFoundation
 
 class VisualizationsViewController: UserMessageViewController {
    
@@ -153,10 +154,25 @@ class VisualizationsViewController: UserMessageViewController {
         visualizationCell?.editButtonHidden = true
     }
     
+    private func showVisualizationInPreview() {
+        if let imageView = visualizationCell?.imageView, image = imageView.image, text = visualizationCell?.text, var attributes = visualizationCell?.outlinedTextAttributes {
+            let imageRect = AVMakeRectWithAspectRatioInsideRect(image.size, imageView.bounds)
+            let font = (attributes[NSFontAttributeName] as! UIFont)
+            let scaledFontSize = round(image.size.height * font.pointSize / CGRectGetHeight(imageRect))
+            attributes[NSFontAttributeName] = UIFont(name: font.fontName, size: scaledFontSize)
+            image.imageWithAttributedText(NSAttributedString(string: text, attributes: attributes)) { [unowned self] (image) in
+                let imagePreviewController = ImagePreviewController.imagePreviewControllerWithImage(image)
+                imagePreviewController.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+                imagePreviewController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+                self.presentViewController(imagePreviewController, animated: true, completion: nil)
+            }
+        }
+    }
+    
     // MARK: - IBAction
     
     @IBAction func visualizationImageViewTap(sender: UITapGestureRecognizer) {
-        println("Tap Image")
+        showVisualizationInPreview()
     }
 }
 
@@ -217,8 +233,14 @@ extension VisualizationsViewController: VisualizationCollectionViewCellDelegate 
     func visualizationCollectionViewCellDidEndEditing(cell: VisualizationCollectionViewCell) {
         let index = isTutorialOn ? 2 : 1
         items.insert(Item(reuseIdentifier: UserMessageViewController.Constants.MessageSwitchCellNibName, height: remainingHeight), atIndex: index)
-        collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
-        visualizationCell?.editButtonHidden = !hasChangesBeenMade()
+//        collectionView.performBatchUpdates({ () -> Void in
+            self.collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+//        }, completion: { (finished) -> Void in
+            self.showVisualizationInPreview()
+//        })
+        
+        visualizationCell?.editButtonHidden = false
+//        showVisualizationInPreview()
     }
     
     func visualizationCollectionViewCellDidDelete(cell: VisualizationCollectionViewCell) {
@@ -274,17 +296,5 @@ extension VisualizationsViewController: NSFetchedResultsControllerDelegate {
                 }
             messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
         }
-    }
-}
-
-extension Array {
-    
-    func find(includedElement: T -> Bool) -> Int? {
-        for (idx, element) in enumerate(self) {
-            if includedElement(element) {
-                return idx
-            }
-        }
-        return nil
     }
 }

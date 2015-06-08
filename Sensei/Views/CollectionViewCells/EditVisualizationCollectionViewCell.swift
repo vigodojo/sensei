@@ -30,7 +30,6 @@ class EditVisualizationCollectionViewCell: UICollectionViewCell {
             if let contentSize = (change[NSKeyValueChangeNewKey] as? NSValue)?.CGSizeValue() where contentSize.height < CGRectGetHeight(textView.frame) {
                 let offset = CGRectGetHeight(textView.frame) - contentSize.height
                 textView.contentInset = UIEdgeInsets(top: offset, left: 0, bottom: 0, right: 0)
-                println("Neue Content Size = \(contentSize), offset = \(offset)")
             }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)

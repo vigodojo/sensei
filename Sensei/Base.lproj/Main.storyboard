@@ -925,6 +925,48 @@
             </objects>
             <point key="canvasLocation" x="2757" y="508"/>
         </scene>
+        <!--Image Preview Controller-->
+        <scene sceneID="sID-cq-Uho">
+            <objects>
+                <viewController storyboardIdentifier="ImagePreviewController" id="tT9-Wy-zgB" customClass="ImagePreviewController" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gMs-c3-rG7"/>
+                        <viewControllerLayoutGuide type="bottom" id="qc3-cj-YOH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VW6-8L-x8N">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NmI-EB-LwF">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outlet property="delegate" destination="tT9-Wy-zgB" id="XBw-Jb-ZIR"/>
+                                    <outletCollection property="gestureRecognizers" destination="6HO-lW-mFN" appends="YES" id="mjy-NM-gg1"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="NmI-EB-LwF" firstAttribute="top" secondItem="VW6-8L-x8N" secondAttribute="top" id="EyP-ZN-3bh"/>
+                            <constraint firstItem="qc3-cj-YOH" firstAttribute="top" secondItem="NmI-EB-LwF" secondAttribute="bottom" id="GiR-6b-yCT"/>
+                            <constraint firstAttribute="trailing" secondItem="NmI-EB-LwF" secondAttribute="trailing" id="b55-JI-mOo"/>
+                            <constraint firstItem="NmI-EB-LwF" firstAttribute="leading" secondItem="VW6-8L-x8N" secondAttribute="leading" id="hj9-fT-jfc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="scrollView" destination="NmI-EB-LwF" id="aFw-QM-ntf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xGr-JS-RWT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="6HO-lW-mFN">
+                    <connections>
+                        <action selector="tap:" destination="tT9-Wy-zgB" id="Hdt-7s-78s"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="3458" y="-223"/>
+        </scene>
         <!--Edit Visualization View Controller-->
         <scene sceneID="KdS-ko-dB3">
             <objects>
@@ -1028,7 +1070,7 @@ Aus der erde Geader</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7MA-LF-NAs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3725" y="81"/>
+            <point key="canvasLocation" x="3458" y="508"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="e9q-89-8nh">

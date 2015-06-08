@@ -131,15 +131,3 @@ class SpeechBubbleView: UIView {
         return beziePath
     }
 }
-
-extension UIView {
-    
-    var borderColor: UIColor? {
-        get {
-            return UIColor(CGColor: layer.borderColor)
-        }
-        set {
-             layer.borderColor = newValue?.CGColor ?? UIColor.clearColor().CGColor
-        }
-    }
-}

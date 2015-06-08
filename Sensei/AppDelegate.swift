@@ -32,6 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("Sensei Device Token: \(token)")
     }
     
+    // MARK: - Test Data
+    
     func testCoreDataCreation() {
         Affirmation.createAffirmationNumber(NSNumber(integer: 1), text: "Black Metal Isk Krieg", receiveTime: ReceiveTime.Morning)
         Visualization.createVisualizationWithNumber(NSNumber(integer: 1), text: "Trash Til Death", receiveTime: ReceiveTime.Evening, picture: UIImage(named: "VigoSensei")!)
