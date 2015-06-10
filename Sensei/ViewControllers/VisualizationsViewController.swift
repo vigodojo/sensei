@@ -57,12 +57,20 @@ class VisualizationsViewController: UserMessageViewController {
     }
     
     override func fetchUserMessages() {
-        var error: NSError? = nil
-        if !visualizationFetchedResultController.performFetch(&error) {
-            println("Failed to fetch user messages with error: \(error)")
-        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { [unowned self] () -> Void in
+            var error: NSError? = nil
+            if !self.visualizationFetchedResultController.performFetch(&error) {
+                println("Failed to fetch user messages with error: \(error)")
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
+                self.messageSwitchCell?.reloadSlots()
+                self.selectVisualizationWithNumber(NSNumber(integer:0))
+            })
+        })
+
     }
-    
+
     override func hasChangesBeenMade() -> Bool {
         if let index = messageSwitchCell?.selectedSlot {
             let receiveTime = messageSwitchCell?.reseiveTime ?? ReceiveTime.Morning
@@ -160,12 +168,17 @@ class VisualizationsViewController: UserMessageViewController {
             let font = (attributes[NSFontAttributeName] as! UIFont)
             let scaledFontSize = round(image.size.height * font.pointSize / CGRectGetHeight(imageRect))
             attributes[NSFontAttributeName] = UIFont(name: font.fontName, size: scaledFontSize)
-            image.imageWithAttributedText(NSAttributedString(string: text, attributes: attributes)) { [unowned self] (image) in
-                let imagePreviewController = ImagePreviewController.imagePreviewControllerWithImage(image)
-                imagePreviewController.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-                imagePreviewController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-                self.presentViewController(imagePreviewController, animated: true, completion: nil)
-            }
+            let imagePreviewController = ImagePreviewController.imagePreviewControllerWithImage(image)
+            imagePreviewController.attributedText = NSAttributedString(string: text, attributes: attributes)
+            imagePreviewController.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+            imagePreviewController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+            self.presentViewController(imagePreviewController, animated: true, completion: nil)
+//            image.imageWithAttributedText(NSAttributedString(string: text, attributes: attributes)) { [unowned self] (image) in
+//                let imagePreviewController = ImagePreviewController.imagePreviewControllerWithImage(image)
+//                imagePreviewController.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+//                imagePreviewController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+//                self.presentViewController(imagePreviewController, animated: true, completion: nil)
+//            }
         }
     }
     

@@ -53,10 +53,17 @@ class AffirmationsViewController: UserMessageViewController {
     }
     
     override func fetchUserMessages() {
-        var error: NSError? = nil
-        if !affirmationsFetchedResultController.performFetch(&error) {
-            println("Failed to fetch user messages with error: \(error)")
-        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { [unowned self] () -> Void in
+            var error: NSError? = nil
+            if !self.affirmationsFetchedResultController.performFetch(&error) {
+                println("Failed to fetch user messages with error: \(error)")
+            }
+
+            dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
+                self.messageSwitchCell?.reloadSlots()
+                self.selectAffirmationWithNumber(NSNumber(integer:0))
+            })
+        })
     }
     
     override func hasChangesBeenMade() -> Bool {

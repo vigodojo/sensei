@@ -18,32 +18,58 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3O1-3B-mMh">
-                    <rect key="frame" x="8" y="5" width="350" height="30"/>
+                    <rect key="frame" x="8" y="5" width="342" height="30"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D6d-nJ-orX" userLabel="Right Button">
-                    <rect key="frame" x="366" y="5" width="48" height="30"/>
-                    <state key="normal" title="Cancel">
+                    <rect key="frame" x="358" y="8" width="56" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="hna-sC-KZg"/>
+                        <constraint firstAttribute="width" constant="56" id="wjk-n5-Bhb"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                    <state key="normal" title="SKIP">
                         <color key="titleColor" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                            <real key="value" value="1.5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="rightButtonAction" destination="-1" eventType="touchUpInside" id="rig-y0-m6m"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZX9-1H-3Z9" userLabel="Left Button">
-                    <rect key="frame" x="-48" y="5" width="48" height="30"/>
-                    <state key="normal" title="Cancel">
+                    <rect key="frame" x="-56" y="8" width="56" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="lDC-Li-SeP"/>
+                        <constraint firstAttribute="width" constant="56" id="nPb-Xy-qZ0"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                    <state key="normal" title="SKIP">
                         <color key="titleColor" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                            <real key="value" value="1.5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="leftButtonAction" destination="-1" eventType="touchUpInside" id="SKH-VA-k9G"/>
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="0.88235294119999996" green="0.88235294119999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="D6d-nJ-orX" secondAttribute="centerY" id="4ua-QQ-AUk"/>
                 <constraint firstAttribute="centerY" secondItem="ZX9-1H-3Z9" secondAttribute="centerY" id="Efr-DP-ylh"/>

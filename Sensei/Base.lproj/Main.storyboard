@@ -147,7 +147,7 @@
                                     <constraint firstAttribute="height" constant="24" id="83Q-f7-7GU"/>
                                     <constraint firstAttribute="width" constant="126" id="BRd-Y0-ben"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <state key="normal" title="VISUALIZATIONS">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -302,38 +302,31 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mail" translatesAutoresizingMaskIntoConstraints="NO" id="kzl-Le-uwR">
-                                                    <rect key="frame" x="538" y="153" width="32" height="32"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="32" id="ies-1B-LBH"/>
-                                                        <constraint firstAttribute="height" constant="32" id="xhA-Ie-Epf"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="542" y="156" width="28" height="26"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twit" translatesAutoresizingMaskIntoConstraints="NO" id="ayG-pf-mBd">
-                                                    <rect key="frame" x="538" y="61" width="32" height="32"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="32" id="WXe-ek-jmX"/>
-                                                        <constraint firstAttribute="width" constant="32" id="exC-Rg-dke"/>
-                                                    </constraints>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter13" translatesAutoresizingMaskIntoConstraints="NO" id="ayG-pf-mBd">
+                                                    <rect key="frame" x="541" y="65" width="31" height="25"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fb" translatesAutoresizingMaskIntoConstraints="NO" id="cKC-bl-onX">
-                                                    <rect key="frame" x="538" y="15" width="32" height="32"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="32" id="ahX-Tx-0hS"/>
-                                                        <constraint firstAttribute="width" constant="32" id="rof-oi-71h"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="544" y="18" width="26" height="26"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app_store" translatesAutoresizingMaskIntoConstraints="NO" id="lZZ-hr-VfX">
+                                                    <rect key="frame" x="544" y="110" width="26" height="26"/>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="XX9-tQ-c9j" firstAttribute="top" secondItem="sAq-Jh-wPH" secondAttribute="bottom" constant="30" id="0pF-cp-IQh"/>
                                                 <constraint firstItem="Erq-oB-8ld" firstAttribute="centerY" secondItem="cKC-bl-onX" secondAttribute="centerY" id="5wK-fD-sUg"/>
-                                                <constraint firstAttribute="trailing" secondItem="ayG-pf-mBd" secondAttribute="trailing" constant="30" id="7Ov-WU-IYz"/>
+                                                <constraint firstAttribute="trailing" secondItem="ayG-pf-mBd" secondAttribute="trailing" constant="28" id="7Ov-WU-IYz"/>
                                                 <constraint firstItem="Erq-oB-8ld" firstAttribute="top" secondItem="jUv-Ca-w5L" secondAttribute="topMargin" constant="15" id="BYZ-eN-VLb"/>
                                                 <constraint firstItem="sAq-Jh-wPH" firstAttribute="top" secondItem="lQ6-yD-kN2" secondAttribute="bottom" constant="30" id="Pxx-Eb-rsh"/>
                                                 <constraint firstItem="lQ6-yD-kN2" firstAttribute="top" secondItem="Erq-oB-8ld" secondAttribute="bottom" constant="30" id="a9F-eb-2D6"/>
                                                 <constraint firstItem="lQ6-yD-kN2" firstAttribute="centerY" secondItem="ayG-pf-mBd" secondAttribute="centerY" id="buY-Kr-pZq"/>
+                                                <constraint firstAttribute="trailing" secondItem="lZZ-hr-VfX" secondAttribute="trailing" constant="30" id="goo-6w-F7O"/>
                                                 <constraint firstAttribute="trailing" secondItem="kzl-Le-uwR" secondAttribute="trailing" constant="30" id="hrr-VP-uJV"/>
                                                 <constraint firstItem="Erq-oB-8ld" firstAttribute="leading" secondItem="jUv-Ca-w5L" secondAttribute="leading" constant="24" id="iA1-Yp-XFa"/>
                                                 <constraint firstAttribute="trailing" secondItem="cKC-bl-onX" secondAttribute="trailing" constant="30" id="lS0-cU-JLC"/>
+                                                <constraint firstItem="lZZ-hr-VfX" firstAttribute="centerY" secondItem="sAq-Jh-wPH" secondAttribute="centerY" id="nHU-6Z-DnT"/>
                                                 <constraint firstItem="XX9-tQ-c9j" firstAttribute="centerY" secondItem="kzl-Le-uwR" secondAttribute="centerY" id="nkw-VX-eOk"/>
                                                 <constraint firstItem="sAq-Jh-wPH" firstAttribute="leading" secondItem="jUv-Ca-w5L" secondAttribute="leading" constant="24" id="oc8-yj-VoY"/>
                                                 <constraint firstItem="XX9-tQ-c9j" firstAttribute="leading" secondItem="jUv-Ca-w5L" secondAttribute="leading" constant="24" id="rOf-Pg-uLT"/>
@@ -1178,14 +1171,15 @@ Aus der erde Geader</string>
     </scenes>
     <resources>
         <image name="VigoSensei" width="69" height="128"/>
+        <image name="app_store" width="26" height="26"/>
         <image name="camera_icone" width="20" height="16"/>
-        <image name="fb" width="17" height="17"/>
-        <image name="mail" width="17" height="17"/>
+        <image name="fb" width="26" height="26"/>
+        <image name="mail" width="28" height="26"/>
         <image name="radio" width="14" height="14"/>
         <image name="radio_act" width="14" height="14"/>
         <image name="tab_default_background" width="50" height="50"/>
         <image name="tab_selected_background" width="60" height="60"/>
-        <image name="twit" width="17" height="17"/>
+        <image name="twitter13" width="31" height="25"/>
         <image name="upgrade_button" width="28" height="28"/>
     </resources>
 </document>

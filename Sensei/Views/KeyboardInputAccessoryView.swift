@@ -30,11 +30,11 @@ class KeyboardInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
             switch type {
                 case .Text:
                     textFieldLeadingConstraint.constant = Constants.DefaultIndent
-                    rightButton.setTitle("Cancel", forState: UIControlState.Normal)
+                    rightButton.setTitle("SKIP", forState: UIControlState.Normal)
                     textField.keyboardType = UIKeyboardType.Default
                 case .Number:
                     textFieldLeadingConstraint.constant = Constants.DefaultIndent * 2 + CGRectGetWidth(leftButton.bounds)
-                    rightButton.setTitle("Submit", forState: UIControlState.Normal)
+                    rightButton.setTitle("SUBMIT", forState: UIControlState.Normal)
                     textField.keyboardType = UIKeyboardType.NumberPad
             }
         }

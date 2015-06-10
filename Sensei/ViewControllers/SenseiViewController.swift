@@ -76,7 +76,6 @@ class SenseiViewController: BaseViewController {
         (view as? AnswerableView)?.delegate = self
         
         collectionView.registerNib(UINib(nibName: Constants.CellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.CellReuseIdentifier)
-        addKeyboardObservers()
         
         fetchLessons()
         
@@ -85,6 +84,16 @@ class SenseiViewController: BaseViewController {
         } else {
             login()
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        addKeyboardObservers()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -157,8 +166,9 @@ class SenseiViewController: BaseViewController {
     
     private func deleteMessageAtIndexPath(indexPath: NSIndexPath) {
         let message = dataSource.removeAtIndex(indexPath.item)
-        if message is Lesson {
-            APIManager.sharedInstance.blockLessonWithId((message as! Lesson).lessonId, handler: nil)
+        if let message = message as? Lesson {
+            APIManager.sharedInstance.blockLessonWithId((message).lessonId, handler: nil)
+            CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(message)
         }
         
         collectionView.performBatchUpdates({ () -> Void in
@@ -184,7 +194,7 @@ class SenseiViewController: BaseViewController {
     func login() {
         // TODO: - DELETE HARDCODED IDFA
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-//        let idfa = "8B83C19B-E20F-4179-9B1D-E65CA6494F36"
+//        let idfa = "8B83C19B-E20F-4179-9B1D-E65CA6494F34"
 //        let idfa = NSUUID().UUIDString
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         println("IDFA = \(idfa)")

@@ -50,10 +50,8 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
                     editButton.setTitle("DELETE", forState: UIControlState.Normal)
                 case .Default:
                     textView.userInteractionEnabled = false
-//                    delegate?.visualizationCollectionViewCellDidEndEditing(self)
                     editButton.setTitle("EDIT", forState: UIControlState.Normal)
                     textView.resignFirstResponder()
-                
                 }
         }
     }
@@ -89,8 +87,8 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         textView.addObserver(self, forKeyPath: "contentSize", options: NSKeyValueObservingOptions.New, context: TextViewContentSizeContext)
         text = "ENTERED TEXT SUPER EMPOSED ON TOP OF IMAGE AT THE BOTTOM"
         NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: nil) { [weak self] (notification) -> Void in
-            if self != nil {
-                self!.delegate?.visualizationCollectionViewCellDidEndEditing(self!)
+            if let weakSelf = self where weakSelf.mode == .Default {
+                weakSelf.delegate?.visualizationCollectionViewCellDidEndEditing(self!)
             }
         }
     }

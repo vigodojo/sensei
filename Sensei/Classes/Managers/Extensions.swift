@@ -66,7 +66,7 @@ extension Array {
 extension UIImage {
     
     func imageWithAttributedText(text: NSAttributedString) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         drawInRect(CGRect(origin: CGPointZero, size: size))
         let textSize = txtSizeForText(text)
         let textOrigin = textOriginForTextSize(textSize)
@@ -77,12 +77,12 @@ extension UIImage {
     }
     
     func imageWithAttributedText(text: NSAttributedString, completion: (image: UIImage) -> Void) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { [unowned self] () -> Void in
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { [unowned self] () -> Void in
             let image = self.imageWithAttributedText(text)
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 completion(image: image)
             })
-        })
+//        })
     }
     
     private func txtSizeForText(text: NSAttributedString) -> CGSize {

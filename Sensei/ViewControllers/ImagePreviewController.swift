@@ -17,9 +17,12 @@ class ImagePreviewController: UIViewController {
 
     @IBOutlet weak var scrollView: UIScrollView!
     
-    weak var imageView: UIImageView!
+//    weak var imageView: UIImageView!
+//    weak var imageView: TextImageView!
+    weak var imageView: VisualizationView!
     
     var image: UIImage?
+    var attributedText: NSAttributedString?
     
     // MARK: - Lifecycle
     
@@ -34,6 +37,7 @@ class ImagePreviewController: UIViewController {
         super.viewDidLoad()
         createImageView()
         imageView.image = image
+        imageView.attributedText = attributedText
     }
     
     override func viewDidLayoutSubviews() {
@@ -46,7 +50,7 @@ class ImagePreviewController: UIViewController {
     // MARK: - Private
     
     private func createImageView() {
-        let imageView = UIImageView()
+        let imageView = VisualizationView(frame: CGRectZero)
         scrollView.addSubview(imageView)
         self.imageView = imageView
     }

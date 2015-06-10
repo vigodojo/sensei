@@ -85,6 +85,10 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Public
     
+    func reloadSlots() {
+        slotsCollectionView.reloadData()
+    }
+    
     func reloadSlotAtIndex(index: Int) {
         slotsCollectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
     }
