@@ -1,5 +1,5 @@
 //
-//  ImagePreviewController.swift
+//  TextImagePreviewController.swift
 //  Sensei
 //
 //  Created by Sauron Black on 6/8/15.
@@ -8,27 +8,24 @@
 
 import UIKit
 
-class ImagePreviewController: UIViewController {
+class TextImagePreviewController: UIViewController {
     
     private struct Constants {
         static let StoryboardName = "Main"
-        static let StoryboardId = "ImagePreviewController"
+        static let StoryboardId = "TextImagePreviewController"
     }
 
     @IBOutlet weak var scrollView: UIScrollView!
-    
-//    weak var imageView: UIImageView!
-//    weak var imageView: TextImageView!
-    weak var imageView: VisualizationView!
+    private weak var textImageView: TextImageView!
     
     var image: UIImage?
     var attributedText: NSAttributedString?
     
     // MARK: - Lifecycle
     
-    class func imagePreviewControllerWithImage(image: UIImage) -> ImagePreviewController {
+    class func imagePreviewControllerWithImage(image: UIImage) -> TextImagePreviewController {
         let storyboard = UIStoryboard(name: Constants.StoryboardName, bundle: nil)
-        let viewController = storyboard.instantiateViewControllerWithIdentifier(Constants.StoryboardId) as! ImagePreviewController
+        let viewController = storyboard.instantiateViewControllerWithIdentifier(Constants.StoryboardId) as! TextImagePreviewController
         viewController.image = image
         return viewController
     }
@@ -36,8 +33,8 @@ class ImagePreviewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createImageView()
-        imageView.image = image
-        imageView.attributedText = attributedText
+        textImageView.image = image
+        textImageView.attributedText = attributedText
     }
     
     override func viewDidLayoutSubviews() {
@@ -50,13 +47,13 @@ class ImagePreviewController: UIViewController {
     // MARK: - Private
     
     private func createImageView() {
-        let imageView = VisualizationView(frame: CGRectZero)
-        scrollView.addSubview(imageView)
-        self.imageView = imageView
+        let textImageView = TextImageView(frame: CGRectZero)
+        scrollView.addSubview(textImageView)
+        self.textImageView = textImageView
     }
     
     private func updateFrameAndContentSizeForImage(image: UIImage) {
-        imageView.frame = CGRect(origin: CGPointZero, size: image.size)
+        textImageView.frame = CGRect(origin: CGPointZero, size: image.size)
         scrollView.contentSize = image.size
         scrollView.minimumZoomScale = minimumScaleForImageSize(image.size)
         scrollView.maximumZoomScale = 1.0
@@ -72,7 +69,7 @@ class ImagePreviewController: UIViewController {
     
     private func centerScrollViewContent() {
         let boundsSize = view.frame.size
-        var contentFrame = imageView.frame
+        var contentFrame = textImageView.frame
         
         if CGRectGetWidth(contentFrame) < boundsSize.width {
             contentFrame.origin.x = (boundsSize.width - CGRectGetWidth(contentFrame)) / 2.0;
@@ -86,7 +83,7 @@ class ImagePreviewController: UIViewController {
             contentFrame.origin.y  = 0
         }
         
-        imageView.frame = contentFrame
+        textImageView.frame = contentFrame
     }
     
     // MARK: - IBActions
@@ -99,13 +96,13 @@ class ImagePreviewController: UIViewController {
 
 // MARK: - UIScrollViewDelegate
 
-extension ImagePreviewController: UIScrollViewDelegate {
+extension TextImagePreviewController: UIScrollViewDelegate {
     
     func scrollViewDidZoom(scrollView: UIScrollView) {
         centerScrollViewContent()
     }
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
-        return imageView
+        return textImageView
     }
 }

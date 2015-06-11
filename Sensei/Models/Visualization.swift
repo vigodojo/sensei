@@ -25,7 +25,7 @@ class Visualization: UserMessage {
         }
         set {
             if let image = newValue {
-                pictureData = UIImagePNGRepresentation(image)
+                pictureData = UIImageJPEGRepresentation(image, 1.0)
             } else {
                 pictureData = nil
             }

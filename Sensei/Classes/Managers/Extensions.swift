@@ -65,35 +65,49 @@ extension Array {
 
 extension UIImage {
     
-    func imageWithAttributedText(text: NSAttributedString) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        drawInRect(CGRect(origin: CGPointZero, size: size))
-        let textSize = txtSizeForText(text)
-        let textOrigin = textOriginForTextSize(textSize)
-        text.drawInRect(CGRect(origin: textOrigin, size: textSize))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage
-    }
-    
-    func imageWithAttributedText(text: NSAttributedString, completion: (image: UIImage) -> Void) {
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { [unowned self] () -> Void in
-            let image = self.imageWithAttributedText(text)
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                completion(image: image)
-            })
-//        })
-    }
-    
-    private func txtSizeForText(text: NSAttributedString) -> CGSize {
-        return text.boundingRectWithSize(CGSize(width: size.width, height: CGFloat.max), options: .UsesLineFragmentOrigin | .UsesFontLeading, context: nil).size
-    }
-    
-    private func textOriginForTextSize(textSize: CGSize) -> CGPoint {
-        var textOrigin = CGPointZero
-        textOrigin.x = (size.width - textSize.width) / 2.0
-        textOrigin.y = size.height - textSize.height
-        return textOrigin
+    var upOrientedImage: UIImage {
+        if imageOrientation == .Up {
+            return self
+        }
+        
+        var transform = CGAffineTransformIdentity
+        
+        switch imageOrientation {
+            case .Down, .DownMirrored:
+                transform = CGAffineTransformTranslate(transform, size.width, size.height)
+                transform = CGAffineTransformRotate(transform, CGFloat(M_PI))
+            case .Left, .LeftMirrored:
+                transform = CGAffineTransformTranslate(transform, size.width, 0)
+                transform = CGAffineTransformRotate(transform, CGFloat(M_PI_2))
+            case .Right, .RightMirrored:
+                transform = CGAffineTransformTranslate(transform, 0, size.height)
+                transform = CGAffineTransformRotate(transform, CGFloat(-M_PI_2))
+            default:
+                break
+        }
+        
+        switch imageOrientation {
+            case .UpMirrored, .DownMirrored:
+                transform = CGAffineTransformTranslate(transform, size.width, 0)
+                transform = CGAffineTransformScale(transform, -1, 1)
+            case .LeftMirrored, .RightMirrored:
+                transform = CGAffineTransformTranslate(transform, size.height, 0);
+                transform = CGAffineTransformScale(transform, -1, 1);
+            default:
+                break;
+        }
+        
+        let context = CGBitmapContextCreate(nil, Int(size.width), Int(size.height), CGImageGetBitsPerComponent(CGImage), 0, CGImageGetColorSpace(CGImage), CGImageGetBitmapInfo(CGImage))
+        CGContextConcatCTM(context, transform)
+        switch imageOrientation {
+            case .Left, .LeftMirrored, .Right, .RightMirrored:
+                CGContextDrawImage(context, CGRect(origin: CGPointZero, size: CGSize(width: size.height, height: size.width)), CGImage)
+            default:
+                CGContextDrawImage(context, CGRect(origin: CGPointZero, size: size), CGImage)
+        }
+        
+        let newCGImage = CGBitmapContextCreateImage(context)
+        let newImage = UIImage(CGImage: newCGImage)
+        return newImage!
     }
 }
-

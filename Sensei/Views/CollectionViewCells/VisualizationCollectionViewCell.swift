@@ -48,10 +48,17 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
                     textView.userInteractionEnabled = true
                     delegate?.visualizationCollectionViewCellDidBeginEditing(self)
                     editButton.setTitle("DELETE", forState: UIControlState.Normal)
+                    if oldValue == .Editing && !textView.isFirstResponder() {
+                        textView.becomeFirstResponder()
+                    }
+//                    if !textView.isFirstResponder() {
+//                        textView.becomeFirstResponder()
+//                    }
                 case .Default:
                     textView.userInteractionEnabled = false
-                    editButton.setTitle("EDIT", forState: UIControlState.Normal)
                     textView.resignFirstResponder()
+                    delegate?.visualizationCollectionViewCellDidEndEditing(self)
+                    editButton.setTitle("EDIT", forState: UIControlState.Normal)
                 }
         }
     }
@@ -86,15 +93,9 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
         textView.addObserver(self, forKeyPath: "contentSize", options: NSKeyValueObservingOptions.New, context: TextViewContentSizeContext)
         text = "ENTERED TEXT SUPER EMPOSED ON TOP OF IMAGE AT THE BOTTOM"
-        NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: nil) { [weak self] (notification) -> Void in
-            if let weakSelf = self where weakSelf.mode == .Default {
-                weakSelf.delegate?.visualizationCollectionViewCellDidEndEditing(self!)
-            }
-        }
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
         textView.removeObserver(self, forKeyPath: "contentSize", context: TextViewContentSizeContext)
     }
     

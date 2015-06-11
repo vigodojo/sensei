@@ -348,8 +348,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1cY-EM-Yvq">
-                                                    <rect key="frame" x="542" y="19" width="28" height="28"/>
-                                                    <state key="normal" image="upgrade_button">
+                                                    <rect key="frame" x="544" y="20" width="26" height="26"/>
+                                                    <state key="normal" image="upgrade">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
@@ -1003,10 +1003,10 @@
             </objects>
             <point key="canvasLocation" x="2757" y="508"/>
         </scene>
-        <!--Image Preview Controller-->
+        <!--Text Image Preview Controller-->
         <scene sceneID="sID-cq-Uho">
             <objects>
-                <viewController storyboardIdentifier="ImagePreviewController" id="tT9-Wy-zgB" customClass="ImagePreviewController" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TextImagePreviewController" id="tT9-Wy-zgB" customClass="TextImagePreviewController" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gMs-c3-rG7"/>
                         <viewControllerLayoutGuide type="bottom" id="qc3-cj-YOH"/>
@@ -1086,7 +1086,7 @@
 Schmiedet solch schimmerndes Gold
 Der Gotter Glorie gestaltend
 Aus der erde Geader</string>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="E61-py-s5N" id="6wU-hr-JAq"/>
@@ -1180,6 +1180,6 @@ Aus der erde Geader</string>
         <image name="tab_default_background" width="50" height="50"/>
         <image name="tab_selected_background" width="60" height="60"/>
         <image name="twitter13" width="31" height="25"/>
-        <image name="upgrade_button" width="28" height="28"/>
+        <image name="upgrade" width="26" height="26"/>
     </resources>
 </document>

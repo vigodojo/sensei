@@ -20,7 +20,7 @@
 		404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */; };
 		404F60FC1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */; };
 		404F60FD1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */; };
-		405389AB1B287FCF0035607E /* VisualizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405389AA1B287FCF0035607E /* VisualizationView.swift */; };
+		405389AB1B287FCF0035607E /* TextImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405389AA1B287FCF0035607E /* TextImageView.swift */; };
 		406266DB1B1D9FF700F161B6 /* FadingGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406266DA1B1D9FF700F161B6 /* FadingGradientView.swift */; };
 		406428401B0E1CD2008E2023 /* PlaceholderedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4064283F1B0E1CD2008E2023 /* PlaceholderedTextView.swift */; };
 		4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */; };
@@ -50,7 +50,7 @@
 		40A7B6FA1B1328810097852F /* UserMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7B6F91B1328810097852F /* UserMessage.swift */; };
 		40B18CE61B205B9600817018 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B18CE51B205B9600817018 /* Lesson.swift */; };
 		40B960111B25709F00D36938 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B960101B25709F00D36938 /* Extensions.swift */; };
-		40B960131B25A04600D36938 /* ImagePreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B960121B25A04600D36938 /* ImagePreviewController.swift */; };
+		40B960131B25A04600D36938 /* TextImagePreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B960121B25A04600D36938 /* TextImagePreviewController.swift */; };
 		40D1FD151B0F157B004AB814 /* VisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */; };
 		40D1FD171B0F57ED004AB814 /* EditVisualizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */; };
 		40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */; };
@@ -85,7 +85,7 @@
 		404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiNavigationController.swift; sourceTree = "<group>"; };
 		404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationCollectionViewCell.swift; sourceTree = "<group>"; };
 		404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NavigationCollectionViewCell.xib; sourceTree = "<group>"; };
-		405389AA1B287FCF0035607E /* VisualizationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationView.swift; sourceTree = "<group>"; };
+		405389AA1B287FCF0035607E /* TextImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TextImageView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		406266DA1B1D9FF700F161B6 /* FadingGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FadingGradientView.swift; sourceTree = "<group>"; };
 		4064283F1B0E1CD2008E2023 /* PlaceholderedTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderedTextView.swift; sourceTree = "<group>"; };
 		4084CFD61AFA611B000F8D47 /* Sensei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sensei.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,7 +111,7 @@
 		40A674151B21AC67001408C3 /* MessageSwitchCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageSwitchCollectionViewCell.xib; sourceTree = "<group>"; };
 		40A674171B21AD04001408C3 /* SwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SwitchTableViewCell.xib; sourceTree = "<group>"; };
 		40A674191B21AF6C001408C3 /* SlotCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SlotCollectionViewCell.xib; sourceTree = "<group>"; };
-		40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationsViewController.swift; sourceTree = "<group>"; };
+		40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = VisualizationsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		40A6741D1B21B1A4001408C3 /* AffirmationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffirmationsViewController.swift; sourceTree = "<group>"; };
 		40A7B6BF1B12F7A00097852F /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		40A7B6C41B12FC2F0097852F /* Affirmation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Affirmation.swift; sourceTree = "<group>"; };
@@ -119,7 +119,7 @@
 		40A7B6F91B1328810097852F /* UserMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMessage.swift; sourceTree = "<group>"; };
 		40B18CE51B205B9600817018 /* Lesson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		40B960101B25709F00D36938 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		40B960121B25A04600D36938 /* ImagePreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePreviewController.swift; sourceTree = "<group>"; };
+		40B960121B25A04600D36938 /* TextImagePreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TextImagePreviewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
 		40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVisualizationViewController.swift; sourceTree = "<group>"; };
 		40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -202,7 +202,7 @@
 				40A139A41B0DB72C0010176D /* UserMessageViewController.swift */,
 				40A6741D1B21B1A4001408C3 /* AffirmationsViewController.swift */,
 				40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */,
-				40B960121B25A04600D36938 /* ImagePreviewController.swift */,
+				40B960121B25A04600D36938 /* TextImagePreviewController.swift */,
 				C76E77711B189FE000986B6F /* SettingsTableViewController.swift */,
 				40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */,
 			);
@@ -222,7 +222,7 @@
 				40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */,
 				4064283F1B0E1CD2008E2023 /* PlaceholderedTextView.swift */,
 				406266DA1B1D9FF700F161B6 /* FadingGradientView.swift */,
-				405389AA1B287FCF0035607E /* VisualizationView.swift */,
+				405389AA1B287FCF0035607E /* TextImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -472,9 +472,9 @@
 				C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */,
-				405389AB1B287FCF0035607E /* VisualizationView.swift in Sources */,
+				405389AB1B287FCF0035607E /* TextImageView.swift in Sources */,
 				404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */,
-				40B960131B25A04600D36938 /* ImagePreviewController.swift in Sources */,
+				40B960131B25A04600D36938 /* TextImagePreviewController.swift in Sources */,
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,
 				40A139AE1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift in Sources */,
 				40A7B6C01B12F7A00097852F /* CoreDataManager.swift in Sources */,

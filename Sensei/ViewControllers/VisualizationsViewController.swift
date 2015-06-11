@@ -133,16 +133,22 @@ class VisualizationsViewController: UserMessageViewController {
         let text = visualizationCell?.text
         let image = visualizationCell?.imageView.image
         if let index = index, receiveTime = receiveTime, text = text, image = image {
-            if let visualization = visualizationWithNumber(index) {
-                if visualization.text != text || visualization.receiveTime != receiveTime || visualization.picture != image {
-                    visualization.text = text
-                    visualization.picture = image
-                    visualization.receiveTime = receiveTime
+            
+            let number = ((index + 1) % Constants.NumberOfVisualizations)
+            selectVisualizationWithNumber(number)
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { () -> Void in
+                if let visualization = self.visualizationWithNumber(index) {
+                    if visualization.text != text || visualization.receiveTime != receiveTime || visualization.picture != image {
+                        visualization.text = text
+                        visualization.picture = image
+                        visualization.receiveTime = receiveTime
+                        CoreDataManager.sharedInstance.saveContext()
+                    }
+                } else  {
+                    Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
                     CoreDataManager.sharedInstance.saveContext()
                 }
-            } else  {
-                Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
-                CoreDataManager.sharedInstance.saveContext()
             }
         }
     }
@@ -151,8 +157,10 @@ class VisualizationsViewController: UserMessageViewController {
         if let index = messageSwitchCell?.selectedSlot, visualization = visualizationWithNumber(index) {
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(visualization)
             CoreDataManager.sharedInstance.saveContext()
-            resetVisualizationCell()
         }
+        resetVisualizationCell()
+        didChangeImage = false
+        messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
     }
 
     private func resetVisualizationCell() {
@@ -168,17 +176,11 @@ class VisualizationsViewController: UserMessageViewController {
             let font = (attributes[NSFontAttributeName] as! UIFont)
             let scaledFontSize = round(image.size.height * font.pointSize / CGRectGetHeight(imageRect))
             attributes[NSFontAttributeName] = UIFont(name: font.fontName, size: scaledFontSize)
-            let imagePreviewController = ImagePreviewController.imagePreviewControllerWithImage(image)
+            let imagePreviewController = TextImagePreviewController.imagePreviewControllerWithImage(image)
             imagePreviewController.attributedText = NSAttributedString(string: text, attributes: attributes)
             imagePreviewController.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
             imagePreviewController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
             self.presentViewController(imagePreviewController, animated: true, completion: nil)
-//            image.imageWithAttributedText(NSAttributedString(string: text, attributes: attributes)) { [unowned self] (image) in
-//                let imagePreviewController = ImagePreviewController.imagePreviewControllerWithImage(image)
-//                imagePreviewController.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-//                imagePreviewController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-//                self.presentViewController(imagePreviewController, animated: true, completion: nil)
-//            }
         }
     }
     
@@ -246,14 +248,8 @@ extension VisualizationsViewController: VisualizationCollectionViewCellDelegate 
     func visualizationCollectionViewCellDidEndEditing(cell: VisualizationCollectionViewCell) {
         let index = isTutorialOn ? 2 : 1
         items.insert(Item(reuseIdentifier: UserMessageViewController.Constants.MessageSwitchCellNibName, height: remainingHeight), atIndex: index)
-//        collectionView.performBatchUpdates({ () -> Void in
-            self.collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
-//        }, completion: { (finished) -> Void in
-            self.showVisualizationInPreview()
-//        })
-        
-        visualizationCell?.editButtonHidden = false
-//        showVisualizationInPreview()
+        collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+        showVisualizationInPreview()
     }
     
     func visualizationCollectionViewCellDidDelete(cell: VisualizationCollectionViewCell) {
@@ -271,9 +267,10 @@ extension VisualizationsViewController: UIImagePickerControllerDelegate {
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            visualizationCell?.imageView.image = image
+            visualizationCell?.imageView.image = image.upOrientedImage
             didChangeImage = true
             messageSwitchCell?.saveButtonHidden = false
+            visualizationCell?.editButtonHidden = false
             picker.dismissViewControllerAnimated(true, completion: nil)
             visualizationCell?.mode = VisualizationCollectionViewCellMode.Editing
         }
@@ -293,12 +290,8 @@ extension VisualizationsViewController: NSFetchedResultsControllerDelegate {
             switch type {
                 case .Insert:
                     messageSwitchCell?.reloadSlotAtIndex(visualization.number.integerValue)
-                    let number = ((visualization.number.integerValue + 1) % Constants.NumberOfVisualizations)
-                    selectVisualizationWithNumber(number)
                     APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
                 case .Update:
-                    let number = ((visualization.number.integerValue + 1) % Constants.NumberOfVisualizations)
-                    selectVisualizationWithNumber(number)
                     APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
                 case .Delete:
                     messageSwitchCell?.reloadSlotAtIndex(visualization.number.integerValue)
@@ -306,7 +299,7 @@ extension VisualizationsViewController: NSFetchedResultsControllerDelegate {
                     APIManager.sharedInstance.deleteVisualization(visualization, handler: nil)
                 default:
                     break
-                }
+            }
             messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
         }
     }
