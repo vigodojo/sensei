@@ -894,10 +894,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdp-li-b2S">
-                                                    <rect key="frame" x="45" y="8" width="235" height="163"/>
+                                                    <rect key="frame" x="73" y="8" width="172" height="152"/>
                                                     <subviews>
                                                         <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="253" verticalHuggingPriority="253" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="thc-TH-8Kv">
-                                                            <rect key="frame" x="0.0" y="0.0" width="235" height="163"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="172" height="152"/>
                                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <gestureRecognizers/>
                                                             <connections>
@@ -905,7 +905,7 @@
                                                             </connections>
                                                         </imageView>
                                                         <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="adv-H1-OXV" customClass="PlaceholderedTextView" customModule="Sensei" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="235" height="163"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="172" height="152"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" type="system" weight="black" pointSize="13"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
@@ -932,41 +932,55 @@
                                                         <constraint firstItem="thc-TH-8Kv" firstAttribute="leading" secondItem="mdp-li-b2S" secondAttribute="leading" id="z7i-rc-0UU"/>
                                                     </constraints>
                                                 </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GU2-dL-dAT">
+                                                    <rect key="frame" x="254" y="168" width="46" height="24"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="24" id="6qC-TM-baU"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                                    <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
+                                                    <state key="normal" title="EDIT">
+                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                            <real key="value" value="1.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="edit" destination="qNh-Az-WWT" eventType="touchUpInside" id="Jcv-Hs-Jjg"/>
+                                                    </connections>
+                                                </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0PB-A6-aim">
-                                                    <rect key="frame" x="18" y="170" width="20" height="22"/>
-                                                    <state key="normal" image="camera_icone">
+                                                    <rect key="frame" x="10" y="163" width="33" height="27"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="27" id="gbk-xF-dbB"/>
+                                                        <constraint firstAttribute="width" constant="33" id="rEO-oU-ydn"/>
+                                                    </constraints>
+                                                    <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                    <state key="normal" image="camera">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="takePhoto" destination="qNh-Az-WWT" eventType="touchUpInside" id="kW6-uP-syF"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GU2-dL-dAT">
-                                                    <rect key="frame" x="282" y="171" width="30" height="29"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="29" id="GO8-WU-F4A"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
-                                                    <state key="normal" title="EDIT">
-                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="edit" destination="qNh-Az-WWT" eventType="touchUpInside" id="Jcv-Hs-Jjg"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="GU2-dL-dAT" secondAttribute="bottom" constant="8" id="5r3-sL-6Lx"/>
                                             <constraint firstItem="mdp-li-b2S" firstAttribute="top" secondItem="qNh-Az-WWT" secondAttribute="top" constant="8" id="Ghw-FT-28y"/>
-                                            <constraint firstAttribute="bottom" secondItem="GU2-dL-dAT" secondAttribute="bottom" id="Hs5-4n-9bH"/>
-                                            <constraint firstAttribute="bottom" secondItem="0PB-A6-aim" secondAttribute="bottom" constant="8" id="Lsn-xh-0mW"/>
-                                            <constraint firstItem="GU2-dL-dAT" firstAttribute="top" secondItem="mdp-li-b2S" secondAttribute="bottom" id="RsK-s1-E10"/>
-                                            <constraint firstItem="mdp-li-b2S" firstAttribute="leading" secondItem="qNh-Az-WWT" secondAttribute="leading" constant="45" id="dny-Le-7xb"/>
-                                            <constraint firstItem="0PB-A6-aim" firstAttribute="leading" secondItem="qNh-Az-WWT" secondAttribute="leading" constant="18" id="gyr-bu-gGN"/>
-                                            <constraint firstAttribute="trailing" secondItem="GU2-dL-dAT" secondAttribute="trailing" constant="8" id="tcr-ag-wo5"/>
-                                            <constraint firstAttribute="trailing" secondItem="mdp-li-b2S" secondAttribute="trailing" constant="40" id="umX-8N-IQD"/>
+                                            <constraint firstItem="GU2-dL-dAT" firstAttribute="top" secondItem="mdp-li-b2S" secondAttribute="bottom" constant="8" id="PML-Bs-AF1"/>
+                                            <constraint firstItem="0PB-A6-aim" firstAttribute="leading" secondItem="qNh-Az-WWT" secondAttribute="leading" constant="10" id="SbW-ap-c2A"/>
+                                            <constraint firstAttribute="trailing" secondItem="GU2-dL-dAT" secondAttribute="trailing" constant="20" id="Vkq-hX-fXf"/>
+                                            <constraint firstItem="mdp-li-b2S" firstAttribute="leading" secondItem="qNh-Az-WWT" secondAttribute="leading" constant="73" id="dny-Le-7xb"/>
+                                            <constraint firstAttribute="bottom" secondItem="0PB-A6-aim" secondAttribute="bottom" constant="10" id="e6D-af-e54"/>
+                                            <constraint firstAttribute="trailing" secondItem="mdp-li-b2S" secondAttribute="trailing" constant="75" id="umX-8N-IQD"/>
                                         </constraints>
                                         <size key="customSize" width="320" height="200"/>
                                         <connections>
@@ -1172,7 +1186,7 @@ Aus der erde Geader</string>
     <resources>
         <image name="VigoSensei" width="69" height="128"/>
         <image name="app_store" width="26" height="26"/>
-        <image name="camera_icone" width="20" height="16"/>
+        <image name="camera" width="25" height="19"/>
         <image name="fb" width="26" height="26"/>
         <image name="mail" width="28" height="26"/>
         <image name="radio" width="14" height="14"/>
