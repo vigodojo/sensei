@@ -21,14 +21,20 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     
     private struct Constants {
         static let SlotCellNibName = "SlotCollectionViewCell"
-        static let SwitchCellNibName = "SwitchTableViewCell"
         static let EmtySlotTextColor = UIColor(hexColor: 0xEA212D)
         static let FilledSlotTextColor = UIColor.blackColor()
     }
     
     @IBOutlet weak var slotsCollectionView: UICollectionView!
-    @IBOutlet weak var switchTableView: UITableView!
+    @IBOutlet weak var messageTimingTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
+    
+    private lazy var receiveTimePickerView: UIPickerView = { [unowned self] in
+        let picker = UIPickerView()
+        picker.dataSource = self
+        picker.delegate = self
+        return picker
+    }()
     
     weak var delegate: MessageSwitchCollectionViewCellDelegate?
     
@@ -45,15 +51,11 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     
     var reseiveTime: ReceiveTime? {
         get {
-            if let indexPath = switchTableView.indexPathForSelectedRow() {
-                return switchItems[indexPath.item]
-            }
+
             return nil
         }
         set {
-            if let value = newValue, index = find(switchItems, value) {
-                switchTableView.selectRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), animated: false, scrollPosition: UITableViewScrollPosition.None)
-            }
+            
         }
     }
     
@@ -73,7 +75,7 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         slotsCollectionView.registerNib(UINib(nibName: Constants.SlotCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.SlotCellNibName)
-        switchTableView.registerNib(UINib(nibName: Constants.SwitchCellNibName, bundle: nil), forCellReuseIdentifier: Constants.SwitchCellNibName)
+        messageTimingTextField.inputView = receiveTimePickerView
         contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
     }
     
@@ -120,26 +122,28 @@ extension MessageSwitchCollectionViewCell: UICollectionViewDelegate {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UIPickerViewDataSource
 
-extension MessageSwitchCollectionViewCell: UITableViewDataSource {
+extension MessageSwitchCollectionViewCell: UIPickerViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return switchItems.count
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(Constants.SwitchCellNibName, forIndexPath: indexPath) as! SwitchTableViewCell
-        cell.titleLabel.text = "\(switchItems[indexPath.row])"
-        return cell
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return switchItems.count
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - UIPickerViewDelegate
 
-extension MessageSwitchCollectionViewCell: UITableViewDelegate {
+extension MessageSwitchCollectionViewCell: UIPickerViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        delegate?.messageSwitchCollectionViewCell(self, didSelectReceiveTime: switchItems[indexPath.row])
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        return "\(switchItems[row])"
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
     }
 }

@@ -7,35 +7,37 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SlotCollectionViewCell" id="6Lr-Lf-R7j" customClass="SlotCollectionViewCell" customModule="Sensei" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
+            <rect key="frame" x="0.0" y="0.0" width="38" height="28"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
+                <rect key="frame" x="0.0" y="0.0" width="38" height="28"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bV-CY-9ew">
-                        <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
+                        <rect key="frame" x="5" y="0.0" width="28" height="28"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="28" id="W8f-Uh-r1B"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" weight="black" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="14"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="4bV-CY-9ew" secondAttribute="trailing" id="RWE-bi-OfN"/>
+                <constraint firstAttribute="centerX" secondItem="4bV-CY-9ew" secondAttribute="centerX" id="IkC-uU-JsV"/>
                 <constraint firstItem="4bV-CY-9ew" firstAttribute="top" secondItem="6Lr-Lf-R7j" secondAttribute="top" id="a1y-aQ-vEH"/>
-                <constraint firstItem="4bV-CY-9ew" firstAttribute="leading" secondItem="6Lr-Lf-R7j" secondAttribute="leading" id="hBc-jn-Fak"/>
                 <constraint firstAttribute="bottom" secondItem="4bV-CY-9ew" secondAttribute="bottom" id="r8W-uD-dhC"/>
             </constraints>
-            <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                    <integer key="value" value="14"/>
-                </userDefinedRuntimeAttribute>
-                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                    <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
-                </userDefinedRuntimeAttribute>
-            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="titleLabel" destination="4bV-CY-9ew" id="MFF-6P-b6F"/>
             </connections>
