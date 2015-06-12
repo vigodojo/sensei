@@ -12,7 +12,7 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
     
     struct Constants {
         static let MessageSwitchCellNibName = "MessageSwitchCollectionViewCell"
-        static let MessageSwitchCellHeight: CGFloat = 170
+        static let MessageSwitchCellHeight: CGFloat = 81
     }
     
     var messageSwitchCell: MessageSwitchCollectionViewCell?
@@ -63,6 +63,9 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
     // MARK: - Keyboard
     
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        if let textView = messageSwitchCell?.receiveTimeTextView where textView.isFirstResponder() {
+            return;
+        }
         let offset = size.height - (CGRectGetHeight(collectionView.frame) - collectionView.contentSize.height)
         if  offset > 0 {
             collectionView.bounces = true

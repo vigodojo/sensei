@@ -14,6 +14,9 @@ class PickerInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
         static let NibName = "PickerInputAccessoryView"
     }
     
+    @IBOutlet weak var rightButton: UIButton!
+    @IBOutlet weak var leftButton: UIButton!
+    
     var didSubmit: (() -> Void)?
     var didCancel: (() -> Void)?
     

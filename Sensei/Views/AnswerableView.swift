@@ -20,17 +20,15 @@ protocol AnswerableViewDelegate: class {
     func answerableViewDidCancel(answerableView: AnswerableView)
 }
 
+let DefaultInputAccessotyViewHeight: CGFloat = 40
+
 class AnswerableView: UIView {
-    
-    private struct Constants {
-        static let InputAccessotyViewHeight: CGFloat = 40
-    }
     
     private var questionType = QuestionType.Text
     private var pickerOptions = [String]()
     
     private lazy var pickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
-        let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: Constants.InputAccessotyViewHeight))
+        let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: DefaultInputAccessotyViewHeight))
         let inputAccessoryView = PickerInputAccessoryView(frame: rect)
         inputAccessoryView.didCancel = { [weak self] () -> Void in
             self?.cancel()
@@ -46,7 +44,7 @@ class AnswerableView: UIView {
     }()
     
     private lazy var keyboardInputAccessoryView: KeyboardInputAccessoryView = { [unowned self] in
-        let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: Constants.InputAccessotyViewHeight))
+        let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: DefaultInputAccessotyViewHeight))
         let inputAccessoryView = KeyboardInputAccessoryView(frame: rect)
         inputAccessoryView.textField.delegate = self
         inputAccessoryView.didSubmit = { [weak self] () -> Void in

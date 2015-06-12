@@ -26,8 +26,19 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     }
     
     @IBOutlet weak var slotsCollectionView: UICollectionView!
-    @IBOutlet weak var messageTimingTextField: UITextField!
+    @IBOutlet weak var receiveTimeTextView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
+    
+    private lazy var receiveTimePickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
+        let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: DefaultInputAccessotyViewHeight))
+        let inputAccessoryView = PickerInputAccessoryView(frame: rect)
+        inputAccessoryView.rightButton.setTitle("Done", forState: UIControlState.Normal)
+        inputAccessoryView.leftButton.hidden = true
+        inputAccessoryView.didSubmit = { [weak self] () -> Void in
+            self?.receiveTimeTextView.resignFirstResponder()
+        }
+        return inputAccessoryView
+        }()
     
     private lazy var receiveTimePickerView: UIPickerView = { [unowned self] in
         let picker = UIPickerView()
@@ -49,13 +60,15 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     
     let switchItems = [ReceiveTime.Morning, ReceiveTime.AnyTime, ReceiveTime.Evening]
     
-    var reseiveTime: ReceiveTime? {
+    var reseiveTime: ReceiveTime {
         get {
-
-            return nil
+            let index = receiveTimePickerView.selectedRowInComponent(0)
+            return switchItems[index]
         }
         set {
-            
+            if let index = find(switchItems, newValue) {
+                receiveTimePickerView.selectRow(index, inComponent: 0, animated: false)
+            }
         }
     }
     
@@ -75,7 +88,8 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         slotsCollectionView.registerNib(UINib(nibName: Constants.SlotCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.SlotCellNibName)
-        messageTimingTextField.inputView = receiveTimePickerView
+        receiveTimeTextView.inputView = receiveTimePickerView
+        receiveTimeTextView.inputAccessoryView = receiveTimePickerInputAccessoryView
         contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
     }
     
@@ -144,6 +158,6 @@ extension MessageSwitchCollectionViewCell: UIPickerViewDelegate {
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
+        receiveTimeTextView.text = "\(switchItems[row])"
     }
 }
