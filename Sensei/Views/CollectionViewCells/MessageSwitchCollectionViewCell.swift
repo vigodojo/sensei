@@ -67,6 +67,7 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
         }
         set {
             if let index = find(switchItems, newValue) {
+                receiveTimeTextView.text = "\(newValue)"
                 receiveTimePickerView.selectRow(index, inComponent: 0, animated: false)
             }
         }
@@ -96,6 +97,7 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     // MARK: - IBActions
     
     @IBAction func save() {
+        receiveTimeTextView.resignFirstResponder()
         delegate?.messageSwitchCollectionViewCellDidSave(self)
     }
     
@@ -159,5 +161,6 @@ extension MessageSwitchCollectionViewCell: UIPickerViewDelegate {
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         receiveTimeTextView.text = "\(switchItems[row])"
+        delegate?.messageSwitchCollectionViewCell(self, didSelectReceiveTime: switchItems[row])
     }
 }

@@ -51,9 +51,6 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
                     if oldValue == .Editing && !textView.isFirstResponder() {
                         textView.becomeFirstResponder()
                     }
-//                    if !textView.isFirstResponder() {
-//                        textView.becomeFirstResponder()
-//                    }
                 case .Default:
                     textView.userInteractionEnabled = false
                     textView.resignFirstResponder()

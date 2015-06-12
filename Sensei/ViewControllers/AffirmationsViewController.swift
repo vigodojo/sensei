@@ -13,8 +13,9 @@ class AffirmationsViewController: UserMessageViewController {
 
     private struct Constants {
         static let AffirmationCellReuseIdentifier = "AffirmationCollectionViewCell"
-        static let AffirmationCellHeight: CGFloat = 110
+        static let AffirmationCellHeight: CGFloat = 86
         static let NumberOfAffirmations = 6
+        static let EstimatedKeyboardHeight: CGFloat = 224
     }
     
     override weak var navigationCell: NavigationCollectionViewCell? {
@@ -45,11 +46,19 @@ class AffirmationsViewController: UserMessageViewController {
         return fetchedResultController
     }()
     
+    private var keyboardHeight = Constants.EstimatedKeyboardHeight
+    
+    private var affirmationCellHeight: CGFloat {
+        let height = CGRectGetHeight(UIScreen.mainScreen().bounds) - (navigationItemsHeight + UserMessageViewController.Constants.MessageSwitchCellHeight + keyboardHeight)
+        return max(height, Constants.AffirmationCellHeight)
+    }
+
+    
     // MARK: - UserMessageViewController
     
     override func setupItems() {
         super.setupItems()
-        items.append(Item(reuseIdentifier: Constants.AffirmationCellReuseIdentifier, height: Constants.AffirmationCellHeight))
+        items.append(Item(reuseIdentifier: Constants.AffirmationCellReuseIdentifier, height: affirmationCellHeight))
     }
     
     override func fetchUserMessages() {
@@ -69,7 +78,7 @@ class AffirmationsViewController: UserMessageViewController {
     override func hasChangesBeenMade() -> Bool {
         if let index = messageSwitchCell?.selectedSlot {
             let receiveTime = messageSwitchCell?.reseiveTime ?? ReceiveTime.Morning
-            let text = affirmationCell?.textView.text ?? ""
+            let text = affirmationCell?.text ?? ""
             if let affirmation = affirmationWithNumber(index) {
                 return hasAffirmationBeenChanged(affirmation, newText: text, newReceiveTime: receiveTime)
             }
@@ -87,6 +96,22 @@ class AffirmationsViewController: UserMessageViewController {
         return cell
     }
     
+    // MARK: - Keyboard
+    
+    override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        if let textView = messageSwitchCell?.receiveTimeTextView where textView.isFirstResponder() {
+            return;
+        }
+        if keyboardHeight != size.height {
+            keyboardHeight = size.height
+            items.last!.height = affirmationCellHeight
+            collectionView.collectionViewLayout.invalidateLayout()
+            collectionView.layoutIfNeeded()
+            affirmationCell?.updateTextViewHeight()
+        }
+        super.keyboardWillShowWithSize(size, animationDuration: animationDuration, animationOptions: animationOptions)
+    }
+    
     // MARK: - Private
     
     private func hasAffirmationBeenChanged(affirmation: Affirmation, newText: String, newReceiveTime: ReceiveTime) -> Bool {
@@ -97,10 +122,9 @@ class AffirmationsViewController: UserMessageViewController {
         messageSwitchCell?.selectedSlot = number.integerValue
         if let affirmation = affirmationWithNumber(number) {
             messageSwitchCell?.reseiveTime = affirmation.receiveTime
-            affirmationCell?.textView.text = affirmation.text
+            affirmationCell?.text = affirmation.text
         } else {
-            messageSwitchCell?.reseiveTime = .Morning
-            affirmationCell?.textView.text = ""
+            resetInfo()
         }
     }
     
@@ -115,7 +139,7 @@ class AffirmationsViewController: UserMessageViewController {
     private func saveAffirmation() {
         let index = messageSwitchCell?.selectedSlot
         let receiveTime = messageSwitchCell?.reseiveTime
-        let text = affirmationCell?.textView.text
+        let text = affirmationCell?.text
         if let index = index, receiveTime = receiveTime, text = text {
             if let affirmation = affirmationWithNumber(index) {
                 if text.isEmpty {
@@ -131,6 +155,20 @@ class AffirmationsViewController: UserMessageViewController {
                 CoreDataManager.sharedInstance.saveContext()
             }
         }
+    }
+    
+    private func deleteAffirmation() {
+        if let index = messageSwitchCell?.selectedSlot, affirmation = affirmationWithNumber(index) {
+            CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(affirmation)
+            CoreDataManager.sharedInstance.saveContext()
+        }
+        resetInfo()
+    }
+    
+    private func resetInfo() {
+        messageSwitchCell?.reseiveTime = .Morning
+        affirmationCell?.text = ""
+        messageSwitchCell?.saveButtonHidden = true
     }
 }
 
@@ -167,6 +205,10 @@ extension AffirmationsViewController: AffirmationCollectionViewCellDelegate {
     
     func affirmationCollectionViewCellDidChange(cell: AffirmationCollectionViewCell) {
         messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
+    }
+    
+    func affirmationCollectionViewCellDidDelete(cell: AffirmationCollectionViewCell) {
+        deleteAffirmation()
     }
 }
 

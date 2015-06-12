@@ -17,9 +17,14 @@ class SenseiNavigationController: BaseViewController {
         static let NavigationCellHeight: CGFloat = 31
     }
 
-    struct Item {
+    class Item {
         var reuseIdentifier: String!
         var height: CGFloat!
+        
+        init(reuseIdentifier: String, height: CGFloat) {
+            self.reuseIdentifier = reuseIdentifier
+            self.height = height
+        }
     }
     
     var items = [Item]()
@@ -27,6 +32,13 @@ class SenseiNavigationController: BaseViewController {
     var remainingHeight: CGFloat {
         let currentHeight = items.reduce(0) { $0 + $1.height }
         return CGRectGetHeight(UIScreen.mainScreen().bounds) - currentHeight
+    }
+    
+    var navigationItemsHeight: CGFloat {
+        return items.reduce(0) {
+            let isNavigationItem = $1.reuseIdentifier == Constants.NavigationCellNibName || $1.reuseIdentifier == Constants.TutorialCellNibName
+            return $0 + (isNavigationItem ? $1.height: 0)
+        }
     }
     
     var tutorialOn: Bool {
