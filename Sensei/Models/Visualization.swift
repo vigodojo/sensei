@@ -32,6 +32,8 @@ class Visualization: UserMessage {
         }
     }
     
+    var imageId = "666"
+    
     class func createVisualizationWithNumber(number: NSNumber, text: String, receiveTime: ReceiveTime, picture: UIImage) -> Visualization {
         let newVisualization = NSEntityDescription.insertNewObjectForEntityForName(Visualization.EntityName, inManagedObjectContext: CoreDataManager.sharedInstance.managedObjectContext!) as! Visualization
         newVisualization.number = number
@@ -55,6 +57,12 @@ class Visualization: UserMessage {
         } else {
             return [Visualization]()
         }
+    }
+    
+    override class var objectMapping: RCObjectMapping {
+        let mapping = super.objectMapping
+        mapping.addPropertyMappingFromArray(["imageId"])
+        return mapping
     }
     
     class var requestDescriptor: RCRequestDescriptor {

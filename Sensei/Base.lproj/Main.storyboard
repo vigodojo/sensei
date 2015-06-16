@@ -147,7 +147,7 @@
                                     <constraint firstAttribute="height" constant="24" id="83Q-f7-7GU"/>
                                     <constraint firstAttribute="width" constant="126" id="BRd-Y0-ben"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                 <state key="normal" title="VISUALIZATIONS">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -159,6 +159,23 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="8zt-ws-naK">
                                 <rect key="frame" x="515" y="406" width="69" height="128"/>
                             </imageView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wf2-4F-7DE" customClass="VigoSlider" customModule="Sensei" customModuleProvider="target">
+                                <rect key="frame" x="11" y="564" width="246" height="23"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I3r-pT-OXs" customClass="NumberThumbView" customModule="Sensei" customModuleProvider="target">
+                                        <rect key="frame" x="13" y="0.0" width="23" height="23"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="246" id="OP9-az-U3Y"/>
+                                    <constraint firstAttribute="height" constant="23" id="dZ2-O6-BFl"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="thumbView" destination="I3r-pT-OXs" id="URl-yn-0Q5"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -167,7 +184,9 @@
                             <constraint firstItem="h0u-hS-teU" firstAttribute="top" secondItem="8ZL-mD-K9c" secondAttribute="bottom" id="BEq-RT-3T4"/>
                             <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="66" id="FvM-UG-dxG"/>
                             <constraint firstItem="mpr-qy-yfa" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" constant="11" id="GTy-Jk-70e"/>
+                            <constraint firstItem="wf2-4F-7DE" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" constant="11" id="HUs-ug-EiN"/>
                             <constraint firstItem="i7j-O7-g18" firstAttribute="top" secondItem="rLE-xd-apt" secondAttribute="top" id="PFY-5r-9mW"/>
+                            <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="wf2-4F-7DE" secondAttribute="bottom" constant="13" id="PmG-TP-oy5"/>
                             <constraint firstAttribute="centerX" secondItem="rLE-xd-apt" secondAttribute="centerX" constant="-75" id="TLR-VP-Zuw"/>
                             <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="mpr-qy-yfa" secondAttribute="bottom" constant="66" id="Y1e-hN-ZRq"/>
                             <constraint firstItem="h0u-hS-teU" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" constant="11" id="Y4a-9J-g6m"/>
@@ -219,7 +238,7 @@
                                                             <integer key="value" value="2"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                            <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="value" red="0.19215686274509802" green="0.36470588235294116" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="5"/>

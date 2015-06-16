@@ -152,10 +152,10 @@ class APIManager: NSObject {
             builder.path = APIPath.Visualization + "\(visualization.number.integerValue)"
             builder.requestMethod = RCRequestMethod.POST
             builder.object = visualization
-            }, completion: { (response) -> Void in
-                if let handler = handler {
-                    handler(error: response.error)
-                }
+        }, completion: { (response) -> Void in
+            if let handler = handler {
+                handler(error: response.error)
+            }
         })
     }
     
@@ -178,6 +178,7 @@ class APIManager: NSObject {
     
     private func addRequestDescriptoresForSessionManager(manager: RCSessionManager) {
         manager.addRequestDescriptor(Affirmation.requestDescriptor)
+        manager.addRequestDescriptor(Visualization.requestDescriptor)
     }
 }
 

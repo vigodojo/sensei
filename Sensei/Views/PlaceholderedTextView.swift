@@ -29,7 +29,7 @@ class PlaceholderedTextView: UITextView {
             }
         }
         set {
-            if !newValue.isEmpty && newValue != placeholder {
+            if (!newValue.isEmpty && newValue != placeholder) || isFirstResponder() {
                 super.text = newValue
                 textColor = normalTextColor
             } else {
