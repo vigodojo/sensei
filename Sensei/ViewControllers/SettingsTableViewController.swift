@@ -39,4 +39,7 @@ class SettingsTableViewController: UITableViewController {
         weekDaysStartTF.inputView = datePicker
     }
 
+    @IBAction func changedLessonsQuantity(sender: VigoSlider) {
+        println("Lessons = \(sender.currentValue)")
+    }
 }

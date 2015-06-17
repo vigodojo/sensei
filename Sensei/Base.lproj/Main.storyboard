@@ -159,23 +159,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="8zt-ws-naK">
                                 <rect key="frame" x="515" y="406" width="69" height="128"/>
                             </imageView>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wf2-4F-7DE" customClass="VigoSlider" customModule="Sensei" customModuleProvider="target">
-                                <rect key="frame" x="11" y="564" width="246" height="23"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I3r-pT-OXs" customClass="NumberThumbView" customModule="Sensei" customModuleProvider="target">
-                                        <rect key="frame" x="13" y="0.0" width="23" height="23"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="246" id="OP9-az-U3Y"/>
-                                    <constraint firstAttribute="height" constant="23" id="dZ2-O6-BFl"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="thumbView" destination="I3r-pT-OXs" id="URl-yn-0Q5"/>
-                                </connections>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -184,9 +167,7 @@
                             <constraint firstItem="h0u-hS-teU" firstAttribute="top" secondItem="8ZL-mD-K9c" secondAttribute="bottom" id="BEq-RT-3T4"/>
                             <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="66" id="FvM-UG-dxG"/>
                             <constraint firstItem="mpr-qy-yfa" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" constant="11" id="GTy-Jk-70e"/>
-                            <constraint firstItem="wf2-4F-7DE" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" constant="11" id="HUs-ug-EiN"/>
                             <constraint firstItem="i7j-O7-g18" firstAttribute="top" secondItem="rLE-xd-apt" secondAttribute="top" id="PFY-5r-9mW"/>
-                            <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="wf2-4F-7DE" secondAttribute="bottom" constant="13" id="PmG-TP-oy5"/>
                             <constraint firstAttribute="centerX" secondItem="rLE-xd-apt" secondAttribute="centerX" constant="-75" id="TLR-VP-Zuw"/>
                             <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="mpr-qy-yfa" secondAttribute="bottom" constant="66" id="Y1e-hN-ZRq"/>
                             <constraint firstItem="h0u-hS-teU" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" constant="11" id="Y4a-9J-g6m"/>
@@ -220,50 +201,35 @@
                         <sections>
                             <tableViewSection id="bnd-AS-BhQ">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="66" id="v0y-Na-Lbu">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="94" id="v0y-Na-Lbu">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v0y-Na-Lbu" id="VY3-HW-8fB">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="6" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BAs-9J-lR8">
-                                                    <rect key="frame" x="541" y="18" width="29" height="29"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="29" id="XJW-h8-BLX"/>
-                                                        <constraint firstAttribute="width" constant="29" id="byk-p8-dxJ"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                            <integer key="value" value="2"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                            <color key="value" red="0.19215686274509802" green="0.36470588235294116" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="5"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </textField>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DAILY LESSONS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VqA-Aj-ACh">
-                                                    <rect key="frame" x="24" y="25" width="103" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SENSEI TEACHING INTENSITY" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VqA-Aj-ACh">
+                                                    <rect key="frame" x="24" y="22" width="191" height="16"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6XK-Op-XqK" customClass="VigoSlider" customModule="Sensei" customModuleProvider="target">
+                                                    <rect key="frame" x="29" y="53" width="542" height="21"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="CNW-Ov-NSS"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <action selector="changedLessonsQuantity:" destination="dbf-lu-mRv" eventType="valueChanged" id="78v-OF-N51"/>
+                                                    </connections>
+                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="centerY" secondItem="BAs-9J-lR8" secondAttribute="centerY" id="3qa-1A-ydK"/>
-                                                <constraint firstAttribute="centerY" secondItem="VqA-Aj-ACh" secondAttribute="centerY" id="5wk-82-8sf"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="BAs-9J-lR8" secondAttribute="trailing" constant="26" id="F95-WM-3mr"/>
-                                                <constraint firstItem="VqA-Aj-ACh" firstAttribute="leading" secondItem="VY3-HW-8fB" secondAttribute="leading" constant="24" id="ToE-qc-lCF"/>
-                                                <constraint firstAttribute="trailing" secondItem="BAs-9J-lR8" secondAttribute="trailing" constant="30" id="eFS-z4-n1V"/>
+                                                <constraint firstItem="6XK-Op-XqK" firstAttribute="top" secondItem="VqA-Aj-ACh" secondAttribute="bottom" constant="15" id="5sw-u4-fG9"/>
+                                                <constraint firstItem="6XK-Op-XqK" firstAttribute="leading" secondItem="VY3-HW-8fB" secondAttribute="leading" constant="29" id="7ac-ml-kP4"/>
+                                                <constraint firstItem="VqA-Aj-ACh" firstAttribute="leading" secondItem="VY3-HW-8fB" secondAttribute="leading" constant="24" id="e43-Mn-dUF"/>
+                                                <constraint firstAttribute="trailing" secondItem="6XK-Op-XqK" secondAttribute="trailing" constant="29" id="mcs-as-z5H"/>
+                                                <constraint firstItem="VqA-Aj-ACh" firstAttribute="top" secondItem="VY3-HW-8fB" secondAttribute="top" constant="22" id="waq-aE-cOH"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="F95-WM-3mr"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
@@ -759,7 +725,6 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="dailyLessonsTF" destination="BAs-9J-lR8" id="Zw0-Cp-mLZ"/>
                         <outlet property="dateOfBirthTF" destination="Zhi-Vv-t6t" id="gSw-bP-oKF"/>
                         <outlet property="settingsTableView" destination="G0C-Si-xR7" id="ByZ-At-zKH"/>
                         <outlet property="weekDaysEndTF" destination="eyv-wc-luT" id="r9M-Q3-flH"/>

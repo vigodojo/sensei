@@ -12,7 +12,8 @@ class NumberThumbView: VigoSliderThumbView {
     
     private struct Constants {
         static let BorderColor = UIColor(hexColor:0x315D7F)
-        static let BorderWidth: CFloat = 2.0
+        static let BorderWidth: CGFloat = 2.0
+        static let Font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
     }
     
     weak var textLabel: UILabel!
@@ -29,29 +30,24 @@ class NumberThumbView: VigoSliderThumbView {
     
     func setup() {
         let label = UILabel()
+        label.font = Constants.Font
+        label.text = "0"
+        label.textAlignment = NSTextAlignment.Center
         addSubview(label)
         textLabel = label
-        
+        clipsToBounds = true
+        backgroundColor = UIColor.whiteColor()
+        borderColor = Constants.BorderColor
+        layer.borderWidth = Constants.BorderWidth
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         textLabel.frame = bounds
-        clipsToBounds = true
-        backgroundColor = UIColor.whiteColor()
-        borderColor = Constants.BorderColor
+        layer.cornerRadius = CGRectGetMidX(bounds)
     }
     
-    override func didChangeValue(newValue: Float) {
-        textLabel.text = "\(Int(newValue * 10.0))"
+    override func didChangeValue(newValue: Int) {
+        textLabel.text = "\(newValue)"
     }
-
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }

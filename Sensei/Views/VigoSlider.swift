@@ -12,26 +12,43 @@ import UIKit
 class VigoSlider: UIControl {
     
     struct Constants {
-        static let DefaultThumbSize = CGSize(width: 25, height: 25)
+        static let AnimationDuration = 0.25
     }
     
-    @IBInspectable var minValue: Float = 0.0
-    @IBInspectable var maxValue: Float = 1.0
-    @IBInspectable var stepValue: Float = 0.1
-    @IBInspectable var currentValue: Float = 0.0
+    @IBInspectable var minValue = 0
+    @IBInspectable var maxValue = 6
+    @IBInspectable var stepValue = 1
+    @IBInspectable var currentValue = 0
     
     @IBInspectable var lineWidth: CGFloat = 1.0
     @IBInspectable var lineColor: UIColor = UIColor.blackColor()
+    @IBInspectable var divisionHeight: CGFloat = 10.0
     
-    @IBOutlet private var thumbView: VigoSliderThumbView!
+    private weak var thumbView: VigoSliderThumbView!
+    private weak var tapGesture: UITapGestureRecognizer!
+    
+    private var scaleWidth: CGFloat {
+        return CGRectGetWidth(bounds) - CGRectGetWidth(thumbView.bounds)
+    }
+    
+    private var scaleStartX: CGFloat {
+        return CGRectGetMidX(thumbView.bounds)
+    }
+    
+    private var scaleCenterY: CGFloat {
+        return CGRectGetMidY(bounds)
+    }
+    
+    // MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setCustomThumbView(createDefaultTumbView())
+        setup()
     }
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        setup()
     }
     
     override func awakeFromNib() {
@@ -43,7 +60,10 @@ class VigoSlider: UIControl {
     }
 
     override func drawRect(rect: CGRect) {
-        println("Drawing code")
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSaveGState(context)
+        drawScaleInContext(context)
+        CGContextRestoreGState(context)
     }
     
     // MARK: Public
@@ -52,22 +72,122 @@ class VigoSlider: UIControl {
         if thumbView != nil {
             thumbView.removeFromSuperview()
         }
+        view.userInteractionEnabled = false
         addSubview(view)
         thumbView = view
         // TODO: Set Center
     }
     
+    func setCurrentValue(value: Int, animated: Bool) {
+        currentValue = value
+        updateThumbViewCenterAnimated(animated)
+    }
+    
     // MARK: Private
     
+    private func setup() {
+        setCustomThumbView(createDefaultTumbView())
+        createTapGesture()
+    }
+    
+    private func createTapGesture() {
+        let gesture = UITapGestureRecognizer(target: self, action: Selector("tap:"))
+        addGestureRecognizer(gesture)
+        tapGesture = gesture
+    }
+    
     private func createDefaultTumbView() -> VigoSliderThumbView {
-        let view = VigoSliderThumbView(frame: CGRect(origin: CGPointZero, size: Constants.DefaultThumbSize))
-        view.clipsToBounds = true
-        view.layer.cornerRadius = Constants.DefaultThumbSize.width / 2.0
+        let size = CGSize(width: CGRectGetHeight(frame), height: CGRectGetHeight(frame))
+        let view = NumberThumbView(frame: CGRect(origin: CGPointZero, size: size))
         return view
     }
+    
+    private func drawScaleInContext(context: CGContextRef) {
+        CGContextSetLineWidth(context, lineWidth)
+        CGContextSetStrokeColorWithColor(context, lineColor.CGColor)
+        
+        CGContextMoveToPoint(context, scaleStartX, scaleCenterY)
+        CGContextAddLineToPoint(context, CGRectGetWidth(bounds) - scaleStartX, scaleCenterY)
+        
+        var value = minValue
+        while value <= maxValue {
+            let x = thumbXPositionForValue(value)
+            CGContextMoveToPoint(context, x, scaleCenterY - divisionHeight / 2.0)
+            CGContextAddLineToPoint(context, x, scaleCenterY + divisionHeight / 2.0)
+            value += stepValue
+        }
+        CGContextStrokePath(context)
+    }
+    
+    private func thumbXPositionForValue(value: Int) -> CGFloat {
+        return CGFloat(value - minValue) / CGFloat(maxValue - minValue) * scaleWidth + scaleStartX
+    }
+    
+    private func valueForThumbXPosition(x: CGFloat, rounded: Bool) -> Int {
+        let realValue = (x - scaleStartX) / scaleWidth * CGFloat(maxValue - minValue)
+        return Int(rounded ? round(realValue): realValue) + minValue
+    }
+    
+    private func updateThumbViewCenterAnimated(animated: Bool) {
+        let x = thumbXPositionForValue(currentValue)
+        if x == thumbView.center.x {
+            return
+        }
+        
+        if !animated {
+            thumbView.center = CGPoint(x: x, y: scaleCenterY)
+        } else {
+            UIView.animateWithDuration(Constants.AnimationDuration, animations: { [unowned self] () -> Void in
+                self.thumbView.center = CGPoint(x: x, y: self.scaleCenterY)
+            })
+        }
+    }
+    
+    private func setCurrentValueFromThumbXPosition(x: CGFloat, rounded: Bool) {
+        let value = valueForThumbXPosition(x, rounded: rounded)
+        if value != currentValue {
+            thumbView.didChangeValue(value)
+            currentValue = value
+            sendActionsForControlEvents(UIControlEvents.ValueChanged)
+        }
+    }
+    
+    // MARK: Tracking
+    
+    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+        let shouldBegin = thumbView.frame.contains(touch.locationInView(self))
+        tapGesture.enabled = !shouldBegin
+        return shouldBegin
+    }
+    
+    override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+        let locationX = touch.locationInView(self).x
+        if locationX >= scaleStartX && locationX <= (scaleStartX + scaleWidth) {
+            thumbView.center = CGPoint(x: locationX, y: scaleCenterY)
+            setCurrentValueFromThumbXPosition(locationX, rounded: false)
+        }
+        return true
+    }
+    
+    override func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
+        setCurrentValueFromThumbXPosition(touch.locationInView(self).x, rounded: true)
+        updateThumbViewCenterAnimated(true)
+        tapGesture.enabled = true
+    }
+    
+    // MARK: Taping 
+    
+    func tap(sender: UITapGestureRecognizer) {
+        let location = sender.locationInView(self)
+        if !thumbView.frame.contains(location) {
+            setCurrentValueFromThumbXPosition(location.x, rounded: true)
+            updateThumbViewCenterAnimated(true)
+        }
+    }
+
 }
 
 class VigoSliderThumbView: UIView {
     
-    func didChangeValue(newValue: Float) {}
+    func didChangeValue(newValue: Int) {}
 }
