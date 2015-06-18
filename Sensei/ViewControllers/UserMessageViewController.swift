@@ -49,7 +49,7 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
     
     func setupItems() {
         collectionView.registerNib(UINib(nibName: Constants.MessageSwitchCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.MessageSwitchCellNibName)
-        items.append(Item(reuseIdentifier: Constants.MessageSwitchCellNibName, height: Constants.MessageSwitchCellHeight))
+        contentItems.append(Item(reuseIdentifier: Constants.MessageSwitchCellNibName, height: Constants.MessageSwitchCellHeight))
     }
     
     func fetchUserMessages() {

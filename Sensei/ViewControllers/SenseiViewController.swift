@@ -73,6 +73,8 @@ class SenseiViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        (parentViewController?.parentViewController as? SenseiNavigationControllerConteiner)?.tutorialHidden = true
+        
         (view as? AnswerableView)?.delegate = self
         
         collectionView.registerNib(UINib(nibName: Constants.CellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.CellReuseIdentifier)

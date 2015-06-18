@@ -52,8 +52,13 @@
 		40B18CE61B205B9600817018 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B18CE51B205B9600817018 /* Lesson.swift */; };
 		40B960111B25709F00D36938 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B960101B25709F00D36938 /* Extensions.swift */; };
 		40B960131B25A04600D36938 /* TextImagePreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B960121B25A04600D36938 /* TextImagePreviewController.swift */; };
+		40CBAF911B32BA5900C7B986 /* SenseiNavigationControllerConteiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF901B32BA5900C7B986 /* SenseiNavigationControllerConteiner.swift */; };
+		40CBAF931B32BADC00C7B986 /* ContainerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF921B32BADC00C7B986 /* ContainerCollectionViewCell.swift */; };
+		40CBAF951B32DE0000C7B986 /* SenseiEmbededControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF941B32DE0000C7B986 /* SenseiEmbededControllerSegue.swift */; };
+		40CBAF971B32DE3100C7B986 /* ContainerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40CBAF961B32DE3100C7B986 /* ContainerCollectionViewCell.xib */; };
+		40CBAF9B1B32F45800C7B986 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF9A1B32F45800C7B986 /* Settings.swift */; };
+		40CBAF9D1B32F45800C7B986 /* SleepTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF9C1B32F45800C7B986 /* SleepTime.swift */; };
 		40D1FD151B0F157B004AB814 /* VisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */; };
-		40D1FD171B0F57ED004AB814 /* EditVisualizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */; };
 		40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */; };
 		40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */; };
 		40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */; };
@@ -112,8 +117,13 @@
 		40B18CE51B205B9600817018 /* Lesson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		40B960101B25709F00D36938 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		40B960121B25A04600D36938 /* TextImagePreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TextImagePreviewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		40CBAF901B32BA5900C7B986 /* SenseiNavigationControllerConteiner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiNavigationControllerConteiner.swift; sourceTree = "<group>"; };
+		40CBAF921B32BADC00C7B986 /* ContainerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerCollectionViewCell.swift; sourceTree = "<group>"; };
+		40CBAF941B32DE0000C7B986 /* SenseiEmbededControllerSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiEmbededControllerSegue.swift; sourceTree = "<group>"; };
+		40CBAF961B32DE3100C7B986 /* ContainerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContainerCollectionViewCell.xib; sourceTree = "<group>"; };
+		40CBAF9A1B32F45800C7B986 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		40CBAF9C1B32F45800C7B986 /* SleepTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SleepTime.swift; sourceTree = "<group>"; };
 		40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
-		40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVisualizationViewController.swift; sourceTree = "<group>"; };
 		40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
 		40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerInputAccessoryView.swift; sourceTree = "<group>"; };
 		40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerInputAccessoryView.xib; sourceTree = "<group>"; };
@@ -150,6 +160,8 @@
 				40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */,
 				40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */,
 				40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */,
+				40CBAF921B32BADC00C7B986 /* ContainerCollectionViewCell.swift */,
+				40CBAF961B32DE3100C7B986 /* ContainerCollectionViewCell.xib */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -167,6 +179,8 @@
 		402C32AF1B0392180045BAD7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				40CBAF9C1B32F45800C7B986 /* SleepTime.swift */,
+				40CBAF9A1B32F45800C7B986 /* Settings.swift */,
 				40B18CE51B205B9600817018 /* Lesson.swift */,
 				40A7B6F91B1328810097852F /* UserMessage.swift */,
 				40A7B6C41B12FC2F0097852F /* Affirmation.swift */,
@@ -184,12 +198,12 @@
 				4016F3321B04EDF200728202 /* SenseiViewController.swift */,
 				40EC078F1B0B86D8009A2000 /* BaseViewController.swift */,
 				404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */,
+				40CBAF901B32BA5900C7B986 /* SenseiNavigationControllerConteiner.swift */,
 				40A139A41B0DB72C0010176D /* UserMessageViewController.swift */,
 				40A6741D1B21B1A4001408C3 /* AffirmationsViewController.swift */,
 				40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */,
 				40B960121B25A04600D36938 /* TextImagePreviewController.swift */,
 				C76E77711B189FE000986B6F /* SettingsTableViewController.swift */,
-				40D1FD161B0F57ED004AB814 /* EditVisualizationViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -235,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				402F14561B0A0A24000C4261 /* TabSegue.swift */,
+				40CBAF941B32DE0000C7B986 /* SenseiEmbededControllerSegue.swift */,
 			);
 			path = Segues;
 			sourceTree = "<group>";
@@ -382,6 +397,7 @@
 				40A139A31B0DB19A0010176D /* TutorialCollectionViewCell.xib in Resources */,
 				40A674161B21AC67001408C3 /* MessageSwitchCollectionViewCell.xib in Resources */,
 				4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */,
+				40CBAF971B32DE3100C7B986 /* ContainerCollectionViewCell.xib in Resources */,
 				40A6741A1B21AF6C001408C3 /* SlotCollectionViewCell.xib in Resources */,
 				40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */,
 				408B320E1B0B7645001BB455 /* KeyboardInputAccessoryView.xib in Resources */,
@@ -398,7 +414,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */,
-				40D1FD171B0F57ED004AB814 /* EditVisualizationViewController.swift in Sources */,
 				404F60FC1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift in Sources */,
 				406266DB1B1D9FF700F161B6 /* FadingGradientView.swift in Sources */,
 				406428401B0E1CD2008E2023 /* PlaceholderedTextView.swift in Sources */,
@@ -413,13 +428,17 @@
 				402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */,
 				40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */,
 				40B960111B25709F00D36938 /* Extensions.swift in Sources */,
+				40CBAF911B32BA5900C7B986 /* SenseiNavigationControllerConteiner.swift in Sources */,
 				40A139A21B0DB19A0010176D /* TutorialCollectionViewCell.swift in Sources */,
 				40A7B6C51B12FC2F0097852F /* Affirmation.swift in Sources */,
 				40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */,
 				408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */,
 				40675C0A1B2F0A0200E8A9D4 /* VigoSlider.swift in Sources */,
 				C76E77721B189FE000986B6F /* SettingsTableViewController.swift in Sources */,
+				40CBAF951B32DE0000C7B986 /* SenseiEmbededControllerSegue.swift in Sources */,
+				40CBAF9B1B32F45800C7B986 /* Settings.swift in Sources */,
 				4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */,
+				40CBAF9D1B32F45800C7B986 /* SleepTime.swift in Sources */,
 				40D1FD151B0F157B004AB814 /* VisualizationCollectionViewCell.swift in Sources */,
 				40A7B6FA1B1328810097852F /* UserMessage.swift in Sources */,
 				402F14501B09FBF6000C4261 /* Question.swift in Sources */,
@@ -428,6 +447,7 @@
 				408B320C1B0B7632001BB455 /* KeyboardInputAccessoryView.swift in Sources */,
 				40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */,
 				C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */,
+				40CBAF931B32BADC00C7B986 /* ContainerCollectionViewCell.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */,
 				405389AB1B287FCF0035607E /* TextImageView.swift in Sources */,

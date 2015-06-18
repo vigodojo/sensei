@@ -27,23 +27,35 @@ class SenseiNavigationController: BaseViewController {
         }
     }
     
-    var items = [Item]()
+    private var navigationItems = [Item(reuseIdentifier: Constants.NavigationCellNibName, height: Constants.NavigationCellHeight)]
+    
+    var contentItems = [Item]()
     
     var remainingHeight: CGFloat {
-        let currentHeight = items.reduce(0) { $0 + $1.height }
+        let currentHeight = navigationItemsHeight + contentItems.reduce(0) { $0 + $1.height }
         return CGRectGetHeight(UIScreen.mainScreen().bounds) - currentHeight
     }
     
     var navigationItemsHeight: CGFloat {
-        return items.reduce(0) {
-            let isNavigationItem = $1.reuseIdentifier == Constants.NavigationCellNibName || $1.reuseIdentifier == Constants.TutorialCellNibName
-            return $0 + (isNavigationItem ? $1.height: 0)
+        return navigationItems.reduce(0) {
+            return $0 + $1.height
         }
     }
     
-    var tutorialOn: Bool {
-        return true
+    private var _tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
+    var tutorialHidden: Bool {
+        get {
+            return _tutorialHidden
+        }
+        set {
+            if newValue {
+                hideTutorialAnimated(false)
+            } else {
+                showTutorialAnimated(false)
+            }
+        }
     }
+    private var navigationItemHidden = false
     
     weak var tutorialCell: TutorialCollectionViewCell?
     weak var navigationCell: NavigationCollectionViewCell?
@@ -54,22 +66,88 @@ class SenseiNavigationController: BaseViewController {
         super.viewDidLoad()
         collectionView.registerNib(UINib(nibName: Constants.TutorialCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.TutorialCellNibName)
         collectionView.registerNib(UINib(nibName: Constants.NavigationCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.NavigationCellNibName)
+        collectionView.bounces = false
         
-        if tutorialOn {
-            items.append(Item(reuseIdentifier: Constants.TutorialCellNibName, height: Constants.TutorialCellHeight))
+        if !_tutorialHidden {
+            navigationItems.insert(Item(reuseIdentifier: Constants.TutorialCellNibName, height: Constants.TutorialCellHeight), atIndex: 0)
         }
-        items.append(Item(reuseIdentifier: Constants.NavigationCellNibName, height: Constants.NavigationCellHeight))
+    }
+    
+    func showTutorialAnimated(animated: Bool) {
+        if _tutorialHidden {
+            navigationItems.insert(Item(reuseIdentifier: Constants.TutorialCellNibName, height: Constants.TutorialCellHeight), atIndex: 0)
+            if !animated {
+                collectionView.reloadData()
+            } else {
+                collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
+            }
+            _tutorialHidden = false
+        }
+    }
+    
+    func hideTutorialAnimated(animated: Bool) {
+        if !_tutorialHidden {
+            navigationItems.removeAtIndex(0)
+            if !animated {
+                collectionView.reloadData()
+            } else {
+                collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
+            }
+            _tutorialHidden = true
+        }
+    }
+    
+    func showNavigationItemAnimated(animated: Bool) {
+        if navigationItemHidden {
+            navigationItems.append(Item(reuseIdentifier: Constants.TutorialCellNibName, height: Constants.TutorialCellHeight))
+            if !animated {
+                collectionView.reloadData()
+            } else {
+                collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: navigationItems.count - 1, inSection: 0)])
+            }
+            navigationItemHidden = false
+        }
+    }
+    
+    func hideNavigationItemAnimated(animated: Bool) {
+        if !navigationItemHidden {
+            navigationItems.removeLast()
+            if !animated {
+                collectionView.reloadData()
+            } else {
+                collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: navigationItems.count, inSection: 0)])
+            }
+            navigationItemHidden = true
+        }
+    }
+    
+    private func itemForIndexPath(indexPath: NSIndexPath) -> Item {
+        switch indexPath.section {
+            case 0:
+                return navigationItems[indexPath.item]
+            default :
+                return contentItems[indexPath.item]
+        }
     }
 }
 
 extension SenseiNavigationController: UICollectionViewDataSource {
     
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+        switch section {
+            case 0:
+                return navigationItems.count
+            default :
+                return contentItems.count
+        }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let item = items[indexPath.item]
+        let item = itemForIndexPath(indexPath)
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(item.reuseIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
         if cell is TutorialCollectionViewCell {
             tutorialCell = cell as? TutorialCollectionViewCell
@@ -86,7 +164,7 @@ extension SenseiNavigationController: UICollectionViewDataSource {
 extension SenseiNavigationController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let item = items[indexPath.item]
+        let item = itemForIndexPath(indexPath)
         return CGSize(width: CGRectGetWidth(collectionView.bounds), height: item.height)
     }
 }

@@ -53,7 +53,7 @@ class VisualizationsViewController: UserMessageViewController {
     
     override func setupItems() {
         super.setupItems()
-        items.append(Item(reuseIdentifier: Constants.VisuaizationCellReuseIdentifier, height: remainingHeight))
+        contentItems.append(Item(reuseIdentifier: Constants.VisuaizationCellReuseIdentifier, height: remainingHeight))
     }
     
     override func fetchUserMessages() {
@@ -234,21 +234,21 @@ extension VisualizationsViewController: VisualizationCollectionViewCellDelegate 
     }
     
     func visualizationCollectionViewCellDidBeginEditing(cell: VisualizationCollectionViewCell) {
-        let index = items.find { $0.reuseIdentifier == UserMessageViewController.Constants.MessageSwitchCellNibName }
-        if let index = index {
-            items.removeAtIndex(index)
+        let index = 0//contentItems.find { $0.reuseIdentifier == UserMessageViewController.Constants.MessageSwitchCellNibName }
+//        if let index = index {
+            contentItems.removeAtIndex(index)
             collectionView.performBatchUpdates({ [unowned self] () -> Void in
-                self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+                self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 1)])
             }, completion: { (finished) -> Void in
                 self.visualizationCell?.textView.becomeFirstResponder()
             })
-        }
+//        }
     }
     
     func visualizationCollectionViewCellDidEndEditing(cell: VisualizationCollectionViewCell) {
-        let index = isTutorialOn ? 2 : 1
-        items.insert(Item(reuseIdentifier: UserMessageViewController.Constants.MessageSwitchCellNibName, height: remainingHeight), atIndex: index)
-        collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+        let index = 0
+        contentItems.insert(Item(reuseIdentifier: UserMessageViewController.Constants.MessageSwitchCellNibName, height: remainingHeight), atIndex: index)
+        collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 1)])
         showVisualizationInPreview()
     }
     

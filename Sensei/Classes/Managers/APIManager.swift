@@ -9,6 +9,8 @@
 import Foundation
 import RestClient
 
+typealias JSONObject = [NSObject: AnyObject]
+
 class APIManager: NSObject {
     
     typealias ErrorHandlerClosure = (error: NSError?) -> Void
@@ -27,6 +29,7 @@ class APIManager: NSObject {
         static let Visualization = "/user/visualisation/"
         static let VisualizationPathPattern = "/user/visualisation/:id"
         static let DeviceToken = "/push/pushURL"
+        static let Settings = "/user/settings"
     }
     
     var logined = false
@@ -75,7 +78,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
             if response.error == nil {
-                CoreDataManager.sharedInstance.mergeJSONs(response.object as? [[NSObject: AnyObject]], entityMapping: Lesson.entityMapping)
+                CoreDataManager.sharedInstance.mergeJSONs(response.object as? [JSONObject], entityMapping: Lesson.entityMapping)
             }
         })
     }
@@ -166,6 +169,23 @@ class APIManager: NSObject {
         }, completion: { (response) -> Void in
             if let handler = handler {
                 handler(error: response.error)
+            }
+        })
+    }
+    
+    // MARK: Settings 
+    
+    func updateSettingsWithCompletion(handler: ((settings: Settings, error: NSError?) -> Void)?) {
+        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
+            builder.path = APIPath.Settings
+            builder.requestMethod = RCRequestMethod.GET
+        }, completion: { (response) -> Void in
+            println("\(response)")
+            if let json = response.object as? JSONObject {
+                Settings.updateWithJSON(json)
+            }
+            if let handler = handler {
+                handler(settings: Settings.sharedSettings, error: response.error)
             }
         })
     }

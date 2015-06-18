@@ -93,6 +93,52 @@
             </objects>
             <point key="canvasLocation" x="1328" y="446"/>
         </scene>
+        <!--Sensei Navigation Controller Conteiner-->
+        <scene sceneID="IjX-ok-CAM">
+            <objects>
+                <viewController id="Gbd-Gq-l7o" customClass="SenseiNavigationControllerConteiner" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="T2L-6l-bZ8"/>
+                        <viewControllerLayoutGuide type="bottom" id="iT9-4t-xjf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="I1U-fI-mQk">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mmp-Zx-iqn">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="8Iz-vd-T1L">
+                                    <size key="itemSize" width="573" height="607"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Gbd-Gq-l7o" id="DBR-VC-YoC"/>
+                                    <outlet property="delegate" destination="Gbd-Gq-l7o" id="P4F-hb-ccE"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mmp-Zx-iqn" firstAttribute="leading" secondItem="I1U-fI-mQk" secondAttribute="leading" id="DLF-zA-tVs"/>
+                            <constraint firstItem="mmp-Zx-iqn" firstAttribute="top" secondItem="I1U-fI-mQk" secondAttribute="top" id="aG9-cI-szW"/>
+                            <constraint firstAttribute="trailing" secondItem="mmp-Zx-iqn" secondAttribute="trailing" id="rKO-FW-4LJ"/>
+                            <constraint firstItem="iT9-4t-xjf" firstAttribute="top" secondItem="mmp-Zx-iqn" secondAttribute="bottom" id="z3J-Wy-lj4"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="I8z-LL-xul"/>
+                    <connections>
+                        <outlet property="collectionView" destination="mmp-Zx-iqn" id="bsQ-Gj-CWI"/>
+                        <segue destination="vXZ-lx-hvc" kind="custom" identifier="EmbededTabBar" customClass="SenseiEmbededControllerSegue" customModule="Sensei" id="Uw1-NX-Yhr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qH2-hj-yqB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="594" y="446"/>
+        </scene>
         <!--Sensei View Controller-->
         <scene sceneID="gB7-8D-Ifd">
             <objects>
@@ -240,6 +286,9 @@
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fvs-DB-Vl2">
                                                     <rect key="frame" x="521" y="17" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="toggleTutorial:" destination="dbf-lu-mRv" eventType="valueChanged" id="EVq-uF-ylr"/>
+                                                    </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="INSTRUCTIONS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPN-F9-aPe">
                                                     <rect key="frame" x="24" y="24" width="99" height="16"/>
@@ -726,7 +775,9 @@
                     </tableView>
                     <connections>
                         <outlet property="dateOfBirthTF" destination="Zhi-Vv-t6t" id="gSw-bP-oKF"/>
+                        <outlet property="numberOfLessonsSlider" destination="6XK-Op-XqK" id="hpD-Rs-4mG"/>
                         <outlet property="settingsTableView" destination="G0C-Si-xR7" id="ByZ-At-zKH"/>
+                        <outlet property="tutorialSwitch" destination="fvs-DB-Vl2" id="n1p-M8-IIb"/>
                         <outlet property="weekDaysEndTF" destination="eyv-wc-luT" id="r9M-Q3-flH"/>
                         <outlet property="weekDaysStartTF" destination="zVc-79-z8n" id="tuj-5x-Gbi"/>
                         <outlet property="weekEndsEndTF" destination="KWn-wr-TDP" id="XPa-oo-hjb"/>
@@ -1048,111 +1099,6 @@
             </objects>
             <point key="canvasLocation" x="3458" y="-223"/>
         </scene>
-        <!--Edit Visualization View Controller-->
-        <scene sceneID="KdS-ko-dB3">
-            <objects>
-                <viewController storyboardIdentifier="EditVisualizationViewController" id="iGi-Jt-nzN" customClass="EditVisualizationViewController" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="HnZ-G4-jLi"/>
-                        <viewControllerLayoutGuide type="bottom" id="rDO-bF-X5Y"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="mfV-ze-uau">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="c0b-eZ-jLw">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="7x5-w0-wR0">
-                                    <size key="itemSize" width="320" height="220"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EditVisualizationCollectionViewCell" id="E61-py-s5N" customClass="EditVisualizationCollectionViewCell" customModule="Sensei" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="220"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ycE-U5-LAr">
-                                                    <rect key="frame" x="45" y="8" width="235" height="183"/>
-                                                    <color key="backgroundColor" red="0.84313725490000002" green="0.84313725490000002" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <gestureRecognizers/>
-                                                </imageView>
-                                                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="U8V-Ur-9Am">
-                                                    <rect key="frame" x="45" y="8" width="235" height="183"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <string key="text">Schwarzalbenheims Gewurm
-Schmiedet solch schimmerndes Gold
-Der Gotter Glorie gestaltend
-Aus der erde Geader</string>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="E61-py-s5N" id="6wU-hr-JAq"/>
-                                                    </connections>
-                                                </textView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mNK-iW-09f">
-                                                    <rect key="frame" x="256" y="191" width="56" height="29"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="56" id="Baq-LU-vZR"/>
-                                                        <constraint firstAttribute="height" constant="29" id="CLR-Ex-Mqq"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
-                                                    <state key="normal" title="DELETE">
-                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="delete" destination="E61-py-s5N" eventType="touchUpInside" id="vii-bH-Y9O"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="U8V-Ur-9Am" firstAttribute="top" secondItem="E61-py-s5N" secondAttribute="top" constant="8" id="2aT-1M-ivR"/>
-                                            <constraint firstAttribute="bottom" secondItem="mNK-iW-09f" secondAttribute="bottom" id="9wI-k0-arn"/>
-                                            <constraint firstItem="ycE-U5-LAr" firstAttribute="top" secondItem="E61-py-s5N" secondAttribute="top" constant="8" id="Bch-k8-P64"/>
-                                            <constraint firstItem="U8V-Ur-9Am" firstAttribute="leading" secondItem="E61-py-s5N" secondAttribute="leading" constant="45" id="Ze3-Qp-zgY"/>
-                                            <constraint firstAttribute="bottom" secondItem="U8V-Ur-9Am" secondAttribute="bottom" constant="29" id="cAO-dj-XiH"/>
-                                            <constraint firstItem="ycE-U5-LAr" firstAttribute="leading" secondItem="E61-py-s5N" secondAttribute="leading" constant="45" id="fbl-Le-x6z"/>
-                                            <constraint firstAttribute="trailing" secondItem="U8V-Ur-9Am" secondAttribute="trailing" constant="40" id="gdt-b4-JT8"/>
-                                            <constraint firstAttribute="trailing" secondItem="ycE-U5-LAr" secondAttribute="trailing" constant="40" id="oCK-tG-cdf"/>
-                                            <constraint firstAttribute="bottom" secondItem="ycE-U5-LAr" secondAttribute="bottom" constant="29" id="olJ-2p-82e"/>
-                                            <constraint firstAttribute="trailing" secondItem="mNK-iW-09f" secondAttribute="trailing" constant="8" id="xDj-q4-96f"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="imageView" destination="ycE-U5-LAr" id="WF6-4O-0AH"/>
-                                            <outlet property="textView" destination="U8V-Ur-9Am" id="7xt-FS-DUX"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="iGi-Jt-nzN" id="Ggi-Kv-dyr"/>
-                                    <outlet property="delegate" destination="iGi-Jt-nzN" id="ELX-Xr-m5R"/>
-                                </connections>
-                            </collectionView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="c0b-eZ-jLw" firstAttribute="leading" secondItem="mfV-ze-uau" secondAttribute="leading" id="BIB-MJ-Ezd"/>
-                            <constraint firstAttribute="trailing" secondItem="c0b-eZ-jLw" secondAttribute="trailing" id="dhb-bv-EIe"/>
-                            <constraint firstItem="rDO-bF-X5Y" firstAttribute="top" secondItem="c0b-eZ-jLw" secondAttribute="bottom" id="vYd-Tg-S5E"/>
-                            <constraint firstItem="c0b-eZ-jLw" firstAttribute="top" secondItem="mfV-ze-uau" secondAttribute="top" id="yfP-TZ-UZv"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="collectionView" destination="c0b-eZ-jLw" id="twX-UR-Qkr"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7MA-LF-NAs" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3458" y="508"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="e9q-89-8nh">
             <objects>
@@ -1164,12 +1110,12 @@ Aus der erde Geader</string>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="95a-Af-kXY"/>
+                        <segue destination="Gbd-Gq-l7o" kind="relationship" relationship="rootViewController" id="eG2-MW-p60"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OrN-2C-ssC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="602" y="446"/>
+            <point key="canvasLocation" x="-197" y="446"/>
         </scene>
     </scenes>
     <resources>

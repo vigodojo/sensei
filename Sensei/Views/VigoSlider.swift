@@ -79,7 +79,7 @@ class VigoSlider: UIControl {
     }
     
     func setCurrentValue(value: Int, animated: Bool) {
-        currentValue = value
+        currentValue = min(max(value, minValue), maxValue)
         updateThumbViewCenterAnimated(animated)
     }
     
@@ -134,6 +134,7 @@ class VigoSlider: UIControl {
             return
         }
         
+        self.thumbView.didChangeValue(self.currentValue)
         if !animated {
             thumbView.center = CGPoint(x: x, y: scaleCenterY)
         } else {

@@ -85,7 +85,7 @@ class CoreDataManager {
     
     // MARK: Merging
     
-    func mergeJSONs(jsons: [[NSObject: AnyObject]]?, entityMapping: EntityMapping) {
+    func mergeJSONs(jsons: [JSONObject]?, entityMapping: EntityMapping) {
         if let jsons = jsons where NSJSONSerialization.isValidJSONObject(jsons) {
             let newPrimaryValues = jsons.map { entityMapping.valueForProperty(entityMapping.primaryProperty, json: $0)! }
             let sortDescriptor = [NSSortDescriptor(key: entityMapping.primaryProperty, ascending: true)]
@@ -117,7 +117,7 @@ class CoreDataManager {
         saveContext()
     }
     
-    func createEntityObjectFromJSON(json: [NSObject: AnyObject], entityMapping: EntityMapping) -> NSManagedObject {
+    func createEntityObjectFromJSON(json: JSONObject, entityMapping: EntityMapping) -> NSManagedObject {
         let object = createObjectForEntityWithName(entityMapping.entityName)
         for (objectKey, jsonKey) in entityMapping.propertyMapping {
             object.setValue(entityMapping.valueForProperty(objectKey, json: json), forKey: objectKey)
@@ -125,13 +125,16 @@ class CoreDataManager {
         return object
     }
     
-    func updateEntityObject(object: NSManagedObject, withJSON json: [NSObject: AnyObject], entityMapping: EntityMapping) {
+    func updateEntityObject(object: NSManagedObject, withJSON json: JSONObject, entityMapping: EntityMapping) -> Bool {
+        var hasChanges = false
         for (objectKey, jsonKey) in entityMapping.propertyMapping {
             let jsonValue = entityMapping.valueForProperty(objectKey, json: json) as? NSObject
             if (object.valueForKey(objectKey) as? NSObject) != jsonValue {
                 object.setValue(jsonValue, forKey: objectKey)
+                hasChanges = true
             }
         }
+        return hasChanges
     }
 }
 

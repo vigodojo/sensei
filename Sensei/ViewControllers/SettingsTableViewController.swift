@@ -12,12 +12,31 @@ class SettingsTableViewController: UITableViewController {
 
     @IBOutlet var settingsTableView: UITableView!
     
-    @IBOutlet weak var dailyLessonsTF: UITextField!
-    @IBOutlet weak var weekDaysStartTF: UITextField!
-    @IBOutlet weak var weekDaysEndTF: UITextField!
-    @IBOutlet weak var weekEndsStartTF: UITextField!
-    @IBOutlet weak var weekEndsEndTF: UITextField!
+    @IBOutlet weak var numberOfLessonsSlider: VigoSlider!
+    @IBOutlet weak var tutorialSwitch: UISwitch!
+
+    @IBOutlet weak var weekDaysStartTF: UITextField! {
+        didSet {
+            weekDaysStartTF.inputView = datePicker
+        }
+    }
+    @IBOutlet weak var weekDaysEndTF: UITextField! {
+        didSet {
+            weekDaysEndTF.inputView = datePicker
+        }
+    }
+    @IBOutlet weak var weekEndsStartTF: UITextField! {
+        didSet {
+            weekEndsStartTF.inputView = datePicker
+        }
+    }
+    @IBOutlet weak var weekEndsEndTF: UITextField! {
+        didSet {
+            weekEndsEndTF.inputView = datePicker
+        }
+    }
     @IBOutlet weak var dateOfBirthTF: UITextField!
+    
     
     private lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
@@ -26,20 +45,37 @@ class SettingsTableViewController: UITableViewController {
     }()
     
     
-    func handleTimePicker (sender: UIDatePicker){
-        var timeFormatter = NSDateFormatter()
-        timeFormatter.dateStyle = .NoStyle
-        timeFormatter.timeStyle = .ShortStyle
-        weekDaysStartTF.text = timeFormatter.stringFromDate(sender.date)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        weekDaysStartTF.inputView = datePicker
+        (parentViewController?.parentViewController as? SenseiNavigationControllerConteiner)?.tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
+        updateSettings()
+    }
+    
+    private func updateSettings() {
+        APIManager.sharedInstance.updateSettingsWithCompletion({ [weak self] (settings, error) -> Void in
+            self?.fillFromSettings()
+            println("After \(Settings.sharedSettings)")
+        })
+    }
+    
+    private func fillFromSettings() {
+        numberOfLessonsSlider.setCurrentValue(Settings.sharedSettings.numberOfLessons.integerValue, animated: false)
+        tutorialSwitch.on = Settings.sharedSettings.tutorialOn.boolValue
     }
 
     @IBAction func changedLessonsQuantity(sender: VigoSlider) {
+        Settings.sharedSettings.numberOfLessons = NSNumber(integer: sender.currentValue)
         println("Lessons = \(sender.currentValue)")
+    }
+    
+    @IBAction func toggleTutorial(sender: UISwitch) {
+        Settings.sharedSettings.tutorialOn = NSNumber(bool: sender.on)
+        if let senseiNavigationController = parentViewController?.parentViewController as? SenseiNavigationController {
+            if sender.on {
+                senseiNavigationController.showTutorialAnimated(true)
+            } else {
+                senseiNavigationController.hideTutorialAnimated(true)
+            }
+        }
     }
 }

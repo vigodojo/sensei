@@ -58,7 +58,7 @@ class AffirmationsViewController: UserMessageViewController {
     
     override func setupItems() {
         super.setupItems()
-        items.append(Item(reuseIdentifier: Constants.AffirmationCellReuseIdentifier, height: affirmationCellHeight))
+        contentItems.append(Item(reuseIdentifier: Constants.AffirmationCellReuseIdentifier, height: affirmationCellHeight))
     }
     
     override func fetchUserMessages() {
@@ -104,7 +104,7 @@ class AffirmationsViewController: UserMessageViewController {
         }
         if keyboardHeight != size.height {
             keyboardHeight = size.height
-            items.last!.height = affirmationCellHeight
+            contentItems.last!.height = affirmationCellHeight
             collectionView.collectionViewLayout.invalidateLayout()
             collectionView.layoutIfNeeded()
             affirmationCell?.updateTextViewHeight()
