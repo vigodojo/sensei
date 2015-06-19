@@ -38,7 +38,7 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
             self?.receiveTimeTextView.resignFirstResponder()
         }
         return inputAccessoryView
-        }()
+    }()
     
     private lazy var receiveTimePickerView: UIPickerView = { [unowned self] in
         let picker = UIPickerView()

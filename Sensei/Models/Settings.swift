@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import RestClient
 
 enum DataFormat: String {
     case US = "US"
@@ -31,8 +32,8 @@ enum Gender: String, Printable {
 class Settings: NSManagedObject {
     
     struct Constants {
-        static let DefaultStartSleepTime = "23:25"
-        static let DefaultEndSleepTime = "07:00"
+        static let DefaultStartSleepTime = "10:00"
+        static let DefaultEndSleepTime = "06:00"
         static let MaxNumberOfLessons = 6
     }
     
@@ -84,18 +85,32 @@ class Settings: NSManagedObject {
         }
     }
     
-    // MARK: Public 
+    // MARK: Mapping
+    
+    private static let propertyMapping = ["dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight",
+        "sleepTimeWeekdays.start": "sleepTime.start", "sleepTimeWeekdays.end": "sleepTime.end", "sleepTimeWeekends.start": "sleepTimeWeekEnd.start", "sleepTimeWeekends.end": "sleepTimeWeekEnd.end"]
+    
+    private static let transformers: [String: JSONValueTransformerProtocol] = ["dayOfBirth": LessonDateTransformer(), "sleepTimeWeekdays.start": SleepTimeEntityTransformer(), "sleepTimeWeekdays.end": SleepTimeEntityTransformer(), "sleepTimeWeekends.start": SleepTimeEntityTransformer(), "sleepTimeWeekends.end": SleepTimeEntityTransformer()]
     
     class var entityMapping: EntityMapping {
-        // TODO: Add Sleep Time
-        let propertyMapping = ["dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight"]
-        return EntityMapping(entityName: Settings.EntityName, propertyMapping: propertyMapping, primaryProperty: "numberOfLessons", valueTransformers: ["dayOfBirth": LessonDateTransformer()])
+        return EntityMapping(entityName: Settings.EntityName, propertyMapping: Settings.propertyMapping, primaryProperty: "numberOfLessons", valueTransformers: transformers)
     }
     
     class func updateWithJSON(json: JSONObject) {
         if CoreDataManager.sharedInstance.updateEntityObject(Settings.sharedSettings, withJSON: json, entityMapping: Settings.entityMapping) {
             CoreDataManager.sharedInstance.saveContext()
         }
+    }
+    
+    class var objectMapping: RCObjectMapping {
+        let mapping = RCObjectMapping(objectClass: Settings.self, mappingDictionary: Settings.propertyMapping)
+        mapping.addRelationshipMapping(RCRelationshipMapping(fromKeyPath: "sleepTime", toKeyPath: "sleepTimeWeekdays", objectMapping: SleepTime.objectMapping))
+        mapping.addRelationshipMapping(RCRelationshipMapping(fromKeyPath: "sleepTimeWeekEnd", toKeyPath: "sleepTimeWeekends", objectMapping: SleepTime.objectMapping))
+        return mapping
+    }
+    
+    class var requestDescriptor: RCRequestDescriptor {
+        return RCRequestDescriptor(objectMapping: Settings.objectMapping.inversMapping(), pathPattern: APIManager.APIPath.Settings)
     }
     
     // MARK: Private
@@ -106,5 +121,19 @@ class Settings: NSManagedObject {
         settings.sleepTimeWeekends = SleepTime.sleepTimeWithStartTimeStrng(Constants.DefaultStartSleepTime, endTimeString: Constants.DefaultEndSleepTime)
         CoreDataManager.sharedInstance.saveContext()
         return settings
+    }
+}
+
+class SleepTimeEntityTransformer: JSONValueTransformerProtocol {
+    
+    func valueFromString(string: String) -> AnyObject? {
+        return SleepTime.timeFormatter.dateFromString(string)
+    }
+    
+    func stringFromValue(value: AnyObject) -> String? {
+        if let date = value as? NSDate {
+            return SleepTime.timeFormatter.stringFromDate(date)
+        }
+        return nil
     }
 }

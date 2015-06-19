@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import RestClient
 
 class SleepTime: NSManagedObject {
     
@@ -29,5 +30,26 @@ class SleepTime: NSManagedObject {
         sleepTime.start = SleepTime.timeFormatter.dateFromString(startTimeString)!
         sleepTime.end = SleepTime.timeFormatter.dateFromString(endTimeString)!
         return sleepTime
+    }
+    
+    class var objectMapping: RCObjectMapping {
+        let mapping = RCObjectMapping(objectClass: SleepTime.self, mappingArray: ["start", "end"])
+        mapping.setValueTransformerClass(SleepTimeValueTransformer.self, forProperty: "start")
+        mapping.setValueTransformerClass(SleepTimeValueTransformer.self, forProperty: "end")
+        return mapping
+    }
+}
+
+class SleepTimeValueTransformer: NSObject, RCValueTransformerProtocol {
+    
+    static func objectValueFromJSONValue(jsonValue: String!) -> AnyObject! {
+        return SleepTime.timeFormatter.dateFromString(jsonValue)
+    }
+    
+    static func JSONValueFromObjectValue(objectValue: AnyObject!) -> String! {
+        if let date = objectValue as? NSDate {
+            return SleepTime.timeFormatter.stringFromDate(date)
+        }
+        return nil
     }
 }

@@ -51,7 +51,7 @@ class UserMessage: NSManagedObject, Message {
     }
     
     class var objectMapping: RCObjectMapping {
-        let mapping = RCObjectMapping(objectClass: Question.self, mappingArray: ["text"])
+        let mapping = RCObjectMapping(objectClass: UserMessage.self, mappingArray: ["text"])
         mapping.addPropertyMappingFromDictionary(["receiveTimeString": "timeToSend"])
         return mapping
     }

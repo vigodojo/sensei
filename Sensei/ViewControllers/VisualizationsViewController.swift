@@ -45,8 +45,6 @@ class VisualizationsViewController: UserMessageViewController {
         return fetchedResultController
     }()
     
-    var isTutorialOn = true
-    
     var didChangeImage = false
     
     // MARK: - UserMessageViewController

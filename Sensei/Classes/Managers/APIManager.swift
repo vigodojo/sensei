@@ -190,6 +190,20 @@ class APIManager: NSObject {
         })
     }
     
+    func saveSettings(settings: Settings, handler: ErrorHandlerClosure?) {
+        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
+            builder.path = APIPath.Settings
+            builder.requestMethod = RCRequestMethod.POST
+            builder.object = settings
+        }, completion: { (response) -> Void in
+            println("Request Corpse = \(NSString(data: response.request.HTTPBody!, encoding: 4))")
+            println("\(response)")
+            if let handler = handler {
+                handler(error: response.error)
+            }
+        })
+    }
+    
     // MARK: - Private
     
     private func addResponseDescriptoresForSessionManager(manager: RCSessionManager) {
@@ -199,6 +213,7 @@ class APIManager: NSObject {
     private func addRequestDescriptoresForSessionManager(manager: RCSessionManager) {
         manager.addRequestDescriptor(Affirmation.requestDescriptor)
         manager.addRequestDescriptor(Visualization.requestDescriptor)
+        manager.addRequestDescriptor(Settings.requestDescriptor)
     }
 }
 

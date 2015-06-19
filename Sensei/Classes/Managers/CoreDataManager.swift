@@ -129,8 +129,8 @@ class CoreDataManager {
         var hasChanges = false
         for (objectKey, jsonKey) in entityMapping.propertyMapping {
             let jsonValue = entityMapping.valueForProperty(objectKey, json: json) as? NSObject
-            if (object.valueForKey(objectKey) as? NSObject) != jsonValue {
-                object.setValue(jsonValue, forKey: objectKey)
+            if (object.valueForKeyPath(objectKey) as? NSObject) != jsonValue {
+                object.setValue(jsonValue, forKeyPath: objectKey)
                 hasChanges = true
             }
         }
@@ -162,7 +162,7 @@ struct EntityMapping {
     }
     
     func valueForProperty(property: String, json: [NSObject: AnyObject]) -> AnyObject? {
-        let jsonValue: AnyObject? = json[propertyMapping[property]!]
+        let jsonValue: AnyObject? = (json as NSDictionary).valueForKeyPath(propertyMapping[property]!)
         if let transformerClass = valueTransformers[property] {
             return transformerClass.valueFromString(jsonValue as! String)
         }
