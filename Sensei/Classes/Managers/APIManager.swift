@@ -33,6 +33,7 @@ class APIManager: NSObject {
     }
     
     var logined = false
+    var deviceToken: String?
     
     lazy var sessionManager: RCSessionManager = { [unowned self] in
         let manager = RCSessionManager(baseURL: APIManager.BaseURL)
@@ -51,7 +52,10 @@ class APIManager: NSObject {
             requestBuilder.requestMethod = RCRequestMethod.POST
             requestBuilder.object = ["deviceId": deveiceId, "timeZone": NSNumber(integer: timeZone)]
         }, completion: { (response) -> Void in
-            self.logined = response.error == nil
+            self.logined = response.successful
+            if let token = self.deviceToken {
+                self.sendDeviceToken(token)
+            }
             if let handler = handler {
                 handler(error: response.error)
             }

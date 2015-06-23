@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         token = token.stringByReplacingOccurrencesOfString("_", withString: "", options: .CaseInsensitiveSearch, range: nil)
         if APIManager.sharedInstance.logined {
             APIManager.sharedInstance.sendDeviceToken(token)
+        } else {
+            APIManager.sharedInstance.deviceToken = token
         }
         println("Sensei Device Token: \(token)")
     }

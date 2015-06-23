@@ -128,10 +128,11 @@ class CoreDataManager {
     func updateEntityObject(object: NSManagedObject, withJSON json: JSONObject, entityMapping: EntityMapping) -> Bool {
         var hasChanges = false
         for (objectKey, jsonKey) in entityMapping.propertyMapping {
-            let jsonValue = entityMapping.valueForProperty(objectKey, json: json) as? NSObject
-            if (object.valueForKeyPath(objectKey) as? NSObject) != jsonValue {
-                object.setValue(jsonValue, forKeyPath: objectKey)
-                hasChanges = true
+            if let jsonValue = entityMapping.valueForProperty(objectKey, json: json) as? NSObject {
+                if (object.valueForKeyPath(objectKey) as? NSObject) != jsonValue {
+                    object.setValue(jsonValue, forKeyPath: objectKey)
+                    hasChanges = true
+                }
             }
         }
         return hasChanges

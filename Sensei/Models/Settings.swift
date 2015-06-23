@@ -13,6 +13,24 @@ import RestClient
 enum DataFormat: String {
     case US = "US"
     case Metric = "METRIC"
+    
+    static func centimetersToFeetAndInches(cmValue: Double) -> (Int, Double) {
+        let feet = Int(cmValue * 0.032808)
+        let inches = (cmValue * 0.032808 - Double(feet)) * 12.0
+        return (feet, inches)
+    }
+    
+    static func feetAndInchToCm(feet: Int, inches: Double) -> Double {
+        return Double(feet) * 30.480 + inches * 2.54
+    }
+    
+    static func kilogramsToPounds(kgValue: Double) -> Double {
+        return kgValue * 2.2046228
+    }
+    
+    static func poundsToKilograms(lbValue: Double) -> Double {
+        return lbValue * 0.4535923
+    }
 }
 
 enum Gender: String, Printable {

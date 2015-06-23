@@ -238,7 +238,7 @@
         <scene sceneID="vfL-eB-9Af">
             <objects>
                 <tableViewController id="dbf-lu-mRv" customClass="SettingsTableViewController" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="G0C-Si-xR7">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="G0C-Si-xR7">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -258,7 +258,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6XK-Op-XqK" customClass="VigoSlider" customModule="Sensei" customModuleProvider="target">
+                                                <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="6XK-Op-XqK" customClass="VigoSlider" customModule="Sensei" customModuleProvider="target">
                                                     <rect key="frame" x="29" y="53" width="542" height="21"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>

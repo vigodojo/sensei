@@ -27,6 +27,13 @@ class VigoSlider: UIControl {
     private weak var thumbView: VigoSliderThumbView!
     private weak var tapGesture: UITapGestureRecognizer!
     
+    override var bounds: CGRect {
+        didSet {
+            updateThumbViewCenterAnimated(false)
+            setNeedsDisplay()
+        }
+    }
+    
     private var scaleWidth: CGFloat {
         return CGRectGetWidth(bounds) - CGRectGetWidth(thumbView.bounds)
     }
@@ -145,7 +152,8 @@ class VigoSlider: UIControl {
     }
     
     private func setCurrentValueFromThumbXPosition(x: CGFloat, rounded: Bool) {
-        let value = valueForThumbXPosition(x, rounded: rounded)
+        var value = valueForThumbXPosition(x, rounded: rounded)
+        value = min(max(minValue, value), maxValue)
         if value != currentValue {
             thumbView.didChangeValue(value)
             currentValue = value
@@ -163,7 +171,7 @@ class VigoSlider: UIControl {
     
     override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         let locationX = touch.locationInView(self).x
-        if locationX >= scaleStartX && locationX <= (scaleStartX + scaleWidth) {
+        if locationX >= scaleStartX && locationX <= (1.2 * scaleStartX + scaleWidth) {
             thumbView.center = CGPoint(x: locationX, y: scaleCenterY)
             setCurrentValueFromThumbXPosition(locationX, rounded: false)
         }
