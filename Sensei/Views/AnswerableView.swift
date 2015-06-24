@@ -74,6 +74,9 @@ class AnswerableView: UIView {
         return pickerView
     }()
     
+    private let heightPickerDelegate = HeightPickerDelegate()
+    private let weightPickerDelegate = WeightPickerDelegate()
+    
     weak var delegate: AnswerableViewDelegate?
     
     // MARK: - Lifecycle
@@ -122,9 +125,22 @@ class AnswerableView: UIView {
     override var inputView: UIView? {
         switch questionType {
             case .Date:
+                dateInputView.locale = DataFormatter.locale
                 return dateInputView
-            case .Choice: 
-                pickerInputView.reloadAllComponents()
+            case .Length:
+                pickerInputView.dataSource = heightPickerDelegate
+                pickerInputView.delegate = heightPickerDelegate
+                reloadPickerInputView()
+                return pickerInputView
+            case .Mass:
+                pickerInputView.dataSource = weightPickerDelegate
+                pickerInputView.delegate = weightPickerDelegate
+                reloadPickerInputView()
+                return pickerInputView
+            case .Choice:
+                pickerInputView.dataSource = self
+                pickerInputView.delegate = self
+                reloadPickerInputView()
                 return pickerInputView
             default:
                 return nil
@@ -167,6 +183,10 @@ class AnswerableView: UIView {
                     return  Answer.Text(pickerOptions[selectedRow])
                 }
                 return nil
+            case .Length:
+                return Answer.Height(heightPickerDelegate.currentValueForPickerView(pickerInputView))
+            case .Mass:
+                return Answer.Weight(weightPickerDelegate.currentValueForPickerView(pickerInputView))
             default:
                 return nil
         }
@@ -182,6 +202,15 @@ class AnswerableView: UIView {
         keyboardInputAccessoryView.textField.resignFirstResponder()
         delegate?.answerableView(self, didSubmitAnswer: answer)
         keyboardInputAccessoryView.textField.text = ""
+    }
+    
+    private func reloadPickerInputView() {
+        pickerInputView.reloadAllComponents()
+        for component in 0..<pickerInputView.numberOfComponents {
+            if pickerInputView.numberOfRowsInComponent(component) > 0 {
+                pickerInputView.selectRow(0, inComponent: component, animated: false)
+            }
+        }
     }
 }
 

@@ -15,6 +15,8 @@ enum QuestionType: String {
     case Number = "NUMBER"
     case Date = "DATE"
     case Choice = "RADIO"
+    case Length = "LENGTH"
+    case Mass = "MASS"
 }
 
 class Question: NSObject, Message {

@@ -264,9 +264,6 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="CNW-Ov-NSS"/>
                                                     </constraints>
-                                                    <connections>
-                                                        <action selector="changedLessonsQuantity:" destination="dbf-lu-mRv" eventType="valueChanged" id="78v-OF-N51"/>
-                                                    </connections>
                                                 </view>
                                             </subviews>
                                             <constraints>
@@ -907,7 +904,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V0Z-jt-1kT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2757" y="-223"/>
+            <point key="canvasLocation" x="2763" y="-223"/>
         </scene>
         <!--Visualizations View Controller-->
         <scene sceneID="9VB-pU-TUn">
@@ -1060,7 +1057,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2757" y="508"/>
+            <point key="canvasLocation" x="2763" y="510"/>
         </scene>
         <!--Text Image Preview Controller-->
         <scene sceneID="sID-cq-Uho">

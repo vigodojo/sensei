@@ -10,17 +10,11 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
     
-    private struct Constants {
-        static let MinHeightCm = 30
-        static let MaxHeightCm = 272
-        static let MinHeightFt = 1
-        static let MaxHeightFt = 8
-        static let MinHeightIn = 0
-        static let MaxHeightIn = 11
-        static let MinWeightKg = 11
-        static let MaxWeightKg = 227
-        static let MinWeightLb = 25
-        static let MaxWeightLb = 500
+    private struct SleepTimeSettings {
+        var weekdaysStart: NSDate!
+        var weekdaysEnd: NSDate!
+        var weekendsStart: NSDate!
+        var weekendsEnd: NSDate!
     }
     
     @IBOutlet var settingsTableView: UITableView!
@@ -38,18 +32,7 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var maleButton: UIButton!
     @IBOutlet weak var femaleButton: UIButton!
     
-    private lazy var dobFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "dd.MM.yy"
-        return formatter
-    }()
-    
-    
-    private lazy var timeFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "hh:mm a"
-        return formatter
-    }()
+    private var sleepTimeSettings: SleepTimeSettings?
     
     private lazy var timePicker: UIDatePicker = { [unowned self] in
         let picker = UIDatePicker()
@@ -76,17 +59,36 @@ class SettingsTableViewController: UITableViewController {
         return inputAccessoryView
     }()
     
+    private lazy var heightPickerDelegate: HeightPickerDelegate = { [unowned self] in
+        let pickerDelegate = HeightPickerDelegate()
+        pickerDelegate.didChangeValueEvent = { [weak self] (newHeight: Length) -> Void in
+            self?.heightCm = newHeight.realValue
+            self?.heightTextField.text = "\(newHeight)"
+        }
+        return pickerDelegate
+    }()
+    
+    private lazy var weightPickerDelegate: WeightPickerDelegate = { [unowned self] in
+        let pickerDelegate = WeightPickerDelegate()
+        pickerDelegate.didChangeValueEvent = { [weak self] (newWeight: Mass) -> Void in
+            self?.weightKg = newWeight.realValue
+            self?.weightTexField.text = "\(newWeight)"
+        }
+        return pickerDelegate
+    }()
+
+    
     private lazy var heightPicker: UIPickerView = { [unowned self] in
         let picker = UIPickerView()
-        picker.dataSource = self
-        picker.delegate = self
+        picker.dataSource = self.heightPickerDelegate
+        picker.delegate = self.heightPickerDelegate
         return picker
     }()
     
     private lazy var weightPicker: UIPickerView = { [unowned self] in
         let picker = UIPickerView()
-        picker.dataSource = self
-        picker.delegate = self
+        picker.dataSource = self.weightPickerDelegate
+        picker.delegate = self.weightPickerDelegate
         return picker
     }()
     
@@ -98,22 +100,35 @@ class SettingsTableViewController: UITableViewController {
             weightPicker.reloadAllComponents()
             switch dataFormat {
                 case .US:
-                    let heightUS = DataFormat.centimetersToFeetAndInches(heightCm)
-                    let feet = min(max(Constants.MinHeightFt, heightUS.0), Constants.MaxHeightFt)
-                    let inches = min(max(Constants.MinHeightIn, Int(round(heightUS.1))), Constants.MaxHeightIn)
-                    heightPicker.selectRow(feet - Constants.MinHeightFt, inComponent: 0, animated: false)
-                    heightPicker.selectRow(inches - Constants.MinHeightIn, inComponent: 1, animated: false)
+                    let heightUS = DataFormatter.centimetersToFeetAndInches(heightCm)
+                    let feet = min(max(HeightPickerDelegate.Constants.MinHeightFt, heightUS.0), HeightPickerDelegate.Constants.MaxHeightFt)
+                    let inches = min(max(HeightPickerDelegate.Constants.MinHeightIn, Int(round(heightUS.1))), HeightPickerDelegate.Constants.MaxHeightIn)
+                    heightPicker.selectRow(feet - HeightPickerDelegate.Constants.MinHeightFt, inComponent: 0, animated: false)
+                    heightPicker.selectRow(inches - HeightPickerDelegate.Constants.MinHeightIn, inComponent: 1, animated: false)
                     heightTextField.text = "\(feet)' \(inches)\""
+                
+                    let weightUS = min(max(WeightPickerDelegate.Constants.MinWeightLb, Int(round(DataFormatter.kilogramsToPounds(weightKg)))), WeightPickerDelegate.Constants.MaxWeightLb)
+                    weightPicker.selectRow(weightUS - WeightPickerDelegate.Constants.MinWeightLb, inComponent: 0, animated: false)
+                    weightTexField.text = "\(weightUS) " + Abbreviation.Pounds
                 case .Metric:
-                    let height = min(max(Constants.MinHeightCm, Int(round(heightCm))), Constants.MaxHeightCm)
-                    heightPicker.selectRow(height - Constants.MinHeightCm, inComponent: 0, animated: false)
-                    heightTextField.text = "\(Int(round(heightCm))) cm"
-                    break
+                    let height = min(max(HeightPickerDelegate.Constants.MinHeightCm, Int(round(heightCm))), HeightPickerDelegate.Constants.MaxHeightCm)
+                    heightPicker.selectRow(height - HeightPickerDelegate.Constants.MinHeightCm, inComponent: 0, animated: false)
+                    heightTextField.text = "\(Int(round(heightCm))) " + Abbreviation.Centimetres
+                    
+                    let weight = min(max(WeightPickerDelegate.Constants.MinWeightKg, Int(round(weightKg))), WeightPickerDelegate.Constants.MaxWeightKg)
+                    weightPicker.selectRow(weight - WeightPickerDelegate.Constants.MinWeightKg, inComponent: 0, animated: false)
+                    weightTexField.text = "\(weight) " + Abbreviation.Kilograms
+            }
+            timePicker.locale = DataFormatter.locale
+            datePicker.locale = DataFormatter.locale
+            updateSleepTimeSettingTextFields()
+            if Settings.sharedSettings.dayOfBirth != nil  {
+                dateOfBirthTF.text = DataFormatter.stringFromDate(datePicker.date)
             }
         }
     }
-    private var heightCm = Double(Constants.MinHeightCm)
-    private var weightKg = Double(Constants.MinHeightFt)
+    private var heightCm = Double(HeightPickerDelegate.Constants.MinHeightCm)
+    private var weightKg = Double(WeightPickerDelegate.Constants.MinWeightLb)
     
     // MARK: - Lifecycle
     
@@ -152,12 +167,13 @@ class SettingsTableViewController: UITableViewController {
     private func saveSettings() {
         Settings.sharedSettings.numberOfLessons = NSNumber(integer: numberOfLessonsSlider.currentValue)
         Settings.sharedSettings.tutorialOn = NSNumber(bool: tutorialSwitch.on)
-        Settings.sharedSettings.sleepTimeWeekdays.start = timeFormatter.dateFromString(weekDaysStartTF.text)!
-        Settings.sharedSettings.sleepTimeWeekdays.end = timeFormatter.dateFromString(weekDaysEndTF.text)!
-        Settings.sharedSettings.sleepTimeWeekends.start = timeFormatter.dateFromString(weekEndsStartTF.text)!
-        Settings.sharedSettings.sleepTimeWeekends.end = timeFormatter.dateFromString(weekEndsEndTF.text)!
-        Settings.sharedSettings.dayOfBirth = dobFormatter.dateFromString(dateOfBirthTF.text)
-        Settings.sharedSettings.dataFormat = dataFormat
+        if let timeSettings = sleepTimeSettings {
+            Settings.sharedSettings.sleepTimeWeekdays.start = timeSettings.weekdaysStart
+            Settings.sharedSettings.sleepTimeWeekdays.end = timeSettings.weekdaysEnd
+            Settings.sharedSettings.sleepTimeWeekends.start = timeSettings.weekendsStart
+            Settings.sharedSettings.sleepTimeWeekends.end = timeSettings.weekendsEnd
+        }
+        Settings.sharedSettings.dayOfBirth = DataFormatter.dateFromString(dateOfBirthTF.text)
         Settings.sharedSettings.gender = maleButton.selected ? .Male: .Female
         Settings.sharedSettings.height = NSNumber(double: heightCm)
         Settings.sharedSettings.weight = NSNumber(double: weightKg)
@@ -175,12 +191,11 @@ class SettingsTableViewController: UITableViewController {
     private func fillFromSettings() {
         numberOfLessonsSlider.setCurrentValue(Settings.sharedSettings.numberOfLessons.integerValue, animated: false)
         tutorialSwitch.on = Settings.sharedSettings.tutorialOn.boolValue
-        weekDaysStartTF.text = timeFormatter.stringFromDate(Settings.sharedSettings.sleepTimeWeekdays.start)
-        weekDaysEndTF.text = timeFormatter.stringFromDate(Settings.sharedSettings.sleepTimeWeekdays.end)
-        weekEndsStartTF.text = timeFormatter.stringFromDate(Settings.sharedSettings.sleepTimeWeekends.start)
-        weekEndsEndTF.text = timeFormatter.stringFromDate(Settings.sharedSettings.sleepTimeWeekends.end)
-        if let dayOfBirth = Settings.sharedSettings.dayOfBirth {
-            dateOfBirthTF.text = dobFormatter.stringFromDate(dayOfBirth)
+        sleepTimeSettings = SleepTimeSettings(weekdaysStart: Settings.sharedSettings.sleepTimeWeekdays.start, weekdaysEnd: Settings.sharedSettings.sleepTimeWeekdays.end, weekendsStart: Settings.sharedSettings.sleepTimeWeekends.start, weekendsEnd: Settings.sharedSettings.sleepTimeWeekends.end)
+        updateSleepTimeSettingTextFields()
+        if let date = Settings.sharedSettings.dayOfBirth {
+            dateOfBirthTF.text = DataFormatter.stringFromDate(date)
+            datePicker.setDate(date, animated: false)
         } else {
             dateOfBirthTF.text = ""
         }
@@ -193,13 +208,11 @@ class SettingsTableViewController: UITableViewController {
         
         if let weight = Settings.sharedSettings.weight {
             weightKg = weight.doubleValue
-            weightTexField.text = "\(weight)"
         } else {
             weightTexField.text = ""
         }
         
-        dataFormat = Settings.sharedSettings.dataFormat
-        switch dataFormat {
+        switch Settings.sharedSettings.dataFormat {
             case .US : selectDataFormat(usDataFormatButton)
             case .Metric: selectDataFormat(metricDataFormatButton)
         }
@@ -210,25 +223,16 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
-    private func heightWasChanged() {
-        switch dataFormat {
-            case .US:
-                let feet = Constants.MinHeightFt + heightPicker.selectedRowInComponent(0)
-                let inches = Constants.MinHeightIn + heightPicker.selectedRowInComponent(1)
-                heightCm = DataFormat.feetAndInchToCm(feet, inches: Double(inches))
-                heightTextField.text = "\(feet)' \(inches)\""
-            case .Metric:
-                heightCm = Double(Constants.MinHeightCm + heightPicker.selectedRowInComponent(0))
-                heightTextField.text = "\(Int(round(heightCm))) cm"
+    private func updateSleepTimeSettingTextFields() {
+        if let timeSettings = sleepTimeSettings {
+            weekDaysStartTF.text = DataFormatter.stringFromTime(timeSettings.weekdaysStart)
+            weekDaysEndTF.text = DataFormatter.stringFromTime(timeSettings.weekdaysEnd)
+            weekEndsStartTF.text = DataFormatter.stringFromTime(timeSettings.weekendsStart)
+            weekEndsEndTF.text = DataFormatter.stringFromTime(timeSettings.weekendsEnd)
         }
     }
     
     // MARK: - IBActions
-
-    @IBAction func changedLessonsQuantity(sender: VigoSlider) {
-        
-        println("Lessons = \(sender.currentValue)")
-    }
     
     @IBAction func toggleTutorial(sender: UISwitch) {
         if let senseiNavigationController = parentViewController?.parentViewController as? SenseiNavigationController {
@@ -242,18 +246,28 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func timePickerDidChangeValue(sender: UIDatePicker) {
         if let textField = firstResponder {
-            textField.text = timeFormatter.stringFromDate(sender.date)
+            textField.text = DataFormatter.stringFromTime(sender.date)
+            if textField == weekDaysStartTF {
+                sleepTimeSettings?.weekdaysStart = sender.date
+            } else if textField == weekDaysEndTF {
+                sleepTimeSettings?.weekdaysEnd = sender.date
+            } else if textField == weekEndsStartTF {
+                sleepTimeSettings?.weekendsStart = sender.date
+            } else if textField == weekEndsEndTF {
+                sleepTimeSettings?.weekendsEnd = sender.date
+            }
         }
     }
     
     @IBAction func datePickerDidChangeValue(sender: UIDatePicker) {
-        dateOfBirthTF.text = dobFormatter.stringFromDate(sender.date)
+        dateOfBirthTF.text = DataFormatter.stringFromDate(sender.date)
     }
     
     @IBAction func selectDataFormat(sender: UIButton) {
         usDataFormatButton.selected = (sender == usDataFormatButton)
         metricDataFormatButton.selected = (sender == metricDataFormatButton)
-        dataFormat = usDataFormatButton.selected ? .US: .Metric
+        Settings.sharedSettings.dataFormat = usDataFormatButton.selected ? .US: .Metric
+        dataFormat = Settings.sharedSettings.dataFormat
     }
     
     @IBAction func selectGender(sender: UIButton) {
@@ -269,7 +283,7 @@ extension SettingsTableViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(textField: UITextField) {
         firstResponder = textField
         if textField.inputView == timePicker {
-            if let date = timeFormatter.dateFromString(textField.text) {
+            if let date = DataFormatter.timeFromString(textField.text) {
                 timePicker.setDate(date, animated: false)
             }
         }
@@ -280,54 +294,60 @@ extension SettingsTableViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - UIPickerViewDataSource
-
-extension SettingsTableViewController: UIPickerViewDataSource {
-    
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        if pickerView == heightPicker {
-            return dataFormat == .US ? 2: 1
-        } else {
-            return 1
-        }
-    }
-    
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == heightPicker {
-            switch (dataFormat, component) {
-                case (.Metric, 0): return Constants.MaxHeightCm - Constants.MinHeightCm + 1
-                case (.US, 0): return Constants.MaxHeightFt - Constants.MinHeightFt + 1
-                case (.US, 1): return Constants.MaxHeightIn - Constants.MinHeightIn + 1
-                default: return 0
-            }
-        } else {
-            return 1
-        }
-    }
-}
-
-// MARK - UIPickerViewDelegate
-
-extension SettingsTableViewController: UIPickerViewDelegate {
-    
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        if pickerView == heightPicker {
-            switch (dataFormat, component) {
-                case (.Metric, 0): return "\(Constants.MinHeightCm + row) cm"
-                case (.US, 0): return "\(Constants.MinHeightFt + row)'"
-                case (.US, 1): return "\(Constants.MinHeightIn + row)\""
-                default: return "="
-            }
-        } else {
-            return "="
-        }
-    }
-    
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == heightPicker {
-            heightWasChanged()
-        } else {
-            
-        }
-    }
-}
+//// MARK: - UIPickerViewDataSource
+//
+//extension SettingsTableViewController: UIPickerViewDataSource {
+//    
+//    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+//        if pickerView == heightPicker {
+//            return dataFormat == .US ? 2: 1
+//        } else {
+//            return 1
+//        }
+//    }
+//    
+//    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        if pickerView == heightPicker {
+//            switch (dataFormat, component) {
+//                case (.Metric, 0): return Constants.MaxHeightCm - Constants.MinHeightCm + 1
+//                case (.US, 0): return Constants.MaxHeightFt - Constants.MinHeightFt + 1
+//                case (.US, 1): return Constants.MaxHeightIn - Constants.MinHeightIn + 1
+//                default: return 0
+//            }
+//        } else {
+//            switch dataFormat {
+//                case .Metric: return Constants.MaxWeightKg - Constants.MinWeightKg + 1
+//                case .US: return Constants.MaxWeightLb - Constants.MinWeightLb + 1
+//            }
+//        }
+//    }
+//}
+//
+//// MARK - UIPickerViewDelegate
+//
+//extension SettingsTableViewController: UIPickerViewDelegate {
+//    
+//    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+//        if pickerView == heightPicker {
+//            switch (dataFormat, component) {
+//                case (.Metric, 0): return "\(Constants.MinHeightCm + row) cm"
+//                case (.US, 0): return "\(Constants.MinHeightFt + row)'"
+//                case (.US, 1): return "\(Constants.MinHeightIn + row)\""
+//                default: return ""
+//            }
+//        } else {
+//            switch dataFormat {
+//                case .Metric: return "\(Constants.MinWeightKg + row) kg"
+//                case .US: return "\(Constants.MinWeightLb + row) lbs"
+//            }
+//        }
+//    }
+//    
+//    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        if pickerView == heightPicker {
+//            heightWasChanged()
+//        } else {
+//            weightWasChanged()
+//        }
+//    }
+//}

@@ -10,6 +10,8 @@ import Foundation
 
 enum Answer {
     case Text(String)
+    case Height(Length)
+    case Weight(Mass)
     case Date(NSDate)
 }
 
@@ -28,6 +30,10 @@ class AnswerMessage: Message, Printable {
             switch answer {
                 case .Text(let string):
                     return string
+                case .Height(let length):
+                    return "\(length)"
+                case .Weight(let mass):
+                    return "\(mass)"
                 case .Date(let date):
                     return dateFormatter.stringFromDate(date)
             }
@@ -39,6 +45,10 @@ class AnswerMessage: Message, Printable {
         switch answer {
             case .Text(let string):
                 return string
+            case .Height(let length):
+                return "\(length.realValue)"
+            case .Weight(let mass):
+                return "\(mass.realValue)"
             case .Date(let date):
                 return LessonDateTransformer().stringFromValue(date)!
         }
