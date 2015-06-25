@@ -196,7 +196,8 @@ class SenseiViewController: BaseViewController {
     func login() {
         // TODO: - DELETE HARDCODED IDFA
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-//        let idfa = NSUUID().UUIDString
+        //let idfa = NSUUID().UUIDString
+//        let idfa = "16A671A7-813B-4CDC-A615-7E54406126DE"
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         println("IDFA = \(idfa)")
         println("timezone = \(currentTimeZone)")

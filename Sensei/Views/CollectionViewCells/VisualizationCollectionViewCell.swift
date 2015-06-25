@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 let VisualizationCollectionViewCellTextViewContentSizeContext = UnsafeMutablePointer<Void>()
 
@@ -29,6 +30,10 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var textView: PlaceholderedTextView!
+    @IBOutlet weak var imageBounderingView: UIView!
+    @IBOutlet weak var imageContainerView: UIView!
+    @IBOutlet weak var imageContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imageContainerWidthConstraint: NSLayoutConstraint!
     
     lazy var outlinedTextAttributes: [String: AnyObject] = {
         let paragraphStyle = NSMutableParagraphStyle()
@@ -60,10 +65,30 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    var image: UIImage? {
+        get {
+            return imageView.image
+        }
+        set {
+            imageView.image = newValue
+            if let newImage = newValue {
+                let imageRect = AVMakeRectWithAspectRatioInsideRect(newImage.size, imageBounderingView.bounds)
+                imageContainerHeightConstraint.constant = CGRectGetHeight(imageRect)
+                imageContainerWidthConstraint.constant = CGRectGetWidth(imageRect)
+            } else {
+                imageContainerHeightConstraint.constant = CGRectGetHeight(imageBounderingView.frame)
+                imageContainerWidthConstraint.constant = CGRectGetWidth(imageBounderingView.frame)
+            }
+            imageContainerView.layoutIfNeeded()
+            updateTextViewInsetsForContentSize(textView.contentSize)
+        }
+    }
+    
     var text: String {
         get {
             return textView.text
-        } set {
+        }
+        set {
             if !newValue.isEmpty {
                 textView.attributedText = NSAttributedString(string: newValue, attributes: outlinedTextAttributes)
             } else {
@@ -79,6 +104,10 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         set {
             editButton.hidden = newValue
         }
+    }
+    
+    var minRequiredHeight: CGFloat {
+        return CGRectGetHeight(bounds) - CGRectGetHeight(imageBounderingView.frame) + CGRectGetHeight(imageContainerView.frame)
     }
     
     weak var delegate: VisualizationCollectionViewCellDelegate?
@@ -100,16 +129,26 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
     
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
         if context == TextViewContentSizeContext {
-            if let contentSize = (change[NSKeyValueChangeNewKey] as? NSValue)?.CGSizeValue() where contentSize.height < CGRectGetHeight(textView.frame) {
-                let offset = CGRectGetHeight(textView.frame) - contentSize.height
-                textView.contentInset = UIEdgeInsets(top: offset, left: 0, bottom: 0, right: 0)
+            if let contentSize = (change[NSKeyValueChangeNewKey] as? NSValue)?.CGSizeValue() {
+                updateTextViewInsetsForContentSize(contentSize)
             }
+//                where contentSize.height < CGRectGetHeight(textView.frame) {
+//                let offset = CGRectGetHeight(textView.frame) - contentSize.height
+//                textView.contentInset = UIEdgeInsets(top: offset, left: 0, bottom: 0, right: 0)
+//            }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }
     
     // MARK: - Private
+    
+    private func updateTextViewInsetsForContentSize(contentSize: CGSize) {
+        if  contentSize.height < CGRectGetHeight(textView.frame) {
+            let offset = CGRectGetHeight(textView.frame) - contentSize.height
+            textView.contentInset = UIEdgeInsets(top: offset, left: 0, bottom: 0, right: 0)
+        }
+    }
     
     // MARK: - IBActions
     

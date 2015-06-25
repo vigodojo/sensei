@@ -45,13 +45,17 @@ class VisualizationsViewController: UserMessageViewController {
         return fetchedResultController
     }()
     
-    var didChangeImage = false
+    private var didChangeImage = false
+    private var defaultVisualizationCellHeight: CGFloat = 0
+    private var visualisationCellAttributes: Item?
     
     // MARK: - UserMessageViewController
     
     override func setupItems() {
         super.setupItems()
-        contentItems.append(Item(reuseIdentifier: Constants.VisuaizationCellReuseIdentifier, height: remainingHeight))
+        defaultVisualizationCellHeight = remainingHeight
+        visualisationCellAttributes = Item(reuseIdentifier: Constants.VisuaizationCellReuseIdentifier, height: defaultVisualizationCellHeight)
+        contentItems.append(visualisationCellAttributes!)
     }
     
     override func fetchUserMessages() {
@@ -66,7 +70,6 @@ class VisualizationsViewController: UserMessageViewController {
                 self.selectVisualizationWithNumber(NSNumber(integer:0))
             })
         })
-
     }
 
     override func hasChangesBeenMade() -> Bool {
@@ -102,7 +105,7 @@ class VisualizationsViewController: UserMessageViewController {
         if let visualization = visualizationWithNumber(number) {
             messageSwitchCell?.reseiveTime = visualization.receiveTime
             visualizationCell?.text = visualization.text
-            visualizationCell?.imageView.image = visualization.picture
+            visualizationCell?.image = visualization.picture
             visualizationCell?.editButtonHidden = false
         } else {
             resetVisualizationCell()
@@ -129,7 +132,7 @@ class VisualizationsViewController: UserMessageViewController {
         let index = messageSwitchCell?.selectedSlot
         let receiveTime = messageSwitchCell?.reseiveTime
         let text = visualizationCell?.text
-        let image = visualizationCell?.imageView.image
+        let image = visualizationCell?.image
         if let index = index, receiveTime = receiveTime, text = text, image = image {
             
             let number = ((index + 1) % Constants.NumberOfVisualizations)
@@ -164,7 +167,7 @@ class VisualizationsViewController: UserMessageViewController {
     private func resetVisualizationCell() {
         messageSwitchCell?.reseiveTime = .Morning
         visualizationCell?.text = ""
-        visualizationCell?.imageView.image = nil
+        visualizationCell?.image = nil
         visualizationCell?.editButtonHidden = true
     }
     
@@ -232,21 +235,27 @@ extension VisualizationsViewController: VisualizationCollectionViewCellDelegate 
     }
     
     func visualizationCollectionViewCellDidBeginEditing(cell: VisualizationCollectionViewCell) {
-        let index = 0//contentItems.find { $0.reuseIdentifier == UserMessageViewController.Constants.MessageSwitchCellNibName }
-//        if let index = index {
-            contentItems.removeAtIndex(index)
-            collectionView.performBatchUpdates({ [unowned self] () -> Void in
-                self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 1)])
-            }, completion: { (finished) -> Void in
-                self.visualizationCell?.textView.becomeFirstResponder()
-            })
-//        }
+        let index = 0
+        contentItems.removeAtIndex(index)
+        if let item = visualisationCellAttributes {
+            item.height = cell.minRequiredHeight
+        }
+        collectionView.performBatchUpdates({ [unowned self] () -> Void in
+            self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 1)])
+        }, completion: { (finished) -> Void in
+            self.visualizationCell?.textView.becomeFirstResponder()
+        })
     }
     
     func visualizationCollectionViewCellDidEndEditing(cell: VisualizationCollectionViewCell) {
         let index = 0
+        if let item = visualisationCellAttributes {
+            item.height = defaultVisualizationCellHeight
+        }
         contentItems.insert(Item(reuseIdentifier: UserMessageViewController.Constants.MessageSwitchCellNibName, height: remainingHeight), atIndex: index)
-        collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 1)])
+        collectionView.performBatchUpdates({ [unowned self] () -> Void in
+            self.collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 1)])
+        }, completion: nil)
         showVisualizationInPreview()
     }
     
@@ -265,7 +274,7 @@ extension VisualizationsViewController: UIImagePickerControllerDelegate {
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            visualizationCell?.imageView.image = image.upOrientedImage
+            visualizationCell?.image = image.upOrientedImage
             didChangeImage = true
             messageSwitchCell?.saveButtonHidden = false
             visualizationCell?.editButtonHidden = false

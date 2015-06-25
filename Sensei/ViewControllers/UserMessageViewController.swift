@@ -12,7 +12,7 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
     
     struct Constants {
         static let MessageSwitchCellNibName = "MessageSwitchCollectionViewCell"
-        static let MessageSwitchCellHeight: CGFloat = 88
+        static let MessageSwitchCellHeight: CGFloat = 100
     }
     
     var messageSwitchCell: MessageSwitchCollectionViewCell?
