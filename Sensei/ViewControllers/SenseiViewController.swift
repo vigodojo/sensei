@@ -296,6 +296,10 @@ extension SenseiViewController: SpeechBubbleCollectionViewCellDelegate {
             deleteMessageAtIndexPath(indexPath)
         }
     }
+    
+    func speechBubbleCollectionViewCellDidYes(cell: SpeechBubbleCollectionViewCell) {}
+    
+    func speechBubbleCollectionViewCellDidNo(cell: SpeechBubbleCollectionViewCell) {}
 }
 
 // MARK: - NSFetchedResultsControllerDelegate

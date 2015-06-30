@@ -201,6 +201,7 @@
 			children = (
 				402C32B11B0392180045BAD7 /* SenseiTabController.swift */,
 				4016F3321B04EDF200728202 /* SenseiViewController.swift */,
+				C76E77711B189FE000986B6F /* SettingsTableViewController.swift */,
 				40EC078F1B0B86D8009A2000 /* BaseViewController.swift */,
 				404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */,
 				40CBAF901B32BA5900C7B986 /* SenseiNavigationControllerConteiner.swift */,
@@ -208,7 +209,6 @@
 				40A6741D1B21B1A4001408C3 /* AffirmationsViewController.swift */,
 				40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */,
 				40B960121B25A04600D36938 /* TextImagePreviewController.swift */,
-				C76E77711B189FE000986B6F /* SettingsTableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -518,7 +518,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "d2324cdb-bfe7-4454-87dd-bbcdf047e765";
+				PROVISIONING_PROFILE = "1d731b33-6517-492c-9d80-11d13e905c72";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -556,7 +556,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "d2324cdb-bfe7-4454-87dd-bbcdf047e765";
+				PROVISIONING_PROFILE = "1d731b33-6517-492c-9d80-11d13e905c72";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -576,7 +576,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d2324cdb-bfe7-4454-87dd-bbcdf047e765";
+				PROVISIONING_PROFILE = "1d731b33-6517-492c-9d80-11d13e905c72";
 			};
 			name = Debug;
 		};
@@ -594,7 +594,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d2324cdb-bfe7-4454-87dd-bbcdf047e765";
+				PROVISIONING_PROFILE = "1d731b33-6517-492c-9d80-11d13e905c72";
 			};
 			name = Release;
 		};
