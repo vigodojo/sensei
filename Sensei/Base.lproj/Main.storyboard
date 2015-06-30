@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Xez-Ze-1AV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="goE-cF-bxi">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -14,7 +14,7 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="500"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qtC-qY-aIy">
@@ -75,7 +75,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9og-ON-adB" userLabel="Container View">
-                                <rect key="frame" x="0.0" y="31" width="600" height="569"/>
+                                <rect key="frame" x="0.0" y="31" width="600" height="469"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -105,10 +105,94 @@
             </objects>
             <point key="canvasLocation" x="1328" y="446"/>
         </scene>
+        <!--Tutorial View Controller-->
+        <scene sceneID="lKx-cg-qx6">
+            <objects>
+                <viewController id="goE-cF-bxi" customClass="TutorialViewController" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Mh1-02-rQD"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zgf-80-Xwy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1It-y6-uMM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ihU-65-WZz">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                                <subviews>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ImO-8t-8FL">
+                                        <rect key="frame" x="13" y="8" width="508" height="92"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RAU-We-t4y">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="goE-cF-bxi" id="GqF-bv-W4S"/>
+                                            <outlet property="delegate" destination="goE-cF-bxi" id="b21-1N-IXe"/>
+                                        </connections>
+                                    </collectionView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C6Y-vN-eQg">
+                                        <rect key="frame" x="518" y="3" width="69" height="128"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="69" id="Hpg-Xu-vdh"/>
+                                            <constraint firstAttribute="height" constant="128" id="Qic-cN-afa"/>
+                                        </constraints>
+                                        <state key="normal" image="VigoSensei">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="touchOnSensei" destination="goE-cF-bxi" eventType="touchUpInside" id="Tvp-vW-74w"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="ImO-8t-8FL" secondAttribute="bottom" id="3u4-EL-SdC"/>
+                                    <constraint firstItem="ImO-8t-8FL" firstAttribute="top" secondItem="ihU-65-WZz" secondAttribute="top" constant="8" id="JFy-nv-zdn"/>
+                                    <constraint firstAttribute="trailing" secondItem="ImO-8t-8FL" secondAttribute="trailing" constant="79" id="NYB-QJ-j8F"/>
+                                    <constraint firstAttribute="height" constant="100" id="aY1-1g-pE7"/>
+                                    <constraint firstItem="ImO-8t-8FL" firstAttribute="leading" secondItem="ihU-65-WZz" secondAttribute="leading" constant="13" id="iIa-d3-lJ1"/>
+                                    <constraint firstAttribute="trailing" secondItem="C6Y-vN-eQg" secondAttribute="trailing" constant="13" id="mLE-ss-Bkl"/>
+                                    <constraint firstItem="C6Y-vN-eQg" firstAttribute="top" secondItem="ihU-65-WZz" secondAttribute="top" constant="3" id="nU6-Lh-Vg9"/>
+                                </constraints>
+                            </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QvE-3W-cZW">
+                                <rect key="frame" x="0.0" y="100" width="600" height="500"/>
+                                <connections>
+                                    <segue destination="Xez-Ze-1AV" kind="embed" id="jAF-jc-kc6"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="QvE-3W-cZW" secondAttribute="trailing" id="S9I-FW-4T8"/>
+                            <constraint firstItem="QvE-3W-cZW" firstAttribute="top" secondItem="ihU-65-WZz" secondAttribute="bottom" id="Zr7-iQ-8Gn"/>
+                            <constraint firstItem="ihU-65-WZz" firstAttribute="top" secondItem="1It-y6-uMM" secondAttribute="top" id="e8Y-fp-qbv"/>
+                            <constraint firstAttribute="trailing" secondItem="ihU-65-WZz" secondAttribute="trailing" id="eOY-1B-TKQ"/>
+                            <constraint firstItem="QvE-3W-cZW" firstAttribute="leading" secondItem="1It-y6-uMM" secondAttribute="leading" id="fhC-tv-PEP"/>
+                            <constraint firstItem="Zgf-80-Xwy" firstAttribute="top" secondItem="QvE-3W-cZW" secondAttribute="bottom" id="khq-Fb-EF9"/>
+                            <constraint firstItem="ihU-65-WZz" firstAttribute="leading" secondItem="1It-y6-uMM" secondAttribute="leading" id="mmV-dZ-H7i"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="collectionView" destination="ImO-8t-8FL" id="G9p-dz-e1B"/>
+                        <outlet property="tutorialContainerViewHeightConstraint" destination="aY1-1g-pE7" id="Z2y-bw-sd2"/>
+                        <outlet property="tutorialContainerViewTopConstraint" destination="e8Y-fp-qbv" id="2kS-Pl-jHv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ajD-sz-iZd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-174" y="446"/>
+        </scene>
         <!--Sensei Navigation Controller Conteiner-->
         <scene sceneID="IjX-ok-CAM">
             <objects>
-                <viewController id="Gbd-Gq-l7o" customClass="SenseiNavigationControllerConteiner" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SenseiNavigationControllerConteiner" id="Gbd-Gq-l7o" customClass="SenseiNavigationControllerConteiner" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="T2L-6l-bZ8"/>
                         <viewControllerLayoutGuide type="bottom" id="iT9-4t-xjf"/>
@@ -144,12 +228,11 @@
                     <navigationItem key="navigationItem" id="I8z-LL-xul"/>
                     <connections>
                         <outlet property="collectionView" destination="mmp-Zx-iqn" id="bsQ-Gj-CWI"/>
-                        <segue destination="vXZ-lx-hvc" kind="custom" identifier="EmbededTabBar" customClass="SenseiEmbededControllerSegue" customModule="Sensei" id="Uw1-NX-Yhr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qH2-hj-yqB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="594" y="446"/>
+            <point key="canvasLocation" x="1172" y="1468"/>
         </scene>
         <!--Sensei View Controller-->
         <scene sceneID="gB7-8D-Ifd">
@@ -916,7 +999,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V0Z-jt-1kT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2763" y="-223"/>
+            <point key="canvasLocation" x="2761" y="-223"/>
         </scene>
         <!--Visualizations View Controller-->
         <scene sceneID="9VB-pU-TUn">
@@ -984,7 +1067,7 @@
                                                         <action selector="takePhoto" destination="qNh-Az-WWT" eventType="touchUpInside" id="kW6-uP-syF"/>
                                                     </connections>
                                                 </button>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yK-p0-tdk">
+                                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yK-p0-tdk">
                                                     <rect key="frame" x="10" y="8" width="292" height="152"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdp-li-b2S">
@@ -1086,7 +1169,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2763" y="510"/>
+            <point key="canvasLocation" x="2761" y="509"/>
         </scene>
         <!--Text Image Preview Controller-->
         <scene sceneID="sID-cq-Uho">
@@ -1141,12 +1224,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Gbd-Gq-l7o" kind="relationship" relationship="rootViewController" id="eG2-MW-p60"/>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="RNN-T8-hLH"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OrN-2C-ssC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-197" y="446"/>
+            <point key="canvasLocation" x="600" y="446"/>
         </scene>
     </scenes>
     <resources>

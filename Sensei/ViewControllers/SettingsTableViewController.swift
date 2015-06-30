@@ -134,7 +134,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        (parentViewController?.parentViewController as? SenseiNavigationControllerConteiner)?.tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
+        tutorialViewController?.tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
         updateSettings()
         setup()
         fillFromSettings()
@@ -235,11 +235,11 @@ class SettingsTableViewController: UITableViewController {
     // MARK: - IBActions
     
     @IBAction func toggleTutorial(sender: UISwitch) {
-        if let senseiNavigationController = parentViewController?.parentViewController as? SenseiNavigationController {
+        if let tutorialViewController = tutorialViewController {
             if sender.on {
-                senseiNavigationController.showTutorialAnimated(true)
+                tutorialViewController.showTutorialAnimated(true)
             } else {
-                senseiNavigationController.hideTutorialAnimated(true)
+                tutorialViewController.hideTutorialAnimated(true)
             }
         }
     }

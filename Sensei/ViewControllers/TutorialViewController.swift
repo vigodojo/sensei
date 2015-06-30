@@ -1,0 +1,187 @@
+//
+//  TutorialViewController.swift
+//  Sensei
+//
+//  Created by Sauron Black on 6/30/15.
+//  Copyright (c) 2015 ThinkMobiles. All rights reserved.
+//
+
+import UIKit
+
+class TutorialViewController: UIViewController {
+    
+    struct Notifications {
+        static let TutorialWillShow = "TutorialViewControllerNotificationsTutorialWillShow"
+        static let TutorialDidShow = "TutorialViewControllerNotificationsTutorialDidShow"
+        static let TutorialWillHide = "TutorialViewControllerNotificationsTutorialWillHide"
+        static let TutorialDidHide = "TutorialViewControllerNotificationsTutorialDidHide"
+    }
+    
+    private struct Constants {
+        static let SpeechBubbleHeight: CGFloat = 82.0
+    }
+
+    @IBOutlet weak var tutorialContainerViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tutorialContainerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    var tutorialContainerHeight: CGFloat {
+        return tutorialContainerViewHeightConstraint.constant
+    }
+    
+    private var _tutorialHidden = false
+    var tutorialHidden: Bool {
+        get {
+            return _tutorialHidden
+        }
+        set {
+            if newValue {
+                hideTutorialAnimated(false)
+            } else {
+                showTutorialAnimated(false)
+            }
+        }
+    }
+    
+    var messages = [Message]()
+    
+    // MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        collectionView.registerNib(UINib(nibName: SpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: SpeechBubbleCollectionViewCellIdentifier)
+        tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
+        addObservers()
+    }
+    
+    // MARK: - Public 
+    
+    func setTutorialHidden(hidden: Bool, animated: Bool) {
+        if hidden {
+            hideTutorialAnimated(animated)
+        } else {
+            showTutorialAnimated(animated)
+        }
+    }
+    
+    func showTutorialAnimated(animated: Bool) {
+        if _tutorialHidden {
+            _tutorialHidden = false
+            if !animated {
+                tutorialContainerViewTopConstraint.constant = 0
+                view.layoutIfNeeded()
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.TutorialDidShow, object: nil)
+            } else {
+                view.layoutIfNeeded()
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.TutorialWillShow, object: nil)
+                UIView.animateWithDuration(AnimationDuration, animations: { [unowned self] () -> Void in
+                    self.tutorialContainerViewTopConstraint.constant = 0
+                    self.view.layoutIfNeeded()
+                }, completion: { finished in
+                        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.TutorialDidShow, object: nil)
+                })
+            }
+        }
+    }
+    
+    func hideTutorialAnimated(animated: Bool) {
+        if !_tutorialHidden {
+            _tutorialHidden = true
+            if !animated {
+                tutorialContainerViewTopConstraint.constant = -tutorialContainerHeight
+                view.layoutIfNeeded()
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.TutorialDidHide, object: nil)
+                clear()
+            } else {
+                view.layoutIfNeeded()
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.TutorialWillHide, object: nil)
+                UIView.animateWithDuration(AnimationDuration, animations: { [unowned self] () -> Void in
+                    self.tutorialContainerViewTopConstraint.constant = -self.tutorialContainerHeight
+                    self.view.layoutIfNeeded()
+                }, completion: { [unowned self] finished in
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.TutorialDidHide, object: nil)
+                    self.clear()
+                })
+            }
+        }
+    }
+    
+    func showMessage(message: Message) {
+        let isInsert = (messages.count == 0)
+        messages = [message]
+        if tutorialHidden {
+            collectionView.reloadData()
+            showTutorialAnimated(true)
+        } else {
+            if isInsert {
+                collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
+            } else {
+                collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
+            }
+        }
+    }
+    
+    func handleYesNoAnswerNotification(notification: NSNotification) {
+        hideTutorialAnimated(true)
+    }
+    
+    // MARK: - Private
+    
+    private func addObservers() {
+        let noNotification = SpeechBubbleCollectionViewCell.Notifications.NoAnswer
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesNoAnswerNotification:"), name: noNotification, object: nil)
+        let yesNotification = SpeechBubbleCollectionViewCell.Notifications.YesAnswer
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesNoAnswerNotification:"), name: yesNotification, object: nil)
+    }
+    
+    private func clear() {
+        messages = []
+        collectionView.reloadData()
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func touchOnSensei() {
+        hideTutorialAnimated(true)
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension TutorialViewController: UICollectionViewDataSource {
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return messages.count;
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(SpeechBubbleCollectionViewCellIdentifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
+        let message = messages[indexPath.item]
+        cell.titleLabel.text = message.text
+        cell.type = message is ConfirmationQuestion ? SpeechBubbleCollectionViewCellType.Confirmation : SpeechBubbleCollectionViewCellType.Sensei
+        cell.closeButtonHidden = true
+        return cell;
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension TutorialViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return CGSize(width: CGRectGetWidth(collectionView.bounds), height: Constants.SpeechBubbleHeight)
+    }
+}
+
+// MARK: - UIViewController+TutorialViewController
+
+extension UIViewController {
+    
+    var tutorialViewController: TutorialViewController? {
+        var viewController = parentViewController
+        while viewController != nil && !(viewController is TutorialViewController) {
+            viewController = viewController?.parentViewController
+        }
+        return viewController as? TutorialViewController
+    }
+}

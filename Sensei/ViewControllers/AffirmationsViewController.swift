@@ -18,6 +18,8 @@ class AffirmationsViewController: UserMessageViewController {
         static let EstimatedKeyboardHeight: CGFloat = 224
     }
     
+    private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Affirmation?")
+    
     override weak var navigationCell: NavigationCollectionViewCell? {
         didSet {
             navigationCell?.titleLabel.text = "AFFIRMATIONS"
@@ -49,7 +51,10 @@ class AffirmationsViewController: UserMessageViewController {
     private var keyboardHeight = Constants.EstimatedKeyboardHeight
     
     private var affirmationCellHeight: CGFloat {
-        let height = CGRectGetHeight(UIScreen.mainScreen().bounds) - (navigationItemsHeight + UserMessageViewController.Constants.MessageSwitchCellHeight + keyboardHeight)
+        var height = CGRectGetHeight(UIScreen.mainScreen().bounds) - (navigationItemsHeight + UserMessageViewController.Constants.MessageSwitchCellHeight + keyboardHeight)
+        if let tutorialViewController = tutorialViewController where !tutorialViewController.tutorialHidden {
+            height -= tutorialViewController.tutorialContainerHeight
+        }
         return max(height, Constants.AffirmationCellHeight)
     }
 
@@ -110,6 +115,22 @@ class AffirmationsViewController: UserMessageViewController {
             affirmationCell?.updateTextViewHeight()
         }
         super.keyboardWillShowWithSize(size, animationDuration: animationDuration, animationOptions: animationOptions)
+    }
+    
+    // MARK: - Tutorial
+    
+    override func handleTutorialMoving() {
+        contentItems.last!.height = affirmationCellHeight
+        collectionView.performBatchUpdates({ [unowned self] () -> Void in
+            self.collectionView.collectionViewLayout.invalidateLayout()
+            self.collectionView.setCollectionViewLayout(self.collectionView.collectionViewLayout, animated: true)
+            self.affirmationCell?.updateTextViewHeight()
+        }, completion: nil)
+    }
+    
+    override func handleYesAnswerNotification(notification: NSNotification) {
+        affirmationCell?.textView.resignFirstResponder()
+        deleteAffirmation()
     }
     
     // MARK: - Private
@@ -208,7 +229,8 @@ extension AffirmationsViewController: AffirmationCollectionViewCellDelegate {
     }
     
     func affirmationCollectionViewCellDidDelete(cell: AffirmationCollectionViewCell) {
-        deleteAffirmation()
+        tutorialViewController?.showMessage(DeleteConfirmationQuestion)
+        //deleteAffirmation()
     }
 }
 

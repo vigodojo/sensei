@@ -13,12 +13,9 @@ import AdSupport
 class SenseiViewController: BaseViewController {
     
     private struct Constants {
-        static let CellReuseIdentifier = "SpeechBubbleCollectionViewCell"
-        static let CellNibName = "SpeechBubbleCollectionViewCell"
         static let MinOpacity = CGFloat(0.2)
         static let DefaultCellHeight = CGFloat(30.0)
         static let DefaultBottomSpace = CGFloat(66.0)
-        static let DefaultAnimationDuration = 0.25
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -26,7 +23,7 @@ class SenseiViewController: BaseViewController {
     @IBOutlet weak var senseiImageView: UIImageView!
     
     private lazy var sizingCell: SpeechBubbleCollectionViewCell = {
-        NSBundle.mainBundle().loadNibNamed(Constants.CellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
+        NSBundle.mainBundle().loadNibNamed(SpeechBubbleCollectionViewCellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
     }()
     
     private var maxContentOffset: CGPoint {
@@ -72,13 +69,9 @@ class SenseiViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        (parentViewController?.parentViewController as? SenseiNavigationControllerConteiner)?.tutorialHidden = true
-        
+        tutorialViewController?.tutorialHidden = true
         (view as? AnswerableView)?.delegate = self
-        
-        collectionView.registerNib(UINib(nibName: Constants.CellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.CellReuseIdentifier)
-        
+        collectionView.registerNib(UINib(nibName: SpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: SpeechBubbleCollectionViewCellIdentifier)
         fetchLessons()
         
         if APIManager.sharedInstance.logined {
@@ -90,6 +83,7 @@ class SenseiViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        tutorialViewController?.tutorialHidden = true
         addKeyboardObservers()
     }
     
@@ -197,7 +191,7 @@ class SenseiViewController: BaseViewController {
         // TODO: - DELETE HARDCODED IDFA
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
         //let idfa = NSUUID().UUIDString
-//        let idfa = "16A671A7-813B-4CDC-A615-7E54406126DE"
+//        let idfa = "16A671A7-813B-4CDC-A615-6E5440612666"
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         println("IDFA = \(idfa)")
         println("timezone = \(currentTimeZone)")
@@ -244,7 +238,7 @@ extension SenseiViewController: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.CellReuseIdentifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(SpeechBubbleCollectionViewCellIdentifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
         cell.delegate = self
         let message = dataSource[indexPath.item]
         cell.titleLabel.text = message.text

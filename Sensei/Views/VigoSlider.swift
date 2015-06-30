@@ -11,10 +11,6 @@ import UIKit
 @IBDesignable
 class VigoSlider: UIControl {
     
-    struct Constants {
-        static let AnimationDuration = 0.25
-    }
-    
     @IBInspectable var minValue = 0
     @IBInspectable var maxValue = 6
     @IBInspectable var stepValue = 1
@@ -145,7 +141,7 @@ class VigoSlider: UIControl {
         if !animated {
             thumbView.center = CGPoint(x: x, y: scaleCenterY)
         } else {
-            UIView.animateWithDuration(Constants.AnimationDuration, animations: { [unowned self] () -> Void in
+            UIView.animateWithDuration(AnimationDuration, animations: { [unowned self] () -> Void in
                 self.thumbView.center = CGPoint(x: x, y: self.scaleCenterY)
             })
         }

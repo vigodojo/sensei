@@ -17,6 +17,8 @@ class VisualizationsViewController: UserMessageViewController {
         static let NumberOfVisualizations = 5
     }
     
+    private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Visualisation?")
+    
     override weak var navigationCell: NavigationCollectionViewCell? {
         didSet {
             navigationCell?.titleLabel.text = "VISUALIZATIONS"
@@ -45,16 +47,22 @@ class VisualizationsViewController: UserMessageViewController {
         return fetchedResultController
     }()
     
+    private var visualizationCellHeight: CGFloat {
+        var height = CGRectGetHeight(UIScreen.mainScreen().bounds) - (navigationItemsHeight + UserMessageViewController.Constants.MessageSwitchCellHeight)
+        if let tutorialViewController = tutorialViewController where !tutorialViewController.tutorialHidden {
+           height -= tutorialViewController.tutorialContainerHeight
+        }
+        return height
+    }
+    
     private var didChangeImage = false
-    private var defaultVisualizationCellHeight: CGFloat = 0
     private var visualisationCellAttributes: Item?
     
     // MARK: - UserMessageViewController
     
     override func setupItems() {
         super.setupItems()
-        defaultVisualizationCellHeight = remainingHeight
-        visualisationCellAttributes = Item(reuseIdentifier: Constants.VisuaizationCellReuseIdentifier, height: defaultVisualizationCellHeight)
+        visualisationCellAttributes = Item(reuseIdentifier: Constants.VisuaizationCellReuseIdentifier, height: visualizationCellHeight)
         contentItems.append(visualisationCellAttributes!)
     }
     
@@ -91,6 +99,27 @@ class VisualizationsViewController: UserMessageViewController {
             visualizationCell?.delegate = self
         } 
         return cell
+    }
+    
+    // MARK: - Tutorial
+    
+    override func handleTutorialMoving() {
+        if let cell = visualizationCell where cell.mode == .Default {
+            let height = visualizationCellHeight
+            visualisationCellAttributes?.height = height
+            let cellBounds = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(collectionView.frame), height: height))
+            let imageContainerBounds = UIEdgeInsetsInsetRect(cellBounds, VisualizationCollectionViewCell.ImageContainerEdgeInsets)
+            UIView.animateWithDuration(AnimationDuration, animations: { () -> Void in
+                self.collectionView.collectionViewLayout.invalidateLayout()
+                self.collectionView.setCollectionViewLayout(self.collectionView.collectionViewLayout, animated: true)
+                self.visualizationCell?.updateImageContainerViewWithBounds(imageContainerBounds)
+            })
+        }
+    }
+    
+    override func handleYesAnswerNotification(notification: NSNotification) {
+        deleteVisualization()
+        visualizationCell?.mode = .Default
     }
         
     // MARK: - Private
@@ -250,9 +279,9 @@ extension VisualizationsViewController: VisualizationCollectionViewCellDelegate 
     func visualizationCollectionViewCellDidEndEditing(cell: VisualizationCollectionViewCell) {
         let index = 0
         if let item = visualisationCellAttributes {
-            item.height = defaultVisualizationCellHeight
+            item.height = visualizationCellHeight
         }
-        contentItems.insert(Item(reuseIdentifier: UserMessageViewController.Constants.MessageSwitchCellNibName, height: remainingHeight), atIndex: index)
+        contentItems.insert(Item(reuseIdentifier: UserMessageViewController.Constants.MessageSwitchCellNibName, height: UserMessageViewController.Constants.MessageSwitchCellHeight), atIndex: index)
         collectionView.performBatchUpdates({ [unowned self] () -> Void in
             self.collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 1)])
         }, completion: nil)
@@ -260,7 +289,7 @@ extension VisualizationsViewController: VisualizationCollectionViewCellDelegate 
     }
     
     func visualizationCollectionViewCellDidDelete(cell: VisualizationCollectionViewCell) {
-        deleteVisualization()
+        tutorialViewController?.showMessage(DeleteConfirmationQuestion)
     }
     
     func visualizationCollectionViewCellDidChange(cell: VisualizationCollectionViewCell) {

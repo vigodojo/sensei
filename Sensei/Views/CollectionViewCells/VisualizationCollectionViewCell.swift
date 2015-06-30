@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 
+let TextViewContentSizeContext = UnsafeMutablePointer<Void>()
+
 let VisualizationCollectionViewCellTextViewContentSizeContext = UnsafeMutablePointer<Void>()
 
 enum VisualizationCollectionViewCellMode {
@@ -26,6 +28,8 @@ protocol VisualizationCollectionViewCellDelegate: class {
 }
 
 class VisualizationCollectionViewCell: UICollectionViewCell {
+    
+    static let ImageContainerEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 48, right: 28)
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
@@ -71,16 +75,7 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         }
         set {
             imageView.image = newValue
-            if let newImage = newValue {
-                let imageRect = AVMakeRectWithAspectRatioInsideRect(newImage.size, imageBounderingView.bounds)
-                imageContainerHeightConstraint.constant = CGRectGetHeight(imageRect)
-                imageContainerWidthConstraint.constant = CGRectGetWidth(imageRect)
-            } else {
-                imageContainerHeightConstraint.constant = CGRectGetHeight(imageBounderingView.frame)
-                imageContainerWidthConstraint.constant = CGRectGetWidth(imageBounderingView.frame)
-            }
-            imageContainerView.layoutIfNeeded()
-            updateTextViewInsetsForContentSize(textView.contentSize)
+            updateImageContainerViewWithBounds(imageBounderingView.bounds)
         }
     }
     
@@ -125,6 +120,21 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         textView.removeObserver(self, forKeyPath: "contentSize", context: TextViewContentSizeContext)
     }
     
+    // MARK: Public
+    
+    func updateImageContainerViewWithBounds(rect: CGRect) {
+        if let image = image {
+            let imageRect = AVMakeRectWithAspectRatioInsideRect(image.size, rect)
+            imageContainerHeightConstraint.constant = CGRectGetHeight(imageRect)
+            imageContainerWidthConstraint.constant = CGRectGetWidth(imageRect)
+        } else {
+            imageContainerHeightConstraint.constant = CGRectGetHeight(rect)
+            imageContainerWidthConstraint.constant = CGRectGetWidth(rect)
+        }
+        imageContainerView.layoutIfNeeded()
+        updateTextViewInsetsForContentSize(textView.contentSize)
+    }
+    
     // MARK: - KVO
     
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
@@ -132,10 +142,6 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
             if let contentSize = (change[NSKeyValueChangeNewKey] as? NSValue)?.CGSizeValue() {
                 updateTextViewInsetsForContentSize(contentSize)
             }
-//                where contentSize.height < CGRectGetHeight(textView.frame) {
-//                let offset = CGRectGetHeight(textView.frame) - contentSize.height
-//                textView.contentInset = UIEdgeInsets(top: offset, left: 0, bottom: 0, right: 0)
-//            }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
@@ -162,7 +168,6 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
                 mode = .Editing
             case .Editing:
                 delegate?.visualizationCollectionViewCellDidDelete(self)
-                mode = .Default
         }
     }
 }

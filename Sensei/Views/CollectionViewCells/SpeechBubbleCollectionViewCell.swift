@@ -8,6 +8,9 @@
 
 import UIKit
 
+let SpeechBubbleCollectionViewCellNibName = "SpeechBubbleCollectionViewCell"
+let SpeechBubbleCollectionViewCellIdentifier = "SpeechBubbleCollectionViewCell"
+
 enum SpeechBubbleCollectionViewCellType {
     case Sensei
     case Me
@@ -23,10 +26,15 @@ protocol SpeechBubbleCollectionViewCellDelegate: class {
 
 class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     
+    struct Notifications {
+        static let NoAnswer = "SpeechBubbleCollectionViewCellNotificationsNoAnswer"
+        static let YesAnswer = "SpeechBubbleCollectionViewCellNotificationsYesAnswer"
+    }
+    
     private struct Constants {
         static let DefaultTitleLabelLeadingSpace: CGFloat = 8
         static let DefaultTitleLabelTrailingSpace: CGFloat = 48
-        static let DefaultAccessoryItemsContainerHeight: CGFloat = 40
+        static let DefaultAccessoryItemsContainerHeight: CGFloat = 32
     }
     
     @IBOutlet weak var speechBubbleView: SpeechBubbleView!
@@ -44,18 +52,27 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
             switch type {
                 case .Sensei:
                     speechBubbleView.pointerPosition = .Right
-                    closeButton.hidden = false
+                    closeButtonHidden = false
                 case .Me:
                     speechBubbleView.pointerPosition = .Left
-                    closeButton.hidden = true
+                    closeButtonHidden = true
                     titleLabelLeadingConstraint.constant = speechBubbleView.pointerSize.width + Constants.DefaultTitleLabelLeadingSpace
                     titleLabelTrailingConstraint.constant = Constants.DefaultTitleLabelLeadingSpace
                 case .Confirmation:
                     speechBubbleView.pointerPosition = .Right
-                    closeButton.hidden = true
+                    closeButtonHidden = true
                     accessoryItemsContainerHeightConstraint.constant = Constants.DefaultAccessoryItemsContainerHeight
             }
             setNeedsDisplay()
+        }
+    }
+    
+    var closeButtonHidden: Bool {
+        get {
+            return closeButton.hidden
+        }
+        set {
+            closeButton.hidden = newValue
         }
     }
     
@@ -71,8 +88,12 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func yesAction() {
+        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.YesAnswer, object: nil)
+        delegate?.speechBubbleCollectionViewCellDidYes(self)
     }
     
     @IBAction func noAction() {
+        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.NoAnswer, object: nil)
+        delegate?.speechBubbleCollectionViewCellDidNo(self)
     }
 }

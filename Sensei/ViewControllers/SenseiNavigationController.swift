@@ -11,8 +11,6 @@ import UIKit
 class SenseiNavigationController: BaseViewController {
     
     struct Constants {
-        static let TutorialCellNibName = "TutorialCollectionViewCell"
-        static let TutorialCellHeight: CGFloat = 100
         static let NavigationCellNibName = "NavigationCollectionViewCell"
         static let NavigationCellHeight: CGFloat = 31
     }
@@ -42,19 +40,6 @@ class SenseiNavigationController: BaseViewController {
         }
     }
     
-    private var _tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
-    var tutorialHidden: Bool {
-        get {
-            return _tutorialHidden
-        }
-        set {
-            if newValue {
-                hideTutorialAnimated(false)
-            } else {
-                showTutorialAnimated(false)
-            }
-        }
-    }
     private var navigationItemHidden = false
     
     weak var tutorialCell: TutorialCollectionViewCell?
@@ -64,42 +49,13 @@ class SenseiNavigationController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.registerNib(UINib(nibName: Constants.TutorialCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.TutorialCellNibName)
         collectionView.registerNib(UINib(nibName: Constants.NavigationCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.NavigationCellNibName)
         collectionView.bounces = false
-        
-        if !_tutorialHidden {
-            navigationItems.insert(Item(reuseIdentifier: Constants.TutorialCellNibName, height: Constants.TutorialCellHeight), atIndex: 0)
-        }
-    }
-    
-    func showTutorialAnimated(animated: Bool) {
-        if _tutorialHidden {
-            navigationItems.insert(Item(reuseIdentifier: Constants.TutorialCellNibName, height: Constants.TutorialCellHeight), atIndex: 0)
-            if !animated {
-                collectionView.reloadData()
-            } else {
-                collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
-            }
-            _tutorialHidden = false
-        }
-    }
-    
-    func hideTutorialAnimated(animated: Bool) {
-        if !_tutorialHidden {
-            navigationItems.removeAtIndex(0)
-            if !animated {
-                collectionView.reloadData()
-            } else {
-                collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
-            }
-            _tutorialHidden = true
-        }
     }
     
     func showNavigationItemAnimated(animated: Bool) {
         if navigationItemHidden {
-            navigationItems.append(Item(reuseIdentifier: Constants.TutorialCellNibName, height: Constants.TutorialCellHeight))
+            navigationItems.append(Item(reuseIdentifier: Constants.NavigationCellNibName, height: Constants.NavigationCellHeight))
             if !animated {
                 collectionView.reloadData()
             } else {
@@ -130,6 +86,8 @@ class SenseiNavigationController: BaseViewController {
         }
     }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension SenseiNavigationController: UICollectionViewDataSource {
     
@@ -168,6 +126,8 @@ extension SenseiNavigationController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: CGRectGetWidth(collectionView.bounds), height: item.height)
     }
 }
+
+// MARK: - NavigationCollectionViewCellDelegate
 
 extension SenseiNavigationController: NavigationCollectionViewCellDelegate {
     

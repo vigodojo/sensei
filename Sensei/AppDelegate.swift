@@ -37,7 +37,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("Sensei Device Token: \(token)")
     }
     
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        showAlertWithTitle("Notification", message: "\(userInfo)")
+    }
+    
     // MARK: - Test Data
+    
+    private func showAlertWithTitle(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+        window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+    }
     
     func testCoreDataCreation() {
         Affirmation.createAffirmationNumber(NSNumber(integer: 1), text: "Black Metal Isk Krieg", receiveTime: ReceiveTime.Morning)

@@ -16,7 +16,7 @@
 		402F14531B0A08AC000C4261 /* RestClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 402F14521B0A08AC000C4261 /* RestClient.framework */; };
 		402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F14561B0A0A24000C4261 /* TabSegue.swift */; };
 		402F14591B0A0A42000C4261 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F14581B0A0A42000C4261 /* APIManager.swift */; };
-		404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60F61B0C9D0600A16FCC /* Answer.swift */; };
+		404F60F71B0C9D0600A16FCC /* AnswerMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60F61B0C9D0600A16FCC /* AnswerMessage.swift */; };
 		404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */; };
 		404F60FC1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */; };
 		404F60FD1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */; };
@@ -32,6 +32,9 @@
 		408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B32091B0B7295001BB455 /* AnswerableView.swift */; };
 		408B320C1B0B7632001BB455 /* KeyboardInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B320B1B0B7632001BB455 /* KeyboardInputAccessoryView.swift */; };
 		408B320E1B0B7645001BB455 /* KeyboardInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 408B320D1B0B7645001BB455 /* KeyboardInputAccessoryView.xib */; };
+		40A026511B428A2B00E18958 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A026501B428A2B00E18958 /* TutorialViewController.swift */; };
+		40A026531B42DB6A00E18958 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A026521B42DB6A00E18958 /* Constants.swift */; };
+		40A026551B43053700E18958 /* ConfirmationQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A026541B43053700E18958 /* ConfirmationQuestion.swift */; };
 		40A139A21B0DB19A0010176D /* TutorialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A01B0DB19A0010176D /* TutorialCollectionViewCell.swift */; };
 		40A139A31B0DB19A0010176D /* TutorialCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A139A11B0DB19A0010176D /* TutorialCollectionViewCell.xib */; };
 		40A139A51B0DB72C0010176D /* UserMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A41B0DB72C0010176D /* UserMessageViewController.swift */; };
@@ -60,7 +63,6 @@
 		40CBAF9B1B32F45800C7B986 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF9A1B32F45800C7B986 /* Settings.swift */; };
 		40CBAF9D1B32F45800C7B986 /* SleepTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF9C1B32F45800C7B986 /* SleepTime.swift */; };
 		40D1FD151B0F157B004AB814 /* VisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */; };
-		40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */; };
 		40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */; };
 		40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */; };
 		40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078F1B0B86D8009A2000 /* BaseViewController.swift */; };
@@ -78,7 +80,7 @@
 		402F14521B0A08AC000C4261 /* RestClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RestClient.framework; sourceTree = "<group>"; };
 		402F14561B0A0A24000C4261 /* TabSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSegue.swift; sourceTree = "<group>"; };
 		402F14581B0A0A42000C4261 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
-		404F60F61B0C9D0600A16FCC /* Answer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
+		404F60F61B0C9D0600A16FCC /* AnswerMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerMessage.swift; sourceTree = "<group>"; };
 		404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiNavigationController.swift; sourceTree = "<group>"; };
 		404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationCollectionViewCell.swift; sourceTree = "<group>"; };
 		404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NavigationCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -98,6 +100,9 @@
 		408B32091B0B7295001BB455 /* AnswerableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AnswerableView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		408B320B1B0B7632001BB455 /* KeyboardInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInputAccessoryView.swift; sourceTree = "<group>"; };
 		408B320D1B0B7645001BB455 /* KeyboardInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyboardInputAccessoryView.xib; sourceTree = "<group>"; };
+		40A026501B428A2B00E18958 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		40A026521B42DB6A00E18958 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		40A026541B43053700E18958 /* ConfirmationQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationQuestion.swift; sourceTree = "<group>"; };
 		40A139A01B0DB19A0010176D /* TutorialCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialCollectionViewCell.swift; sourceTree = "<group>"; };
 		40A139A11B0DB19A0010176D /* TutorialCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialCollectionViewCell.xib; sourceTree = "<group>"; };
 		40A139A41B0DB72C0010176D /* UserMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMessageViewController.swift; sourceTree = "<group>"; };
@@ -126,7 +131,6 @@
 		40CBAF9A1B32F45800C7B986 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		40CBAF9C1B32F45800C7B986 /* SleepTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SleepTime.swift; sourceTree = "<group>"; };
 		40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
-		40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
 		40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerInputAccessoryView.swift; sourceTree = "<group>"; };
 		40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerInputAccessoryView.xib; sourceTree = "<group>"; };
 		40EC078F1B0B86D8009A2000 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -161,7 +165,6 @@
 				40A674191B21AF6C001408C3 /* SlotCollectionViewCell.xib */,
 				40A139AD1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift */,
 				40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */,
-				40D1FD181B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift */,
 				40CBAF921B32BADC00C7B986 /* ContainerCollectionViewCell.swift */,
 				40CBAF961B32DE3100C7B986 /* ContainerCollectionViewCell.xib */,
 			);
@@ -188,10 +191,11 @@
 				40A7B6C41B12FC2F0097852F /* Affirmation.swift */,
 				40A7B6C61B12FC300097852F /* Visualization.swift */,
 				402F144F1B09FBF6000C4261 /* Question.swift */,
-				404F60F61B0C9D0600A16FCC /* Answer.swift */,
+				404F60F61B0C9D0600A16FCC /* AnswerMessage.swift */,
 				40AA2D9C1B3AC91600606E4E /* DataFormatter.swift */,
 				40AA2D9A1B3ABF8500606E4E /* HeightPickerDelegate.swift */,
 				40AA2D9E1B3AE2C500606E4E /* WeightPickerDelegate.swift */,
+				40A026541B43053700E18958 /* ConfirmationQuestion.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -199,6 +203,7 @@
 		402C32B01B0392180045BAD7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				40A026501B428A2B00E18958 /* TutorialViewController.swift */,
 				402C32B11B0392180045BAD7 /* SenseiTabController.swift */,
 				4016F3321B04EDF200728202 /* SenseiViewController.swift */,
 				C76E77711B189FE000986B6F /* SettingsTableViewController.swift */,
@@ -295,6 +300,7 @@
 		4084CFD91AFA611B000F8D47 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				40A026521B42DB6A00E18958 /* Constants.swift */,
 				4084CFE41AFA611B000F8D47 /* LaunchScreen.xib */,
 				4084CFDA1AFA611B000F8D47 /* Info.plist */,
 			);
@@ -417,6 +423,7 @@
 				40A6741E1B21B1A4001408C3 /* AffirmationsViewController.swift in Sources */,
 				40AA2D9D1B3AC91600606E4E /* DataFormatter.swift in Sources */,
 				40A139A71B0DC5450010176D /* MessageSwitchCollectionViewCell.swift in Sources */,
+				40A026511B428A2B00E18958 /* TutorialViewController.swift in Sources */,
 				402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */,
 				402F14591B0A0A42000C4261 /* APIManager.swift in Sources */,
 				401FBF931B20A221001DC2D0 /* SenseiModel.xcdatamodeld in Sources */,
@@ -429,6 +436,7 @@
 				40A7B6C51B12FC2F0097852F /* Affirmation.swift in Sources */,
 				40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */,
 				408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */,
+				40A026531B42DB6A00E18958 /* Constants.swift in Sources */,
 				40675C0A1B2F0A0200E8A9D4 /* VigoSlider.swift in Sources */,
 				C76E77721B189FE000986B6F /* SettingsTableViewController.swift in Sources */,
 				40CBAF951B32DE0000C7B986 /* SenseiEmbededControllerSegue.swift in Sources */,
@@ -441,13 +449,13 @@
 				402F14501B09FBF6000C4261 /* Question.swift in Sources */,
 				40A139A91B0DC68D0010176D /* SlotCollectionViewCell.swift in Sources */,
 				408B320C1B0B7632001BB455 /* KeyboardInputAccessoryView.swift in Sources */,
-				40D1FD191B0F6756004AB814 /* EditVisualizationCollectionViewCell.swift in Sources */,
 				C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */,
 				40CBAF931B32BADC00C7B986 /* ContainerCollectionViewCell.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				404F60F91B0CCB7A00A16FCC /* SenseiNavigationController.swift in Sources */,
+				40A026551B43053700E18958 /* ConfirmationQuestion.swift in Sources */,
 				405389AB1B287FCF0035607E /* TextImageView.swift in Sources */,
-				404F60F71B0C9D0600A16FCC /* Answer.swift in Sources */,
+				404F60F71B0C9D0600A16FCC /* AnswerMessage.swift in Sources */,
 				40B960131B25A04600D36938 /* TextImagePreviewController.swift in Sources */,
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,
 				40A139AE1B0E0C2D0010176D /* AffirmationCollectionViewCell.swift in Sources */,

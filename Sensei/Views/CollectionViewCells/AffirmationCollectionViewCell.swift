@@ -47,7 +47,6 @@ class AffirmationCollectionViewCell: UICollectionViewCell {
     // MARK: - IBActions
     
     @IBAction func delete() {
-        textView.resignFirstResponder()
         delegate?.affirmationCollectionViewCellDidDelete(self)
     }
 }

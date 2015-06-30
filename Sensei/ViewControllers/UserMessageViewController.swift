@@ -15,6 +15,7 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
         static let MessageSwitchCellHeight: CGFloat = 100
     }
     
+    var wasTutorialShown = false
     var messageSwitchCell: MessageSwitchCollectionViewCell?
     
     // MARK: - Lifecycle
@@ -28,11 +29,24 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         addKeyboardObservers()
+        addTutorialObservers()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if !wasTutorialShown {
+            wasTutorialShown = true
+            tutorialViewController?.setTutorialHidden(!Settings.sharedSettings.tutorialOn.boolValue, animated: true)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    deinit {
+        println("\(self) ist Tod")
     }
     
     // MARK: - SenseiNavigationController
@@ -60,6 +74,13 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
         return false
     }
     
+    // MARK: - Navigation
+    
+    override func navigationCollectionViewCellDidBack(cell: NavigationCollectionViewCell) {
+        addSnapshot()
+        super.navigationCollectionViewCellDidBack(cell)
+    }
+    
     // MARK: - Keyboard
     
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
@@ -81,5 +102,35 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
         UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
             self.collectionView.contentInset = UIEdgeInsetsZero
         }, completion: nil)
+    }
+    
+    // MARK: - Tutorial
+    
+    func tutorialWillShowNotification(notification: NSNotification) {
+        handleTutorialMoving()
+    }
+    
+    func tutorialWillHideNotification(notification: NSNotification) {
+        handleTutorialMoving()
+    }
+    
+    func handleTutorialMoving() {}
+    
+    func handleYesAnswerNotification(notification: NSNotification) {}
+    
+    // MARK: - Private
+    
+    private func addSnapshot() {
+        if let tutorialController = tutorialViewController where !tutorialController.tutorialHidden {
+            let snapshotView = tutorialController.view.snapshotViewAfterScreenUpdates(false)
+            view.clipsToBounds = false
+            view.addSubview(snapshotView)
+        }
+    }
+    
+    private func addTutorialObservers() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillShowNotification:"), name: TutorialViewController.Notifications.TutorialWillShow, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillHideNotification:"), name: TutorialViewController.Notifications.TutorialWillHide, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: SpeechBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
     }
 }

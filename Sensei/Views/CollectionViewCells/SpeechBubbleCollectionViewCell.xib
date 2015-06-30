@@ -40,7 +40,7 @@
                                 <rect key="frame" x="8" y="142" width="265" height="0.0"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aL1-tH-KwZ">
-                                        <rect key="frame" x="216" y="4" width="49" height="24"/>
+                                        <rect key="frame" x="216" y="0.0" width="49" height="24"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="20m-ZM-bpx"/>
@@ -64,7 +64,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NRt-c3-ccV">
-                                        <rect key="frame" x="159" y="4" width="49" height="24"/>
+                                        <rect key="frame" x="159" y="0.0" width="49" height="24"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="FOg-5a-sJd"/>
@@ -90,10 +90,10 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="aL1-tH-KwZ" firstAttribute="top" secondItem="sZP-a3-gQc" secondAttribute="top" constant="4" id="JOf-hp-l7g"/>
+                                    <constraint firstItem="aL1-tH-KwZ" firstAttribute="top" secondItem="sZP-a3-gQc" secondAttribute="top" id="JOf-hp-l7g"/>
                                     <constraint firstAttribute="height" id="N2t-f3-ppd"/>
                                     <constraint firstItem="aL1-tH-KwZ" firstAttribute="leading" secondItem="NRt-c3-ccV" secondAttribute="trailing" constant="8" id="Wsl-PM-uKC"/>
-                                    <constraint firstItem="NRt-c3-ccV" firstAttribute="top" secondItem="sZP-a3-gQc" secondAttribute="top" constant="4" id="h4D-9r-pKa"/>
+                                    <constraint firstItem="NRt-c3-ccV" firstAttribute="top" secondItem="sZP-a3-gQc" secondAttribute="top" id="h4D-9r-pKa"/>
                                     <constraint firstAttribute="trailing" secondItem="aL1-tH-KwZ" secondAttribute="trailing" id="xBb-m1-O79"/>
                                 </constraints>
                             </view>

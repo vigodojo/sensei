@@ -36,10 +36,9 @@ class SenseiNavigationControllerConteiner: SenseiNavigationController {
         }
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        hideTutorialAnimated(false)
+//        hideTutorialAnimated(false)
         hideNavigationItemAnimated(false)
         performSegueWithIdentifier(Constants.SegueIdentifier, sender: self)
         setupItems()
