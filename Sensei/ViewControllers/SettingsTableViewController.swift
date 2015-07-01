@@ -134,10 +134,14 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tutorialViewController?.tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
         updateSettings()
         setup()
         fillFromSettings()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tutorialViewController?.tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
     }
     
     override func viewDidDisappear(animated: Bool) {

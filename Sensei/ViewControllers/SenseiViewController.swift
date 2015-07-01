@@ -69,7 +69,6 @@ class SenseiViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tutorialViewController?.tutorialHidden = true
         (view as? AnswerableView)?.delegate = self
         collectionView.registerNib(UINib(nibName: SpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: SpeechBubbleCollectionViewCellIdentifier)
         fetchLessons()

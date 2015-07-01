@@ -19,13 +19,18 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
     @IBOutlet weak var moreTabButton: UIButton!
     @IBOutlet weak var containerView: UIView!
     
+    var currentViewController: UIViewController?
+    var viewControllers = [UIViewController]()
+    
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
         UIApplication.sharedApplication().statusBarHidden = true
-        self.performSegueWithIdentifier(Constants.SenseiViewControllerSegueIdentifier, sender: self)
+        performSegueWithIdentifier(Constants.SenseiViewControllerSegueIdentifier, sender: self)
+        performSegueWithIdentifier(Constants.MoreViewControllerSegueIdentifier, sender: self)
+        showSenseiViewController()
     }
     
     // MARK: - Public
@@ -34,7 +39,7 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
         if !senseiTabButton.selected {
             senseiTabButton.selected = true
             moreTabButton.selected = false
-            performSegueWithIdentifier(Constants.SenseiViewControllerSegueIdentifier, sender: senseiTabButton)
+            showChildViewController(viewControllers[0])
         }
     }
     
@@ -42,8 +47,28 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
         if !moreTabButton.selected {
             senseiTabButton.selected = false
             moreTabButton.selected = true
-            performSegueWithIdentifier(Constants.MoreViewControllerSegueIdentifier, sender: moreTabButton)
+            showChildViewController(viewControllers[1])
         }
+    }
+    
+    // MARK: - Private
+    
+    private func removeViewController(viewController: UIViewController) {
+        viewController.willMoveToParentViewController(nil)
+        viewController.removeFromParentViewController()
+        viewController.view.removeFromSuperview()
+    }
+    
+    private func showChildViewController(child: UIViewController) {
+        if let currentViewController = currentViewController {
+            removeViewController(currentViewController)
+        }
+        
+        currentViewController = child
+        addChildViewController(child)
+        child.didMoveToParentViewController(self)
+        containerView.addSubview(child.view)
+        child.view.frame = containerView.bounds
     }
     
     // MARK: - IBAction

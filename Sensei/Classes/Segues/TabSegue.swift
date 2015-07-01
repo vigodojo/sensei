@@ -10,31 +10,28 @@ import UIKit
 
 protocol TabSegueProtocol: class {
     
-    weak var containerView: UIView! { get set }
+     var viewControllers: [UIViewController] { get set }
 }
 
 class TabSegue: UIStoryboardSegue {
     
     override func perform() {
         assert((sourceViewController as? TabSegueProtocol) != nil, "Source view controller must conform to TabSegueProtocol")
-        if let sourceViewController = sourceViewController as? UIViewController, destinationViewController = destinationViewController as? UIViewController {
-            for (_, child) in enumerate(sourceViewController.childViewControllers) {
-                removeViewController(child as! UIViewController)
-            }
-            addChildViewController(destinationViewController, toSourceViewController: sourceViewController)
+        if let sourceViewController = sourceViewController as? TabSegueProtocol, destinationViewController = destinationViewController as? UIViewController {
+            sourceViewController.viewControllers.append(destinationViewController)
         }
     }
     
-    private func removeViewController(viewController: UIViewController) {
-        viewController.willMoveToParentViewController(nil)
-        viewController.removeFromParentViewController()
-        viewController.view.removeFromSuperview()
-    }
-    
-    private func addChildViewController(child: UIViewController, toSourceViewController source: UIViewController) {
-        source.addChildViewController(child)
-        (source as! TabSegueProtocol).containerView.addSubview(child.view)
-        child.view.frame = (sourceViewController as! TabSegueProtocol).containerView.bounds
-        child.didMoveToParentViewController(source)
-    }
+//    private func removeViewController(viewController: UIViewController) {
+//        viewController.willMoveToParentViewController(nil)
+//        viewController.removeFromParentViewController()
+//        viewController.view.removeFromSuperview()
+//    }
+//    
+//    private func addChildViewController(child: UIViewController, toSourceViewController source: UIViewController) {
+//        source.addChildViewController(child)
+//        (source as! TabSegueProtocol).containerView.addSubview(child.view)
+//        child.view.frame = (sourceViewController as! TabSegueProtocol).containerView.bounds
+//        child.didMoveToParentViewController(source)
+//    }
 }
