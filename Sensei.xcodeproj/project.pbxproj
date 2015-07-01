@@ -21,6 +21,7 @@
 		404F60FC1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */; };
 		404F60FD1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */; };
 		405389AB1B287FCF0035607E /* TextImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405389AA1B287FCF0035607E /* TextImageView.swift */; };
+		405C1E631B43CE1D00400234 /* BlockingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405C1E621B43CE1D00400234 /* BlockingWindow.swift */; };
 		406266DB1B1D9FF700F161B6 /* FadingGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406266DA1B1D9FF700F161B6 /* FadingGradientView.swift */; };
 		406428401B0E1CD2008E2023 /* PlaceholderedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4064283F1B0E1CD2008E2023 /* PlaceholderedTextView.swift */; };
 		40675C0A1B2F0A0200E8A9D4 /* VigoSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40675C091B2F0A0200E8A9D4 /* VigoSlider.swift */; };
@@ -56,9 +57,7 @@
 		40B18CE61B205B9600817018 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B18CE51B205B9600817018 /* Lesson.swift */; };
 		40B960111B25709F00D36938 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B960101B25709F00D36938 /* Extensions.swift */; };
 		40B960131B25A04600D36938 /* TextImagePreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B960121B25A04600D36938 /* TextImagePreviewController.swift */; };
-		40CBAF911B32BA5900C7B986 /* SenseiNavigationControllerConteiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF901B32BA5900C7B986 /* SenseiNavigationControllerConteiner.swift */; };
 		40CBAF931B32BADC00C7B986 /* ContainerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF921B32BADC00C7B986 /* ContainerCollectionViewCell.swift */; };
-		40CBAF951B32DE0000C7B986 /* SenseiEmbededControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF941B32DE0000C7B986 /* SenseiEmbededControllerSegue.swift */; };
 		40CBAF971B32DE3100C7B986 /* ContainerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40CBAF961B32DE3100C7B986 /* ContainerCollectionViewCell.xib */; };
 		40CBAF9B1B32F45800C7B986 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF9A1B32F45800C7B986 /* Settings.swift */; };
 		40CBAF9D1B32F45800C7B986 /* SleepTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF9C1B32F45800C7B986 /* SleepTime.swift */; };
@@ -85,6 +84,7 @@
 		404F60FA1B0CCE6A00A16FCC /* NavigationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationCollectionViewCell.swift; sourceTree = "<group>"; };
 		404F60FB1B0CCE6A00A16FCC /* NavigationCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NavigationCollectionViewCell.xib; sourceTree = "<group>"; };
 		405389AA1B287FCF0035607E /* TextImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TextImageView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		405C1E621B43CE1D00400234 /* BlockingWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockingWindow.swift; sourceTree = "<group>"; };
 		406266DA1B1D9FF700F161B6 /* FadingGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FadingGradientView.swift; sourceTree = "<group>"; };
 		4064283F1B0E1CD2008E2023 /* PlaceholderedTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderedTextView.swift; sourceTree = "<group>"; };
 		40675C091B2F0A0200E8A9D4 /* VigoSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VigoSlider.swift; sourceTree = "<group>"; };
@@ -124,9 +124,7 @@
 		40B18CE51B205B9600817018 /* Lesson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		40B960101B25709F00D36938 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		40B960121B25A04600D36938 /* TextImagePreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TextImagePreviewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		40CBAF901B32BA5900C7B986 /* SenseiNavigationControllerConteiner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiNavigationControllerConteiner.swift; sourceTree = "<group>"; };
 		40CBAF921B32BADC00C7B986 /* ContainerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerCollectionViewCell.swift; sourceTree = "<group>"; };
-		40CBAF941B32DE0000C7B986 /* SenseiEmbededControllerSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiEmbededControllerSegue.swift; sourceTree = "<group>"; };
 		40CBAF961B32DE3100C7B986 /* ContainerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContainerCollectionViewCell.xib; sourceTree = "<group>"; };
 		40CBAF9A1B32F45800C7B986 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		40CBAF9C1B32F45800C7B986 /* SleepTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SleepTime.swift; sourceTree = "<group>"; };
@@ -209,7 +207,6 @@
 				C76E77711B189FE000986B6F /* SettingsTableViewController.swift */,
 				40EC078F1B0B86D8009A2000 /* BaseViewController.swift */,
 				404F60F81B0CCB7A00A16FCC /* SenseiNavigationController.swift */,
-				40CBAF901B32BA5900C7B986 /* SenseiNavigationControllerConteiner.swift */,
 				40A139A41B0DB72C0010176D /* UserMessageViewController.swift */,
 				40A6741D1B21B1A4001408C3 /* AffirmationsViewController.swift */,
 				40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */,
@@ -233,6 +230,7 @@
 				405389AA1B287FCF0035607E /* TextImageView.swift */,
 				40675C091B2F0A0200E8A9D4 /* VigoSlider.swift */,
 				40675C0B1B2F17BE00E8A9D4 /* NumberThumbView.swift */,
+				405C1E621B43CE1D00400234 /* BlockingWindow.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -258,7 +256,6 @@
 			isa = PBXGroup;
 			children = (
 				402F14561B0A0A24000C4261 /* TabSegue.swift */,
-				40CBAF941B32DE0000C7B986 /* SenseiEmbededControllerSegue.swift */,
 			);
 			path = Segues;
 			sourceTree = "<group>";
@@ -431,15 +428,14 @@
 				402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */,
 				40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */,
 				40B960111B25709F00D36938 /* Extensions.swift in Sources */,
-				40CBAF911B32BA5900C7B986 /* SenseiNavigationControllerConteiner.swift in Sources */,
 				40A139A21B0DB19A0010176D /* TutorialCollectionViewCell.swift in Sources */,
 				40A7B6C51B12FC2F0097852F /* Affirmation.swift in Sources */,
 				40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */,
 				408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */,
 				40A026531B42DB6A00E18958 /* Constants.swift in Sources */,
+				405C1E631B43CE1D00400234 /* BlockingWindow.swift in Sources */,
 				40675C0A1B2F0A0200E8A9D4 /* VigoSlider.swift in Sources */,
 				C76E77721B189FE000986B6F /* SettingsTableViewController.swift in Sources */,
-				40CBAF951B32DE0000C7B986 /* SenseiEmbededControllerSegue.swift in Sources */,
 				40CBAF9B1B32F45800C7B986 /* Settings.swift in Sources */,
 				40AA2D9F1B3AE2C500606E4E /* WeightPickerDelegate.swift in Sources */,
 				4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */,
@@ -584,7 +580,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1d731b33-6517-492c-9d80-11d13e905c72";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Debug;
 		};
@@ -602,7 +598,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1d731b33-6517-492c-9d80-11d13e905c72";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Release;
 		};

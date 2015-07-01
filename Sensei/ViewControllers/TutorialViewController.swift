@@ -103,7 +103,15 @@ class TutorialViewController: UIViewController {
                     self.clear()
                 })
             }
+            if !BlockingWindow.shardeInstance.hidden {
+                hideBlockingWindow()
+            }
         }
+    }
+    
+    func askConfirmationQuestion(question: ConfirmationQuestion) {
+        showBlockingWindow()
+        showMessage(question)
     }
     
     func showMessage(message: Message) {
@@ -137,6 +145,22 @@ class TutorialViewController: UIViewController {
     private func clear() {
         messages = []
         collectionView.reloadData()
+    }
+    
+    private func showBlockingWindow() {
+        let edgeInsets = UIEdgeInsets(top: tutorialContainerHeight, left: 0.0, bottom: 0.0, right: 0.0)
+        let blockingWindowEndFrame = UIEdgeInsetsInsetRect(UIScreen.mainScreen().bounds, edgeInsets)
+        if tutorialHidden {
+            BlockingWindow.showWithStartFrame(UIScreen.mainScreen().bounds, endFrame: blockingWindowEndFrame)
+        } else {
+            BlockingWindow.showWithStartFrame(blockingWindowEndFrame, endFrame: blockingWindowEndFrame)
+        }
+    }
+    
+    private func hideBlockingWindow() {
+        let edgeInsets = UIEdgeInsets(top: tutorialContainerHeight, left: 0.0, bottom: 0.0, right: 0.0)
+        let blockingWindowStartFrame = UIEdgeInsetsInsetRect(UIScreen.mainScreen().bounds, edgeInsets)
+        BlockingWindow.hideWithStartFrame(blockingWindowStartFrame, endFrame: UIScreen.mainScreen().bounds)
     }
     
     // MARK: - IBActions

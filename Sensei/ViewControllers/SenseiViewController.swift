@@ -318,7 +318,6 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
                 default:
                     break
             }
-
         }
     }
 

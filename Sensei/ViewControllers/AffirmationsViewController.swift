@@ -124,8 +124,9 @@ class AffirmationsViewController: UserMessageViewController {
         collectionView.performBatchUpdates({ [unowned self] () -> Void in
             self.collectionView.collectionViewLayout.invalidateLayout()
             self.collectionView.setCollectionViewLayout(self.collectionView.collectionViewLayout, animated: true)
+        }, completion: { [unowned self] finished in
             self.affirmationCell?.updateTextViewHeight()
-        }, completion: nil)
+        })
     }
     
     override func handleYesAnswerNotification(notification: NSNotification) {
@@ -229,8 +230,12 @@ extension AffirmationsViewController: AffirmationCollectionViewCellDelegate {
     }
     
     func affirmationCollectionViewCellDidDelete(cell: AffirmationCollectionViewCell) {
-        tutorialViewController?.showMessage(DeleteConfirmationQuestion)
-        //deleteAffirmation()
+        if let number = messageSwitchCell?.selectedSlot {
+            let affirmation = affirmationWithNumber(NSNumber(integer: number))
+            if affirmation != nil || hasChangesBeenMade() {
+                tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
+            }
+        }
     }
 }
 

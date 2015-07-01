@@ -104,17 +104,15 @@ class VisualizationsViewController: UserMessageViewController {
     // MARK: - Tutorial
     
     override func handleTutorialMoving() {
-        if let cell = visualizationCell where cell.mode == .Default {
-            let height = visualizationCellHeight
-            visualisationCellAttributes?.height = height
-            let cellBounds = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(collectionView.frame), height: height))
-            let imageContainerBounds = UIEdgeInsetsInsetRect(cellBounds, VisualizationCollectionViewCell.ImageContainerEdgeInsets)
-            UIView.animateWithDuration(AnimationDuration, animations: { () -> Void in
-                self.collectionView.collectionViewLayout.invalidateLayout()
-                self.collectionView.setCollectionViewLayout(self.collectionView.collectionViewLayout, animated: true)
-                self.visualizationCell?.updateImageContainerViewWithBounds(imageContainerBounds)
-            })
-        }
+        let height = visualizationCellHeight
+        visualisationCellAttributes?.height = height
+        let cellBounds = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(collectionView.frame), height: height))
+        let imageContainerBounds = UIEdgeInsetsInsetRect(cellBounds, VisualizationCollectionViewCell.ImageContainerEdgeInsets)
+        UIView.animateWithDuration(AnimationDuration, animations: { () -> Void in
+            self.collectionView.collectionViewLayout.invalidateLayout()
+            self.collectionView.setCollectionViewLayout(self.collectionView.collectionViewLayout, animated: true)
+            self.visualizationCell?.updateImageContainerViewWithBounds(imageContainerBounds)
+        })
     }
     
     override func handleYesAnswerNotification(notification: NSNotification) {
@@ -289,7 +287,7 @@ extension VisualizationsViewController: VisualizationCollectionViewCellDelegate 
     }
     
     func visualizationCollectionViewCellDidDelete(cell: VisualizationCollectionViewCell) {
-        tutorialViewController?.showMessage(DeleteConfirmationQuestion)
+        tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
     }
     
     func visualizationCollectionViewCellDidChange(cell: VisualizationCollectionViewCell) {

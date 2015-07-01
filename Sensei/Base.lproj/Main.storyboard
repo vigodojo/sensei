@@ -189,51 +189,6 @@
             </objects>
             <point key="canvasLocation" x="-174" y="446"/>
         </scene>
-        <!--Sensei Navigation Controller Conteiner-->
-        <scene sceneID="IjX-ok-CAM">
-            <objects>
-                <viewController storyboardIdentifier="SenseiNavigationControllerConteiner" id="Gbd-Gq-l7o" customClass="SenseiNavigationControllerConteiner" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="T2L-6l-bZ8"/>
-                        <viewControllerLayoutGuide type="bottom" id="iT9-4t-xjf"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="I1U-fI-mQk">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mmp-Zx-iqn">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="8Iz-vd-T1L">
-                                    <size key="itemSize" width="573" height="607"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                                <connections>
-                                    <outlet property="dataSource" destination="Gbd-Gq-l7o" id="DBR-VC-YoC"/>
-                                    <outlet property="delegate" destination="Gbd-Gq-l7o" id="P4F-hb-ccE"/>
-                                </connections>
-                            </collectionView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="mmp-Zx-iqn" firstAttribute="leading" secondItem="I1U-fI-mQk" secondAttribute="leading" id="DLF-zA-tVs"/>
-                            <constraint firstItem="mmp-Zx-iqn" firstAttribute="top" secondItem="I1U-fI-mQk" secondAttribute="top" id="aG9-cI-szW"/>
-                            <constraint firstAttribute="trailing" secondItem="mmp-Zx-iqn" secondAttribute="trailing" id="rKO-FW-4LJ"/>
-                            <constraint firstItem="iT9-4t-xjf" firstAttribute="top" secondItem="mmp-Zx-iqn" secondAttribute="bottom" id="z3J-Wy-lj4"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="I8z-LL-xul"/>
-                    <connections>
-                        <outlet property="collectionView" destination="mmp-Zx-iqn" id="bsQ-Gj-CWI"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qH2-hj-yqB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1172" y="1468"/>
-        </scene>
         <!--Sensei View Controller-->
         <scene sceneID="gB7-8D-Ifd">
             <objects>
@@ -1134,6 +1089,7 @@
                                         </constraints>
                                         <size key="customSize" width="320" height="200"/>
                                         <connections>
+                                            <outlet property="cameraButton" destination="0PB-A6-aim" id="HcJ-m1-fNc"/>
                                             <outlet property="editButton" destination="GU2-dL-dAT" id="12Y-iG-jCU"/>
                                             <outlet property="imageBounderingView" destination="2yK-p0-tdk" id="IEE-9L-Jwn"/>
                                             <outlet property="imageContainerHeightConstraint" destination="K2W-So-fJz" id="6MS-bV-csy"/>

@@ -18,6 +18,8 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
     @IBOutlet weak var senseiTabButton: UIButton!
     @IBOutlet weak var moreTabButton: UIButton!
     @IBOutlet weak var containerView: UIView!
+    
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,21 +27,33 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
         UIApplication.sharedApplication().statusBarHidden = true
         self.performSegueWithIdentifier(Constants.SenseiViewControllerSegueIdentifier, sender: self)
     }
-
-    @IBAction func openSensei() {
+    
+    // MARK: - Public
+    
+    func showSenseiViewController() {
         if !senseiTabButton.selected {
             senseiTabButton.selected = true
             moreTabButton.selected = false
             performSegueWithIdentifier(Constants.SenseiViewControllerSegueIdentifier, sender: senseiTabButton)
         }
     }
-
-    @IBAction func openMore() {
+    
+    func showSettingsViewController() {
         if !moreTabButton.selected {
             senseiTabButton.selected = false
             moreTabButton.selected = true
             performSegueWithIdentifier(Constants.MoreViewControllerSegueIdentifier, sender: moreTabButton)
         }
+    }
+    
+    // MARK: - IBAction
+
+    @IBAction func openSensei() {
+        showSenseiViewController()
+    }
+
+    @IBAction func openMore() {
+        showSettingsViewController()
     }
 }
 

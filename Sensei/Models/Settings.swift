@@ -11,16 +11,11 @@ import CoreData
 import RestClient
 
 enum Gender: String, Printable {
-    case Male = "M"
-    case Female = "F"
+    case Male = "MALE"
+    case Female = "FEMALE"
     
     var description: String {
-        switch self {
-            case .Male:
-                return "MALE"
-            case .Female:
-                return "FEMALE"
-        }
+        return self.rawValue
     }
 }
 

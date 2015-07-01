@@ -33,6 +33,7 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var textView: PlaceholderedTextView!
     @IBOutlet weak var imageBounderingView: UIView!
     @IBOutlet weak var imageContainerView: UIView!
@@ -57,6 +58,7 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
                     textView.userInteractionEnabled = true
                     delegate?.visualizationCollectionViewCellDidBeginEditing(self)
                     editButton.setTitle("DELETE", forState: UIControlState.Normal)
+                    cameraButton.hidden = true
                     if oldValue == .Editing && !textView.isFirstResponder() {
                         textView.becomeFirstResponder()
                     }
@@ -65,6 +67,7 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
                     textView.resignFirstResponder()
                     delegate?.visualizationCollectionViewCellDidEndEditing(self)
                     editButton.setTitle("EDIT", forState: UIControlState.Normal)
+                    cameraButton.hidden = false
                 }
         }
     }
