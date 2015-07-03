@@ -160,7 +160,8 @@ class VisualizationsViewController: UserMessageViewController {
         let receiveTime = messageSwitchCell?.reseiveTime
         let text = visualizationCell?.text
         let image = visualizationCell?.image
-        if let index = index, receiveTime = receiveTime, text = text, image = image {
+        let insideRect = visualizationCell?.imageView.bounds
+        if let index = index, receiveTime = receiveTime, text = text, image = image, insideRect = insideRect {
             
             let number = ((index + 1) % Constants.NumberOfVisualizations)
             selectVisualizationWithNumber(number)
@@ -171,10 +172,12 @@ class VisualizationsViewController: UserMessageViewController {
                         visualization.text = text
                         visualization.picture = image
                         visualization.receiveTime = receiveTime
+                        visualization.scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, text: text, insideRect: insideRect)
                         CoreDataManager.sharedInstance.saveContext()
                     }
                 } else  {
-                    Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
+                    let visualisation = Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
+                    visualisation.scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, text: text, insideRect: insideRect)
                     CoreDataManager.sharedInstance.saveContext()
                 }
             }
@@ -199,15 +202,10 @@ class VisualizationsViewController: UserMessageViewController {
     }
     
     private func showVisualizationInPreview() {
-        if let imageView = visualizationCell?.imageView, image = imageView.image, text = visualizationCell?.text, var attributes = visualizationCell?.outlinedTextAttributes {
-            let imageRect = AVMakeRectWithAspectRatioInsideRect(image.size, imageView.bounds)
-            let font = (attributes[NSFontAttributeName] as! UIFont)
-            let scaledFontSize = round(image.size.height * font.pointSize / CGRectGetHeight(imageRect))
-            attributes[NSFontAttributeName] = UIFont(name: font.fontName, size: scaledFontSize)
+        if let imageView = visualizationCell?.imageView, image = imageView.image, text = visualizationCell?.text {
+            let scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, text: text, insideRect: imageView.bounds)
             let imagePreviewController = TextImagePreviewController.imagePreviewControllerWithImage(image)
-            imagePreviewController.attributedText = NSAttributedString(string: text, attributes: attributes)
-            imagePreviewController.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-            imagePreviewController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+            imagePreviewController.attributedText = NSAttributedString(string: text, attributes: Visualization.attributesForFontWithSize(scaledFontSize))
             self.presentViewController(imagePreviewController, animated: true, completion: nil)
         }
     }

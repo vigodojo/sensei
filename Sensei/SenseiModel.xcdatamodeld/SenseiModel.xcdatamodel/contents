@@ -31,6 +31,7 @@
     </entity>
     <entity name="Visualization" representedClassName="Sensei.Visualization" parentEntity="UserMessage" syncable="YES">
         <attribute name="pictureData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="scaledFontSize" attributeType="Integer 32" defaultValueString="13" syncable="YES"/>
     </entity>
     <elements>
         <element name="Affirmation" positionX="133" positionY="117" width="128" height="45"/>
@@ -38,6 +39,6 @@
         <element name="Settings" positionX="-171" positionY="54" width="128" height="180"/>
         <element name="SleepTime" positionX="-162" positionY="81" width="128" height="105"/>
         <element name="UserMessage" positionX="-63" positionY="-18" width="128" height="103"/>
-        <element name="Visualization" positionX="-234" positionY="108" width="128" height="58"/>
+        <element name="Visualization" positionX="-234" positionY="108" width="128" height="75"/>
     </elements>
 </model>

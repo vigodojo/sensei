@@ -27,6 +27,8 @@ class TextImagePreviewController: UIViewController {
         let storyboard = UIStoryboard(name: Constants.StoryboardName, bundle: nil)
         let viewController = storyboard.instantiateViewControllerWithIdentifier(Constants.StoryboardId) as! TextImagePreviewController
         viewController.image = image
+        viewController.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+        viewController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
         return viewController
     }
     
@@ -89,7 +91,7 @@ class TextImagePreviewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func tap(sender: UITapGestureRecognizer) {
-        dismissViewControllerAnimated(true, completion: nil)
+        presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
 }

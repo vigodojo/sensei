@@ -10,7 +10,7 @@ import UIKit
 
 protocol TabSegueProtocol: class {
     
-     var viewControllers: [UIViewController] { get set }
+    var viewControllers: [UIViewController] { get set }
 }
 
 class TabSegue: UIStoryboardSegue {
@@ -21,17 +21,4 @@ class TabSegue: UIStoryboardSegue {
             sourceViewController.viewControllers.append(destinationViewController)
         }
     }
-    
-//    private func removeViewController(viewController: UIViewController) {
-//        viewController.willMoveToParentViewController(nil)
-//        viewController.removeFromParentViewController()
-//        viewController.view.removeFromSuperview()
-//    }
-//    
-//    private func addChildViewController(child: UIViewController, toSourceViewController source: UIViewController) {
-//        source.addChildViewController(child)
-//        (source as! TabSegueProtocol).containerView.addSubview(child.view)
-//        child.view.frame = (sourceViewController as! TabSegueProtocol).containerView.bounds
-//        child.didMoveToParentViewController(source)
-//    }
 }

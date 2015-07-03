@@ -21,12 +21,12 @@ enum QuestionType: String {
 
 class Question: NSObject, Message {
     
-    var id: String?
+    var questionId: String?
     var questionText: String?
     var potentialAnswers: [AnyObject]?
     var questionTypeRawValue: String?
     var date = NSDate()
-    
+    var id: String { return questionId ?? "0"}
     var text: String {
         get {
             return questionText ?? ""
@@ -50,7 +50,7 @@ class Question: NSObject, Message {
     
     class var objectMapping: RCObjectMapping {
         let mapping = RCObjectMapping(objectClass: Question.self, mappingArray: ["text", "potentialAnswers"])
-        mapping.addPropertyMappingFromDictionary(["id": "_id", "questionTypeRawValue": "type"])
+        mapping.addPropertyMappingFromDictionary(["questionId": "_id", "questionTypeRawValue": "type"])
         return mapping
     }
     

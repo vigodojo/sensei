@@ -40,17 +40,6 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageContainerWidthConstraint: NSLayoutConstraint!
     
-    lazy var outlinedTextAttributes: [String: AnyObject] = {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = NSTextAlignment.Center
-        
-        return [NSStrokeColorAttributeName: UIColor.whiteColor(),
-            NSForegroundColorAttributeName: UIColor.blackColor(),
-            NSStrokeWidthAttributeName: NSNumber(double:-6.0),
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-Bold", size: 13.0)!,
-            NSParagraphStyleAttributeName: paragraphStyle]
-    }()
-    
     var mode = VisualizationCollectionViewCellMode.Default {
         didSet {
             switch mode {
@@ -88,7 +77,7 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         }
         set {
             if !newValue.isEmpty {
-                textView.attributedText = NSAttributedString(string: newValue, attributes: outlinedTextAttributes)
+                textView.attributedText = NSAttributedString(string: newValue, attributes: Visualization.OutlinedTextAttributes)
             } else {
                 textView.text = ""
             }

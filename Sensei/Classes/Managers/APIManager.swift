@@ -16,7 +16,11 @@ class APIManager: NSObject {
     typealias ErrorHandlerClosure = (error: NSError?) -> Void
     
     static let sharedInstance = APIManager()
+//#if DEBUG
+//    static let BaseURL = NSURL(string: "http://134.249.164.53:8839")!
+//#else
     static let BaseURL = NSURL(string: "http://134.249.164.53:8831")!
+//#endif
     
     struct APIPath {
         static let Login = "/user/signIn"
@@ -76,13 +80,16 @@ class APIManager: NSObject {
     
     // MARK: - Lessons
     
-    func lessonsHistory() {
+    func lessonsHistoryCompletion(handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
             builder.path = APIPath.LessonsHistory
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
             if response.error == nil {
                 CoreDataManager.sharedInstance.mergeJSONs(response.object as? [JSONObject], entityMapping: Lesson.entityMapping)
+            }
+            if let handler = handler {
+                handler(error: response.error)
             }
         })
     }

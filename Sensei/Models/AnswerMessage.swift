@@ -24,7 +24,7 @@ class AnswerMessage: Message, Printable {
     }()
     
     var answer = Answer.Text("")
-    
+    var id: String { return "0" }
     var text: String {
         get {
             switch answer {

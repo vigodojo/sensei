@@ -10,6 +10,7 @@ import Foundation
 
 class ConfirmationQuestion: Message {
     
+    var id: String { return "0" }
     var text = ""
     var date = NSDate()
     

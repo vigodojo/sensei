@@ -62,8 +62,26 @@ class SenseiViewController: BaseViewController {
         return fetchedResultController
     }()
     
+    private var lastNotUserItemIndex: Int? {
+        var index = dataSource.count - 1
+        while index > -1 && dataSource[index] is AnswerMessage {
+            index--
+        }
+        return index > -1 ? index: nil
+    }
+    
+    private var isTopViewController: Bool {
+        if let navigationController = navigationController, senseiTabController = parentViewController as? SenseiTabController {
+            return navigationController.topViewController == senseiTabController
+        }
+        return false
+    }
+    
+    private var previousApplicationState = UIApplicationState.Background
     private var dataSource = [Message]()
     private var lastQuestion: Question?
+    private var lastAffirmation: Affirmation?
+    private var lastVisualisation: Visualization?
     
     // MARK: - Lifecycle
     
@@ -72,23 +90,27 @@ class SenseiViewController: BaseViewController {
         (view as? AnswerableView)?.delegate = self
         collectionView.registerNib(UINib(nibName: SpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: SpeechBubbleCollectionViewCellIdentifier)
         fetchLessons()
-        
-        if APIManager.sharedInstance.logined {
-            requestNextQuestion()
-        } else {
-            login()
-        }
+        addApplicationObservers()
+        login()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         tutorialViewController?.tutorialHidden = true
+        if APIManager.sharedInstance.logined {
+            APIManager.sharedInstance.lessonsHistoryCompletion(nil)
+        }
         addKeyboardObservers()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        showLastReceivedVisualisation()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        removeKeyboardObservers()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -98,11 +120,11 @@ class SenseiViewController: BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let offset = CGRectGetMinY(senseiImageView.frame)
-        collectionView.contentInset.top = offset
+        collectionView.contentInset.top = CGRectGetMinY(senseiImageView.frame)
     }
     
     // MARK: - Private
+    // MARK: Data Source Operations
     
     private func fetchLessons() {
         var error: NSError? = nil
@@ -112,28 +134,33 @@ class SenseiViewController: BaseViewController {
         }
         if let lessons = lessonsFetchedResultController.fetchedObjects as? [Lesson] {
             dataSource += lessons.map {$0 as Message}
-            reloadSectionAnimated()
+            reloadSectionAnimated(true)
         }
     }
     
-    private func requestLessonsHistory() {
-        APIManager.sharedInstance.lessonsHistory()
-    }
-    
-    private func requestNextQuestion() {
-        APIManager.sharedInstance.nextQuestionyWithCompletion { [weak self](question, error) -> Void in
-            if question == nil && error == nil {
-                self?.requestLessonsHistory()
-            } else if let question = question {
-                self?.askQuestion(question)
+    private func insertMessage(message: Message, scroll: Bool) {
+        var inserIndex: Int? = nil
+        if dataSource.count > 1 {
+            for index in 0..<(dataSource.count - 1) {
+                if dataSource[index].date.compare(message.date) == .OrderedAscending && dataSource[index + 1].date.compare(message.date) == .OrderedDescending {
+                    inserIndex = index + 1
+                    break
+                }
             }
         }
-    }
-    
-    private func askQuestion(question: Question) {
-        lastQuestion = question
-        addMessages([question], scroll: false) {
-            (self.view as? AnswerableView)?.askQuestion(question)
+        if let inserIndex = inserIndex {
+            dataSource.insert(message, atIndex: inserIndex)
+            let indexPath = NSIndexPath(forItem: inserIndex, inSection: 0)
+            collectionView.performBatchUpdates({ [unowned self] () -> Void in
+                self.collectionView.insertItemsAtIndexPaths([indexPath])
+                }, completion: { [unowned self] (finished) -> Void in
+                    self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
+                    if scroll {
+                        self.scrollToItemAtIndexPath(indexPath, animated: true)
+                    }
+                })
+        } else {
+            addMessages([message], scroll: true, completion: nil)
         }
     }
     
@@ -147,16 +174,15 @@ class SenseiViewController: BaseViewController {
         
         collectionView.performBatchUpdates({ [unowned self] () -> Void in
             self.collectionView.insertItemsAtIndexPaths(indexPathes)
-        }, completion: { [unowned self] (finished) -> Void in
-            self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
-            if scroll {
-                println("maxContentOffset = \(self.maxContentOffset)")
-                self.collectionView.setContentOffset(self.maxContentOffset, animated: true)
-            }
-            if let completion = completion {
-                completion()
-            }
-        })
+            }, completion: { [unowned self] (finished) -> Void in
+                self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
+                if scroll {
+                    self.scrollToLastNotUsersItemAnimated(true)
+                }
+                if let completion = completion {
+                    completion()
+                }
+            })
     }
     
     private func deleteMessageAtIndexPath(indexPath: NSIndexPath) {
@@ -168,43 +194,183 @@ class SenseiViewController: BaseViewController {
         
         collectionView.performBatchUpdates({ () -> Void in
             self.collectionView.deleteItemsAtIndexPaths([indexPath])
-        }, completion: nil)
+            }, completion: nil)
     }
     
-    func removeAllExeptLessons() {
+    private func removeAllExeptLessons() {
         dataSource = dataSource.filter { $0 is Lesson }
         collectionView.reloadData()
         collectionView.contentInset.bottom = collectionViewBottomContentInset
     }
     
-    func reloadSectionAnimated() {
-        collectionView.performBatchUpdates({ [unowned self] () -> Void in
-            self.collectionView.reloadSections(NSIndexSet(index: 0))
-        }, completion: { [unowned self] (finished) -> Void in
-            self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
-            self.collectionView.setContentOffset(self.maxContentOffset, animated: true)
-        })
-    }
+    // MARK: API Requests
     
-    func login() {
+    private func login() {
         // TODO: - DELETE HARDCODED IDFA
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-        //let idfa = NSUUID().UUIDString
-//        let idfa = "16A671A7-813B-4CDC-A615-6E5440612666"
+//        let idfa = NSUUID().UUIDString
+//        let idfa = "2EAB0742-8A34-4315-8C1E-69E6E0EE6366"
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         println("IDFA = \(idfa)")
         println("timezone = \(currentTimeZone)")
-        APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone) { [weak self] (error) -> Void in
+        APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone) { error in
             if let error = error {
                 println("Failed to login with error \(error)")
             } else {
-                println("Logined successfuly")
-                self?.requestNextQuestion()
+                println("Login is successful. Das ist fantastisch!")
+                if let push = (UIApplication.sharedApplication().delegate as? AppDelegate)?.pushNotification {
+                    self.handleLaunchViaPush(push)
+                    (UIApplication.sharedApplication().delegate as? AppDelegate)?.pushNotification = nil
+                } else {
+                    APIManager.sharedInstance.lessonsHistoryCompletion(nil)
+                }
             }
         }
     }
     
-    // MARK: - Keyboard
+    private func requestNextQuestion() {
+        APIManager.sharedInstance.nextQuestionyWithCompletion { [weak self](question, error) -> Void in
+            if question == nil && error == nil {
+                APIManager.sharedInstance.lessonsHistoryCompletion(nil)
+            } else if let question = question {
+                self?.askQuestion(question)
+            }
+        }
+    }
+    
+    private func askQuestion(question: Question) {
+        lastQuestion = question
+        addMessages([question], scroll: false) {
+            (self.view as? AnswerableView)?.askQuestion(question)
+        }
+    }
+    
+    // MARK: UI Operations
+    
+    private func scrollToItemAtIndexPath(indexPath: NSIndexPath, animated: Bool) {
+        if let attributes = self.collectionView.collectionViewLayout.layoutAttributesForItemAtIndexPath(indexPath) {
+            let offsetY = CGRectGetMinY(attributes.frame) - collectionView.contentInset.top
+            collectionView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: animated)
+        }
+    }
+    
+    private func scrollToLastNotUsersItemAnimated(animated: Bool) {
+        if let index = lastNotUserItemIndex {
+            self.scrollToItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: animated)
+        }
+    }
+    
+    private func reloadSectionAnimated(animated: Bool) {
+        if animated {
+            collectionView.performBatchUpdates({ [unowned self] in
+                self.collectionView.reloadSections(NSIndexSet(index: 0))
+            }, completion: { [unowned self] finished in
+                self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
+                self.scrollToLastNotUsersItemAnimated(true)
+            })
+        } else {
+            collectionView.reloadData()
+            collectionView.contentInset.bottom = collectionViewBottomContentInset
+            scrollToLastNotUsersItemAnimated(false)
+        }
+    }
+    
+    // MARK: Push Handling
+    
+    private func addApplicationObservers() {
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [unowned self] notification in
+            self.previousApplicationState = UIApplicationState.Background
+            self.lastAffirmation = nil
+            self.lastVisualisation = nil
+        }
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
+            self.previousApplicationState = UIApplicationState.Active
+        }
+        NSNotificationCenter.defaultCenter().addObserverForName(ApplicationDidReceiveRemotePushNotification, object: nil, queue: nil) { [unowned self] notification in
+            if let userInfo = notification.userInfo, push = PushNotification(userInfo: userInfo) {
+                println("Push Info = \(userInfo)")
+                if UIApplication.sharedApplication().applicationState == .Inactive && self.previousApplicationState == .Background {
+                    if !self.isTopViewController {
+                        self.navigationController?.popToRootViewControllerAnimated(false)
+                        (self.navigationController?.viewControllers.first as? SenseiTabController)?.showSenseiViewController()
+                    }
+                    self.handleLaunchViaPush(push)
+                } else {
+                    self.handleReceivedPushNotification(push)
+                }
+            }
+        }
+    }
+    
+    private func handleReceivedPushNotification(push: PushNotification) {
+        switch push.type {
+            case .Lesson:
+                APIManager.sharedInstance.lessonsHistoryCompletion(nil)
+            case .Affirmation:
+                if let affirmation = Affirmation.affirmationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
+                    if let date = push.date {
+                        affirmation.date = date
+                    }
+                    self.insertMessage(affirmation, scroll: self.isTopViewController)
+                }
+            case .Visualisation:
+                self.lastVisualisation = Visualization.visualizationWithNumber(NSNumber(integer: (push.id as NSString).integerValue))
+                if self.isTopViewController {
+                    self.showLastReceivedVisualisation()
+                }
+            }
+    }
+    
+    private func handleLaunchViaPush(push: PushNotification) {
+        APIManager.sharedInstance.lessonsHistoryCompletion { [unowned self] error in
+            switch push.type {
+                case .Lesson:
+                    let index = self.dataSource.find {
+                        let idsEqual = $0.id == push.id
+                        if let pushDate = push.date {
+                            println("\(pushDate.timeIntervalSince1970) \($0.date.timeIntervalSince1970)")
+                            println("\($0)")
+                            let isDateEqueal = $0.date.compare(pushDate) == .OrderedSame
+                            return idsEqual && isDateEqueal
+                        }
+                        return idsEqual
+                    }
+                    if let index = index {
+                        self.scrollToItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: true)
+                    }
+                case .Affirmation:
+                    if let affirmation = Affirmation.affirmationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
+                        if let date = push.date {
+                            affirmation.date = date
+                        }
+                        self.insertMessage(affirmation, scroll: true)
+                    }
+                case .Visualisation:
+                    if let visualisation = Visualization.visualizationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
+                        self.showVisualisation(visualisation)
+                    }
+            }
+        }
+    }
+    
+    private func showLastReceivedVisualisation() {
+        if let visualisation = lastVisualisation {
+            showVisualisation(visualisation)
+            self.lastVisualisation = nil
+        }
+    }
+    
+    private func showVisualisation(visualisation: Visualization) {
+        if let image = visualisation.picture {
+            let scaledFontSize = CGFloat(visualisation.scaledFontSize.floatValue)
+            let attributedText = NSAttributedString(string: visualisation.text, attributes: Visualization.attributesForFontWithSize(scaledFontSize))
+            let imagePreviewController = TextImagePreviewController.imagePreviewControllerWithImage(image)
+            imagePreviewController.attributedText = attributedText
+            (UIApplication.sharedApplication().delegate as? AppDelegate)?.window?.rootViewController?.presentViewController(imagePreviewController, animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: Keyboard
     
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
         if size.height > senseiBottomSpaceConstraint.constant {
@@ -264,8 +430,8 @@ extension SenseiViewController: AnswerableViewDelegate {
     func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: Answer) {
         let answerMessage = AnswerMessage(answer: answer)
         addMessages([answerMessage], scroll: true) { [weak self] in
-            if let question = self?.lastQuestion where question.id != nil {
-                APIManager.sharedInstance.answerQuestionWithId(question.id!, answerText: "\(answerMessage)") { [weak self] (error) -> Void in
+            if let question = self?.lastQuestion where question.questionId != nil {
+                APIManager.sharedInstance.answerQuestionWithId(question.id, answerText: "\(answerMessage)") { [weak self] (error) -> Void in
                     if error == nil {
                         self?.requestNextQuestion()
                     }
@@ -322,6 +488,6 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
 
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         dataSource.sort { $0.date.compare($1.date) == .OrderedAscending }
-        reloadSectionAnimated()
+        reloadSectionAnimated(isTopViewController)
     }
 }

@@ -39,6 +39,8 @@ class UserMessage: NSManagedObject, Message {
     @NSManaged var text: String
     @NSManaged var savedOnServer: NSNumber
     @NSManaged private var receiveTimeString: String
+    
+    var id: String { return "\(number)"}
     var date = NSDate()
 
     var receiveTime: ReceiveTime {
@@ -49,6 +51,8 @@ class UserMessage: NSManagedObject, Message {
             receiveTimeString = newValue.rawValue
         }
     }
+    
+    // MARK: Mapping
     
     class var objectMapping: RCObjectMapping {
         let mapping = RCObjectMapping(objectClass: UserMessage.self, mappingArray: ["text"])

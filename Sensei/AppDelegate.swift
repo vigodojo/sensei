@@ -8,15 +8,18 @@
 
 import UIKit
 
+let ApplicationDidReceiveRemotePushNotification = "ApplicationDidReceiveRemotePushNotification"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var pushNotification: PushNotification?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let notificationSettings = UIUserNotificationSettings(forTypes: .Alert | .Badge | .Sound, categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
-        
+        pushNotification = extractPushFromLaunchOptions(launchOptions)
         return true
     }
     
@@ -38,34 +41,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        showAlertWithTitle("Notification", message: "\(userInfo)")
+        NSNotificationCenter.defaultCenter().postNotificationName(ApplicationDidReceiveRemotePushNotification, object: nil, userInfo: userInfo)
+    }
+    
+    // MARK: - Private
+    
+    private func extractPushFromLaunchOptions(launchOptions: [NSObject: AnyObject]?) -> PushNotification? {
+        if let userInfo = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject: AnyObject]{
+            return PushNotification(userInfo:userInfo)
+        }
+        return nil
     }
     
     // MARK: - Test Data
     
-    private func showAlertWithTitle(title: String, message: String) {
+    func showAlertWithTitle(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
         window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    func testCoreDataCreation() {
-        Affirmation.createAffirmationNumber(NSNumber(integer: 1), text: "Black Metal Isk Krieg", receiveTime: ReceiveTime.Morning)
-        Visualization.createVisualizationWithNumber(NSNumber(integer: 1), text: "Trash Til Death", receiveTime: ReceiveTime.Evening, picture: UIImage(named: "VigoSensei")!)
-        Affirmation.createAffirmationNumber(NSNumber(integer: 2), text: "Schwarzalbenheim", receiveTime: ReceiveTime.AnyTime)
-        CoreDataManager.sharedInstance.saveContext()
-    }
-    
-    func testCoreDataFetch() {
-        let visualizations = Visualization.visualizations
-        println("Visualizations = \(visualizations)")
-        println()
-        let visualization = Visualization.visualizationWithNumber(NSNumber(integer: 1))
-        println("\(visualization)")
-        let image = visualization!.picture!
-        println()
-        let affirmations = Affirmation.affirmations
-        println("Affirmations = \(affirmations)")
     }
 }
 
