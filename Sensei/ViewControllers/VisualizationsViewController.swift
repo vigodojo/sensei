@@ -303,7 +303,7 @@ extension VisualizationsViewController: UIImagePickerControllerDelegate {
             didChangeImage = true
             messageSwitchCell?.saveButtonHidden = false
             visualizationCell?.editButtonHidden = false
-            picker.dismissViewControllerAnimated(true, completion: nil)
+            dismissViewControllerAnimated(true, completion: nil)
             visualizationCell?.mode = VisualizationCollectionViewCellMode.Editing
         }
     }

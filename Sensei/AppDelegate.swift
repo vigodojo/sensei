@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Fabric
+import Crashlytics
 
 let ApplicationDidReceiveRemotePushNotification = "ApplicationDidReceiveRemotePushNotification"
 
@@ -20,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let notificationSettings = UIUserNotificationSettings(forTypes: .Alert | .Badge | .Sound, categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
         pushNotification = extractPushFromLaunchOptions(launchOptions)
+        Fabric.with([Crashlytics()])
         return true
     }
     
@@ -41,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        println("Push Info = \(userInfo)")
         NSNotificationCenter.defaultCenter().postNotificationName(ApplicationDidReceiveRemotePushNotification, object: nil, userInfo: userInfo)
     }
     

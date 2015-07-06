@@ -63,6 +63,8 @@
 		40CBAF9B1B32F45800C7B986 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF9A1B32F45800C7B986 /* Settings.swift */; };
 		40CBAF9D1B32F45800C7B986 /* SleepTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAF9C1B32F45800C7B986 /* SleepTime.swift */; };
 		40D1FD151B0F157B004AB814 /* VisualizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */; };
+		40EB50EF1B4A630A003D5833 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40EB50EE1B4A630A003D5833 /* Fabric.framework */; };
+		40EB50F11B4A63EA003D5833 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40EB50F01B4A63EA003D5833 /* Crashlytics.framework */; };
 		40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */; };
 		40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */; };
 		40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078F1B0B86D8009A2000 /* BaseViewController.swift */; };
@@ -131,6 +133,8 @@
 		40CBAF9A1B32F45800C7B986 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		40CBAF9C1B32F45800C7B986 /* SleepTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SleepTime.swift; sourceTree = "<group>"; };
 		40D1FD141B0F157B004AB814 /* VisualizationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationCollectionViewCell.swift; sourceTree = "<group>"; };
+		40EB50EE1B4A630A003D5833 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		40EB50F01B4A63EA003D5833 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerInputAccessoryView.swift; sourceTree = "<group>"; };
 		40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerInputAccessoryView.xib; sourceTree = "<group>"; };
 		40EC078F1B0B86D8009A2000 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +148,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				402F14531B0A08AC000C4261 /* RestClient.framework in Frameworks */,
+				40EB50F11B4A63EA003D5833 /* Crashlytics.framework in Frameworks */,
+				40EB50EF1B4A630A003D5833 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +247,8 @@
 		402F14511B0A08AC000C4261 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				40EB50F01B4A63EA003D5833 /* Crashlytics.framework */,
+				40EB50EE1B4A630A003D5833 /* Fabric.framework */,
 				402F14521B0A08AC000C4261 /* RestClient.framework */,
 			);
 			path = Frameworks;
@@ -344,6 +352,7 @@
 				4084CFD21AFA611B000F8D47 /* Sources */,
 				4084CFD31AFA611B000F8D47 /* Frameworks */,
 				4084CFD41AFA611B000F8D47 /* Resources */,
+				40EB50EB1B4A61AF003D5833 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -407,6 +416,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		40EB50EB1B4A61AF003D5833 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "./Sensei/Frameworks/Fabric.framework/run 91e0be0380fdd13d90d4174ce7f04d3234a96595 c7e19b1300b582e16862f32ea2417b6377d986f8160f609ac49d9a1536745987";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4084CFD21AFA611B000F8D47 /* Sources */ = {
@@ -579,13 +605,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sensei/Frameworks",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Sensei/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "51b6f50d-c3f6-42ec-97eb-b84bb2b5228a";
+				PROVISIONING_PROFILE = "37bdf687-ef9e-41de-82e3-8c4b51ae5b10";
 			};
 			name = Debug;
 		};
@@ -598,12 +625,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sensei/Frameworks",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Sensei/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "51b6f50d-c3f6-42ec-97eb-b84bb2b5228a";
+				PROVISIONING_PROFILE = "37bdf687-ef9e-41de-82e3-8c4b51ae5b10";
 			};
 			name = Release;
 		};

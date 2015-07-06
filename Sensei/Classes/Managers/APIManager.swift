@@ -16,11 +16,11 @@ class APIManager: NSObject {
     typealias ErrorHandlerClosure = (error: NSError?) -> Void
     
     static let sharedInstance = APIManager()
-//#if DEBUG
-//    static let BaseURL = NSURL(string: "http://134.249.164.53:8839")!
-//#else
+#if DEBUG
+    static let BaseURL = NSURL(string: "http://134.249.164.53:8839")!
+#else
     static let BaseURL = NSURL(string: "http://134.249.164.53:8831")!
-//#endif
+#endif
     
     struct APIPath {
         static let Login = "/user/signIn"
@@ -47,8 +47,8 @@ class APIManager: NSObject {
         return manager
     }()
     
-     // MARK: - Public
-     // MARK: - Login
+    // MARK: - Public
+    // MARK: - Login
     
     func loginWithDeviceId(deveiceId: String, timeZone: Int, handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ (requestBuilder) -> Void in
@@ -66,7 +66,7 @@ class APIManager: NSObject {
         })
     }
     
-    // MARK: - Push Notifications
+    // MARK: Push Notifications
     
     func sendDeviceToken(token: String) {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
@@ -78,7 +78,7 @@ class APIManager: NSObject {
         })
     }
     
-    // MARK: - Lessons
+    // MARK: Lessons
     
     func lessonsHistoryCompletion(handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
@@ -106,7 +106,7 @@ class APIManager: NSObject {
         })
     }
     
-    // MARK: - Questions
+    // MARK: Questions
     
     func nextQuestionyWithCompletion(handler: ((question: Question?, error: NSError?) -> Void)?) {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
@@ -132,7 +132,7 @@ class APIManager: NSObject {
         })
     }
     
-    // MARK: - Affirmations
+    // MARK: Affirmations
     
     func saveAffirmation(affirmation: Affirmation, handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
@@ -159,7 +159,7 @@ class APIManager: NSObject {
         })
     }
     
-    // MARK: - Visualizations
+    // MARK: Visualizations
     
     func saveVisualization(visualization: Visualization, handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in

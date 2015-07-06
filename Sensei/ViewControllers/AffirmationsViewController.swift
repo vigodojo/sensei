@@ -121,11 +121,13 @@ class AffirmationsViewController: UserMessageViewController {
     
     override func handleTutorialMoving() {
         contentItems.last!.height = affirmationCellHeight
-        collectionView.performBatchUpdates({ [unowned self] () -> Void in
-            self.collectionView.collectionViewLayout.invalidateLayout()
-            self.collectionView.setCollectionViewLayout(self.collectionView.collectionViewLayout, animated: true)
-        }, completion: { [unowned self] finished in
-            self.affirmationCell?.updateTextViewHeight()
+        collectionView.performBatchUpdates({ [weak self] () -> Void in
+            self?.collectionView.collectionViewLayout.invalidateLayout()
+            if let flowLayout = self?.collectionView?.collectionViewLayout {
+                self?.collectionView.setCollectionViewLayout(flowLayout, animated: true)
+            }
+        }, completion: { [weak self] finished in
+            self?.affirmationCell?.updateTextViewHeight()
         })
     }
     
