@@ -14,9 +14,9 @@ protocol MessageSwitchViewDelegate: class {
     func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int)
     func messageSwitchView(view: MessageSwitchView, isSlotEmptyAtIndex index: Int) -> Bool
     func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime)
+    func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool
 }
 
-@IBDesignable
 class MessageSwitchView: UIView {
     
     private struct Constants {
@@ -29,7 +29,7 @@ class MessageSwitchView: UIView {
     @IBOutlet weak var slotsCollectionView: UICollectionView!
     @IBOutlet weak var receiveTimeTextView: UITextView!
     
-    private lazy var receiveTimePickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
+    lazy var receiveTimePickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
         let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: DefaultInputAccessotyViewHeight))
         let inputAccessoryView = PickerInputAccessoryView(frame: rect)
         inputAccessoryView.rightButton.setTitle("Done", forState: UIControlState.Normal)
@@ -41,7 +41,7 @@ class MessageSwitchView: UIView {
     }()
     
     private lazy var receiveTimePickerView: UIPickerView = { [unowned self] in
-        let picker = UIPickerView()
+        let picker = UIPickerView(frame: CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.frame), height: 250)))
         picker.dataSource = self
         picker.delegate = self
         return picker
@@ -106,6 +106,12 @@ class MessageSwitchView: UIView {
     
     func reloadSlotAtIndex(index: Int) {
         slotsCollectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+    }
+    
+    @IBAction func activateReceivingTimeView() {
+        if let delegate = delegate where delegate.shouldActivateReceivingTimeViewInMessageSwitchView(self) {
+            receiveTimeTextView.becomeFirstResponder()
+        }
     }
 }
 

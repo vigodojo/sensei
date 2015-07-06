@@ -13,7 +13,6 @@ protocol NavigationViewDelegate: class {
     func navigationViewDidBack(cell: NavigationView)
 }
 
-@IBDesignable
 class NavigationView: UIView {
     
     private struct Constants {
