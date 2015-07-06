@@ -8,18 +8,19 @@
 
 import UIKit
 
-protocol MessageSwitchCollectionViewCellDelegate: class {
+protocol MessageSwitchViewDelegate: class {
     
-    func messageSwitchCollectionViewCellDidSave(cell: MessageSwitchCollectionViewCell)
-    func numberOfSlotsInMessageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell) -> Int
-    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectSlotAtIndex index: Int)
-    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, isSlotEmptyAtIndex index: Int) -> Bool
-    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectReceiveTime receiveTime: ReceiveTime)
+    func numberOfSlotsInMessageSwitchView(view: MessageSwitchView) -> Int
+    func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int)
+    func messageSwitchView(view: MessageSwitchView, isSlotEmptyAtIndex index: Int) -> Bool
+    func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime)
 }
 
-class MessageSwitchCollectionViewCell: UICollectionViewCell {
+@IBDesignable
+class MessageSwitchView: UIView {
     
     private struct Constants {
+        static let NibName = "MessageSwitchView"
         static let SlotCellNibName = "SlotCollectionViewCell"
         static let EmtySlotTextColor = UIColor(hexColor: 0xEA212D)
         static let FilledSlotTextColor = UIColor.blackColor()
@@ -27,7 +28,6 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var slotsCollectionView: UICollectionView!
     @IBOutlet weak var receiveTimeTextView: UITextView!
-    @IBOutlet weak var saveButton: UIButton!
     
     private lazy var receiveTimePickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
         let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: DefaultInputAccessotyViewHeight))
@@ -47,23 +47,14 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
         return picker
     }()
     
-    weak var delegate: MessageSwitchCollectionViewCellDelegate?
-    
-    var saveButtonHidden: Bool {
-        get {
-            return saveButton.hidden
-        }
-        set {
-            saveButton.hidden = newValue
-        }
-    }
+    weak var delegate: MessageSwitchViewDelegate?
     
     let switchItems = [ReceiveTime.Morning, ReceiveTime.AnyTime, ReceiveTime.Evening]
     
     var reseiveTime: ReceiveTime {
         get {
             let index = receiveTimePickerView.selectedRowInComponent(0)
-            return switchItems[index]
+            return index == -1 ? ReceiveTime.Morning: switchItems[index]
         }
         set {
             if let index = find(switchItems, newValue) {
@@ -86,21 +77,27 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Lifecycle
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    // MARK: - Private
+    
+    private func setup() {
+        if let view = NSBundle.mainBundle().loadNibNamed(Constants.NibName, owner: self, options: nil).first as? UIView {
+            addEdgePinnedSubview(view)
+        }
         slotsCollectionView.registerNib(UINib(nibName: Constants.SlotCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.SlotCellNibName)
         receiveTimeTextView.inputView = receiveTimePickerView
         receiveTimeTextView.inputAccessoryView = receiveTimePickerInputAccessoryView
-        contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
     }
-    
-    // MARK: - IBActions
-    
-    @IBAction func save() {
-        receiveTimeTextView.resignFirstResponder()
-        delegate?.messageSwitchCollectionViewCellDidSave(self)
-    }
-    
+
     // MARK: - Public
     
     func reloadSlots() {
@@ -114,16 +111,16 @@ class MessageSwitchCollectionViewCell: UICollectionViewCell {
 
 // MARK: - UICollectionViewDataSource
 
-extension MessageSwitchCollectionViewCell: UICollectionViewDataSource {
+extension MessageSwitchView: UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return delegate?.numberOfSlotsInMessageSwitchCollectionViewCell(self) ?? 0
+        return delegate?.numberOfSlotsInMessageSwitchView(self) ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.SlotCellNibName, forIndexPath: indexPath) as! SlotCollectionViewCell
         cell.titleLabel.text = "\(indexPath.item + 1)"
-        let isEmpty = delegate?.messageSwitchCollectionViewCell(self, isSlotEmptyAtIndex: indexPath.item) ?? true
+        let isEmpty = delegate?.messageSwitchView(self, isSlotEmptyAtIndex: indexPath.item) ?? true
         cell.titleLabel.textColor = isEmpty ? Constants.EmtySlotTextColor: Constants.FilledSlotTextColor
         return cell
     }
@@ -131,16 +128,16 @@ extension MessageSwitchCollectionViewCell: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 
-extension MessageSwitchCollectionViewCell: UICollectionViewDelegate {
+extension MessageSwitchView: UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        delegate?.messageSwitchCollectionViewCell(self, didSelectSlotAtIndex: indexPath.item)
+        delegate?.messageSwitchView(self, didSelectSlotAtIndex: indexPath.item)
     }
 }
 
 // MARK: - UIPickerViewDataSource
 
-extension MessageSwitchCollectionViewCell: UIPickerViewDataSource {
+extension MessageSwitchView: UIPickerViewDataSource {
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
@@ -153,7 +150,7 @@ extension MessageSwitchCollectionViewCell: UIPickerViewDataSource {
 
 // MARK: - UIPickerViewDelegate
 
-extension MessageSwitchCollectionViewCell: UIPickerViewDelegate {
+extension MessageSwitchView: UIPickerViewDelegate {
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
         return "\(switchItems[row])"
@@ -161,6 +158,6 @@ extension MessageSwitchCollectionViewCell: UIPickerViewDelegate {
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         receiveTimeTextView.text = "\(switchItems[row])"
-        delegate?.messageSwitchCollectionViewCell(self, didSelectReceiveTime: switchItems[row])
+        delegate?.messageSwitchView(self, didSelectReceiveTime: switchItems[row])
     }
 }

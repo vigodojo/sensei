@@ -8,21 +8,17 @@
 
 import UIKit
 
-class UserMessageViewController: SenseiNavigationController, UINavigationControllerDelegate {
+class UserMessageViewController: BaseViewController, UINavigationControllerDelegate {
     
-    struct Constants {
-        static let MessageSwitchCellNibName = "MessageSwitchCollectionViewCell"
-        static let MessageSwitchCellHeight: CGFloat = 100
-    }
+    var wasTutorialShown = false // temp
     
-    var wasTutorialShown = false
-    var messageSwitchCell: MessageSwitchCollectionViewCell?
+    @IBOutlet weak var navigationView: NavigationView!
+    @IBOutlet weak var messageSwitchView: MessageSwitchView!
     
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupItems()
         fetchUserMessages()
     }
     
@@ -49,23 +45,6 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
         println("\(self) ist Tod")
     }
     
-    // MARK: - SenseiNavigationController
-    
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
-        if cell is MessageSwitchCollectionViewCell {
-            messageSwitchCell = (cell as? MessageSwitchCollectionViewCell)
-        }
-        return cell
-    }
-    
-    // MARK: - Public
-    
-    func setupItems() {
-        collectionView.registerNib(UINib(nibName: Constants.MessageSwitchCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.MessageSwitchCellNibName)
-        contentItems.append(Item(reuseIdentifier: Constants.MessageSwitchCellNibName, height: Constants.MessageSwitchCellHeight))
-    }
-    
     func fetchUserMessages() {
         
     }
@@ -74,34 +53,27 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
         return false
     }
     
-    // MARK: - Navigation
-    
-    override func navigationCollectionViewCellDidBack(cell: NavigationCollectionViewCell) {
-        addSnapshot()
-        super.navigationCollectionViewCellDidBack(cell)
-    }
-    
     // MARK: - Keyboard
     
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
-        if let textView = messageSwitchCell?.receiveTimeTextView where textView.isFirstResponder() {
+        if messageSwitchView.receiveTimeTextView.isFirstResponder() {
             return;
         }
-        let offset = size.height - (CGRectGetHeight(collectionView.frame) - collectionView.contentSize.height)
-        if  offset > 0 {
-            collectionView.bounces = true
-            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: size.height, right: 0)
-            UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
-                self.collectionView.contentOffset = CGPoint(x: 0, y: offset)
-            }, completion: nil)
-        }
+//        let offset = size.height - (CGRectGetHeight(collectionView.frame) - collectionView.contentSize.height)
+//        if  offset > 0 {
+//            collectionView.bounces = true
+//            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: size.height, right: 0)
+//            UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
+//                self.collectionView.contentOffset = CGPoint(x: 0, y: offset)
+//            }, completion: nil)
+//        }
     }
     
     override func keyboardWillHideWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
-        collectionView.bounces = false
-        UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
-            self.collectionView.contentInset = UIEdgeInsetsZero
-        }, completion: nil)
+//        collectionView.bounces = false
+//        UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
+//            self.collectionView.contentInset = UIEdgeInsetsZero
+//        }, completion: nil)
     }
     
     // MARK: - Tutorial
@@ -132,5 +104,15 @@ class UserMessageViewController: SenseiNavigationController, UINavigationControl
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillShowNotification:"), name: TutorialViewController.Notifications.TutorialWillShow, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillHideNotification:"), name: TutorialViewController.Notifications.TutorialWillHide, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: SpeechBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
+    }
+}
+
+// MARK: - NavigationViewDelegate
+
+extension UserMessageViewController: NavigationViewDelegate {
+    
+    func navigationViewDidBack(cell: NavigationView) {
+        addSnapshot()
+        navigationController?.popViewControllerAnimated(true)
     }
 }

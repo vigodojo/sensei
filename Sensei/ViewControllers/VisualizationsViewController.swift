@@ -16,7 +16,8 @@ class VisualizationsViewController: UserMessageViewController {
         static let VisuaizationCellReuseIdentifier = "VisualizationCollectionViewCell"
         static let NumberOfVisualizations = 5
     }
-    
+
+/*
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Visualisation?")
     
     override weak var navigationCell: NavigationCollectionViewCell? {
@@ -335,4 +336,5 @@ extension VisualizationsViewController: NSFetchedResultsControllerDelegate {
             messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
         }
     }
+*/
 }

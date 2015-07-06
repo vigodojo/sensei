@@ -42,7 +42,6 @@ class SenseiNavigationController: BaseViewController {
     
     private var navigationItemHidden = false
     
-    weak var tutorialCell: TutorialCollectionViewCell?
     weak var navigationCell: NavigationCollectionViewCell?
     
     @IBOutlet var collectionView: UICollectionView!
@@ -107,9 +106,7 @@ extension SenseiNavigationController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let item = itemForIndexPath(indexPath)
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(item.reuseIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
-        if cell is TutorialCollectionViewCell {
-            tutorialCell = cell as? TutorialCollectionViewCell
-        } else if cell is NavigationCollectionViewCell {
+        if cell is NavigationCollectionViewCell {
             navigationCell = cell as? NavigationCollectionViewCell
             navigationCell?.delegate = self
         }

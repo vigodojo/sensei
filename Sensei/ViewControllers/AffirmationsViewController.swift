@@ -12,31 +12,30 @@ import CoreData
 class AffirmationsViewController: UserMessageViewController {
 
     private struct Constants {
-        static let AffirmationCellReuseIdentifier = "AffirmationCollectionViewCell"
-        static let AffirmationCellHeight: CGFloat = 86
         static let NumberOfAffirmations = 6
         static let EstimatedKeyboardHeight: CGFloat = 224
+        static let MinTextViewHeight: CGFloat = 48
+        static let KeyboardTextViewSpace: CGFloat = 4
     }
+    
+    @IBOutlet weak var textViewBottomSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textView: PlaceholderedTextView!
+    @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Affirmation?")
     
-    override weak var navigationCell: NavigationCollectionViewCell? {
+    override weak var navigationView: NavigationView! {
         didSet {
-            navigationCell?.titleLabel.text = "AFFIRMATIONS"
+            navigationView.delegate = self
+            navigationView.titleLabel.text = "AFFIRMATIONS"
         }
     }
     
-    override var messageSwitchCell: MessageSwitchCollectionViewCell? {
+    override weak var messageSwitchView: MessageSwitchView! {
         didSet {
-            messageSwitchCell?.delegate = self
-        }
-    }
-    
-    private var affirmationCell: AffirmationCollectionViewCell? {
-        didSet {
-            if messageSwitchCell?.selectedSlot == nil {
-                selectAffirmationWithNumber(NSNumber(integer:0))
-            }
+            messageSwitchView.delegate = self
         }
     }
     
@@ -50,21 +49,42 @@ class AffirmationsViewController: UserMessageViewController {
     
     private var keyboardHeight = Constants.EstimatedKeyboardHeight
     
-    private var affirmationCellHeight: CGFloat {
-        var height = CGRectGetHeight(UIScreen.mainScreen().bounds) - (navigationItemsHeight + UserMessageViewController.Constants.MessageSwitchCellHeight + keyboardHeight)
+    private var maxTextViewHeight: CGFloat {
+        var height = CGRectGetHeight(UIScreen.mainScreen().bounds) - textViewBottomSpace - CGRectGetHeight(navigationView.frame) - CGRectGetHeight(messageSwitchView.frame)
         if let tutorialViewController = tutorialViewController where !tutorialViewController.tutorialHidden {
             height -= tutorialViewController.tutorialContainerHeight
         }
-        return max(height, Constants.AffirmationCellHeight)
+        return max(height, Constants.MinTextViewHeight)
     }
+    
+    private var textViewHeight: CGFloat {
+       return min(max(textView.contentSize.height, Constants.MinTextViewHeight), maxTextViewHeight)
+    }
+    
+    private var textViewBottomSpace: CGFloat {
+        var space = CGRectGetHeight(UIScreen.mainScreen().bounds) - CGRectGetHeight(navigationView.frame) - CGRectGetHeight(messageSwitchView.frame) - Constants.MinTextViewHeight
+        if let tutorialViewController = tutorialViewController where !tutorialViewController.tutorialHidden {
+            space -= tutorialViewController.tutorialContainerHeight
+        }
+        return min(keyboardHeight, space)
+    }
+    
+    private var bottomContentOffset: CGFloat {
+        var space = CGRectGetHeight(UIScreen.mainScreen().bounds) - CGRectGetHeight(navigationView.frame) - CGRectGetHeight(messageSwitchView.frame) - textViewBottomSpace - textViewHeight
+        if let tutorialViewController = tutorialViewController where !tutorialViewController.tutorialHidden {
+            space -= tutorialViewController.tutorialContainerHeight
+        }
+        return abs(min(0, space))
+    }
+    
+    // MARK: Lifecycle
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        selectAffirmationWithNumber(NSNumber(integer:0))
+    }
     
     // MARK: - UserMessageViewController
-    
-    override func setupItems() {
-        super.setupItems()
-        contentItems.append(Item(reuseIdentifier: Constants.AffirmationCellReuseIdentifier, height: affirmationCellHeight))
-    }
     
     override func fetchUserMessages() {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { [unowned self] () -> Void in
@@ -74,79 +94,79 @@ class AffirmationsViewController: UserMessageViewController {
             }
 
             dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
-                self.messageSwitchCell?.reloadSlots()
+                self.messageSwitchView.reloadSlots()
                 self.selectAffirmationWithNumber(NSNumber(integer:0))
             })
         })
     }
     
     override func hasChangesBeenMade() -> Bool {
-        if let index = messageSwitchCell?.selectedSlot {
-            let receiveTime = messageSwitchCell?.reseiveTime ?? ReceiveTime.Morning
-            let text = affirmationCell?.text ?? ""
+        if let index = messageSwitchView.selectedSlot {
+            let receiveTime = messageSwitchView.reseiveTime
             if let affirmation = affirmationWithNumber(index) {
-                return hasAffirmationBeenChanged(affirmation, newText: text, newReceiveTime: receiveTime)
+                return hasAffirmationBeenChanged(affirmation, newText: textView.text, newReceiveTime: receiveTime)
             }
-            return !text.isEmpty
+            return !textView.text.isEmpty
         }
         return false
-    }
-    
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
-        if cell is AffirmationCollectionViewCell {
-            affirmationCell = (cell as? AffirmationCollectionViewCell)
-            affirmationCell?.delegate = self
-        }
-        return cell
     }
     
     // MARK: - Keyboard
     
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
-        if let textView = messageSwitchCell?.receiveTimeTextView where textView.isFirstResponder() {
-            return;
+        //super.keyboardWillShowWithSize(size, animationDuration: animationDuration, animationOptions: animationOptions)
+        let height = size.height + Constants.KeyboardTextViewSpace
+        if keyboardHeight != height {
+            keyboardHeight = height
+            let aTextViewBottomSpace = textViewBottomSpace
+            let aTextViewHeight = textViewHeight
+            let aBottomOffset = bottomContentOffset
+            view.layoutIfNeeded()
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomContentOffset, right: 0)
+            UIView.animateWithDuration(animationDuration, delay: 0.0, options: animationOptions, animations: { [weak self] () -> Void in
+                self?.textViewBottomSpaceConstraint.constant = aTextViewBottomSpace
+                self?.textViewHeightConstraint.constant = aTextViewHeight
+                self?.scrollView.contentOffset = CGPoint(x: 0, y: aBottomOffset)
+                self?.view.layoutIfNeeded()
+            }, completion: nil)
         }
-        if keyboardHeight != size.height {
-            keyboardHeight = size.height
-            contentItems.last!.height = affirmationCellHeight
-            collectionView.collectionViewLayout.invalidateLayout()
-            collectionView.layoutIfNeeded()
-            affirmationCell?.updateTextViewHeight()
-        }
-        super.keyboardWillShowWithSize(size, animationDuration: animationDuration, animationOptions: animationOptions)
     }
     
     // MARK: - Tutorial
     
     override func handleTutorialMoving() {
-        contentItems.last!.height = affirmationCellHeight
-        collectionView.performBatchUpdates({ [weak self] () -> Void in
-            self?.collectionView.collectionViewLayout.invalidateLayout()
-            if let flowLayout = self?.collectionView?.collectionViewLayout {
-                self?.collectionView.setCollectionViewLayout(flowLayout, animated: true)
-            }
-        }, completion: { [weak self] finished in
-            self?.affirmationCell?.updateTextViewHeight()
-        })
+//        contentItems.last!.height = affirmationCellHeight
+//        collectionView.performBatchUpdates({ [weak self] () -> Void in
+//            self?.collectionView.collectionViewLayout.invalidateLayout()
+//            if let flowLayout = self?.collectionView?.collectionViewLayout {
+//                self?.collectionView.setCollectionViewLayout(flowLayout, animated: true)
+//            }
+//        }, completion: { [weak self] finished in
+//            self?.affirmationCell?.updateTextViewHeight()
+//        })
     }
     
     override func handleYesAnswerNotification(notification: NSNotification) {
-        affirmationCell?.textView.resignFirstResponder()
+        textView.resignFirstResponder()
         deleteAffirmation()
     }
     
     // MARK: - Private
+    
+    func updateTextViewHeight() {
+        let height = textView.contentSize.height
+        textViewHeightConstraint.constant = min(max(height, Constants.MinTextViewHeight), CGRectGetMaxY(textView.frame))
+    }
     
     private func hasAffirmationBeenChanged(affirmation: Affirmation, newText: String, newReceiveTime: ReceiveTime) -> Bool {
         return affirmation.text != newText || affirmation.receiveTime != newReceiveTime
     }
     
     private func selectAffirmationWithNumber(number: NSNumber) {
-        messageSwitchCell?.selectedSlot = number.integerValue
+        messageSwitchView.selectedSlot = number.integerValue
         if let affirmation = affirmationWithNumber(number) {
-            messageSwitchCell?.reseiveTime = affirmation.receiveTime
-            affirmationCell?.text = affirmation.text
+            messageSwitchView.reseiveTime = affirmation.receiveTime
+            textView.text = affirmation.text
         } else {
             resetInfo()
         }
@@ -161,10 +181,9 @@ class AffirmationsViewController: UserMessageViewController {
     }
     
     private func saveAffirmation() {
-        let index = messageSwitchCell?.selectedSlot
-        let receiveTime = messageSwitchCell?.reseiveTime
-        let text = affirmationCell?.text
-        if let index = index, receiveTime = receiveTime, text = text {
+        if let index = messageSwitchView.selectedSlot {
+            let text = textView.text
+            let receiveTime = messageSwitchView.reseiveTime
             if let affirmation = affirmationWithNumber(index) {
                 if text.isEmpty {
                     CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(affirmation)
@@ -182,7 +201,7 @@ class AffirmationsViewController: UserMessageViewController {
     }
     
     private func deleteAffirmation() {
-        if let index = messageSwitchCell?.selectedSlot, affirmation = affirmationWithNumber(index) {
+        if let index = messageSwitchView.selectedSlot, affirmation = affirmationWithNumber(index) {
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(affirmation)
             CoreDataManager.sharedInstance.saveContext()
         }
@@ -190,35 +209,39 @@ class AffirmationsViewController: UserMessageViewController {
     }
     
     private func resetInfo() {
-        messageSwitchCell?.reseiveTime = .Morning
-        affirmationCell?.text = ""
-        messageSwitchCell?.saveButtonHidden = true
+        messageSwitchView.reseiveTime = .Morning
+        textView.text = ""
+    }
+    
+    // MARK: - IBAction
+    
+    @IBAction func delete() {
+        
     }
 }
 
-// MARK: - MessageSwitchCollectionViewCellDelegate
+// MARK: - MessageSwitchViewDelegate
 
-extension AffirmationsViewController: MessageSwitchCollectionViewCellDelegate {
+extension AffirmationsViewController: MessageSwitchViewDelegate {
     
-    func messageSwitchCollectionViewCellDidSave(cell: MessageSwitchCollectionViewCell) {
-        saveAffirmation()
-        affirmationCell?.textView.resignFirstResponder()
-    }
+//    func messageSwitchCollectionViewCellDidSave(cell: MessageSwitchCollectionViewCell) {
+//        saveAffirmation()
+//        affirmationCell?.textView.resignFirstResponder()
+//    }
     
-    func numberOfSlotsInMessageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell) -> Int {
+    func numberOfSlotsInMessageSwitchView(view: MessageSwitchView) -> Int {
         return Constants.NumberOfAffirmations
     }
     
-    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectSlotAtIndex index: Int) {
+    func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int) {
         selectAffirmationWithNumber(NSNumber(integer: index))
     }
     
-    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, isSlotEmptyAtIndex index: Int) -> Bool {
+    func messageSwitchView(view: MessageSwitchView, isSlotEmptyAtIndex index: Int) -> Bool {
         return affirmationWithNumber(NSNumber(integer: index)) == nil
     }
     
-    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectReceiveTime receiveTime: ReceiveTime) {
-        messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
+    func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) {
         println("\(self) ReceiveTime \(receiveTime.rawValue)")
     }
 }
@@ -228,11 +251,11 @@ extension AffirmationsViewController: MessageSwitchCollectionViewCellDelegate {
 extension AffirmationsViewController: AffirmationCollectionViewCellDelegate {
     
     func affirmationCollectionViewCellDidChange(cell: AffirmationCollectionViewCell) {
-        messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
+
     }
     
     func affirmationCollectionViewCellDidDelete(cell: AffirmationCollectionViewCell) {
-        if let number = messageSwitchCell?.selectedSlot {
+        if let number = messageSwitchView.selectedSlot {
             let affirmation = affirmationWithNumber(NSNumber(integer: number))
             if affirmation != nil || hasChangesBeenMade() {
                 tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
@@ -249,7 +272,7 @@ extension AffirmationsViewController: NSFetchedResultsControllerDelegate {
         if let affirmation = anObject as? Affirmation {
             switch type {
                 case .Insert:
-                    messageSwitchCell?.reloadSlotAtIndex(affirmation.number.integerValue)
+                    messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
                     let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfAffirmations)
                     selectAffirmationWithNumber(number)
                     APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
@@ -258,13 +281,12 @@ extension AffirmationsViewController: NSFetchedResultsControllerDelegate {
                     selectAffirmationWithNumber(number)
                     APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
                 case .Delete:
-                    messageSwitchCell?.reloadSlotAtIndex(affirmation.number.integerValue)
-                    messageSwitchCell?.selectedSlot = affirmation.number.integerValue
+                    messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
+                    messageSwitchView.selectedSlot = affirmation.number.integerValue
                     APIManager.sharedInstance.deleteAffirmation(affirmation, handler: nil)
                 default:
                     break
             }
-            messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
         }
     }
 }
