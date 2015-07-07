@@ -15,6 +15,7 @@ protocol MessageSwitchViewDelegate: class {
     func messageSwitchView(view: MessageSwitchView, isSlotEmptyAtIndex index: Int) -> Bool
     func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime)
     func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool
+    func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView)
 }
 
 class MessageSwitchView: UIView {
@@ -29,13 +30,16 @@ class MessageSwitchView: UIView {
     @IBOutlet weak var slotsCollectionView: UICollectionView!
     @IBOutlet weak var receiveTimeTextView: UITextView!
     
-    lazy var receiveTimePickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
+    private lazy var receiveTimePickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
         let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: DefaultInputAccessotyViewHeight))
         let inputAccessoryView = PickerInputAccessoryView(frame: rect)
         inputAccessoryView.rightButton.setTitle("Done", forState: UIControlState.Normal)
         inputAccessoryView.leftButton.hidden = true
         inputAccessoryView.didSubmit = { [weak self] () -> Void in
             self?.receiveTimeTextView.resignFirstResponder()
+            if let weakSelf = self {
+                weakSelf.delegate?.didFinishPickingReceivingTimeInMessageSwitchView(weakSelf)
+            }
         }
         return inputAccessoryView
     }()
@@ -51,7 +55,7 @@ class MessageSwitchView: UIView {
     
     let switchItems = [ReceiveTime.Morning, ReceiveTime.AnyTime, ReceiveTime.Evening]
     
-    var reseiveTime: ReceiveTime {
+    var receiveTime: ReceiveTime {
         get {
             let index = receiveTimePickerView.selectedRowInComponent(0)
             return index == -1 ? ReceiveTime.Morning: switchItems[index]

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -16,7 +16,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oKp-lk-Cac">
-                    <rect key="frame" x="8" y="8" width="56" height="24"/>
+                    <rect key="frame" x="18" y="8" width="56" height="24"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="56" id="Wn8-w6-kwg"/>
                         <constraint firstAttribute="height" constant="24" id="qWd-73-P9D"/>
@@ -39,7 +39,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6rk-nW-4AO">
-                    <rect key="frame" x="257" y="8" width="56" height="24"/>
+                    <rect key="frame" x="246" y="8" width="56" height="24"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="MWE-0z-vEb"/>
                         <constraint firstAttribute="width" constant="56" id="c0T-zi-w8g"/>
@@ -65,9 +65,9 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="oKp-lk-Cac" secondAttribute="centerY" id="CMX-Sz-3UU"/>
-                <constraint firstAttribute="trailing" secondItem="6rk-nW-4AO" secondAttribute="trailing" constant="7" id="CMl-RP-jOc"/>
+                <constraint firstAttribute="trailing" secondItem="6rk-nW-4AO" secondAttribute="trailing" constant="18" id="CMl-RP-jOc"/>
                 <constraint firstAttribute="centerY" secondItem="6rk-nW-4AO" secondAttribute="centerY" id="mtV-fs-YQA"/>
-                <constraint firstItem="oKp-lk-Cac" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="plG-Xv-9bE"/>
+                <constraint firstItem="oKp-lk-Cac" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="18" id="plG-Xv-9bE"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

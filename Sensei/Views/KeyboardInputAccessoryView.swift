@@ -17,7 +17,7 @@ class KeyboardInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
     
     private struct Constants {
         static let NibName = "KeyboardInputAccessoryView"
-        static let DefaultIndent: CGFloat = 8
+        static let DefaultIndent: CGFloat = 18
     }
 
     @IBOutlet weak var textFieldLeadingConstraint: NSLayoutConstraint!
@@ -31,10 +31,12 @@ class KeyboardInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
                 case .Text:
                     textFieldLeadingConstraint.constant = Constants.DefaultIndent
                     rightButton.setTitle("SKIP", forState: UIControlState.Normal)
+                    leftButton.hidden = true
                     textField.keyboardType = UIKeyboardType.Default
                 case .Number:
-                    textFieldLeadingConstraint.constant = Constants.DefaultIndent * 2 + CGRectGetWidth(leftButton.bounds)
+                    textFieldLeadingConstraint.constant = Constants.DefaultIndent + 8 + CGRectGetWidth(leftButton.bounds)
                     rightButton.setTitle("SUBMIT", forState: UIControlState.Normal)
+                    leftButton.hidden = false
                     textField.keyboardType = UIKeyboardType.NumberPad
             }
         }

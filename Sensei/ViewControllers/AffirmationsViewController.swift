@@ -77,6 +77,12 @@ class AffirmationsViewController: UserMessageViewController {
         return abs(min(0, space))
     }
     
+    private var hasDisplayedContent: Bool {
+        return selectedAffirmation != nil || !textView.text.isEmpty
+    }
+    
+    private var selectedAffirmation: Affirmation?
+    
     // MARK: Lifecycle
 
     override func viewDidLoad() {
@@ -101,7 +107,7 @@ class AffirmationsViewController: UserMessageViewController {
     
     override func hasChangesBeenMade() -> Bool {
         if let index = messageSwitchView.selectedSlot {
-            let receiveTime = messageSwitchView.reseiveTime
+            let receiveTime = messageSwitchView.receiveTime
             if let affirmation = affirmationWithNumber(index) {
                 return hasAffirmationBeenChanged(affirmation, newText: textView.text, newReceiveTime: receiveTime)
             }
@@ -158,9 +164,11 @@ class AffirmationsViewController: UserMessageViewController {
     
     // MARK: - Private
     
-    func updateTextViewHeight() {
+    private func updateTextViewHeight() {
         textView.layoutIfNeeded()
-        textViewHeightConstraint.constant = textViewHeight
+        let height = textViewHeight
+        textViewHeightConstraint.constant = height
+        textView.setContentOffset(CGPoint(x: 0, y: max(0, textView.contentSize.height - height)), animated: false)
     }
     
     private func hasAffirmationBeenChanged(affirmation: Affirmation, newText: String, newReceiveTime: ReceiveTime) -> Bool {
@@ -170,9 +178,11 @@ class AffirmationsViewController: UserMessageViewController {
     private func selectAffirmationWithNumber(number: NSNumber) {
         messageSwitchView.selectedSlot = number.integerValue
         if let affirmation = affirmationWithNumber(number) {
-            messageSwitchView.reseiveTime = affirmation.receiveTime
+            messageSwitchView.receiveTime = affirmation.receiveTime
             textView.text = affirmation.text
             updateTextViewHeight()
+            deleteButton.hidden = false
+            selectedAffirmation = affirmation
         } else {
             resetInfo()
         }
@@ -187,19 +197,19 @@ class AffirmationsViewController: UserMessageViewController {
     }
     
     private func saveAffirmation() {
-        if let index = messageSwitchView.selectedSlot {
-            let text = textView.text
-            let receiveTime = messageSwitchView.reseiveTime
-            if let affirmation = affirmationWithNumber(index) {
-                if text.isEmpty {
-                    CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(affirmation)
-                    CoreDataManager.sharedInstance.saveContext()
-                } else if affirmation.text != text || affirmation.receiveTime != receiveTime {
-                    affirmation.text = text
-                    affirmation.receiveTime = receiveTime
-                    CoreDataManager.sharedInstance.saveContext()
-                }
-            } else if !text.isEmpty {
+        let text = textView.text
+        let receiveTime = messageSwitchView.receiveTime
+        if let affirmation = selectedAffirmation {
+            if text.isEmpty {
+                CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(affirmation)
+                CoreDataManager.sharedInstance.saveContext()
+            } else if affirmation.text != text || affirmation.receiveTime != receiveTime {
+                affirmation.text = text
+                affirmation.receiveTime = receiveTime
+                CoreDataManager.sharedInstance.saveContext()
+            }
+        } else if !text.isEmpty {
+            if let index = messageSwitchView.selectedSlot {
                 Affirmation.createAffirmationNumber(index, text: text, receiveTime: receiveTime)
                 CoreDataManager.sharedInstance.saveContext()
             }
@@ -215,12 +225,14 @@ class AffirmationsViewController: UserMessageViewController {
     }
     
     private func resetInfo() {
-        messageSwitchView.reseiveTime = .Morning
+        messageSwitchView.receiveTime = .Morning
         textView.text = ""
         updateTextViewHeight()
+        deleteButton.hidden = true
+        selectedAffirmation = nil
     }
     
-    // MARK: - IBAction
+    // MARK: - IBActions
     
     @IBAction func delete() {
         if let number = messageSwitchView.selectedSlot {
@@ -248,13 +260,17 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
         return affirmationWithNumber(NSNumber(integer: index)) == nil
     }
     
-    func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) {
-        println("\(self) ReceiveTime \(receiveTime.rawValue)")
-    }
+    func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) { }
     
     func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool {
         textView.resignFirstResponder()
         return true
+    }
+    
+    func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView) {
+        if let affirmation = selectedAffirmation where affirmation.receiveTime != messageSwitchView.receiveTime {
+            affirmation.receiveTime = messageSwitchView.receiveTime
+        }
     }
 }
 
@@ -295,6 +311,7 @@ extension AffirmationsViewController: UITextViewDelegate {
         if textView.contentSize.height != textViewHeightConstraint.constant {
             textViewHeightConstraint.constant = textViewHeight
         }
+        deleteButton.hidden = !hasDisplayedContent
     }
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {

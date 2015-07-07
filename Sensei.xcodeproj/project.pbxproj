@@ -540,7 +540,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "a9698caf-d35b-41ee-a2c6-eb22a1697364";
+				PROVISIONING_PROFILE = "37bdf687-ef9e-41de-82e3-8c4b51ae5b10";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -578,7 +578,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "a9698caf-d35b-41ee-a2c6-eb22a1697364";
+				PROVISIONING_PROFILE = "37bdf687-ef9e-41de-82e3-8c4b51ae5b10";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -600,7 +600,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b8743c7c-f63a-4cb9-9651-78b881200746";
+				PROVISIONING_PROFILE = "37bdf687-ef9e-41de-82e3-8c4b51ae5b10";
 			};
 			name = Debug;
 		};
@@ -619,7 +619,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b8743c7c-f63a-4cb9-9651-78b881200746";
+				PROVISIONING_PROFILE = "37bdf687-ef9e-41de-82e3-8c4b51ae5b10";
 			};
 			name = Release;
 		};
