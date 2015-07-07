@@ -26,6 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func applicationDidEnterBackground(application: UIApplication) {
+        CoreDataManager.sharedInstance.saveContext()
+    }
+    
+    func applicationWillTerminate(application: UIApplication) {
+        CoreDataManager.sharedInstance.saveContext()
+    }
+    
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         application.registerForRemoteNotifications()
     }

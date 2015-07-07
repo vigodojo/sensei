@@ -14,11 +14,13 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     
     @IBOutlet weak var navigationView: NavigationView!
     @IBOutlet weak var messageSwitchView: MessageSwitchView!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationView.delegate = self
         fetchUserMessages()
     }
     
@@ -55,25 +57,10 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     
     // MARK: - Keyboard
     
-    override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
-        if messageSwitchView.receiveTimeTextView.isFirstResponder() {
-            return;
-        }
-//        let offset = size.height - (CGRectGetHeight(collectionView.frame) - collectionView.contentSize.height)
-//        if  offset > 0 {
-//            collectionView.bounces = true
-//            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: size.height, right: 0)
-//            UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
-//                self.collectionView.contentOffset = CGPoint(x: 0, y: offset)
-//            }, completion: nil)
-//        }
-    }
-    
     override func keyboardWillHideWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
-//        collectionView.bounces = false
-//        UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { () -> Void in
-//            self.collectionView.contentInset = UIEdgeInsetsZero
-//        }, completion: nil)
+        UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [weak self] in
+            self?.scrollView.contentInset = UIEdgeInsetsZero
+        }, completion: nil)
     }
     
     // MARK: - Tutorial

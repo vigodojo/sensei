@@ -15,28 +15,28 @@ class VisualizationsViewController: UserMessageViewController {
     private struct Constants {
         static let VisuaizationCellReuseIdentifier = "VisualizationCollectionViewCell"
         static let NumberOfVisualizations = 5
+        static let MessageSwitchViewHeight: CGFloat = 100
     }
 
-/*
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Visualisation?")
     
-    override weak var navigationCell: NavigationCollectionViewCell? {
+    override weak var navigationView: NavigationView! {
         didSet {
-            navigationCell?.titleLabel.text = "VISUALIZATIONS"
+            navigationView.titleLabel.text = "VISUALIZATIONS"
         }
     }
     
-    override var messageSwitchCell: MessageSwitchCollectionViewCell? {
+    @IBOutlet weak var scrollViewBottomSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet weak var messageSwitchViewHeightConstraint: NSLayoutConstraint!
+    override weak var messageSwitchView: MessageSwitchView! {
         didSet {
-            messageSwitchCell?.delegate = self
+            messageSwitchView.delegate = self
         }
     }
     
-    private var visualizationCell: VisualizationCollectionViewCell? {
+    @IBOutlet var visualisationView: VisualisationView! {
         didSet {
-            if messageSwitchCell?.selectedSlot == nil {
-                selectVisualizationWithNumber(NSNumber(integer:0))
-            }
+            visualisationView.delegate = self
         }
     }
     
@@ -48,24 +48,23 @@ class VisualizationsViewController: UserMessageViewController {
         return fetchedResultController
     }()
     
-    private var visualizationCellHeight: CGFloat {
-        var height = CGRectGetHeight(UIScreen.mainScreen().bounds) - (navigationItemsHeight + UserMessageViewController.Constants.MessageSwitchCellHeight)
+    private var scrollViewBottomSpace: CGFloat {
+        var space = CGRectGetHeight(UIScreen.mainScreen().bounds) - CGRectGetHeight(navigationView.frame) - visualisationView.minRequiredHeight
         if let tutorialViewController = tutorialViewController where !tutorialViewController.tutorialHidden {
-           height -= tutorialViewController.tutorialContainerHeight
+            space -= tutorialViewController.tutorialContainerHeight
         }
-        return height
+        return space
     }
+    
+    private var hasDisplayedContent: Bool {
+        return selectedVisualization != nil || visualisationView.image != nil
+    }
+    
+    private var selectedVisualization: Visualization?
     
     private var didChangeImage = false
-    private var visualisationCellAttributes: Item?
     
     // MARK: - UserMessageViewController
-    
-    override func setupItems() {
-        super.setupItems()
-        visualisationCellAttributes = Item(reuseIdentifier: Constants.VisuaizationCellReuseIdentifier, height: visualizationCellHeight)
-        contentItems.append(visualisationCellAttributes!)
-    }
     
     override func fetchUserMessages() {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { [unowned self] () -> Void in
@@ -75,50 +74,60 @@ class VisualizationsViewController: UserMessageViewController {
             }
             
             dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
-                self.messageSwitchCell?.reloadSlots()
+                self.messageSwitchView?.reloadSlots()
                 self.selectVisualizationWithNumber(NSNumber(integer:0))
             })
         })
     }
-
-    override func hasChangesBeenMade() -> Bool {
-        if let index = messageSwitchCell?.selectedSlot {
-            let receiveTime = messageSwitchCell?.reseiveTime ?? ReceiveTime.Morning
-            let text = visualizationCell?.text ?? ""
-            if let visualization = visualizationWithNumber(index) {
-                return hasVisualizationBeenChanged(visualization, newText: text, newReceiveTime: receiveTime)
-            }
-            return !text.isEmpty || didChangeImage
+    
+    // MARK: - Keyboard
+    
+    override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        if messageSwitchView.receiveTimeTextView.isFirstResponder() {
+            return;
         }
-        return false
+        let aScrollViewBottomSpace = scrollViewBottomSpace
+        let bottomOffset = max(0, size.height - aScrollViewBottomSpace)
+        view.layoutIfNeeded()
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomOffset, right: 0)
+        UIView.animateWithDuration(animationDuration, delay: 0.0, options: animationOptions, animations: { [weak self] in
+            self?.messageSwitchViewHeightConstraint.constant = 0
+            self?.scrollViewBottomSpaceConstraint.constant = aScrollViewBottomSpace
+            self?.scrollView.contentOffset = CGPoint(x: 0, y: bottomOffset)
+            self?.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
-        if cell is VisualizationCollectionViewCell {
-            visualizationCell = (cell as? VisualizationCollectionViewCell)
-            visualizationCell?.delegate = self
-        } 
-        return cell
+    override func keyboardWillHideWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        view.layoutIfNeeded()
+        UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [weak self] in
+            self?.messageSwitchViewHeightConstraint.constant = Constants.MessageSwitchViewHeight
+            self?.scrollViewBottomSpaceConstraint.constant = 0
+            self?.scrollView.contentInset = UIEdgeInsetsZero
+            self?.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     // MARK: - Tutorial
     
     override func handleTutorialMoving() {
-        let height = visualizationCellHeight
-        visualisationCellAttributes?.height = height
-        let cellBounds = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(collectionView.frame), height: height))
-        let imageContainerBounds = UIEdgeInsetsInsetRect(cellBounds, VisualizationCollectionViewCell.ImageContainerEdgeInsets)
-        UIView.animateWithDuration(AnimationDuration, animations: { () -> Void in
-            self.collectionView.collectionViewLayout.invalidateLayout()
-            self.collectionView.setCollectionViewLayout(self.collectionView.collectionViewLayout, animated: true)
-            self.visualizationCell?.updateImageContainerViewWithBounds(imageContainerBounds)
-        })
+        if visualisationView.mode == .Editing {
+            let aScrollViewBottomSpace = scrollViewBottomSpace
+            let delta = self.scrollViewBottomSpaceConstraint.constant - aScrollViewBottomSpace
+            let bottomOffset = scrollView.contentInset.bottom + delta
+            view.layoutIfNeeded()
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomOffset, right: 0)
+            UIView.animateWithDuration(AnimationDuration, animations: { [weak self] in
+                self?.scrollViewBottomSpaceConstraint.constant = aScrollViewBottomSpace
+                self?.scrollView.contentOffset = CGPoint(x: 0, y: bottomOffset)
+                self?.view.layoutIfNeeded()
+            }, completion: nil)
+        }
     }
     
     override func handleYesAnswerNotification(notification: NSNotification) {
         deleteVisualization()
-        visualizationCell?.mode = .Default
+        visualisationView?.mode = .Default
     }
         
     // MARK: - Private
@@ -129,16 +138,16 @@ class VisualizationsViewController: UserMessageViewController {
     
     private func selectVisualizationWithNumber(number: NSNumber) {
         didChangeImage = false
-        messageSwitchCell?.selectedSlot = number.integerValue
-        if let visualization = visualizationWithNumber(number) {
-            messageSwitchCell?.reseiveTime = visualization.receiveTime
-            visualizationCell?.text = visualization.text
-            visualizationCell?.image = visualization.picture
-            visualizationCell?.editButtonHidden = false
+        messageSwitchView.selectedSlot = number.integerValue
+        if let visualisation = visualizationWithNumber(number) {
+            messageSwitchView.receiveTime = visualisation.receiveTime
+            visualisationView.text = visualisation.text
+            visualisationView.image = visualisation.picture
+            visualisationView.editButtonHidden = false
+            selectedVisualization = visualisation
         } else {
             resetVisualizationCell()
         }
-        messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
     }
     
     private func visualizationWithNumber(number: NSNumber) -> Visualization? {
@@ -157,54 +166,52 @@ class VisualizationsViewController: UserMessageViewController {
     }
     
     private func saveVisualization() {
-        let index = messageSwitchCell?.selectedSlot
-        let receiveTime = messageSwitchCell?.reseiveTime
-        let text = visualizationCell?.text
-        let image = visualizationCell?.image
-        let insideRect = visualizationCell?.imageView.bounds
-        if let index = index, receiveTime = receiveTime, text = text, image = image, insideRect = insideRect {
+        if let image = visualisationView.image, index = messageSwitchView.selectedSlot {
+            let receiveTime = messageSwitchView.receiveTime
+            let text = visualisationView.text
+            let insideRect = visualisationView.imageView.bounds
+            let wasImageChanged = didChangeImage
+            let currentVisualisation = selectedVisualization
             
             let number = ((index + 1) % Constants.NumberOfVisualizations)
             selectVisualizationWithNumber(number)
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { () -> Void in
-                if let visualization = self.visualizationWithNumber(index) {
-                    if visualization.text != text || visualization.receiveTime != receiveTime || visualization.picture != image {
-                        visualization.text = text
-                        visualization.picture = image
-                        visualization.receiveTime = receiveTime
-                        visualization.scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, text: text, insideRect: insideRect)
-                        CoreDataManager.sharedInstance.saveContext()
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                if let visualisation = currentVisualisation {
+                    if visualisation.text != text || visualisation.receiveTime != receiveTime || wasImageChanged {
+                        visualisation.text = text
+                        visualisation.picture = image
+                        visualisation.receiveTime = receiveTime
+                        visualisation.scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, text: text, insideRect: insideRect)
                     }
-                } else  {
+                } else {
                     let visualisation = Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
                     visualisation.scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, text: text, insideRect: insideRect)
-                    CoreDataManager.sharedInstance.saveContext()
                 }
             }
         }
     }
     
     private func deleteVisualization() {
-        if let index = messageSwitchCell?.selectedSlot, visualization = visualizationWithNumber(index) {
-            CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(visualization)
-            CoreDataManager.sharedInstance.saveContext()
+        if let visualisation = selectedVisualization {
+            CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(visualisation)
         }
         resetVisualizationCell()
         didChangeImage = false
-        messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
     }
 
     private func resetVisualizationCell() {
-        messageSwitchCell?.reseiveTime = .Morning
-        visualizationCell?.text = ""
-        visualizationCell?.image = nil
-        visualizationCell?.editButtonHidden = true
+        messageSwitchView.receiveTime = .Morning
+        visualisationView.text = ""
+        visualisationView.image = nil
+        visualisationView.editButtonHidden = true
+        selectedVisualization = nil
     }
     
     private func showVisualizationInPreview() {
-        if let imageView = visualizationCell?.imageView, image = imageView.image, text = visualizationCell?.text {
-            let scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, text: text, insideRect: imageView.bounds)
+        if let image = visualisationView.image {
+            let text = visualisationView.text
+            let scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, text: text, insideRect: visualisationView.imageView.bounds)
             let imagePreviewController = TextImagePreviewController.imagePreviewControllerWithImage(image)
             imagePreviewController.attributedText = NSAttributedString(string: text, attributes: Visualization.attributesForFontWithSize(scaledFontSize))
             self.presentViewController(imagePreviewController, animated: true, completion: nil)
@@ -218,37 +225,40 @@ class VisualizationsViewController: UserMessageViewController {
     }
 }
 
-// MARK: - MessageSwitchCollectionViewCellDelegate
+// MARK: - MessageSwitchViewDelegate
 
-extension VisualizationsViewController: MessageSwitchCollectionViewCellDelegate {
+extension VisualizationsViewController: MessageSwitchViewDelegate {
     
-    func messageSwitchCollectionViewCellDidSave(cell: MessageSwitchCollectionViewCell) {
-        saveVisualization()
-    }
-    
-    func numberOfSlotsInMessageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell) -> Int {
+    func numberOfSlotsInMessageSwitchView(view: MessageSwitchView) -> Int {
         return Constants.NumberOfVisualizations
     }
     
-    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectSlotAtIndex index: Int) {
+    func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int) {
         selectVisualizationWithNumber(NSNumber(integer: index))
     }
     
-    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, isSlotEmptyAtIndex index: Int) -> Bool {
+    func messageSwitchView(view: MessageSwitchView, isSlotEmptyAtIndex index: Int) -> Bool {
         return visualizationWithNumber(NSNumber(integer: index)) == nil
     }
     
-    func messageSwitchCollectionViewCell(cell: MessageSwitchCollectionViewCell, didSelectReceiveTime receiveTime: ReceiveTime) {
-        messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
-        println("\(self) ReceiveTime \(receiveTime.rawValue)")
+    func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) { }
+    
+    func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool {
+        return true
+    }
+    
+    func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView) {
+        if let visualisation = selectedVisualization where visualisation.receiveTime != messageSwitchView.receiveTime {
+            visualisation.receiveTime = messageSwitchView.receiveTime
+        }
     }
 }
 
-// MARK: - VisualizationCollectionViewCellDelegate
+// MARK: - VisualizationViewDelegate
 
-extension VisualizationsViewController: VisualizationCollectionViewCellDelegate {
+extension VisualizationsViewController: VisualizationViewDelegate {
     
-    func visualizationCollectionViewCellDidTakePhoto(cell: VisualizationCollectionViewCell) {
+    func visualizationViewDidTakePhoto(cell: VisualisationView) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         alert.addAction(UIAlertAction(title: "Take Photo", style: UIAlertActionStyle.Default, handler: { [weak self] (action) -> Void in
             self?.presentImagePickerControllerWithSourceType(UIImagePickerControllerSourceType.Camera)
@@ -260,37 +270,26 @@ extension VisualizationsViewController: VisualizationCollectionViewCellDelegate 
         presentViewController(alert, animated: true, completion: nil)
     }
     
-    func visualizationCollectionViewCellDidBeginEditing(cell: VisualizationCollectionViewCell) {
-        let index = 0
-        contentItems.removeAtIndex(index)
-        if let item = visualisationCellAttributes {
-            item.height = cell.minRequiredHeight
-        }
-        collectionView.performBatchUpdates({ [unowned self] () -> Void in
-            self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 1)])
-        }, completion: { (finished) -> Void in
-            self.visualizationCell?.textView.becomeFirstResponder()
-        })
+    func visualizationViewDidBeginEditing(cell: VisualisationView) {
+        
     }
     
-    func visualizationCollectionViewCellDidEndEditing(cell: VisualizationCollectionViewCell) {
-        let index = 0
-        if let item = visualisationCellAttributes {
-            item.height = visualizationCellHeight
-        }
-        contentItems.insert(Item(reuseIdentifier: UserMessageViewController.Constants.MessageSwitchCellNibName, height: UserMessageViewController.Constants.MessageSwitchCellHeight), atIndex: index)
-        collectionView.performBatchUpdates({ [unowned self] () -> Void in
-            self.collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 1)])
-        }, completion: nil)
+    func visualizationViewDidEndEditing(cell: VisualisationView) {
         showVisualizationInPreview()
+        visualisationView.editButtonHidden = !hasDisplayedContent
+        saveVisualization()
     }
     
-    func visualizationCollectionViewCellDidDelete(cell: VisualizationCollectionViewCell) {
+    func visualizationViewDidDelete(cell: VisualisationView) {
         tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
     }
     
-    func visualizationCollectionViewCellDidChange(cell: VisualizationCollectionViewCell) {
-        messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
+    func minPossibleHeightForVisualizationView(view: VisualisationView) -> CGFloat {
+        var height = CGRectGetHeight(UIScreen.mainScreen().bounds) - CGRectGetHeight(navigationView.frame) - CGRectGetHeight(messageSwitchView.frame)
+        if let tutorialViewController = tutorialViewController {
+            height -= tutorialViewController.tutorialContainerHeight
+        }
+        return height
     }
 }
 
@@ -300,12 +299,12 @@ extension VisualizationsViewController: UIImagePickerControllerDelegate {
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            visualizationCell?.image = image.upOrientedImage
+            visualisationView.image = image.upOrientedImage.fullScreenImage
             didChangeImage = true
-            messageSwitchCell?.saveButtonHidden = false
-            visualizationCell?.editButtonHidden = false
-            dismissViewControllerAnimated(true, completion: nil)
-            visualizationCell?.mode = VisualizationCollectionViewCellMode.Editing
+            visualisationView.editButtonHidden = false
+            dismissViewControllerAnimated(true) { [weak self] in
+                self?.visualisationView.mode = VisualizationViewMode.Editing
+            }
         }
     }
     
@@ -322,19 +321,18 @@ extension VisualizationsViewController: NSFetchedResultsControllerDelegate {
         if let visualization = anObject as? Visualization {
             switch type {
                 case .Insert:
-                    messageSwitchCell?.reloadSlotAtIndex(visualization.number.integerValue)
+                    messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
                     APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
                 case .Update:
                     APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
                 case .Delete:
-                    messageSwitchCell?.reloadSlotAtIndex(visualization.number.integerValue)
-                    messageSwitchCell?.selectedSlot = visualization.number.integerValue
+                    messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
+                    messageSwitchView.selectedSlot = visualization.number.integerValue
                     APIManager.sharedInstance.deleteVisualization(visualization, handler: nil)
                 default:
                     break
             }
-            messageSwitchCell?.saveButtonHidden = !hasChangesBeenMade()
         }
     }
-*/
+
 }

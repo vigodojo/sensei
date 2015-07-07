@@ -110,4 +110,21 @@ extension UIImage {
         let newImage = UIImage(CGImage: newCGImage)
         return newImage!
     }
+    
+    var fullScreenImage: UIImage {
+        let screenBounds = UIScreen.mainScreen().bounds
+        let scale = UIScreen.mainScreen().nativeScale
+        let screenDimension = min(CGRectGetWidth(screenBounds), CGRectGetHeight(screenBounds)) * scale
+        let imageDimension = min(self.size.width, self.size.height)
+        let coef = screenDimension / imageDimension
+        if coef >= 1 {
+            return self
+        }
+        let newSize = CGSizeMake(size.width * coef, size.height * coef);
+        UIGraphicsBeginImageContext(newSize);
+        drawInRect(CGRect(origin: CGPointZero, size: newSize))
+        let fullScreenImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return fullScreenImage;
+    }
 }

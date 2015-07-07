@@ -182,7 +182,6 @@ class SettingsTableViewController: UITableViewController {
         Settings.sharedSettings.height = NSNumber(double: heightCm)
         Settings.sharedSettings.weight = NSNumber(double: weightKg)
         APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
-        CoreDataManager.sharedInstance.saveContext()
     }
     
     private func updateSettings() {

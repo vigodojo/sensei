@@ -36,7 +36,6 @@ class Affirmation: UserMessage {
         } else {
             Affirmation.createAffirmationNumber(number, text: text, receiveTime: receiveTime)
         }
-        CoreDataManager.sharedInstance.saveContext()
     }
     
     class var affirmations: [Affirmation] {

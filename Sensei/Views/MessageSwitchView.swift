@@ -51,7 +51,11 @@ class MessageSwitchView: UIView {
         return picker
     }()
     
-    weak var delegate: MessageSwitchViewDelegate?
+    weak var delegate: MessageSwitchViewDelegate? {
+        didSet {
+            calculateSlotItemWidth()
+        }
+    }
     
     let switchItems = [ReceiveTime.Morning, ReceiveTime.AnyTime, ReceiveTime.Evening]
     
@@ -91,6 +95,11 @@ class MessageSwitchView: UIView {
         setup()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        calculateSlotItemWidth()
+    }
+    
     // MARK: - Private
     
     private func setup() {
@@ -100,6 +109,7 @@ class MessageSwitchView: UIView {
         slotsCollectionView.registerNib(UINib(nibName: Constants.SlotCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.SlotCellNibName)
         receiveTimeTextView.inputView = receiveTimePickerView
         receiveTimeTextView.inputAccessoryView = receiveTimePickerInputAccessoryView
+        calculateSlotItemWidth()
     }
 
     // MARK: - Public
@@ -111,6 +121,19 @@ class MessageSwitchView: UIView {
     func reloadSlotAtIndex(index: Int) {
         slotsCollectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
     }
+    
+    // MARK: - Private
+    
+    private func calculateSlotItemWidth() {
+        if let delegate = delegate {
+            let numberOfItems = delegate.numberOfSlotsInMessageSwitchView(self)
+            let defaultItemWidth = (slotsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
+            let itemsWidth = CGRectGetWidth(slotsCollectionView.frame) / CGFloat(numberOfItems)
+            (slotsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width = max(defaultItemWidth, itemsWidth)
+        }
+    }
+    
+    // MARK: - IBActions
     
     @IBAction func activateReceivingTimeView() {
         if let delegate = delegate where delegate.shouldActivateReceivingTimeViewInMessageSwitchView(self) {

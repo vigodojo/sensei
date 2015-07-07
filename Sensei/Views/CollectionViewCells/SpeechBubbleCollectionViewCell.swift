@@ -42,6 +42,7 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabelLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabelTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var accessoryItemsContainerHeightConstraint: NSLayoutConstraint!
     
     var type = SpeechBubbleCollectionViewCellType.Sensei {
@@ -64,6 +65,16 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
                     accessoryItemsContainerHeightConstraint.constant = Constants.DefaultAccessoryItemsContainerHeight
             }
             setNeedsDisplay()
+        }
+    }
+    
+    var text: String {
+        get {
+            return textView.text
+        }
+        set {
+            textView.text = nil
+            textView.text = newValue
         }
     }
     

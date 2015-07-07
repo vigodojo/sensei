@@ -22,13 +22,11 @@ class AffirmationsViewController: UserMessageViewController {
     @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var textView: PlaceholderedTextView!
     @IBOutlet weak var deleteButton: UIButton!
-    @IBOutlet weak var scrollView: UIScrollView!
     
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Affirmation?")
     
     override weak var navigationView: NavigationView! {
         didSet {
-            navigationView.delegate = self
             navigationView.titleLabel.text = "AFFIRMATIONS"
         }
     }
@@ -83,12 +81,6 @@ class AffirmationsViewController: UserMessageViewController {
     
     private var selectedAffirmation: Affirmation?
     
-    // MARK: Lifecycle
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     // MARK: - UserMessageViewController
     
     override func fetchUserMessages() {
@@ -134,12 +126,6 @@ class AffirmationsViewController: UserMessageViewController {
                 self?.view.layoutIfNeeded()
             }, completion: nil)
         }
-    }
-    
-    override func keyboardWillHideWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
-        UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [weak self] in
-            self?.scrollView.contentInset = UIEdgeInsetsZero
-        }, completion: nil)
     }
     
     // MARK: - Tutorial
@@ -202,24 +188,20 @@ class AffirmationsViewController: UserMessageViewController {
         if let affirmation = selectedAffirmation {
             if text.isEmpty {
                 CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(affirmation)
-                CoreDataManager.sharedInstance.saveContext()
             } else if affirmation.text != text || affirmation.receiveTime != receiveTime {
                 affirmation.text = text
                 affirmation.receiveTime = receiveTime
-                CoreDataManager.sharedInstance.saveContext()
             }
         } else if !text.isEmpty {
             if let index = messageSwitchView.selectedSlot {
                 Affirmation.createAffirmationNumber(index, text: text, receiveTime: receiveTime)
-                CoreDataManager.sharedInstance.saveContext()
             }
         }
     }
     
     private func deleteAffirmation() {
-        if let index = messageSwitchView.selectedSlot, affirmation = affirmationWithNumber(index) {
+        if let affirmation = selectedAffirmation {
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(affirmation)
-            CoreDataManager.sharedInstance.saveContext()
         }
         resetInfo()
     }
@@ -235,11 +217,8 @@ class AffirmationsViewController: UserMessageViewController {
     // MARK: - IBActions
     
     @IBAction func delete() {
-        if let number = messageSwitchView.selectedSlot {
-            let affirmation = affirmationWithNumber(NSNumber(integer: number))
-            if affirmation != nil || hasChangesBeenMade() {
-                tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
-            }
+        if hasDisplayedContent {
+            tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
         }
     }
 }
@@ -300,6 +279,8 @@ extension AffirmationsViewController: NSFetchedResultsControllerDelegate {
         }
     }
 }
+
+// MARK: - UITextViewDelegate
 
 extension AffirmationsViewController: UITextViewDelegate {
     

@@ -1,5 +1,5 @@
 //
-//  VisualizationCollectionViewCell.swift
+//  VisualisationView.swift
 //  Sensei
 //
 //  Created by Sauron Black on 5/22/15.
@@ -13,23 +13,23 @@ let TextViewContentSizeContext = UnsafeMutablePointer<Void>()
 
 let VisualizationCollectionViewCellTextViewContentSizeContext = UnsafeMutablePointer<Void>()
 
-enum VisualizationCollectionViewCellMode {
+enum VisualizationViewMode {
     case Default
     case Editing
 }
 
-protocol VisualizationCollectionViewCellDelegate: class {
+protocol VisualizationViewDelegate: class {
     
-    func visualizationCollectionViewCellDidTakePhoto(cell: VisualizationCollectionViewCell)
-    func visualizationCollectionViewCellDidBeginEditing(cell: VisualizationCollectionViewCell)
-    func visualizationCollectionViewCellDidEndEditing(cell: VisualizationCollectionViewCell)
-    func visualizationCollectionViewCellDidDelete(cell: VisualizationCollectionViewCell)
-    func visualizationCollectionViewCellDidChange(cell: VisualizationCollectionViewCell)
+    func visualizationViewDidTakePhoto(visualisationView: VisualisationView)
+    func visualizationViewDidBeginEditing(visualisationView: VisualisationView)
+    func visualizationViewDidEndEditing(visualisationView: VisualisationView)
+    func visualizationViewDidDelete(visualisationView: VisualisationView)
+    func minPossibleHeightForVisualizationView(view: VisualisationView) -> CGFloat
 }
 
-class VisualizationCollectionViewCell: UICollectionViewCell {
+class VisualisationView: UIView {
     
-    static let ImageContainerEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 48, right: 28)
+    static let ImageContainerEdgeInsets = UIEdgeInsets(top: 8, left: 0, bottom: 40, right: 0)
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
@@ -40,23 +40,22 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageContainerWidthConstraint: NSLayoutConstraint!
     
-    var mode = VisualizationCollectionViewCellMode.Default {
+    var mode = VisualizationViewMode.Default {
         didSet {
             switch mode {
                 case .Editing:
                     textView.userInteractionEnabled = true
-                    delegate?.visualizationCollectionViewCellDidBeginEditing(self)
                     editButton.setTitle("DELETE", forState: UIControlState.Normal)
+                    editButtonHidden = false
                     cameraButton.hidden = true
-                    if oldValue == .Editing && !textView.isFirstResponder() {
-                        textView.becomeFirstResponder()
-                    }
+                    textView.becomeFirstResponder()
+                    delegate?.visualizationViewDidBeginEditing(self)
                 case .Default:
                     textView.userInteractionEnabled = false
                     textView.resignFirstResponder()
-                    delegate?.visualizationCollectionViewCellDidEndEditing(self)
                     editButton.setTitle("EDIT", forState: UIControlState.Normal)
                     cameraButton.hidden = false
+                    delegate?.visualizationViewDidEndEditing(self)
                 }
         }
     }
@@ -67,7 +66,8 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         }
         set {
             imageView.image = newValue
-            updateImageContainerViewWithBounds(imageBounderingView.bounds)
+            let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(imageBounderingView.bounds), height: maxImageViewHeight))
+            updateImageContainerViewWithBounds(rect)
         }
     }
     
@@ -97,13 +97,18 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         return CGRectGetHeight(bounds) - CGRectGetHeight(imageBounderingView.frame) + CGRectGetHeight(imageContainerView.frame)
     }
     
-    weak var delegate: VisualizationCollectionViewCellDelegate?
+    weak var delegate: VisualizationViewDelegate? {
+        didSet {
+            calculateMaxImageViewHeight()
+        }
+    }
+    
+    var maxImageViewHeight: CGFloat = 0
     
     // MARK: - Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
         textView.addObserver(self, forKeyPath: "contentSize", options: NSKeyValueObservingOptions.New, context: TextViewContentSizeContext)
         text = "ENTERED TEXT SUPER EMPOSED ON TOP OF IMAGE AT THE BOTTOM"
     }
@@ -148,10 +153,17 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    private func calculateMaxImageViewHeight() {
+        if let delegate = delegate {
+            let minViewHeight = delegate.minPossibleHeightForVisualizationView(self)
+            maxImageViewHeight = minViewHeight - VisualisationView.ImageContainerEdgeInsets.top - VisualisationView.ImageContainerEdgeInsets.bottom
+        }
+    }
+    
     // MARK: - IBActions
     
     @IBAction func takePhoto() {
-        delegate?.visualizationCollectionViewCellDidTakePhoto(self)
+        delegate?.visualizationViewDidTakePhoto(self)
     }
     
     @IBAction func edit() {
@@ -159,18 +171,14 @@ class VisualizationCollectionViewCell: UICollectionViewCell {
             case .Default:
                 mode = .Editing
             case .Editing:
-                delegate?.visualizationCollectionViewCellDidDelete(self)
+                delegate?.visualizationViewDidDelete(self)
         }
     }
 }
 
 // MARK: - UITextViewDelegate
 
-extension VisualizationCollectionViewCell: UITextViewDelegate {
-    
-    func textViewDidChange(textView: UITextView) {
-        delegate?.visualizationCollectionViewCellDidChange(self)
-    }
+extension VisualisationView: UITextViewDelegate {
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {

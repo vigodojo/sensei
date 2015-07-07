@@ -87,9 +87,7 @@ class Settings: NSManagedObject {
     }
     
     class func updateWithJSON(json: JSONObject) {
-        if CoreDataManager.sharedInstance.updateEntityObject(Settings.sharedSettings, withJSON: json, entityMapping: Settings.entityMapping) {
-            CoreDataManager.sharedInstance.saveContext()
-        }
+        CoreDataManager.sharedInstance.updateEntityObject(Settings.sharedSettings, withJSON: json, entityMapping: Settings.entityMapping)
     }
     
     class var objectMapping: RCObjectMapping {
@@ -110,7 +108,6 @@ class Settings: NSManagedObject {
         settings.dataFormat = Settings.defaultDataFormat
         settings.sleepTimeWeekdays = SleepTime.sleepTimeWithStartTimeStrng(Constants.DefaultStartSleepTime, endTimeString: Constants.DefaultEndSleepTime)
         settings.sleepTimeWeekends = SleepTime.sleepTimeWithStartTimeStrng(Constants.DefaultStartSleepTime, endTimeString: Constants.DefaultEndSleepTime)
-        CoreDataManager.sharedInstance.saveContext()
         return settings
     }
     

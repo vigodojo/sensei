@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -31,11 +31,6 @@
                                     <action selector="close" destination="kvc-o9-MLK" eventType="touchUpInside" id="SsL-xn-NxU"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Guten Morgen" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SKo-um-p2v">
-                                <rect key="frame" x="8" y="8" width="244" height="126"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sZP-a3-gQc">
                                 <rect key="frame" x="8" y="142" width="265" height="0.0"/>
                                 <subviews>
@@ -97,17 +92,24 @@
                                     <constraint firstAttribute="trailing" secondItem="aL1-tH-KwZ" secondAttribute="trailing" id="xBb-m1-O79"/>
                                 </constraints>
                             </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Guten Morgen" translatesAutoresizingMaskIntoConstraints="NO" id="oEO-RP-dDl">
+                                <rect key="frame" x="8" y="8" width="244" height="126"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="sZP-a3-gQc" firstAttribute="leading" secondItem="EWJ-4P-st8" secondAttribute="leading" constant="8" id="1Hi-Jj-bc3"/>
-                            <constraint firstAttribute="trailing" secondItem="SKo-um-p2v" secondAttribute="trailing" constant="48" id="1pS-FG-cCB"/>
                             <constraint firstItem="GBn-PW-Mrd" firstAttribute="top" secondItem="EWJ-4P-st8" secondAttribute="top" id="5lP-dE-J6l"/>
-                            <constraint firstItem="sZP-a3-gQc" firstAttribute="top" secondItem="SKo-um-p2v" secondAttribute="bottom" constant="8" id="6eN-MO-6jw"/>
                             <constraint firstAttribute="trailing" secondItem="GBn-PW-Mrd" secondAttribute="trailing" constant="20" id="9TU-0L-k3t"/>
-                            <constraint firstItem="SKo-um-p2v" firstAttribute="leading" secondItem="EWJ-4P-st8" secondAttribute="leading" constant="8" id="Wpu-aC-ivl"/>
+                            <constraint firstItem="oEO-RP-dDl" firstAttribute="leading" secondItem="EWJ-4P-st8" secondAttribute="leading" constant="8" id="WBN-zJ-BLf"/>
                             <constraint firstAttribute="trailing" secondItem="sZP-a3-gQc" secondAttribute="trailing" constant="27" id="ffd-ft-srW"/>
-                            <constraint firstItem="SKo-um-p2v" firstAttribute="top" secondItem="EWJ-4P-st8" secondAttribute="top" constant="8" id="pWE-7p-iBc"/>
+                            <constraint firstAttribute="trailing" secondItem="oEO-RP-dDl" secondAttribute="trailing" constant="48" id="g7v-0Q-t64"/>
+                            <constraint firstItem="oEO-RP-dDl" firstAttribute="top" secondItem="EWJ-4P-st8" secondAttribute="top" constant="8" id="lYR-d7-OAa"/>
+                            <constraint firstItem="sZP-a3-gQc" firstAttribute="top" secondItem="oEO-RP-dDl" secondAttribute="bottom" constant="8" id="u8h-z2-j4K"/>
                             <constraint firstAttribute="bottom" secondItem="sZP-a3-gQc" secondAttribute="bottom" id="zte-pZ-lYQ"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -130,9 +132,9 @@
                 <outlet property="accessoryItemsContainerHeightConstraint" destination="N2t-f3-ppd" id="4qq-tP-ZWk"/>
                 <outlet property="closeButton" destination="GBn-PW-Mrd" id="D0h-ii-EvP"/>
                 <outlet property="speechBubbleView" destination="EWJ-4P-st8" id="Nps-ED-Wke"/>
-                <outlet property="titleLabel" destination="SKo-um-p2v" id="iJq-LH-NeQ"/>
-                <outlet property="titleLabelLeadingConstraint" destination="Wpu-aC-ivl" id="NTg-AY-SfV"/>
-                <outlet property="titleLabelTrailingConstraint" destination="1pS-FG-cCB" id="EbU-oC-bH1"/>
+                <outlet property="textView" destination="oEO-RP-dDl" id="Xbv-7Q-Gh8"/>
+                <outlet property="titleLabelLeadingConstraint" destination="WBN-zJ-BLf" id="VKe-jB-gel"/>
+                <outlet property="titleLabelTrailingConstraint" destination="g7v-0Q-t64" id="iDv-zj-nO3"/>
             </connections>
             <point key="canvasLocation" x="452" y="249"/>
         </collectionViewCell>

@@ -181,7 +181,7 @@ extension TutorialViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(SpeechBubbleCollectionViewCellIdentifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
         let message = messages[indexPath.item]
-        cell.titleLabel.text = message.text
+        cell.text = message.text
         cell.type = message is ConfirmationQuestion ? SpeechBubbleCollectionViewCellType.Confirmation : SpeechBubbleCollectionViewCellType.Sensei
         cell.closeButtonHidden = true
         return cell;

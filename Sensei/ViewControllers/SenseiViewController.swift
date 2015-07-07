@@ -91,7 +91,6 @@ class SenseiViewController: BaseViewController {
         collectionView.registerNib(UINib(nibName: SpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: SpeechBubbleCollectionViewCellIdentifier)
         fetchLessons()
         addApplicationObservers()
-        login()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -127,15 +126,22 @@ class SenseiViewController: BaseViewController {
     // MARK: Data Source Operations
     
     private func fetchLessons() {
-        var error: NSError? = nil
-        if !lessonsFetchedResultController.performFetch(&error) {
-            println("Failed to fetch user messages with error: \(error)")
-            return
-        }
-        if let lessons = lessonsFetchedResultController.fetchedObjects as? [Lesson] {
-            dataSource += lessons.map {$0 as Message}
-            reloadSectionAnimated(true)
-        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { [unowned self] () -> Void in
+            var error: NSError? = nil
+            if !self.lessonsFetchedResultController.performFetch(&error) {
+                println("Failed to fetch user messages with error: \(error)")
+                self.login()
+                return
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
+                if let lessons = self.lessonsFetchedResultController.fetchedObjects as? [Lesson] {
+                    self.dataSource += lessons.map {$0 as Message}
+                    self.reloadSectionAnimated(true)
+                }
+                self.login()
+            })
+        })
     }
     
     private func insertMessage(message: Message, scroll: Bool) {
@@ -208,11 +214,11 @@ class SenseiViewController: BaseViewController {
     private func login() {
         // TODO: - DELETE HARDCODED IDFA
         
-    #if DEBUG
-        let idfa = "2EAB0742-8A34-4315-8C1E-69E6E0EE6366"
-    #else
+//    #if DEBUG
+//        let idfa = "2EAB0742-8A34-4315-8C1E-69E6E0EE6366"
+//    #else
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-    #endif
+//    #endif
         
 //        let idfa = NSUUID().UUIDString
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
@@ -411,7 +417,7 @@ extension SenseiViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(SpeechBubbleCollectionViewCellIdentifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
         cell.delegate = self
         let message = dataSource[indexPath.item]
-        cell.titleLabel.text = message.text
+        cell.text = message.text
         cell.type = message is AnswerMessage ? SpeechBubbleCollectionViewCellType.Me : SpeechBubbleCollectionViewCellType.Sensei
         return cell;
     }
@@ -422,7 +428,7 @@ extension SenseiViewController: UICollectionViewDataSource {
 extension SenseiViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        sizingCell.titleLabel.text = dataSource[indexPath.item].text
+        sizingCell.text = dataSource[indexPath.item].text
         sizingCell.frame = CGRect(x: 0.0, y: 0.0, width: CGRectGetWidth(collectionView.bounds), height: Constants.DefaultCellHeight)
         return sizingCell.systemLayoutSizeFittingSize(CGSize(width: CGRectGetWidth(collectionView.bounds), height: CGFloat.max), withHorizontalFittingPriority: 1000, verticalFittingPriority: 50)
     }
