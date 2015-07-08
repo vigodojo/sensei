@@ -18,6 +18,8 @@ protocol MessageSwitchViewDelegate: class {
     func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView)
 }
 
+let MessageSwitchViewSclotsCollectionViewBoundsContext = UnsafeMutablePointer<Void>()
+
 class MessageSwitchView: UIView {
     
     private struct Constants {
@@ -95,9 +97,8 @@ class MessageSwitchView: UIView {
         setup()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        calculateSlotItemWidth()
+    deinit {
+        slotsCollectionView.removeObserver(self, forKeyPath: "bounds", context: MessageSwitchViewSclotsCollectionViewBoundsContext)
     }
     
     // MARK: - Private
@@ -106,6 +107,7 @@ class MessageSwitchView: UIView {
         if let view = NSBundle.mainBundle().loadNibNamed(Constants.NibName, owner: self, options: nil).first as? UIView {
             addEdgePinnedSubview(view)
         }
+        slotsCollectionView.addObserver(self, forKeyPath: "bounds", options: NSKeyValueObservingOptions.New, context: MessageSwitchViewSclotsCollectionViewBoundsContext)
         slotsCollectionView.registerNib(UINib(nibName: Constants.SlotCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.SlotCellNibName)
         receiveTimeTextView.inputView = receiveTimePickerView
         receiveTimeTextView.inputAccessoryView = receiveTimePickerInputAccessoryView
@@ -128,8 +130,19 @@ class MessageSwitchView: UIView {
         if let delegate = delegate {
             let numberOfItems = delegate.numberOfSlotsInMessageSwitchView(self)
             let defaultItemWidth = (slotsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
+            println("\((subviews.first as! UIView).bounds.size) \(slotsCollectionView.bounds.size)")
             let itemsWidth = CGRectGetWidth(slotsCollectionView.frame) / CGFloat(numberOfItems)
             (slotsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width = max(defaultItemWidth, itemsWidth)
+        }
+    }
+    
+    // MARK: - KVO
+    
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+        if context == MessageSwitchViewSclotsCollectionViewBoundsContext {
+            calculateSlotItemWidth()
+        } else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }
     
