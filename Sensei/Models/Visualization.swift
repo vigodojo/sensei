@@ -26,7 +26,7 @@ class Visualization: UserMessage {
             NSParagraphStyleAttributeName: paragraphStyle]
     }()
 
-    @NSManaged private var pictureData: NSData?
+    @NSManaged private dynamic var pictureData: NSData?
     @NSManaged var scaledFontSize: NSNumber
     
     var picture: UIImage? {

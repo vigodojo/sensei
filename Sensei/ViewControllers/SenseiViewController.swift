@@ -15,7 +15,8 @@ class SenseiViewController: BaseViewController {
     private struct Constants {
         static let MinOpacity = CGFloat(0.2)
         static let DefaultCellHeight = CGFloat(30.0)
-        static let DefaultBottomSpace = CGFloat(66.0)
+        static let DefaultBottomSpace = CGFloat(80.0)
+        static let CollectionContentInset = UIEdgeInsets(top: 0, left: 11, bottom: 0, right: 76)
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -28,7 +29,7 @@ class SenseiViewController: BaseViewController {
     
     private var maxContentOffset: CGPoint {
         let y = collectionView.contentSize.height - CGRectGetHeight(collectionView.frame) + collectionView.contentInset.bottom + min(0, bottomContentInset)
-        return CGPoint(x: 0, y: max(y, -collectionView.contentInset.top))
+        return CGPoint(x: -Constants.CollectionContentInset.left, y: max(y, -collectionView.contentInset.top))
     }
     
     private var bottomContentInset: CGFloat {
@@ -89,6 +90,7 @@ class SenseiViewController: BaseViewController {
         super.viewDidLoad()
         (view as? AnswerableView)?.delegate = self
         collectionView.registerNib(UINib(nibName: SpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: SpeechBubbleCollectionViewCellIdentifier)
+        collectionView.contentInset = Constants.CollectionContentInset
         fetchLessons()
         addApplicationObservers()
     }
@@ -126,22 +128,19 @@ class SenseiViewController: BaseViewController {
     // MARK: Data Source Operations
     
     private func fetchLessons() {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { [unowned self] () -> Void in
-            var error: NSError? = nil
-            if !self.lessonsFetchedResultController.performFetch(&error) {
-                println("Failed to fetch user messages with error: \(error)")
-                self.login()
-                return
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
-                if let lessons = self.lessonsFetchedResultController.fetchedObjects as? [Lesson] {
-                    self.dataSource += lessons.map {$0 as Message}
-                    self.reloadSectionAnimated(true)
-                }
-                self.login()
-            })
-        })
+        var error: NSError? = nil
+        if !self.lessonsFetchedResultController.performFetch(&error) {
+            println("Failed to fetch user messages with error: \(error)")
+            self.login()
+            return
+        }
+        
+
+        if let lessons = self.lessonsFetchedResultController.fetchedObjects as? [Lesson] {
+            self.dataSource += lessons.map { $0 as Message }
+            self.reloadSectionAnimated(true)
+        }
+        self.login()
     }
     
     private func insertMessage(message: Message, scroll: Bool) {
@@ -200,7 +199,7 @@ class SenseiViewController: BaseViewController {
         
         collectionView.performBatchUpdates({ () -> Void in
             self.collectionView.deleteItemsAtIndexPaths([indexPath])
-            }, completion: nil)
+        }, completion: nil)
     }
     
     private func removeAllExeptLessons() {
@@ -217,9 +216,9 @@ class SenseiViewController: BaseViewController {
 //    #if DEBUG
 //        let idfa = "2EAB0742-8A34-4315-8C1E-69E6E0EE6366"
 //    #else
-        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+//        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
 //    #endif
-        
+        let idfa = "8161C71D-7FE6-42B9-912C-16B977B3C08F"
 //        let idfa = NSUUID().UUIDString
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         println("IDFA = \(idfa)")
@@ -261,7 +260,7 @@ class SenseiViewController: BaseViewController {
     private func scrollToItemAtIndexPath(indexPath: NSIndexPath, animated: Bool) {
         if let attributes = self.collectionView.collectionViewLayout.layoutAttributesForItemAtIndexPath(indexPath) {
             let offsetY = CGRectGetMinY(attributes.frame) - collectionView.contentInset.top
-            collectionView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: animated)
+            collectionView.setContentOffset(CGPoint(x: -Constants.CollectionContentInset.left, y: offsetY), animated: animated)
         }
     }
     
@@ -429,8 +428,10 @@ extension SenseiViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         sizingCell.text = dataSource[indexPath.item].text
-        sizingCell.frame = CGRect(x: 0.0, y: 0.0, width: CGRectGetWidth(collectionView.bounds), height: Constants.DefaultCellHeight)
-        return sizingCell.systemLayoutSizeFittingSize(CGSize(width: CGRectGetWidth(collectionView.bounds), height: CGFloat.max), withHorizontalFittingPriority: 1000, verticalFittingPriority: 50)
+        let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
+        sizingCell.frame = CGRect(x: 0.0, y: 0.0, width: width, height: Constants.DefaultCellHeight)
+        let size = sizingCell.systemLayoutSizeFittingSize(CGSize(width: width, height: CGFloat.max), withHorizontalFittingPriority: 1000, verticalFittingPriority: 50)
+        return size
     }
 }
 

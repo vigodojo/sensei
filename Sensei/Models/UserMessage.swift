@@ -35,10 +35,10 @@ enum ReceiveTime: String, Printable {
 
 class UserMessage: NSManagedObject, Message {
 
-    @NSManaged var number: NSNumber
-    @NSManaged var text: String
-    @NSManaged var savedOnServer: NSNumber
-    @NSManaged private var receiveTimeString: String
+    @NSManaged dynamic var number: NSNumber
+    @NSManaged dynamic var text: String
+    @NSManaged dynamic var savedOnServer: NSNumber
+    @NSManaged private  dynamic var receiveTimeString: String
     
     var id: String { return "\(number)"}
     var date = NSDate()

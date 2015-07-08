@@ -114,7 +114,7 @@ class CoreDataManager {
                 }
             }
         }
-        saveContext()
+//        saveContext()
     }
     
     func createEntityObjectFromJSON(json: JSONObject, entityMapping: EntityMapping) -> NSManagedObject {
@@ -164,8 +164,8 @@ struct EntityMapping {
     
     func valueForProperty(property: String, json: [NSObject: AnyObject]) -> AnyObject? {
         let jsonValue: AnyObject? = (json as NSDictionary).valueForKeyPath(propertyMapping[property]!)
-        if let transformerClass = valueTransformers[property] {
-            return transformerClass.valueFromString(jsonValue as! String)
+        if let transformerClass = valueTransformers[property], jsonValue = jsonValue as? String {
+            return transformerClass.valueFromString(jsonValue)
         }
         return jsonValue
     }
