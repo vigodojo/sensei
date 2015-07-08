@@ -588,7 +588,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "37bdf687-ef9e-41de-82e3-8c4b51ae5b10";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Debug;
 		};
@@ -607,7 +607,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "37bdf687-ef9e-41de-82e3-8c4b51ae5b10";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Release;
 		};

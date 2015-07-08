@@ -14,19 +14,19 @@ import AVFoundation
 class Visualization: UserMessage {
     
     static let EntityName = "Visualization"
-    
+    static let MinFontSize: CGFloat = 13.0
     static var OutlinedTextAttributes: [String: AnyObject] = {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = NSTextAlignment.Center
         
         return [NSStrokeColorAttributeName: UIColor.whiteColor(),
             NSForegroundColorAttributeName: UIColor.blackColor(),
-            NSStrokeWidthAttributeName: NSNumber(double:-6.0),
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-Bold", size: 13.0)!,
+            NSStrokeWidthAttributeName: NSNumber(double:-7.0),
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: MinFontSize)!,
             NSParagraphStyleAttributeName: paragraphStyle]
     }()
 
-    @NSManaged private dynamic var pictureData: NSData?
+    @NSManaged private var pictureData: NSData?
     @NSManaged var scaledFontSize: NSNumber
     
     var picture: UIImage? {
@@ -49,7 +49,7 @@ class Visualization: UserMessage {
     
     // MARK: Public
     
-    class func scaledFontSizeForImageWithSize(imageSize: CGSize, text: String, insideRect: CGRect) -> CGFloat {
+    class func scaledFontSizeForImageWithSize(imageSize: CGSize, insideRect: CGRect) -> CGFloat {
         var attributes = Visualization.OutlinedTextAttributes
         let imageRect = AVMakeRectWithAspectRatioInsideRect(imageSize, insideRect)
         let font = (attributes[NSFontAttributeName] as! UIFont)

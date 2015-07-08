@@ -68,6 +68,7 @@ class VisualisationView: UIView {
             imageView.image = newValue
             let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(imageBounderingView.bounds), height: maxImageViewHeight))
             updateImageContainerViewWithBounds(rect)
+            maxFontSize = newValue != nil ? calculateMaxFontSize(): Visualization.MinFontSize
         }
     }
     
@@ -104,6 +105,8 @@ class VisualisationView: UIView {
     }
     
     var maxImageViewHeight: CGFloat = 0
+    
+    var maxFontSize = Visualization.MinFontSize
     
     // MARK: - Lifecycle
     
@@ -160,6 +163,21 @@ class VisualisationView: UIView {
         }
     }
     
+    private func calculateMaxFontSize() -> CGFloat {
+        let t1 = CACurrentMediaTime()
+        let someText = "A"
+        var fontSize = Visualization.MinFontSize
+        let maxHeight = (imageContainerHeightConstraint.constant / CGFloat(6))
+        var size = NSAttributedString(string: someText, attributes: Visualization.attributesForFontWithSize(fontSize)).size()
+        while size.height < maxHeight {
+            fontSize++
+            size = NSAttributedString(string: someText, attributes: Visualization.attributesForFontWithSize(fontSize)).size()
+        }
+        let t2 = CACurrentMediaTime()
+        println("calculateMaxFontSize = \((t2 - t1) * Double(1000))")
+        return fontSize
+    }
+    
     // MARK: - IBActions
     
     @IBAction func takePhoto() {
@@ -179,6 +197,13 @@ class VisualisationView: UIView {
 // MARK: - UITextViewDelegate
 
 extension VisualisationView: UITextViewDelegate {
+    
+//    func textViewDidChange(textView: UITextView) {
+//        let someText = "A"
+//        var fontSize = Visualization.MinFontSize
+//        var size = NSAttributedString(string: someText, attributes: Visualization.attributesForFontWithSize(fontSize)).size()
+////        if textView
+//    }
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {

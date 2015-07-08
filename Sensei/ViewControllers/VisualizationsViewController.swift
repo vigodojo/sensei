@@ -182,11 +182,11 @@ class VisualizationsViewController: UserMessageViewController {
                         visualisation.text = text
                         visualisation.picture = image
                         visualisation.receiveTime = receiveTime
-                        visualisation.scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, text: text, insideRect: insideRect)
+                        visualisation.scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, insideRect: insideRect)
                     }
                 } else {
                     let visualisation = Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
-                    visualisation.scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, text: text, insideRect: insideRect)
+                    visualisation.scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, insideRect: insideRect)
                 }
             }
         }
@@ -211,7 +211,7 @@ class VisualizationsViewController: UserMessageViewController {
     private func showVisualizationInPreview() {
         if let image = visualisationView.image {
             let text = visualisationView.text
-            let scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, text: text, insideRect: visualisationView.imageView.bounds)
+            let scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, insideRect: visualisationView.imageView.bounds)
             let imagePreviewController = TextImagePreviewController.imagePreviewControllerWithImage(image)
             imagePreviewController.attributedText = NSAttributedString(string: text, attributes: Visualization.attributesForFontWithSize(scaledFontSize))
             self.presentViewController(imagePreviewController, animated: true, completion: nil)
