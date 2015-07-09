@@ -15,19 +15,20 @@ class Visualization: UserMessage {
     
     static let EntityName = "Visualization"
     static let MinFontSize: CGFloat = 13.0
-    static var OutlinedTextAttributes: [String: AnyObject] = {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = NSTextAlignment.Center
-        
-        return [NSStrokeColorAttributeName: UIColor.whiteColor(),
-            NSForegroundColorAttributeName: UIColor.blackColor(),
-            NSStrokeWidthAttributeName: NSNumber(double:-7.0),
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: MinFontSize)!,
-            NSParagraphStyleAttributeName: paragraphStyle]
-    }()
+//    static var OutlinedTextAttributes: [String: AnyObject] = {
+//        let paragraphStyle = NSMutableParagraphStyle()
+//        paragraphStyle.alignment = NSTextAlignment.Center
+//        
+//        return [NSStrokeColorAttributeName: UIColor.whiteColor(),
+//            NSForegroundColorAttributeName: UIColor.blackColor(),
+//            NSStrokeWidthAttributeName: NSNumber(double:-7.0),
+//            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: MinFontSize)!,
+//            NSParagraphStyleAttributeName: paragraphStyle]
+//    }()
 
     @NSManaged private var pictureData: NSData?
     @NSManaged var scaledFontSize: NSNumber
+    @NSManaged var fontSize: NSNumber
     
     var picture: UIImage? {
         get {
@@ -49,18 +50,28 @@ class Visualization: UserMessage {
     
     // MARK: Public
     
-    class func scaledFontSizeForImageWithSize(imageSize: CGSize, insideRect: CGRect) -> CGFloat {
-        var attributes = Visualization.OutlinedTextAttributes
+    class func scaledFontSizeForFontSize(fontSize: CGFloat, imageSize: CGSize, insideRect: CGRect) -> CGFloat {
         let imageRect = AVMakeRectWithAspectRatioInsideRect(imageSize, insideRect)
-        let font = (attributes[NSFontAttributeName] as! UIFont)
-        return round(imageSize.height * font.pointSize / CGRectGetHeight(imageRect))
+        return round(imageSize.height * fontSize / CGRectGetHeight(imageRect))
     }
     
-    class func attributesForFontWithSize(fontSize: CGFloat) -> [NSObject: AnyObject] {
-        let font = (Visualization.OutlinedTextAttributes[NSFontAttributeName] as! UIFont)
-        var attributes = Visualization.OutlinedTextAttributes
-        attributes[NSFontAttributeName] = UIFont(name: font.fontName, size: fontSize)
-        return attributes
+    class func outlinedTextAttributesWithMinFontSize() -> [NSObject: AnyObject] {
+        return outlinedTextAttributesWithFontSize(MinFontSize)
+    }
+    
+    class func outlinedTextAttributesWithFontSize(fontSize: CGFloat) -> [NSObject: AnyObject] {
+        return outlinedTextAttributesWithFontSize(fontSize, color: UIColor.blackColor())
+    }
+    
+    class func outlinedTextAttributesWithFontSize(fontSize: CGFloat, color: UIColor) -> [NSObject: AnyObject] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = NSTextAlignment.Center
+        
+        return [NSStrokeColorAttributeName: UIColor.whiteColor(),
+            NSForegroundColorAttributeName: color,
+            NSStrokeWidthAttributeName: NSNumber(double:-7.0),
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: fontSize)!,
+            NSParagraphStyleAttributeName: paragraphStyle]
     }
     
     // MARK: CoreData

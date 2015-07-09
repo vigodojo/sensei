@@ -167,6 +167,7 @@ class VisualizationsViewController: UserMessageViewController {
         if let image = visualisationView.image, index = messageSwitchView.selectedSlot {
             let receiveTime = messageSwitchView.receiveTime
             let text = visualisationView.text
+            let fontSize = visualisationView.currentFontSize
             let insideRect = visualisationView.imageView.bounds
             let wasImageChanged = didChangeImage
             let currentVisualisation = selectedVisualization
@@ -180,11 +181,11 @@ class VisualizationsViewController: UserMessageViewController {
                         visualisation.text = text
                         visualisation.picture = image
                         visualisation.receiveTime = receiveTime
-                        visualisation.scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, insideRect: insideRect)
+                        visualisation.scaledFontSize = Visualization.scaledFontSizeForFontSize(fontSize, imageSize: image.size, insideRect: insideRect)
                     }
                 } else {
                     let visualisation = Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
-                    visualisation.scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, insideRect: insideRect)
+                    visualisation.scaledFontSize = Visualization.scaledFontSizeForFontSize(fontSize, imageSize: image.size, insideRect: insideRect)
                 }
             }
         }
@@ -207,9 +208,9 @@ class VisualizationsViewController: UserMessageViewController {
     private func showVisualizationInPreview() {
         if let image = visualisationView.image {
             let text = visualisationView.text
-            let scaledFontSize = Visualization.scaledFontSizeForImageWithSize(image.size, insideRect: visualisationView.imageView.bounds)
+            let scaledFontSize = Visualization.scaledFontSizeForFontSize(visualisationView.currentFontSize, imageSize: image.size, insideRect: visualisationView.imageView.bounds)
             let imagePreviewController = TextImagePreviewController.imagePreviewControllerWithImage(image)
-            imagePreviewController.attributedText = NSAttributedString(string: text, attributes: Visualization.attributesForFontWithSize(scaledFontSize))
+            imagePreviewController.attributedText = NSAttributedString(string: text, attributes: Visualization.outlinedTextAttributesWithFontSize(scaledFontSize))
             self.presentViewController(imagePreviewController, animated: true, completion: nil)
         }
     }

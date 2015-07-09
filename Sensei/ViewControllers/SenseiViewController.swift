@@ -373,7 +373,7 @@ class SenseiViewController: BaseViewController {
     private func showVisualisation(visualisation: Visualization) {
         if let image = visualisation.picture {
             let scaledFontSize = CGFloat(visualisation.scaledFontSize.floatValue)
-            let attributedText = NSAttributedString(string: visualisation.text, attributes: Visualization.attributesForFontWithSize(scaledFontSize))
+            let attributedText = NSAttributedString(string: visualisation.text, attributes: Visualization.outlinedTextAttributesWithFontSize(scaledFontSize))
             let imagePreviewController = TextImagePreviewController.imagePreviewControllerWithImage(image)
             imagePreviewController.attributedText = attributedText
             (UIApplication.sharedApplication().delegate as? AppDelegate)?.window?.rootViewController?.presentViewController(imagePreviewController, animated: true, completion: nil)
