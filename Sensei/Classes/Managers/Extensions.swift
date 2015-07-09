@@ -128,3 +128,15 @@ extension UIImage {
         return fullScreenImage;
     }
 }
+
+// MARK: - String
+
+extension String {
+    func rangeFromNSRange(nsRange: NSRange) -> Range<String.Index>? {
+        if let from = String.Index(self.utf16.startIndex + nsRange.location, within: self),
+            let to = String.Index(self.utf16.startIndex + nsRange.location + nsRange.length, within: self) {
+                return from ..< to
+        }
+        return nil
+    }
+}

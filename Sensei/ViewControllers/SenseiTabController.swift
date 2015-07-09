@@ -63,7 +63,6 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
         if let currentViewController = currentViewController {
             removeViewController(currentViewController)
         }
-        
         currentViewController = child
         addChildViewController(child)
         child.didMoveToParentViewController(self)

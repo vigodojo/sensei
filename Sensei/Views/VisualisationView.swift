@@ -40,6 +40,9 @@ class VisualisationView: UIView {
     @IBOutlet weak var imageContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageContainerWidthConstraint: NSLayoutConstraint!
     
+    private var maxFontSize = Visualization.MinFontSize
+    private var maxTextHeight: CGFloat = 0
+    
     var mode = VisualizationViewMode.Default {
         didSet {
             switch mode {
@@ -60,7 +63,7 @@ class VisualisationView: UIView {
         }
     }
     
-    var image: UIImage? {
+    private(set) var image: UIImage? {
         get {
             return imageView.image
         }
@@ -68,17 +71,17 @@ class VisualisationView: UIView {
             imageView.image = newValue
             let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(imageBounderingView.bounds), height: maxImageViewHeight))
             updateImageContainerViewWithBounds(rect)
-            maxFontSize = newValue != nil ? calculateMaxFontSize(): Visualization.MinFontSize
+            calculateMaxFontSize()
         }
     }
     
-    var text: String {
+    private(set) var text: String {
         get {
             return textView.text
         }
         set {
             if !newValue.isEmpty {
-                textView.attributedText = NSAttributedString(string: newValue, attributes: Visualization.OutlinedTextAttributes)
+                textView.attributedText = NSAttributedString(string: newValue, attributes: Visualization.attributesForFontWithSize(currentFontSize))
             } else {
                 textView.text = ""
             }
@@ -106,14 +109,20 @@ class VisualisationView: UIView {
     
     var maxImageViewHeight: CGFloat = 0
     
-    var maxFontSize = Visualization.MinFontSize
+    private(set) var currentFontSize = Visualization.MinFontSize
     
     // MARK: - Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
         textView.addObserver(self, forKeyPath: "contentSize", options: NSKeyValueObservingOptions.New, context: TextViewContentSizeContext)
-        text = "ENTERED TEXT SUPER EMPOSED ON TOP OF IMAGE AT THE BOTTOM"
+        textView.textContainer.maximumNumberOfLines = 3
+        textView.textContainer.lineFragmentPadding = 0
+        let placeholderText = "ENTERED TEXT SUPER EMPOSED ON TOP OF IMAGE AT THE BOTTOM"
+        if let fontSize = fontSizeForText(placeholderText) {
+            textView.attributedText = NSAttributedString(string: placeholderText, attributes: Visualization.attributesForFontWithSize(fontSize))
+        }
+        calculateMaxTextHeightForMinFontSize()
     }
     
     deinit {
@@ -133,6 +142,17 @@ class VisualisationView: UIView {
         }
         imageContainerView.layoutIfNeeded()
         updateTextViewInsetsForContentSize(textView.contentSize)
+    }
+    
+    func configureWithText(text: String, image: UIImage?, fontSize: CGFloat?) {
+        editButtonHidden = image == nil
+        self.image = image
+        if let fontSize = fontSize {
+            self.currentFontSize = fontSize
+        } else {
+            self.currentFontSize = maxFontSize
+        }
+        self.text = text
     }
     
     // MARK: - KVO
@@ -163,8 +183,11 @@ class VisualisationView: UIView {
         }
     }
     
-    private func calculateMaxFontSize() -> CGFloat {
-        let t1 = CACurrentMediaTime()
+    private func calculateMaxFontSize() {
+        if image == nil {
+            maxFontSize = Visualization.MinFontSize
+            return
+        }
         let someText = "A"
         var fontSize = Visualization.MinFontSize
         let maxHeight = (imageContainerHeightConstraint.constant / CGFloat(6))
@@ -173,8 +196,33 @@ class VisualisationView: UIView {
             fontSize++
             size = NSAttributedString(string: someText, attributes: Visualization.attributesForFontWithSize(fontSize)).size()
         }
-        let t2 = CACurrentMediaTime()
-        println("calculateMaxFontSize = \((t2 - t1) * Double(1000))")
+        maxFontSize = fontSize
+    }
+    
+    private func calculateMaxTextHeightForMinFontSize() {
+        let text = NSAttributedString(string: "Ay\nAy\nAy", attributes: Visualization.OutlinedTextAttributes)
+        maxTextHeight = text.size().height
+    }
+    
+    private func fontSizeForText(text: String) -> CGFloat? {
+        return adjustFontSizeForText(text, startingFontSize: maxFontSize)
+    }
+    
+    private func adjustFontSizeForText(text: String, startingFontSize: CGFloat) -> CGFloat? {
+        var fontSize = startingFontSize
+        var maxWidth = CGRectGetWidth(textView.frame)
+        if fontSize > Visualization.MinFontSize {
+            var width = NSAttributedString(string: text, attributes: Visualization.attributesForFontWithSize(fontSize)).size().width
+            while width >= maxWidth && fontSize > Visualization.MinFontSize {
+                fontSize--
+                width = NSAttributedString(string: text, attributes: Visualization.attributesForFontWithSize(fontSize)).size().width
+            }
+        }
+        if fontSize == Visualization.MinFontSize {
+            let size = CGSizeMake(maxWidth, CGFloat.max)
+            let height = CGRectGetHeight((text as NSString).boundingRectWithSize(size, options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: Visualization.OutlinedTextAttributes, context: nil))
+            return height <= maxTextHeight ? fontSize: nil
+        }
         return fontSize
     }
     
@@ -198,16 +246,24 @@ class VisualisationView: UIView {
 
 extension VisualisationView: UITextViewDelegate {
     
-//    func textViewDidChange(textView: UITextView) {
-//        let someText = "A"
-//        var fontSize = Visualization.MinFontSize
-//        var size = NSAttributedString(string: someText, attributes: Visualization.attributesForFontWithSize(fontSize)).size()
-////        if textView
-//    }
-    
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
             mode = .Default
+            return false
+        } else if let aRange = textView.text.rangeFromNSRange(range) {
+            let resultingText = textView.text.stringByReplacingCharactersInRange(aRange, withString: text)
+            if let fontSize = fontSizeForText(resultingText) {
+                if fontSize != currentFontSize {
+                    currentFontSize = fontSize
+                    textView.attributedText = NSAttributedString(string: resultingText, attributes: Visualization.attributesForFontWithSize(currentFontSize))
+                    return false
+                }
+                return true
+            }
+//            if let fontSize = adjustFontSizeForText(resultingText, startingFontSize: currentFontSize) {
+//                currentFontSize = fontSize
+//                return true
+//            }
             return false
         }
         return true
