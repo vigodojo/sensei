@@ -32,6 +32,8 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var maleButton: UIButton!
     @IBOutlet weak var femaleButton: UIButton!
     
+    private let SaveConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to save this changes?")
+    
     private var sleepTimeSettings: SleepTimeSettings?
     
     private lazy var timePicker: UIDatePicker = { [unowned self] in
@@ -130,28 +132,66 @@ class SettingsTableViewController: UITableViewController {
     private var heightCm = Double(HeightPickerDelegate.Constants.MinHeightCm)
     private var weightKg = Double(WeightPickerDelegate.Constants.MinWeightLb)
     
+    private var hasProfileBeenChanged: Bool {
+        var dobEqual = false
+        if let dob = Settings.sharedSettings.dayOfBirth, newDate = DataFormatter.dateFromString(dateOfBirthTF.text) {
+            dobEqual = dob.compare(newDate) == .OrderedSame
+        }
+        var genderEqual = (Settings.sharedSettings.gender == (maleButton.selected ? .Male: .Female))
+        var heightEqual = false
+        if let height = Settings.sharedSettings.height {
+            heightEqual = height.doubleValue == heightCm
+        }
+        var weightEqual = false
+        if let weight = Settings.sharedSettings.weight {
+            weightEqual = weight.doubleValue == weightKg
+        }
+        return !dobEqual || !genderEqual || !heightEqual || !weightEqual
+    }
+    
+    private var hasSettingsBeenChanged: Bool {
+        var numberOfLessonsEqual = Settings.sharedSettings.numberOfLessons.integerValue == numberOfLessonsSlider.currentValue
+        var timeSettingsEqual = false
+        if let timeSettings = sleepTimeSettings {
+            let weekdaysStartEqual = Settings.sharedSettings.sleepTimeWeekdays.start.compare(timeSettings.weekdaysStart) == .OrderedSame
+            let weekdaysEndEqual = Settings.sharedSettings.sleepTimeWeekdays.end.compare(timeSettings.weekdaysEnd) == .OrderedSame
+            let weekendsStartEqual = Settings.sharedSettings.sleepTimeWeekends.start.compare(timeSettings.weekendsStart) == .OrderedSame
+            let weekendsEndEqual = Settings.sharedSettings.sleepTimeWeekends.end.compare(timeSettings.weekendsEnd) == .OrderedSame
+            timeSettingsEqual = weekdaysStartEqual && weekdaysEndEqual && weekendsStartEqual && weekendsEndEqual
+        }
+        return !numberOfLessonsEqual || !timeSettingsEqual
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateSettings()
         setup()
-        fillFromSettings()
+        addObservers()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        fillFromSettings()
+        (parentViewController as? SenseiTabController)?.delegate = self
         tutorialViewController?.tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        saveSettings()
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        (parentViewController as? SenseiTabController)?.delegate = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
     }
+    
+//    override func viewDidDisappear(animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        saveSettings()
+//    }
   
     // MARK: - Private
     
-    func setup() {
+    private func setup() {
         weekDaysStartTF.inputView = timePicker
         weekDaysStartTF.inputAccessoryView = pickerInputAccessoryView
         weekDaysEndTF.inputView = timePicker
@@ -168,20 +208,26 @@ class SettingsTableViewController: UITableViewController {
         weightTexField.inputAccessoryView = pickerInputAccessoryView
     }
     
+    private func addObservers() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleNoAnswerNotification:"), name: SpeechBubbleCollectionViewCell.Notifications.NoAnswer, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: SpeechBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
+    }
+    
     private func saveSettings() {
         Settings.sharedSettings.numberOfLessons = NSNumber(integer: numberOfLessonsSlider.currentValue)
-        Settings.sharedSettings.tutorialOn = NSNumber(bool: tutorialSwitch.on)
         if let timeSettings = sleepTimeSettings {
             Settings.sharedSettings.sleepTimeWeekdays.start = timeSettings.weekdaysStart
             Settings.sharedSettings.sleepTimeWeekdays.end = timeSettings.weekdaysEnd
             Settings.sharedSettings.sleepTimeWeekends.start = timeSettings.weekendsStart
             Settings.sharedSettings.sleepTimeWeekends.end = timeSettings.weekendsEnd
         }
+    }
+    
+    private func saveProfile() {
         Settings.sharedSettings.dayOfBirth = DataFormatter.dateFromString(dateOfBirthTF.text)
         Settings.sharedSettings.gender = maleButton.selected ? .Male: .Female
         Settings.sharedSettings.height = NSNumber(double: heightCm)
         Settings.sharedSettings.weight = NSNumber(double: weightKg)
-        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
     }
     
     private func updateSettings() {
@@ -235,9 +281,32 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
+    // MARK: - Tutorial
+    
+    func tutorialDidHideNotification(notification: NSNotification) {
+        (parentViewController as? SenseiTabController)?.delegate = nil
+        (parentViewController as? SenseiTabController)?.showSenseiViewController()
+    }
+    
+    func handleNoAnswerNotification(notification: NSNotification) {
+        if hasSettingsBeenChanged {
+            saveSettings()
+        }
+        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+    }
+    
+    func handleYesAnswerNotification(notification: NSNotification) {
+        if hasSettingsBeenChanged {
+            saveSettings()
+        }
+        saveProfile()
+        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+    }
+    
     // MARK: - IBActions
     
     @IBAction func toggleTutorial(sender: UISwitch) {
+        Settings.sharedSettings.tutorialOn = NSNumber(bool: tutorialSwitch.on)
         if let tutorialViewController = tutorialViewController {
             if sender.on {
                 tutorialViewController.showTutorialAnimated(true)
@@ -294,6 +363,21 @@ extension SettingsTableViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(textField: UITextField) {
         firstResponder = nil
+    }
+}
+
+extension SettingsTableViewController: SenseiTabControllerDelegate {
+    
+    func senseiTabController(senseiTabController: SenseiTabController, shouldSelectViewController: UIViewController) -> Bool {
+        if hasProfileBeenChanged {
+            tutorialViewController?.askConfirmationQuestion(SaveConfirmationQuestion)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialDidHideNotification:"), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
+            return false
+        } else if hasSettingsBeenChanged {
+            saveSettings()
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+        }
+        return true
     }
 }
 

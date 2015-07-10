@@ -215,6 +215,7 @@ class SenseiViewController: BaseViewController {
         
     #if DEBUG
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+//        let idfa = "2EAB0742-8A34-4315-8C1E-69E6E0EE6666"
 //        let idfa = "2EAB0742-8A34-4315-8C1E-69E6E0EE6366"
     #else
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString

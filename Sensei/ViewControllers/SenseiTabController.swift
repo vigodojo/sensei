@@ -8,7 +8,12 @@
 
 import UIKit
 
-class SenseiTabController: UIViewController, TabSegueProtocol {
+protocol SenseiTabControllerDelegate: class {
+    
+    func senseiTabController(senseiTabController: SenseiTabController, shouldSelectViewController: UIViewController) -> Bool
+}
+
+class SenseiTabController: UIViewController, TabSegueProtocol, UITabBarControllerDelegate {
     
     private struct Constants {
         static let SenseiViewControllerSegueIdentifier = "SwitchToSenseiViewController"
@@ -21,6 +26,7 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
     
     var currentViewController: UIViewController?
     var viewControllers = [UIViewController]()
+    weak var delegate: SenseiTabControllerDelegate?
     
     // MARK: - Lifecycle
 
@@ -37,17 +43,21 @@ class SenseiTabController: UIViewController, TabSegueProtocol {
     
     func showSenseiViewController() {
         if !senseiTabButton.selected {
-            senseiTabButton.selected = true
-            moreTabButton.selected = false
-            showChildViewController(viewControllers[0])
+            if delegate == nil || delegate!.senseiTabController(self, shouldSelectViewController: viewControllers[0]) {
+                senseiTabButton.selected = true
+                moreTabButton.selected = false
+                showChildViewController(viewControllers[0])
+            }
         }
     }
     
     func showSettingsViewController() {
         if !moreTabButton.selected {
-            senseiTabButton.selected = false
-            moreTabButton.selected = true
-            showChildViewController(viewControllers[1])
+            if delegate == nil || delegate!.senseiTabController(self, shouldSelectViewController: viewControllers[0]) {
+                senseiTabButton.selected = false
+                moreTabButton.selected = true
+                showChildViewController(viewControllers[1])
+            }
         }
     }
     
