@@ -140,3 +140,11 @@ extension String {
         return nil
     }
 }
+
+// MARK: - UIFont
+
+extension UIFont {
+    class func helveticaNeueBlackOfSize(fontSize: CGFloat) -> UIFont {
+        return UIFont(name: "HelveticaNeue-CondensedBlack", size: fontSize)!
+    }
+}

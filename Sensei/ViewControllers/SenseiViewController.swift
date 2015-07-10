@@ -213,12 +213,13 @@ class SenseiViewController: BaseViewController {
     private func login() {
         // TODO: - DELETE HARDCODED IDFA
         
-//    #if DEBUG
+    #if DEBUG
+        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
 //        let idfa = "2EAB0742-8A34-4315-8C1E-69E6E0EE6366"
-//    #else
-//        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-//    #endif
-        let idfa = "8161C71D-7FE6-42B9-912C-16B977B3C08F"
+    #else
+        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+    #endif
+//        let idfa = "8161C71D-7FE6-42B9-912C-16B977B3C08F"
 //        let idfa = NSUUID().UUIDString
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         println("IDFA = \(idfa)")

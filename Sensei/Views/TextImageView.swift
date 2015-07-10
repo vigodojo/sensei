@@ -12,6 +12,12 @@ class TextImageView: UIView {
     
     private class AttributedTextLayer: CALayer {
         
+        private var textRect: CGRect {
+            return UIEdgeInsetsInsetRect(bounds, textInsets)
+        }
+        
+        var textInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        
         var attributedText: NSAttributedString? {
             didSet {
                 setNeedsDisplay()
@@ -31,13 +37,13 @@ class TextImageView: UIView {
         }
         
         private func textSizeForText(text: NSAttributedString) -> CGSize {
-            return text.boundingRectWithSize(CGSize(width: CGRectGetWidth(bounds), height: CGFloat.max), options: .UsesLineFragmentOrigin | .UsesFontLeading, context: nil).size
+            return text.boundingRectWithSize(CGSize(width: CGRectGetWidth(textRect), height: CGFloat.max), options: .UsesLineFragmentOrigin | .UsesFontLeading, context: nil).size
         }
         
         private func textOriginForTextSize(textSize: CGSize) -> CGPoint {
             var textOrigin = CGPointZero
-            textOrigin.x = (CGRectGetWidth(bounds) - textSize.width) / 2.0
-            textOrigin.y = CGRectGetHeight(bounds) - textSize.height
+            textOrigin.x = (CGRectGetWidth(textRect) - textSize.width) / 2.0 + textInsets.left
+            textOrigin.y = CGRectGetHeight(textRect) - textSize.height + textInsets.top
             return textOrigin
         }
     }

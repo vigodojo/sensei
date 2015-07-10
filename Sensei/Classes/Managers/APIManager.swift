@@ -16,11 +16,11 @@ class APIManager: NSObject {
     typealias ErrorHandlerClosure = (error: NSError?) -> Void
     
     static let sharedInstance = APIManager()
-//#if DEBUG
-//    static let BaseURL = NSURL(string: "http://134.249.164.53:8839")!
-//#else
+#if DEBUG
+    static let BaseURL = NSURL(string: "http://134.249.164.53:8839")!
+#else
     static let BaseURL = NSURL(string: "http://134.249.164.53:8831")!
-//#endif
+#endif
     
     struct APIPath {
         static let Login = "/user/signIn"

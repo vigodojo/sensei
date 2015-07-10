@@ -141,7 +141,7 @@ class VisualizationsViewController: UserMessageViewController {
         messageSwitchView.selectedSlot = number.integerValue
         if let visualisation = visualizationWithNumber(number) {
             messageSwitchView.receiveTime = visualisation.receiveTime
-            visualisationView.configureWithText(visualisation.text, image: visualisation.picture, fontSize: nil)
+            visualisationView.configureWithText(visualisation.text, image: visualisation.picture)
             selectedVisualization = visualisation
         } else {
             resetVisualizationCell()
@@ -201,7 +201,7 @@ class VisualizationsViewController: UserMessageViewController {
 
     private func resetVisualizationCell() {
         messageSwitchView.receiveTime = .Morning
-        visualisationView.configureWithText("", image: nil, fontSize: nil)
+        visualisationView.configureWithText("", image: nil)
         selectedVisualization = nil
     }
     
@@ -296,7 +296,7 @@ extension VisualizationsViewController: UIImagePickerControllerDelegate {
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            visualisationView.configureWithText("", image: image.upOrientedImage.fullScreenImage, fontSize: nil)
+            visualisationView.configureWithText(selectedVisualization?.text ?? "", image: image.upOrientedImage.fullScreenImage)
             didChangeImage = true
             dismissViewControllerAnimated(true) { [weak self] in
                 self?.visualisationView.mode = VisualizationViewMode.Editing
