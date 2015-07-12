@@ -14,6 +14,7 @@ protocol MessageSwitchViewDelegate: class {
     func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int)
     func messageSwitchView(view: MessageSwitchView, isSlotEmptyAtIndex index: Int) -> Bool
     func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime)
+    func messageSwitchView(view: MessageSwitchView, shouldSelectSlotAtIndex index: Int) -> Bool
     func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool
     func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView)
 }
@@ -53,6 +54,8 @@ class MessageSwitchView: UIView {
         return picker
     }()
     
+    private var currentSelectedIndexPath: NSIndexPath?
+    
     weak var delegate: MessageSwitchViewDelegate? {
         didSet {
             calculateSlotItemWidth()
@@ -80,7 +83,16 @@ class MessageSwitchView: UIView {
         }
         set {
             if let index = newValue {
-                slotsCollectionView.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: false, scrollPosition: UICollectionViewScrollPosition.None)
+                if let previousSelectedIndxPath = currentSelectedIndexPath, selectedSlot = selectedSlot {
+                    if previousSelectedIndxPath.item != index {
+                        slotsCollectionView.deselectItemAtIndexPath(currentSelectedIndexPath, animated: false)
+                    } else {
+                        return
+                    }
+                }
+                let indexPath = NSIndexPath(forItem: index, inSection: 0)
+                slotsCollectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition.None)
+                currentSelectedIndexPath = indexPath
             }
         }
     }
@@ -109,6 +121,7 @@ class MessageSwitchView: UIView {
         }
         slotsCollectionView.addObserver(self, forKeyPath: "bounds", options: NSKeyValueObservingOptions.New, context: MessageSwitchViewSclotsCollectionViewBoundsContext)
         slotsCollectionView.registerNib(UINib(nibName: Constants.SlotCellNibName, bundle: nil), forCellWithReuseIdentifier: Constants.SlotCellNibName)
+        slotsCollectionView.allowsMultipleSelection = true
         receiveTimeTextView.inputView = receiveTimePickerView
         receiveTimeTextView.inputAccessoryView = receiveTimePickerInputAccessoryView
         calculateSlotItemWidth()
@@ -130,7 +143,6 @@ class MessageSwitchView: UIView {
         if let delegate = delegate {
             let numberOfItems = delegate.numberOfSlotsInMessageSwitchView(self)
             let defaultItemWidth = (slotsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
-            println("\((subviews.first as! UIView).bounds.size) \(slotsCollectionView.bounds.size)")
             let itemsWidth = CGRectGetWidth(slotsCollectionView.frame) / CGFloat(numberOfItems)
             (slotsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width = max(defaultItemWidth, itemsWidth)
         }
@@ -168,6 +180,9 @@ extension MessageSwitchView: UICollectionViewDataSource {
         cell.titleLabel.text = "\(indexPath.item + 1)"
         let isEmpty = delegate?.messageSwitchView(self, isSlotEmptyAtIndex: indexPath.item) ?? true
         cell.titleLabel.textColor = isEmpty ? Constants.EmtySlotTextColor: Constants.FilledSlotTextColor
+        if currentSelectedIndexPath == indexPath {
+            cell.selected = true
+        }
         return cell
     }
 }
@@ -177,7 +192,25 @@ extension MessageSwitchView: UICollectionViewDataSource {
 extension MessageSwitchView: UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        if let previousSelectedIndxPath = currentSelectedIndexPath {
+            collectionView.deselectItemAtIndexPath(currentSelectedIndexPath, animated: false)
+        }
+        currentSelectedIndexPath = indexPath
         delegate?.messageSwitchView(self, didSelectSlotAtIndex: indexPath.item)
+    }
+    
+    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if let previousSelectedIndxPath = currentSelectedIndexPath {
+            return currentSelectedIndexPath != indexPath
+        }
+        return true
+    }
+    
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if let delegate = delegate {
+            return delegate.messageSwitchView(self, shouldSelectSlotAtIndex: indexPath.item)
+        }
+        return true
     }
 }
 

@@ -15,6 +15,7 @@ class VisualizationsViewController: UserMessageViewController {
     private struct Constants {
         static let VisuaizationCellReuseIdentifier = "VisualizationCollectionViewCell"
         static let NumberOfVisualizations = 5
+        static let NumberOfFreeVisualizations = 1
         static let MessageSwitchViewHeight: CGFloat = 100
     }
 
@@ -136,9 +137,8 @@ class VisualizationsViewController: UserMessageViewController {
         return visualization.text != newText || visualization.receiveTime != newReceiveTime || didChangeImage
     }
     
-    private func selectVisualizationWithNumber(number: NSNumber) {
+    private func fillVisualisationWithNumber(number: NSNumber) {
         didChangeImage = false
-        messageSwitchView.selectedSlot = number.integerValue
         if let visualisation = visualizationWithNumber(number) {
             messageSwitchView.receiveTime = visualisation.receiveTime
             visualisationView.configureWithText(visualisation.text, image: visualisation.picture)
@@ -146,6 +146,14 @@ class VisualizationsViewController: UserMessageViewController {
         } else {
             resetVisualizationCell()
         }
+    }
+    
+    private func selectVisualizationWithNumber(number: NSNumber) {
+        if let selectedSlot = messageSwitchView.selectedSlot where selectedSlot == number.integerValue {
+            return
+        }
+        messageSwitchView.selectedSlot = number.integerValue
+        fillVisualisationWithNumber(number)
     }
     
     private func visualizationWithNumber(number: NSNumber) -> Visualization? {
@@ -172,7 +180,7 @@ class VisualizationsViewController: UserMessageViewController {
             let wasImageChanged = didChangeImage
             let currentVisualisation = selectedVisualization
             
-            let number = ((index + 1) % Constants.NumberOfVisualizations)
+            let number = ((index + 1) % Constants.NumberOfFreeVisualizations)
             selectVisualizationWithNumber(number)
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
@@ -231,7 +239,7 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
     }
     
     func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int) {
-        selectVisualizationWithNumber(NSNumber(integer: index))
+        fillVisualisationWithNumber(NSNumber(integer: index))
     }
     
     func messageSwitchView(view: MessageSwitchView, isSlotEmptyAtIndex index: Int) -> Bool {
@@ -239,6 +247,10 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
     }
     
     func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) { }
+    
+    func messageSwitchView(view: MessageSwitchView, shouldSelectSlotAtIndex index: Int) -> Bool {
+        return index < Constants.NumberOfFreeVisualizations
+    }
     
     func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool {
         return true

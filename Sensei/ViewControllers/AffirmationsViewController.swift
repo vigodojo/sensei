@@ -13,6 +13,7 @@ class AffirmationsViewController: UserMessageViewController {
 
     private struct Constants {
         static let NumberOfAffirmations = 6
+        static let NumberOfFreeAffirmations = 2
         static let EstimatedKeyboardHeight: CGFloat = 224
         static let MinTextViewHeight: CGFloat = 48
         static let KeyboardTextViewSpace: CGFloat = 4
@@ -161,8 +162,7 @@ class AffirmationsViewController: UserMessageViewController {
         return affirmation.text != newText || affirmation.receiveTime != newReceiveTime
     }
     
-    private func selectAffirmationWithNumber(number: NSNumber) {
-        messageSwitchView.selectedSlot = number.integerValue
+    private func fillAffirmationWithNumber(number: NSNumber) {
         if let affirmation = affirmationWithNumber(number) {
             messageSwitchView.receiveTime = affirmation.receiveTime
             textView.text = affirmation.text
@@ -172,6 +172,11 @@ class AffirmationsViewController: UserMessageViewController {
         } else {
             resetInfo()
         }
+    }
+    
+    private func selectAffirmationWithNumber(number: NSNumber) {
+        messageSwitchView.selectedSlot = number.integerValue
+        fillAffirmationWithNumber(number)
     }
     
     private func affirmationWithNumber(number: NSNumber) -> Affirmation? {
@@ -232,7 +237,7 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     }
     
     func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int) {
-        selectAffirmationWithNumber(NSNumber(integer: index))
+        fillAffirmationWithNumber(NSNumber(integer: index))
     }
     
     func messageSwitchView(view: MessageSwitchView, isSlotEmptyAtIndex index: Int) -> Bool {
@@ -241,13 +246,19 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     
     func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) { }
     
+    func messageSwitchView(view: MessageSwitchView, shouldSelectSlotAtIndex index: Int) -> Bool {
+        return index < Constants.NumberOfFreeAffirmations
+    }
+    
     func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool {
         textView.resignFirstResponder()
         return true
     }
     
     func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView) {
-        if let affirmation = selectedAffirmation where affirmation.receiveTime != messageSwitchView.receiveTime {
+        if selectedAffirmation == nil {
+            saveAffirmation()
+        } else if let affirmation = selectedAffirmation where affirmation.receiveTime != messageSwitchView.receiveTime {
             affirmation.receiveTime = messageSwitchView.receiveTime
         }
     }
@@ -261,12 +272,12 @@ extension AffirmationsViewController: NSFetchedResultsControllerDelegate {
         if let affirmation = anObject as? Affirmation {
             switch type {
                 case .Insert:
-                    messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
-                    let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfAffirmations)
+                    let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
                     selectAffirmationWithNumber(number)
+                    messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
                     APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
                 case .Update:
-                    let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfAffirmations)
+                    let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
                     selectAffirmationWithNumber(number)
                     APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
                 case .Delete:
@@ -284,10 +295,6 @@ extension AffirmationsViewController: NSFetchedResultsControllerDelegate {
 
 extension AffirmationsViewController: UITextViewDelegate {
     
-    func textViewDidEndEditing(textView: UITextView) {
-        saveAffirmation()
-    }
-    
     func textViewDidChange(textView: UITextView) {
         if textView.contentSize.height != textViewHeightConstraint.constant {
             textViewHeightConstraint.constant = textViewHeight
@@ -298,6 +305,7 @@ extension AffirmationsViewController: UITextViewDelegate {
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
             textView.resignFirstResponder()
+            saveAffirmation()
             return false
         }
         return true

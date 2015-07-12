@@ -32,8 +32,8 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     }
     
     private struct Constants {
-        static let DefaultTitleLabelLeadingSpace: CGFloat = 8
-        static let DefaultTitleLabelTrailingSpace: CGFloat = 48
+        static let DefaultTextViewLeadingSpace: CGFloat = 8
+        static let DefaultTextViewTrailingSpace: CGFloat = 48
         static let DefaultAccessoryItemsContainerHeight: CGFloat = 32
     }
     
@@ -41,14 +41,13 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabelLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabelTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var accessoryItemsContainerHeightConstraint: NSLayoutConstraint!
     
     var type = SpeechBubbleCollectionViewCellType.Sensei {
         didSet {
-            titleLabelLeadingConstraint.constant = Constants.DefaultTitleLabelLeadingSpace
-            titleLabelTrailingConstraint.constant = Constants.DefaultTitleLabelTrailingSpace
+            titleLabelLeadingConstraint.constant = Constants.DefaultTextViewLeadingSpace
+            titleLabelTrailingConstraint.constant = Constants.DefaultTextViewTrailingSpace
             accessoryItemsContainerHeightConstraint.constant = 0
             switch type {
                 case .Sensei:
@@ -57,8 +56,8 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
                 case .Me:
                     speechBubbleView.pointerPosition = .Left
                     closeButtonHidden = true
-                    titleLabelLeadingConstraint.constant = speechBubbleView.pointerSize.width + Constants.DefaultTitleLabelLeadingSpace
-                    titleLabelTrailingConstraint.constant = Constants.DefaultTitleLabelLeadingSpace
+                    titleLabelLeadingConstraint.constant = speechBubbleView.pointerSize.width + Constants.DefaultTextViewLeadingSpace
+                    titleLabelTrailingConstraint.constant = Constants.DefaultTextViewLeadingSpace
                 case .Confirmation:
                     speechBubbleView.pointerPosition = .Right
                     closeButtonHidden = true
@@ -92,6 +91,8 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
+        textView.textContainerInset = UIEdgeInsetsZero
+        textView.textContainer.lineFragmentPadding = 0
     }
     
     @IBAction func close() {
