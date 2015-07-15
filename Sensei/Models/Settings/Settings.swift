@@ -32,6 +32,7 @@ class Settings: NSManagedObject {
 
     @NSManaged private var dataFormatString: String
     @NSManaged private var genderString: String
+    @NSManaged var name: String
     @NSManaged var numberOfLessons: NSNumber
     @NSManaged var tutorialOn: NSNumber
     @NSManaged var height: NSNumber?

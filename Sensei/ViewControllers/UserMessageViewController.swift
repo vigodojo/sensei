@@ -27,7 +27,7 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         addKeyboardObservers()
-        addTutorialObservers()
+        addTutorialViewObservers()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -87,7 +87,7 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
         }
     }
     
-    private func addTutorialObservers() {
+    private func addTutorialViewObservers() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillShowNotification:"), name: TutorialViewController.Notifications.TutorialWillShow, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillHideNotification:"), name: TutorialViewController.Notifications.TutorialWillHide, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: SpeechBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)

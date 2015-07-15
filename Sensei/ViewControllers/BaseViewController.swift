@@ -9,6 +9,8 @@
 import UIKit
 
 class BaseViewController: UIViewController {
+    
+    // MARK: - Keyboard
 
     func addKeyboardObservers() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShowNotification:"), name: UIKeyboardWillShowNotification, object: nil)
@@ -47,6 +49,26 @@ class BaseViewController: UIViewController {
     }
     
     func keyboardWillHideWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        
+    }
+    
+    // MARK: - Tutorial
+    
+    func addTutorialObservers() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didMoveToNextTutorialNotification:"), name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
+    }
+    
+    func removeTutorialObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
+    }
+    
+    func didMoveToNextTutorialNotification(notification: NSNotification) {
+        if let tutorialStep = notification.userInfo?[TutorialManager.UserInfoKeys.TutorialStep] as? TutorialStep {
+            didMoveToNextTutorial(tutorialStep)
+        }
+    }
+    
+    func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         
     }
 }

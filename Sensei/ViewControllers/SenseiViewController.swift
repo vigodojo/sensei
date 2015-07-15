@@ -21,7 +21,7 @@ class SenseiViewController: BaseViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var senseiBottomSpaceConstraint: NSLayoutConstraint!
-    @IBOutlet weak var senseiImageView: UIImageView!
+    @IBOutlet weak var senseiImageView: AnimatableImageView!
     
     private lazy var sizingCell: SpeechBubbleCollectionViewCell = {
         NSBundle.mainBundle().loadNibNamed(SpeechBubbleCollectionViewCellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
@@ -80,7 +80,7 @@ class SenseiViewController: BaseViewController {
     
     private var previousApplicationState = UIApplicationState.Background
     private var dataSource = [Message]()
-    private var lastQuestion: Question?
+    private var lastQuestion: QuestionProtocol?
     private var lastAffirmation: Affirmation?
     private var lastVisualisation: Visualization?
     
@@ -102,16 +102,21 @@ class SenseiViewController: BaseViewController {
             APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         }
         addKeyboardObservers()
+        addTutorialObservers()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         showLastReceivedVisualisation()
+        if !TutorialManager.sharedInstance.completed {
+            TutorialManager.sharedInstance.nextStep()
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         removeKeyboardObservers()
+        removeTutorialObservers()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -240,17 +245,17 @@ class SenseiViewController: BaseViewController {
         }
     }
     
-    private func requestNextQuestion() {
-        APIManager.sharedInstance.nextQuestionyWithCompletion { [weak self](question, error) -> Void in
-            if question == nil && error == nil {
-                APIManager.sharedInstance.lessonsHistoryCompletion(nil)
-            } else if let question = question {
-                self?.askQuestion(question)
-            }
-        }
-    }
+//    private func requestNextQuestion() {
+//        APIManager.sharedInstance.nextQuestionyWithCompletion { [weak self](question, error) -> Void in
+//            if question == nil && error == nil {
+//                APIManager.sharedInstance.lessonsHistoryCompletion(nil)
+//            } else if let question = question {
+//                self?.askQuestion(question)
+//            }
+//        }
+//    }
     
-    private func askQuestion(question: Question) {
+    private func askQuestion(question: QuestionProtocol) {
         lastQuestion = question
         addMessages([question], scroll: false) {
             (self.view as? AnswerableView)?.askQuestion(question)
@@ -404,6 +409,35 @@ class SenseiViewController: BaseViewController {
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
+    
+    // MARK: - Tutorial
+    
+    override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
+        if  tutorialStep is QuestionTutorialStep {
+            handleQuestionTutorialStep(tutorialStep as! QuestionTutorialStep)
+        } else {
+            handleTutorialStep(tutorialStep)
+        }
+    }
+    
+    private func handleQuestionTutorialStep(questionTutorialStep: QuestionTutorialStep) {
+        askQuestion(questionTutorialStep)
+    }
+    
+    private func handleTutorialStep(tutorialStep: TutorialStep) {
+        if !tutorialStep.text.isEmpty {
+            addMessages([tutorialStep], scroll: true, completion: nil)
+        }
+        if let animatableimage = tutorialStep.animatableImage {
+            senseiImageView.animateAnimatableImage(animatableimage, completion: { (finished) -> Void in
+                TutorialManager.sharedInstance.nextStep()
+            })
+        } else if !tutorialStep.requiresActionToProceed {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                TutorialManager.sharedInstance.nextStep()
+            }
+        }
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -444,13 +478,23 @@ extension SenseiViewController: AnswerableViewDelegate {
     func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: Answer) {
         let answerMessage = AnswerMessage(answer: answer)
         addMessages([answerMessage], scroll: true) { [weak self] in
-            if let question = self?.lastQuestion where question.questionId != nil {
-                APIManager.sharedInstance.answerQuestionWithId(question.id, answerText: "\(answerMessage)") { [weak self] (error) -> Void in
-                    if error == nil {
-                        self?.requestNextQuestion()
-                    }
+            if let question = self?.lastQuestion {
+                switch question.questionSubject {
+                    case .Name:
+                        Settings.sharedSettings.name = "\(answerMessage)"
+                    case .Gender:
+                        break
+                    default :
+                        break
                 }
             }
+//            if let question = self?.lastQuestion where question.questionId != nil {
+//                APIManager.sharedInstance.answerQuestionWithId(question.id, answerText: "\(answerMessage)") { [weak self] (error) -> Void in
+//                    if error == nil {
+//                        self?.requestNextQuestion()
+//                    }
+//                }
+//            }
         }
         println("\(self) submitted answer: \(answerMessage.text)")
     }

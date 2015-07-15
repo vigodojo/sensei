@@ -149,7 +149,7 @@ class AnswerableView: UIView {
     
     // MARK: - Public
     
-    func askQuestion(question: Question) {
+    func askQuestion(question: QuestionProtocol) {
         questionType = question.questionType
         pickerOptions = question.answers
         becomeFirstResponder()

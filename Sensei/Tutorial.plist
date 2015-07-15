@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>AnimatableImage</key>
+		<dict>
+			<key>AnimationDuration</key>
+			<integer>3</integer>
+			<key>ImageNames</key>
+			<array>
+				<string>running_skeleton0</string>
+				<string>running_skeleton1</string>
+				<string>running_skeleton2</string>
+				<string>running_skeleton3</string>
+				<string>running_skeleton4</string>
+				<string>running_skeleton5</string>
+				<string>running_skeleton6</string>
+				<string>running_skeleton7</string>
+				<string>running_skeleton8</string>
+				<string>running_skeleton9</string>
+				<string>running_skeleton10</string>
+				<string>running_skeleton11</string>
+				<string>running_skeleton12</string>
+				<string>running_skeleton13</string>
+				<string>running_skeleton14</string>
+				<string>running_skeleton15</string>
+			</array>
+		</dict>
+		<key>Number</key>
+		<integer>0</integer>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>QuestionSubject</key>
+		<string>Name</string>
+		<key>QuestionType</key>
+		<string>TEXT</string>
+		<key>Message</key>
+		<string>Welcome to Vigo Dojo and thank you for downloading the Vigo Sensei app. I am your Sensei. What is your name please?</string>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
+		<integer>1</integer>
+	</dict>
+</array>
+</plist>

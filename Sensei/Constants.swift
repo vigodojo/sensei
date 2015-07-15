@@ -9,3 +9,17 @@
 import Foundation
 
 let AnimationDuration = 0.25
+let TutorialStepTimeinteval = UInt64(3)
+
+enum ScreenName: String {
+    case Sensei = "SenseiScreen"
+    case More = "MoreScreen"
+    case Affirmation = "AffirmationScreen"
+    case Visualisation = "VisualisationScreen"
+}
+
+enum ActionName: String {
+    case ScrollToTop = "ScrollToTop"
+    case ScrollToBottom = "ScrollToBottom"
+    case SwitchTab = "SwitchTab"
+}

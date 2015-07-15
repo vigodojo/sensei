@@ -252,8 +252,12 @@
                                     <segue destination="nak-G7-NDS" kind="show" id="raB-ai-HYb"/>
                                 </connections>
                             </button>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="8zt-ws-naK">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="8zt-ws-naK" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
                                 <rect key="frame" x="515" y="406" width="69" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="36o-oJ-w1t"/>
+                                    <constraint firstAttribute="width" constant="69" id="m2o-KU-f3c"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -277,7 +281,7 @@
                     <connections>
                         <outlet property="collectionView" destination="mpr-qy-yfa" id="k0h-Ok-4eD"/>
                         <outlet property="senseiBottomSpaceConstraint" destination="FvM-UG-dxG" id="FNy-Mi-9ET"/>
-                        <outlet property="senseiImageView" destination="8zt-ws-naK" id="UYS-6z-5W9"/>
+                        <outlet property="senseiImageView" destination="8zt-ws-naK" id="jmb-t5-Mcd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S8z-Z5-MYz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1027,7 +1031,7 @@
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="placeholder" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZdW-GY-mzO">
                                                                 <rect key="frame" x="0.0" y="123" width="292" height="21"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
