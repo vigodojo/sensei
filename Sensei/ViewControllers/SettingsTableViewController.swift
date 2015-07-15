@@ -18,6 +18,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBOutlet var settingsTableView: UITableView!
+    
     @IBOutlet weak var numberOfLessonsSlider: VigoSlider!
     @IBOutlet weak var tutorialSwitch: UISwitch!
     @IBOutlet weak var weekDaysStartTF: UITextField!
@@ -183,11 +184,6 @@ class SettingsTableViewController: UITableViewController {
         (parentViewController as? SenseiTabController)?.delegate = nil
         NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
     }
-    
-//    override func viewDidDisappear(animated: Bool) {
-//        super.viewDidDisappear(animated)
-//        saveSettings()
-//    }
   
     // MARK: - Private
     
@@ -365,6 +361,8 @@ extension SettingsTableViewController: UITextFieldDelegate {
         firstResponder = nil
     }
 }
+
+// MARK: - SenseiTabControllerDelegate
 
 extension SettingsTableViewController: SenseiTabControllerDelegate {
     

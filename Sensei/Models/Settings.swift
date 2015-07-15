@@ -77,21 +77,22 @@ class Settings: NSManagedObject {
     
     // MARK: Mapping
     
-    private static let propertyMapping = ["dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight",
-        "sleepTimeWeekdays.start": "sleepTime.start", "sleepTimeWeekdays.end": "sleepTime.end", "sleepTimeWeekends.start": "sleepTimeWeekEnd.start", "sleepTimeWeekends.end": "sleepTimeWeekEnd.end"]
-    
+    private static let requestPropertyMapping = ["dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight"]
+
+    private static let propertyMapping = requestPropertyMapping + ["sleepTimeWeekdays.start": "sleepTime.start", "sleepTimeWeekdays.end": "sleepTime.end", "sleepTimeWeekends.start": "sleepTimeWeekEnd.start", "sleepTimeWeekends.end": "sleepTimeWeekEnd.end"]
+
     private static let transformers: [String: JSONValueTransformerProtocol] = ["dayOfBirth": LessonDateTransformer(), "sleepTimeWeekdays.start": SleepTimeEntityTransformer(), "sleepTimeWeekdays.end": SleepTimeEntityTransformer(), "sleepTimeWeekends.start": SleepTimeEntityTransformer(), "sleepTimeWeekends.end": SleepTimeEntityTransformer()]
     
     class var entityMapping: EntityMapping {
-        return EntityMapping(entityName: Settings.EntityName, propertyMapping: Settings.propertyMapping, primaryProperty: "numberOfLessons", valueTransformers: transformers)
+        return EntityMapping(entityName: Settings.EntityName, propertyMapping: propertyMapping, primaryProperty: "numberOfLessons", valueTransformers: transformers)
     }
     
     class func updateWithJSON(json: JSONObject) {
-        CoreDataManager.sharedInstance.updateEntityObject(Settings.sharedSettings, withJSON: json, entityMapping: Settings.entityMapping)
+        CoreDataManager.sharedInstance.updateEntityObject(Settings.sharedSettings, withJSON: json, entityMapping: entityMapping)
     }
     
     class var objectMapping: RCObjectMapping {
-        let mapping = RCObjectMapping(objectClass: Settings.self, mappingDictionary: Settings.propertyMapping)
+        let mapping = RCObjectMapping(objectClass: Settings.self, mappingDictionary: requestPropertyMapping)
         mapping.addRelationshipMapping(RCRelationshipMapping(fromKeyPath: "sleepTime", toKeyPath: "sleepTimeWeekdays", objectMapping: SleepTime.objectMapping))
         mapping.addRelationshipMapping(RCRelationshipMapping(fromKeyPath: "sleepTimeWeekEnd", toKeyPath: "sleepTimeWeekends", objectMapping: SleepTime.objectMapping))
         return mapping
