@@ -12,6 +12,12 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     
     var wasTutorialShown = false // temp
     
+    private struct ControlNames {
+        static let BackButton = "BackButton"
+        static let SlotsCollectionView = "SlotsCollectionView"
+        static let ReceiveTimeTextView = "ReceiveTimeTextView"
+    }
+    
     @IBOutlet weak var navigationView: NavigationView!
     @IBOutlet weak var messageSwitchView: MessageSwitchView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -27,15 +33,17 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         addKeyboardObservers()
+        addTutorialObservers()
         addTutorialViewObservers()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if !wasTutorialShown {
-            wasTutorialShown = true
-            tutorialViewController?.setTutorialHidden(!Settings.sharedSettings.tutorialOn.boolValue, animated: true)
-        }
+        TutorialManager.sharedInstance.nextStep()
+//        if !wasTutorialShown {
+//            wasTutorialShown = true
+//            tutorialViewController?.setTutorialHidden(!Settings.sharedSettings.tutorialOn.boolValue, animated: true)
+//        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -64,6 +72,14 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     }
     
     // MARK: - Tutorial
+    
+    override func enableControls(controlNames: [String]?) {
+        navigationView.backButton.userInteractionEnabled = controlNames?.contains(ControlNames.BackButton) ?? true
+        messageSwitchView.slotsCollectionView.userInteractionEnabled = controlNames?.contains(ControlNames.SlotsCollectionView) ?? true
+        messageSwitchView.receiveTimeButton.userInteractionEnabled = controlNames?.contains(ControlNames.ReceiveTimeTextView) ?? true
+    }
+    
+    // MARK: - Tutorial View
     
     func tutorialWillShowNotification(notification: NSNotification) {
         handleTutorialMoving()

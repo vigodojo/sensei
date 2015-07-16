@@ -180,10 +180,10 @@ class VisualizationsViewController: UserMessageViewController {
             let wasImageChanged = didChangeImage
             let currentVisualisation = selectedVisualization
             
-            let number = ((index + 1) % Constants.NumberOfFreeVisualizations)
-            selectVisualizationWithNumber(number)
+//            let number = ((index + 1) % Constants.NumberOfFreeVisualizations)
+//            selectVisualizationWithNumber(number)
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
                 if let visualisation = currentVisualisation {
                     if visualisation.text != text || visualisation.receiveTime != receiveTime || wasImageChanged {
                         visualisation.text = text
@@ -194,8 +194,9 @@ class VisualizationsViewController: UserMessageViewController {
                 } else {
                     let visualisation = Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
                     visualisation.scaledFontSize = Visualization.scaledFontSizeForFontSize(fontSize, imageSize: image.size, insideRect: insideRect)
+                    selectedVisualization = visualisation
                 }
-            }
+//            }
         }
     }
     

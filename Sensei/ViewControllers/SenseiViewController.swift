@@ -12,16 +12,26 @@ import AdSupport
 
 class SenseiViewController: BaseViewController {
     
+    private struct ControlNames {
+        static let AffirmationsButton = "AffirmationsButton"
+        static let VisualisationsButton = "VisualisationsButton"
+    }
+    
     private struct Constants {
         static let MinOpacity = CGFloat(0.2)
         static let DefaultCellHeight = CGFloat(30.0)
         static let DefaultBottomSpace = CGFloat(80.0)
         static let CollectionContentInset = UIEdgeInsets(top: 0, left: 11, bottom: 0, right: 76)
+        static let ToAffirmationsSegue = "Go To Affirmations"
+        static let ToVisualisationsSegue = "Go To Visualisations"
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var fadingGradientView: FadingGradientView!
     @IBOutlet weak var senseiBottomSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var senseiImageView: AnimatableImageView!
+    @IBOutlet weak var affirmationsButton: UIButton!
+    @IBOutlet weak var visualisationsButton: UIButton!
     
     private lazy var sizingCell: SpeechBubbleCollectionViewCell = {
         NSBundle.mainBundle().loadNibNamed(SpeechBubbleCollectionViewCellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
@@ -93,6 +103,7 @@ class SenseiViewController: BaseViewController {
         collectionView.contentInset = Constants.CollectionContentInset
         fetchLessons()
         addApplicationObservers()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -109,7 +120,11 @@ class SenseiViewController: BaseViewController {
         super.viewDidAppear(animated)
         showLastReceivedVisualisation()
         if !TutorialManager.sharedInstance.completed {
-            TutorialManager.sharedInstance.nextStep()
+            if let lastCompletedStepNumber = TutorialManager.sharedInstance.lastCompletedStepNumber {
+                dispatchTutorialToAppropriateViewController()
+            } else {
+                TutorialManager.sharedInstance.nextStep()
+            }
         }
     }
     
@@ -219,8 +234,8 @@ class SenseiViewController: BaseViewController {
         // TODO: - DELETE HARDCODED IDFA
         
     #if DEBUG
-        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-//        let idfa = "2EAB0742-8A34-4315-8C1E-69E6E0EE6666"
+//        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+        let idfa = "2EAB0742-8A34-4315-8C1E-6666E0EE6666"
 //        let idfa = "2EAB0742-8A34-4315-8C1E-69E6E0EE6366"
     #else
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
@@ -412,7 +427,12 @@ class SenseiViewController: BaseViewController {
     
     // MARK: - Tutorial
     
+    func didFinishTutorialNotificatin(notification: NSNotification) {
+        enableControls(nil)
+    }
+    
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
+        super.didMoveToNextTutorial(tutorialStep)
         if  tutorialStep is QuestionTutorialStep {
             handleQuestionTutorialStep(tutorialStep as! QuestionTutorialStep)
         } else {
@@ -438,6 +458,26 @@ class SenseiViewController: BaseViewController {
             }
         }
     }
+    
+    override func enableControls(controlNames: [String]?) {
+        affirmationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.AffirmationsButton) ?? true
+        visualisationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.VisualisationsButton) ?? true
+    }
+    
+    private func dispatchTutorialToAppropriateViewController() {
+        if let screenName = TutorialManager.sharedInstance.notFinishedTutorialScreenName {
+            switch screenName {
+            case .Sensei:
+                TutorialManager.sharedInstance.nextStep()
+            case .More:
+                (parentViewController as? SenseiTabController)?.showSettingsViewController()
+            case .Affirmation:
+                performSegueWithIdentifier(Constants.ToAffirmationsSegue, sender: self)
+            case .Visualisation:
+                performSegueWithIdentifier(Constants.ToVisualisationsSegue, sender: self)
+            }
+        }
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -453,7 +493,7 @@ extension SenseiViewController: UICollectionViewDataSource {
         cell.delegate = self
         let message = dataSource[indexPath.item]
         cell.text = message.text
-        cell.type = message is AnswerMessage ? SpeechBubbleCollectionViewCellType.Me : SpeechBubbleCollectionViewCellType.Sensei
+        cell.type = message is AnswerMessage ? .Me : .Sensei
         return cell;
     }
 }
@@ -482,24 +522,26 @@ extension SenseiViewController: AnswerableViewDelegate {
                 switch question.questionSubject {
                     case .Name:
                         Settings.sharedSettings.name = "\(answerMessage)"
+                        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
                     case .Gender:
-                        break
+                        if let gender = Gender(rawValue: answerMessage.text) {
+                            Settings.sharedSettings.gender = gender
+                            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+                        }
                     default :
                         break
                 }
             }
-//            if let question = self?.lastQuestion where question.questionId != nil {
-//                APIManager.sharedInstance.answerQuestionWithId(question.id, answerText: "\(answerMessage)") { [weak self] (error) -> Void in
-//                    if error == nil {
-//                        self?.requestNextQuestion()
-//                    }
-//                }
-//            }
+            TutorialManager.sharedInstance.nextStep()
         }
         println("\(self) submitted answer: \(answerMessage.text)")
     }
     
     func answerableViewDidCancel(answerableView: AnswerableView) {
+        if let question = self.lastQuestion where question.questionSubject == .Gender {
+            TutorialManager.sharedInstance.skipStep()
+        }
+        TutorialManager.sharedInstance.nextStep()
         println("\(self) canceled question")
     }
 }

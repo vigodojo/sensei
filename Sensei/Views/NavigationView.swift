@@ -19,6 +19,7 @@ class NavigationView: UIView {
         static let NibName = "NavigationView"
     }
 
+    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     
     weak var delegate: NavigationViewDelegate?

@@ -69,6 +69,10 @@ class BaseViewController: UIViewController {
     }
     
     func didMoveToNextTutorial(tutorialStep: TutorialStep) {
+        enableControls(tutorialStep.enabledContols)
+    }
+    
+    func enableControls(controlNames: [String]?) {
         
     }
 }

@@ -48,5 +48,92 @@
 		<key>Number</key>
 		<integer>1</integer>
 	</dict>
+	<dict>
+		<key>Answers</key>
+		<array>
+			<string>male</string>
+			<string>female</string>
+		</array>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>QuestionSubject</key>
+		<string>Gender</string>
+		<key>QuestionType</key>
+		<string>RADIO</string>
+		<key>Message</key>
+		<string>Nice to meet you &lt;#Name&gt; I look forward to working with you. May I ask your sex please?</string>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
+		<integer>2</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>Thank you &lt;#PersonalTitle&gt;</string>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
+		<integer>3</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>I will now guide you through how to use this app and the tools it contains</string>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
+		<integer>4</integer>
+	</dict>
+	<dict>
+		<key>EnabledContols</key>
+		<array>
+			<string>AffirmationsButton</string>
+		</array>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>Message</key>
+		<string>The first tool I want to introduce to you is Affirmations.  Click the green Affirmations button below please</string>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
+		<integer>5</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>This is the affirmation screen. Let me briefly explain what an affirmation is. It is a statement you write down and say out loud every day. It should be present tense, positive, personal and specific. I will message you and remind you to say the affirmations you have created </string>
+		<key>ScreenName</key>
+		<string>AffirmationScreen</string>
+		<key>Number</key>
+		<integer>6</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>You have six message slots. Simply tap one of the numbers below to reveal that message. If the number is red the slot is empty, if it is black it is full. Once you have selected the slot you want to edit, you simply tap in the text field below to enter or modify the text</string>
+		<key>ScreenName</key>
+		<string>AffirmationScreen</string>
+		<key>Number</key>
+		<integer>7</integer>
+	</dict>
+	<dict>
+		<key>EnabledContols</key>
+		<array>
+			<string>TextView</string>
+		</array>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>Message</key>
+		<string>Let’s create a test affirmation. Tap number 1, then tap the text field below, type “I am happy!” and hit ‘done’</string>
+		<key>ScreenName</key>
+		<string>AffirmationScreen</string>
+		<key>Number</key>
+		<integer>8</integer>
+	</dict>
 </array>
 </plist>

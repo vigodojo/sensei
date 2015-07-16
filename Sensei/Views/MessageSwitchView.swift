@@ -32,6 +32,7 @@ class MessageSwitchView: UIView {
     
     @IBOutlet weak var slotsCollectionView: UICollectionView!
     @IBOutlet weak var receiveTimeTextView: UITextView!
+    @IBOutlet weak var receiveTimeButton: UIButton!
     
     private lazy var receiveTimePickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
         let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: DefaultInputAccessotyViewHeight))

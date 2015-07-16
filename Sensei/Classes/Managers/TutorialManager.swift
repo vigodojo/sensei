@@ -27,9 +27,23 @@ class TutorialManager {
     static let sharedInstance = TutorialManager()
 
     private var steps = [TutorialStep]()
-    private var currentStepIndex = -1
+    private var stepCounter = 0
     private(set) var lastCompletedStepNumber: Int?
     private(set) var completed = false
+    
+    var notFinishedTutorialScreenName: ScreenName? {
+        return currentStep?.screen
+    }
+    
+    var currentStep: TutorialStep? {
+        if completed {
+            return nil
+        }
+        if stepCounter < steps.count {
+            return steps[stepCounter]
+        }
+        return nil
+    }
     
     // MARK: - Lifecycle
     
@@ -38,7 +52,7 @@ class TutorialManager {
         completed = userDefaults.boolForKey(UserDefaultsKeys.Completed)
         lastCompletedStepNumber = (userDefaults.objectForKey(UserDefaultsKeys.LastCompletedStepNumber) as? NSNumber)?.integerValue
         if let lastCompletedStepNumber = lastCompletedStepNumber {
-            currentStepIndex = lastCompletedStepNumber
+            stepCounter = lastCompletedStepNumber + 1
         }
         if !completed {
             loadStepsFromPlist()
@@ -51,22 +65,31 @@ class TutorialManager {
         if completed {
             return
         }
-        if currentStepIndex > -1 {
-            lastCompletedStepNumber = currentStepIndex
-            NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: currentStepIndex), forKey: UserDefaultsKeys.LastCompletedStepNumber)
-        }
-        currentStepIndex++
-        if currentStepIndex == steps.count {
-            completed = true
-            NSUserDefaults.standardUserDefaults().setBool(completed, forKey: UserDefaultsKeys.Completed)
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishTutorial, object: nil)
-        } else {
-            let step = steps[currentStepIndex]
+        if stepCounter < steps.count {
+            let step = steps[stepCounter]
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidMoveToNextStep, object: nil, userInfo: [UserInfoKeys.TutorialStep: step])
         }
+        increaseStepCounter()
+    }
+    
+    func skipStep() {
+        increaseStepCounter()
     }
     
     // MARK: - Private
+    
+    private func increaseStepCounter() {
+        if stepCounter > 0 {
+            lastCompletedStepNumber = stepCounter
+            NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: stepCounter), forKey: UserDefaultsKeys.LastCompletedStepNumber)
+        }
+        stepCounter++
+        if stepCounter > steps.count {
+            completed = true
+            NSUserDefaults.standardUserDefaults().setBool(completed, forKey: UserDefaultsKeys.Completed)
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishTutorial, object: nil)
+        }
+    }
     
     private func loadStepsFromPlist() {
         if let stepsPlistURL = NSBundle.mainBundle().URLForResource("Tutorial", withExtension: "plist") {

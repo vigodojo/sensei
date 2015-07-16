@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TutorialViewController: UIViewController {
+class TutorialViewController: BaseViewController {
     
     struct Notifications {
         static let TutorialWillShow = "TutorialViewControllerNotificationsTutorialWillShow"
@@ -49,9 +49,10 @@ class TutorialViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.registerNib(UINib(nibName: SpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: SpeechBubbleCollectionViewCellIdentifier)
+        let nib = UINib(nibName: TutorialBubbleCollectionViewCell.ReuseIdentifier, bundle: nil)
+        collectionView.registerNib(nib, forCellWithReuseIdentifier: TutorialBubbleCollectionViewCell.ReuseIdentifier)
         tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
-        addObservers()
+        addTutorialObservers()
     }
     
     // MARK: - Public 
@@ -129,17 +130,25 @@ class TutorialViewController: UIViewController {
         }
     }
     
-    func handleYesNoAnswerNotification(notification: NSNotification) {
-        hideTutorialAnimated(true)
+//    func handleYesNoAnswerNotification(notification: NSNotification) {
+//        hideTutorialAnimated(true)
+//    }
+    
+    // MARK: - Tutorial
+    
+    override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
+        if tutorialStep.screen != .Sensei {
+            showMessage(tutorialStep)
+        }
     }
     
     // MARK: - Private
     
     private func addObservers() {
-        let noNotification = SpeechBubbleCollectionViewCell.Notifications.NoAnswer
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesNoAnswerNotification:"), name: noNotification, object: nil)
-        let yesNotification = SpeechBubbleCollectionViewCell.Notifications.YesAnswer
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesNoAnswerNotification:"), name: yesNotification, object: nil)
+//        let noNotification = SpeechBubbleCollectionViewCell.Notifications.NoAnswer
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesNoAnswerNotification:"), name: noNotification, object: nil)
+//        let yesNotification = SpeechBubbleCollectionViewCell.Notifications.YesAnswer
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesNoAnswerNotification:"), name: yesNotification, object: nil)
     }
     
     private func clear() {
@@ -166,7 +175,9 @@ class TutorialViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func touchOnSensei() {
-        hideTutorialAnimated(true)
+        if TutorialManager.sharedInstance.completed {
+            hideTutorialAnimated(true)
+        }
     }
 }
 
@@ -179,11 +190,11 @@ extension TutorialViewController: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(SpeechBubbleCollectionViewCellIdentifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TutorialBubbleCollectionViewCell.ReuseIdentifier, forIndexPath: indexPath) as! TutorialBubbleCollectionViewCell
         let message = messages[indexPath.item]
         cell.text = message.text
-        cell.type = message is ConfirmationQuestion ? SpeechBubbleCollectionViewCellType.Confirmation : SpeechBubbleCollectionViewCellType.Sensei
-        cell.closeButtonHidden = true
+        cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
+        cell.delegate = self
         return cell;
     }
 }
@@ -194,6 +205,27 @@ extension TutorialViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSize(width: CGRectGetWidth(collectionView.bounds), height: Constants.SpeechBubbleHeight)
+    }
+}
+
+// MARK: - TutorialBubbleCollectionViewCellDelegate
+
+extension TutorialViewController: TutorialBubbleCollectionViewCellDelegate {
+    
+    func tutorialBubbleCollectionViewCellDidYes(cell: TutorialBubbleCollectionViewCell) {
+        hideTutorialAnimated(true)
+    }
+    
+    func tutorialBubbleCollectionViewCellDidNo(cell: TutorialBubbleCollectionViewCell) {
+        hideTutorialAnimated(true)
+    }
+    
+    func tutorialBubbleCollectionViewCellDidNext(cell: TutorialBubbleCollectionViewCell) {
+        if !TutorialManager.sharedInstance.completed {
+            if let tutorialStep = TutorialManager.sharedInstance.currentStep where !tutorialStep.requiresActionToProceed {
+                TutorialManager.sharedInstance.nextStep()
+            }
+        }
     }
 }
 

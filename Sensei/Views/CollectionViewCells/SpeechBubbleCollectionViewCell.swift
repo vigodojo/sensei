@@ -11,7 +11,7 @@ import UIKit
 let SpeechBubbleCollectionViewCellNibName = "SpeechBubbleCollectionViewCell"
 let SpeechBubbleCollectionViewCellIdentifier = "SpeechBubbleCollectionViewCell"
 
-enum SpeechBubbleCollectionViewCellType {
+enum BubbleCollectionViewCellType {
     case Sensei
     case Me
     case Confirmation
@@ -44,7 +44,7 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var accessoryItemsContainerHeightConstraint: NSLayoutConstraint!
     
-    var type = SpeechBubbleCollectionViewCellType.Sensei {
+    var type = BubbleCollectionViewCellType.Sensei {
         didSet {
             titleLabelLeadingConstraint.constant = Constants.DefaultTextViewLeadingSpace
             titleLabelTrailingConstraint.constant = Constants.DefaultTextViewTrailingSpace

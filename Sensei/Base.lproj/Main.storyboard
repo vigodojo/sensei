@@ -233,7 +233,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="jn6-3W-nyd" kind="show" identifier="" id="iQz-ZM-eNO"/>
+                                    <segue destination="jn6-3W-nyd" kind="show" identifier="Go To Affirmations" id="iQz-ZM-eNO"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rLE-xd-apt">
@@ -249,7 +249,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="nak-G7-NDS" kind="show" id="raB-ai-HYb"/>
+                                    <segue destination="nak-G7-NDS" kind="show" identifier="Go To Visualisations" id="raB-ai-HYb"/>
                                 </connections>
                             </button>
                             <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="8zt-ws-naK" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
@@ -271,17 +271,20 @@
                             <constraint firstAttribute="centerX" secondItem="rLE-xd-apt" secondAttribute="centerX" constant="-75" id="TLR-VP-Zuw"/>
                             <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="mpr-qy-yfa" secondAttribute="bottom" constant="80" id="Y1e-hN-ZRq"/>
                             <constraint firstItem="h0u-hS-teU" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" id="Y4a-9J-g6m"/>
-                            <constraint firstItem="h0u-hS-teU" firstAttribute="bottom" secondItem="mpr-qy-yfa" secondAttribute="bottom" id="b3J-gh-Odn"/>
                             <constraint firstAttribute="centerX" secondItem="i7j-O7-g18" secondAttribute="centerX" constant="74" id="fO1-lZ-eZm"/>
+                            <constraint firstItem="8zt-ws-naK" firstAttribute="bottom" secondItem="h0u-hS-teU" secondAttribute="bottom" constant="14" id="oO9-RK-5bI"/>
                             <constraint firstAttribute="trailing" secondItem="mpr-qy-yfa" secondAttribute="trailing" id="odT-nM-ic6"/>
                             <constraint firstAttribute="trailing" secondItem="8zt-ws-naK" secondAttribute="trailing" constant="16" id="t9k-db-GJC"/>
                             <constraint firstItem="mpr-qy-yfa" firstAttribute="top" secondItem="8ZL-mD-K9c" secondAttribute="bottom" id="uM6-w9-2XN"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="affirmationsButton" destination="i7j-O7-g18" id="Y3V-lw-6qG"/>
                         <outlet property="collectionView" destination="mpr-qy-yfa" id="k0h-Ok-4eD"/>
+                        <outlet property="fadingGradientView" destination="h0u-hS-teU" id="OpJ-hZ-EHu"/>
                         <outlet property="senseiBottomSpaceConstraint" destination="FvM-UG-dxG" id="FNy-Mi-9ET"/>
                         <outlet property="senseiImageView" destination="8zt-ws-naK" id="jmb-t5-Mcd"/>
+                        <outlet property="visualisationsButton" destination="rLE-xd-apt" id="MNw-VR-Wfh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S8z-Z5-MYz" userLabel="First Responder" sceneMemberID="firstResponder"/>

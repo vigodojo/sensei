@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		400CA4A01B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */; };
+		400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */; };
+		400CA4A41B57BDDD005665D6 /* TextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CA4A21B57BDDD005665D6 /* TextCollectionViewCell.swift */; };
+		400CA4A51B57BDDD005665D6 /* TextCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400CA4A31B57BDDD005665D6 /* TextCollectionViewCell.xib */; };
+		400CA4A71B57DD51005665D6 /* StringColumnSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CA4A61B57DD51005665D6 /* StringColumnSeparator.swift */; };
 		4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */; };
 		4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */; };
 		4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F3321B04EDF200728202 /* SenseiViewController.swift */; };
@@ -73,6 +78,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
+		400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
+		400CA4A21B57BDDD005665D6 /* TextCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCollectionViewCell.swift; sourceTree = "<group>"; };
+		400CA4A31B57BDDD005665D6 /* TextCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextCollectionViewCell.xib; sourceTree = "<group>"; };
+		400CA4A61B57DD51005665D6 /* StringColumnSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringColumnSeparator.swift; sourceTree = "<group>"; };
 		4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleView.swift; sourceTree = "<group>"; };
 		4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		4016F3321B04EDF200728202 /* SenseiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +169,10 @@
 		4016F32F1B04EC7E00728202 /* CollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				400CA4A21B57BDDD005665D6 /* TextCollectionViewCell.swift */,
+				400CA4A31B57BDDD005665D6 /* TextCollectionViewCell.xib */,
+				400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */,
+				400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */,
 				4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */,
 				40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */,
 				40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */,
@@ -187,6 +201,7 @@
 				40AA2D9E1B3AE2C500606E4E /* WeightPickerDelegate.swift */,
 				40A248CA1B46955B00D8F3CB /* PushNotification.swift */,
 				404E0CA01B564B3900FE2F3F /* AnimatableImage.swift */,
+				400CA4A61B57DD51005665D6 /* StringColumnSeparator.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -420,10 +435,12 @@
 				4084CFE11AFA611B000F8D47 /* Main.storyboard in Resources */,
 				4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */,
 				40A6741A1B21AF6C001408C3 /* SlotCollectionViewCell.xib in Resources */,
+				400CA4A51B57BDDD005665D6 /* TextCollectionViewCell.xib in Resources */,
 				40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */,
 				404E0CA31B56527F00FE2F3F /* Tutorial.plist in Resources */,
 				408B320E1B0B7645001BB455 /* KeyboardInputAccessoryView.xib in Resources */,
 				40EB50F91B4A9DD0003D5833 /* NavigationView.xib in Resources */,
+				400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */,
 				40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */,
 				4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */,
 				40EB50F71B4A9DD0003D5833 /* MessageSwitchView.xib in Resources */,
@@ -460,6 +477,7 @@
 				40AA2D9B1B3ABF8500606E4E /* HeightPickerDelegate.swift in Sources */,
 				406266DB1B1D9FF700F161B6 /* FadingGradientView.swift in Sources */,
 				404E0C9B1B5647CB00FE2F3F /* Visualization.swift in Sources */,
+				400CA4A01B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift in Sources */,
 				406428401B0E1CD2008E2023 /* PlaceholderedTextView.swift in Sources */,
 				40675C0C1B2F17BE00E8A9D4 /* NumberThumbView.swift in Sources */,
 				404E0C971B5647CB00FE2F3F /* ConfirmationQuestion.swift in Sources */,
@@ -480,6 +498,7 @@
 				40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */,
 				404E0C9F1B56484700FE2F3F /* TutorialStep.swift in Sources */,
 				408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */,
+				400CA4A71B57DD51005665D6 /* StringColumnSeparator.swift in Sources */,
 				40A026531B42DB6A00E18958 /* Constants.swift in Sources */,
 				405C1E631B43CE1D00400234 /* BlockingWindow.swift in Sources */,
 				40675C0A1B2F0A0200E8A9D4 /* VigoSlider.swift in Sources */,
@@ -504,6 +523,7 @@
 				40A139A51B0DB72C0010176D /* UserMessageViewController.swift in Sources */,
 				404E0C9C1B5647CB00FE2F3F /* Settings.swift in Sources */,
 				40A6741C1B21B11E001408C3 /* VisualizationsViewController.swift in Sources */,
+				400CA4A41B57BDDD005665D6 /* TextCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -628,7 +648,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "37bdf687-ef9e-41de-82e3-8c4b51ae5b10";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Debug;
 		};
@@ -647,7 +667,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "37bdf687-ef9e-41de-82e3-8c4b51ae5b10";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Release;
 		};

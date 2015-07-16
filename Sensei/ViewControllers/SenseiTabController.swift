@@ -13,7 +13,12 @@ protocol SenseiTabControllerDelegate: class {
     func senseiTabController(senseiTabController: SenseiTabController, shouldSelectViewController: UIViewController) -> Bool
 }
 
-class SenseiTabController: UIViewController, TabSegueProtocol, UITabBarControllerDelegate {
+class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControllerDelegate {
+    
+    private struct ControlNames {
+        static let SenseiTab = "SenseiTab"
+        static let MoreTab = "MoreTab"
+    }
     
     private struct Constants {
         static let SenseiViewControllerSegueIdentifier = "SwitchToSenseiViewController"
@@ -37,9 +42,19 @@ class SenseiTabController: UIViewController, TabSegueProtocol, UITabBarControlle
         performSegueWithIdentifier(Constants.SenseiViewControllerSegueIdentifier, sender: self)
         performSegueWithIdentifier(Constants.MoreViewControllerSegueIdentifier, sender: self)
         showSenseiViewController()
+        addTutorialObservers()
+    }
+    
+    deinit {
+        removeTutorialObservers()
     }
     
     // MARK: - Public
+    
+    override func addTutorialObservers() {
+        super.addTutorialObservers()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
+    }
     
     func showSenseiViewController() {
         if !senseiTabButton.selected {
@@ -78,6 +93,27 @@ class SenseiTabController: UIViewController, TabSegueProtocol, UITabBarControlle
         child.didMoveToParentViewController(self)
         containerView.addSubview(child.view)
         child.view.frame = containerView.bounds
+    }
+    
+    // MARK: - Tutorial
+    
+    func didFinishTutorialNotificatin(notification: NSNotification) {
+        enableControls(nil)
+    }
+    
+    override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
+        switch tutorialStep.screen {
+            case .Sensei, .More:
+                enableControls(tutorialStep.enabledContols)
+                break
+            default:
+                break
+        }
+    }
+    
+    override func enableControls(controlNames: [String]?) {
+        senseiTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.SenseiTab) ?? true
+        moreTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.MoreTab) ?? true
     }
     
     // MARK: - IBAction

@@ -11,11 +11,18 @@ import CoreData
 import RestClient
 
 enum Gender: String, Printable {
-    case Male = "MALE"
-    case Female = "FEMALE"
+    case Male = "male"
+    case Female = "female"
     
     var description: String {
         return self.rawValue
+    }
+    
+    var personalTitle: String {
+        switch self {
+            case .Male: return "sir"
+            case .Female: return "ms"
+        }
     }
 }
 
@@ -107,6 +114,7 @@ class Settings: NSManagedObject {
     
     private class func createDeafultSettings() -> Settings {
         let settings = CoreDataManager.sharedInstance.createObjectForEntityWithName(Settings.EntityName) as! Settings
+        settings.name = ""
         settings.dataFormat = Settings.defaultDataFormat
         settings.sleepTimeWeekdays = SleepTime.sleepTimeWithStartTimeStrng(Constants.DefaultStartSleepTime, endTimeString: Constants.DefaultEndSleepTime)
         settings.sleepTimeWeekends = SleepTime.sleepTimeWithStartTimeStrng(Constants.DefaultStartSleepTime, endTimeString: Constants.DefaultEndSleepTime)

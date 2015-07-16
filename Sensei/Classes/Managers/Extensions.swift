@@ -59,6 +59,11 @@ extension Array {
         }
         return nil
     }
+    
+    func contains<T : Equatable>(obj: T) -> Bool {
+        let filtered = self.filter { $0 as? T == obj }
+        return filtered.count > 0
+    }
 }
 
 // MARK: - Dictionary
@@ -142,23 +147,14 @@ extension UIImage {
     }
 }
 
-// MARK: - String
-
-extension String {
-    
-    func rangeFromNSRange(nsRange: NSRange) -> Range<String.Index>? {
-        if let from = String.Index(self.utf16.startIndex + nsRange.location, within: self),
-            let to = String.Index(self.utf16.startIndex + nsRange.location + nsRange.length, within: self) {
-                return from ..< to
-        }
-        return nil
-    }
-}
-
 // MARK: - UIFont
 
 extension UIFont {
     class func helveticaNeueBlackOfSize(fontSize: CGFloat) -> UIFont {
         return UIFont(name: "HelveticaNeue-CondensedBlack", size: fontSize)!
+    }
+    
+    class var speechBubbleTextFont: UIFont {
+        return UIFont(name: "HelveticaNeue-Bold", size: 13)!
     }
 }

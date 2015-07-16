@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MessageSwitchView" customModule="Sensei" customModuleProvider="target">
             <connections>
+                <outlet property="receiveTimeButton" destination="aTF-C9-hd0" id="KnG-KC-71g"/>
                 <outlet property="receiveTimeTextView" destination="W22-kQ-Yhw" id="0fL-I0-7P4"/>
                 <outlet property="slotsCollectionView" destination="tRv-S3-hJh" id="mLl-nb-cKO"/>
             </connections>
@@ -34,7 +35,7 @@
                     </connections>
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MESSAGE TIMING" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pT-A0-z2N">
-                    <rect key="frame" x="27" y="72" width="114.5" height="16"/>
+                    <rect key="frame" x="27" y="72" width="115" height="16"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>

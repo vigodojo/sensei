@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NavigationView" customModule="Sensei" customModuleProvider="target">
             <connections>
+                <outlet property="backButton" destination="e3c-es-tIT" id="iu7-1i-egO"/>
                 <outlet property="titleLabel" destination="0jt-cJ-rnZ" id="oOB-lV-WNR"/>
             </connections>
         </placeholder>

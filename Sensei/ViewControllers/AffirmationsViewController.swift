@@ -19,6 +19,11 @@ class AffirmationsViewController: UserMessageViewController {
         static let KeyboardTextViewSpace: CGFloat = 4
     }
     
+    private struct ControlNames {
+        static let TextView = "TextView"
+        static let DeleteButton = "DeleteButton"
+    }
+    
     @IBOutlet weak var textViewBottomSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var textView: PlaceholderedTextView!
@@ -90,6 +95,8 @@ class AffirmationsViewController: UserMessageViewController {
             if !self.affirmationsFetchedResultController.performFetch(&error) {
                 println("Failed to fetch user messages with error: \(error)")
             }
+            
+            println("\(self.affirmationsFetchedResultController.fetchedObjects)")
 
             dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
                 self.messageSwitchView.reloadSlots()
@@ -130,6 +137,14 @@ class AffirmationsViewController: UserMessageViewController {
     }
     
     // MARK: - Tutorial
+    
+    override func enableControls(controlNames: [String]?) {
+        super.enableControls(controlNames)
+        textView.userInteractionEnabled = controlNames?.contains(ControlNames.TextView) ?? true
+        deleteButton.userInteractionEnabled = controlNames?.contains(ControlNames.DeleteButton) ?? true
+    }
+    
+    // MARK: - Tutorial View
     
     override func handleTutorialMoving() {
         let aTextViewBottomSpace = textViewBottomSpace

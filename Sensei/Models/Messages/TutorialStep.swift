@@ -21,7 +21,8 @@ class TutorialStep: Message {
     }
     
     private struct Constants {
-        static let StringPlaceholder = "%@"
+        static let NamePlaceholder = "<#Name>"
+        static let PersonalTitlePlaceholder = "<#PersonalTitle>"
     }
 
     let number: Int
@@ -37,8 +38,10 @@ class TutorialStep: Message {
     var text: String {
         get {
             if let message = message {
-                if let range = message.rangeOfString(Constants.StringPlaceholder, options: .CaseInsensitiveSearch, range: nil, locale: nil) {
-                    return String(format: message, Settings.sharedSettings.name)
+                if let range = message.rangeOfString(Constants.NamePlaceholder, options: .CaseInsensitiveSearch, range: nil, locale: nil) {
+                    return message.stringByReplacingCharactersInRange(range, withString: Settings.sharedSettings.name)
+                } else if let range = message.rangeOfString(Constants.PersonalTitlePlaceholder, options: .CaseInsensitiveSearch, range: nil, locale: nil) {
+                    return message.stringByReplacingCharactersInRange(range, withString: Settings.sharedSettings.gender.personalTitle)
                 } else {
                     return message
                 }
