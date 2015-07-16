@@ -260,16 +260,6 @@ class SenseiViewController: BaseViewController {
         }
     }
     
-//    private func requestNextQuestion() {
-//        APIManager.sharedInstance.nextQuestionyWithCompletion { [weak self](question, error) -> Void in
-//            if question == nil && error == nil {
-//                APIManager.sharedInstance.lessonsHistoryCompletion(nil)
-//            } else if let question = question {
-//                self?.askQuestion(question)
-//            }
-//        }
-//    }
-    
     private func askQuestion(question: QuestionProtocol) {
         lastQuestion = question
         addMessages([question], scroll: false) {
@@ -449,9 +439,9 @@ class SenseiViewController: BaseViewController {
             addMessages([tutorialStep], scroll: true, completion: nil)
         }
         if let animatableimage = tutorialStep.animatableImage {
-            senseiImageView.animateAnimatableImage(animatableimage, completion: { (finished) -> Void in
+            senseiImageView.animateAnimatableImage(animatableimage) { (finished) -> Void in
                 TutorialManager.sharedInstance.nextStep()
-            })
+            }
         } else if !tutorialStep.requiresActionToProceed {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
                 TutorialManager.sharedInstance.nextStep()

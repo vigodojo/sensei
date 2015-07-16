@@ -24,6 +24,7 @@ class TutorialViewController: BaseViewController {
     @IBOutlet weak var tutorialContainerViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var tutorialContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var senseiImageView: AnimatableImageView!
     
     var tutorialContainerHeight: CGFloat {
         return tutorialContainerViewHeightConstraint.constant
@@ -140,6 +141,10 @@ class TutorialViewController: BaseViewController {
         if tutorialStep.screen != .Sensei {
             showMessage(tutorialStep)
         }
+        if let animatableimage = tutorialStep.animatableImage {
+            senseiImageView.stopAnimatableImageAnimation()
+            senseiImageView.animateAnimatableImage(animatableimage, completion: nil)
+        }
     }
     
     // MARK: - Private
@@ -174,7 +179,7 @@ class TutorialViewController: BaseViewController {
     
     // MARK: - IBActions
     
-    @IBAction func touchOnSensei() {
+    @IBAction func touchOnSensei(senser: UITapGestureRecognizer) {
         if TutorialManager.sharedInstance.completed {
             hideTutorialAnimated(true)
         }

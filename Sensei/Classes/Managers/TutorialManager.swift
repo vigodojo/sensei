@@ -52,7 +52,7 @@ class TutorialManager {
         completed = userDefaults.boolForKey(UserDefaultsKeys.Completed)
         lastCompletedStepNumber = (userDefaults.objectForKey(UserDefaultsKeys.LastCompletedStepNumber) as? NSNumber)?.integerValue
         if let lastCompletedStepNumber = lastCompletedStepNumber {
-            stepCounter = lastCompletedStepNumber + 1
+            stepCounter = lastCompletedStepNumber
         }
         if !completed {
             loadStepsFromPlist()

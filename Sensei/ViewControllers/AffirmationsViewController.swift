@@ -215,6 +215,7 @@ class AffirmationsViewController: UserMessageViewController {
         } else if !text.isEmpty {
             if let index = messageSwitchView.selectedSlot {
                 Affirmation.createAffirmationNumber(index, text: text, receiveTime: receiveTime)
+                TutorialManager.sharedInstance.nextStep()
             }
         }
     }
@@ -276,6 +277,7 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
         } else if let affirmation = selectedAffirmation where affirmation.receiveTime != messageSwitchView.receiveTime {
             affirmation.receiveTime = messageSwitchView.receiveTime
         }
+        TutorialManager.sharedInstance.nextStep()
     }
 }
 
@@ -287,13 +289,19 @@ extension AffirmationsViewController: NSFetchedResultsControllerDelegate {
         if let affirmation = anObject as? Affirmation {
             switch type {
                 case .Insert:
-                    let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
-                    selectAffirmationWithNumber(number)
+                    if TutorialManager.sharedInstance.completed {
+                        let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
+                        selectAffirmationWithNumber(number)
+                    } else {
+                        selectedAffirmation = affirmation
+                    }
                     messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
                     APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
                 case .Update:
-                    let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
-                    selectAffirmationWithNumber(number)
+                    if TutorialManager.sharedInstance.completed {
+                        let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
+                        selectAffirmationWithNumber(number)
+                    }
                     APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
                 case .Delete:
                     messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)

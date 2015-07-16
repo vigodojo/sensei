@@ -12,11 +12,12 @@ class AnimatableImageView: UIImageView {
     
     private struct Constants {
         static let KeyPathContents = "contents"
+        static let AnimatableImageAnimationKey = "SenseiAnimationKey"
     }
 
     private var completionClosure: ((finished: Bool) -> Void)?
     
-    func  animateAnimatableImage(animatableImage: AnimatableImage, completion: ((finished: Bool) -> Void)?) {
+    func animateAnimatableImage(animatableImage: AnimatableImage, completion: ((finished: Bool) -> Void)?) {
         completionClosure = completion
         let animation = CAKeyframeAnimation()
         animation.keyPath = Constants.KeyPathContents
@@ -24,8 +25,15 @@ class AnimatableImageView: UIImageView {
         animation.duration = animatableImage.animationDuration
         animation.repeatCount = Float(animatableImage.animationRepeatCount)
         animation.delegate = self
+        animation.removedOnCompletion = true
         
-        layer.addAnimation(animation, forKey: nil)
+        layer.addAnimation(animation, forKey: Constants.AnimatableImageAnimationKey)
+    }
+    
+    func stopAnimatableImageAnimation() {
+        if let animation = layer.animationForKey(Constants.AnimatableImageAnimationKey) {
+            layer.removeAnimationForKey(Constants.AnimatableImageAnimationKey)
+        }
     }
  
     override func animationDidStop(anim: CAAnimation!, finished flag: Bool) {

@@ -31,6 +31,7 @@
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dlp-tt-5pB">
                                 <rect key="frame" x="261" y="52" width="40" height="40"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="dBi-f7-lXj"/>
                                     <constraint firstAttribute="height" constant="40" id="ifC-lK-z9L"/>
