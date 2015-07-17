@@ -301,7 +301,187 @@
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
-		<integer>13</integer>
+		<integer>18</integer>
+	</dict>
+	<dict>
+		<key>EnabledContols</key>
+		<array>
+			<string>MoreTab</string>
+		</array>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>Message</key>
+		<string>Let’s look at the additional functions on the ‘more’ page. Please tap the link in the top right corner.</string>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
+		<integer>19</integer>
+	</dict>
+	<dict>
+		<key>AllowedActionName</key>
+		<string>ScrollToBottom</string>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>Message</key>
+		<string>Scroll down to the bottom please</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>20</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>The sleep time panel allows you to tell me when you are typically sleeping, so that I know when to not bother you, and to allow me to time the start of day and end of day messages</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>21</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>The data format fields control the format of time, date, weight and height to either U.S. or Metric standards.</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>22</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>The personal profile information is optional, but if you provide me this information it allows me to help you better, by providing information and guidance which fit your profile. You can enter that now or later, or never, it’s up to you</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>23</integer>
+	</dict>
+	<dict>
+		<key>AllowedActionName</key>
+		<string>ScrollToTop</string>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>Message</key>
+		<string>Now scroll up to the top of the page again please</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>24</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>The ‘sensei teaching intensity’ control allows you to set the intensity of my teachings both in terms of volume and tone. Keep in mind though that lessons are only available in the full version of the app, you will need to upgrade to get this feature. I hope you will love the app and decide to do so soon!</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>25</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>The instructions control turns instructions on or off. If they are on, I will continue to provide pointers on how to use affirmations and visualizations. You may want to leave this on for a while until you feel you master it</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>26</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>The other links on this page should be self-explanatory. We really hope that you will love the app, upgrade it, share it, tweet about it, and rate it well. If for any reason you don’t think the app meets your expectations or if you have any suggestions or feed-back, we encourage you to use the feedback function to send us an email.</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>27</integer>
+	</dict>
+	<dict>
+		<key>EnabledContols</key>
+		<array>
+			<string>SenseiTab</string>
+		</array>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>Message</key>
+		<string>Please go back to the main screen to conclude this tutorial</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>28</integer>
+	</dict>
+	<dict>
+		<key>Message</key>
+		<string>You have now completed the tutorial, well done &lt;#Name&gt;!</string>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>AnimatableImage</key>
+		<dict>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
+			<key>ImageNames</key>
+			<array>
+				<string>running_skeleton0</string>
+				<string>running_skeleton1</string>
+				<string>running_skeleton2</string>
+				<string>running_skeleton3</string>
+				<string>running_skeleton4</string>
+				<string>running_skeleton5</string>
+				<string>running_skeleton6</string>
+				<string>running_skeleton7</string>
+				<string>running_skeleton8</string>
+				<string>running_skeleton9</string>
+				<string>running_skeleton10</string>
+				<string>running_skeleton11</string>
+				<string>running_skeleton12</string>
+				<string>running_skeleton13</string>
+				<string>running_skeleton14</string>
+				<string>running_skeleton15</string>
+			</array>
+		</dict>
+		<key>Number</key>
+		<integer>29</integer>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+	</dict>
+	<dict>
+		<key>Message</key>
+		<string>You are now ready to use the app. I trust you will enjoy!</string>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>AnimatableImage</key>
+		<dict>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
+			<key>ImageNames</key>
+			<array>
+				<string>running_skeleton0</string>
+				<string>running_skeleton1</string>
+				<string>running_skeleton2</string>
+				<string>running_skeleton3</string>
+				<string>running_skeleton4</string>
+				<string>running_skeleton5</string>
+				<string>running_skeleton6</string>
+				<string>running_skeleton7</string>
+				<string>running_skeleton8</string>
+				<string>running_skeleton9</string>
+				<string>running_skeleton10</string>
+				<string>running_skeleton11</string>
+				<string>running_skeleton12</string>
+				<string>running_skeleton13</string>
+				<string>running_skeleton14</string>
+				<string>running_skeleton15</string>
+			</array>
+		</dict>
+		<key>Number</key>
+		<integer>30</integer>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
 	</dict>
 </array>
 </plist>

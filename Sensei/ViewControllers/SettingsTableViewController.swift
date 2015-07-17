@@ -32,6 +32,11 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var metricDataFormatButton: UIButton!
     @IBOutlet weak var maleButton: UIButton!
     @IBOutlet weak var femaleButton: UIButton!
+    @IBOutlet weak var shareOnFacebookButton: UIButton!
+    @IBOutlet weak var tweetButton: UIButton!
+    @IBOutlet weak var rateInAppStoreButton: UIButton!
+    @IBOutlet weak var feedbackButton: UIButton!
+    @IBOutlet weak var upgradeButton: UIButton!
     
     private let SaveConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to save this changes?")
     
@@ -135,9 +140,12 @@ class SettingsTableViewController: UITableViewController {
     
     private var hasProfileBeenChanged: Bool {
         var dobEqual = false
-        if let dob = Settings.sharedSettings.dayOfBirth, newDate = DataFormatter.dateFromString(dateOfBirthTF.text) {
-            dobEqual = dob.compare(newDate) == .OrderedSame
+        if let dob = Settings.sharedSettings.dayOfBirth {
+            dobEqual = DataFormatter.stringFromDate(dob) == dateOfBirthTF.text
+        } else {
+            dobEqual = dateOfBirthTF.text.isEmpty
         }
+
         var genderEqual = (Settings.sharedSettings.gender == (maleButton.selected ? .Male: .Female))
         var heightEqual = false
         if let height = Settings.sharedSettings.height {
@@ -170,13 +178,19 @@ class SettingsTableViewController: UITableViewController {
         updateSettings()
         setup()
         addObservers()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
+        if !TutorialManager.sharedInstance.completed {
+            allControlsEnable(false)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         fillFromSettings()
         (parentViewController as? SenseiTabController)?.delegate = self
-        tutorialViewController?.tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
+        if !TutorialManager.sharedInstance.completed {
+            TutorialManager.sharedInstance.nextStep()
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -277,7 +291,70 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
+    // MARK: - Scrolling
+    
+    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            handleContentOffsetChange(scrollView.contentOffset)
+        }
+    }
+    
+    override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        handleContentOffsetChange(scrollView.contentOffset)
+    }
+    
+    private func handleContentOffsetChange(contentOffset: CGPoint) {
+        if contentOffset.y == 0 {
+            didScrollToTop()
+        } else if contentOffset.y == (tableView.contentSize.height - CGRectGetHeight(tableView.frame)) {
+            didScrollToBottom()
+        }
+    }
+    
+    private func didScrollToTop() {
+        if !TutorialManager.sharedInstance.completed {
+            if let allowedAction = TutorialManager.sharedInstance.currentStep?.allowedAction where allowedAction == .ScrollToTop {
+                TutorialManager.sharedInstance.nextStep()
+            }
+        }
+    }
+    
+    private func didScrollToBottom() {
+        if !TutorialManager.sharedInstance.completed {
+            if let allowedAction = TutorialManager.sharedInstance.currentStep?.allowedAction where allowedAction == .ScrollToBottom {
+                TutorialManager.sharedInstance.nextStep()
+            }
+        }
+    }
+    
     // MARK: - Tutorial
+    
+    func didFinishTutorialNotificatin(notification: NSNotification) {
+        allControlsEnable(true)
+    }
+    
+    private func allControlsEnable(enabled: Bool) {
+        numberOfLessonsSlider.userInteractionEnabled = enabled
+        tutorialSwitch.userInteractionEnabled = enabled
+        weekDaysStartTF.userInteractionEnabled = enabled
+        weekDaysEndTF.userInteractionEnabled = enabled
+        weekEndsStartTF.userInteractionEnabled = enabled
+        weekEndsEndTF.userInteractionEnabled = enabled
+        dateOfBirthTF.userInteractionEnabled = enabled
+        weightTexField.userInteractionEnabled = enabled
+        heightTextField.userInteractionEnabled = enabled
+        usDataFormatButton.userInteractionEnabled = enabled
+        metricDataFormatButton.userInteractionEnabled = enabled
+        maleButton.userInteractionEnabled = enabled
+        femaleButton.userInteractionEnabled = enabled
+        shareOnFacebookButton.userInteractionEnabled = enabled
+        tweetButton.userInteractionEnabled = enabled
+        rateInAppStoreButton.userInteractionEnabled = enabled
+        feedbackButton.userInteractionEnabled = enabled
+        upgradeButton.userInteractionEnabled = enabled
+    }
+
+    // MARK: - Tutorial View
     
     func tutorialDidHideNotification(notification: NSNotification) {
         (parentViewController as? SenseiTabController)?.delegate = nil
@@ -342,6 +419,24 @@ class SettingsTableViewController: UITableViewController {
         maleButton.selected = (sender == maleButton)
         femaleButton.selected = (sender == femaleButton)
     }
+    
+    @IBAction func shareOnFaebook() {
+    }
+    
+    @IBAction func tweet() {
+        
+    }
+    
+    @IBAction func rateInAppStore() {
+        
+    }
+    
+    @IBAction func giveFeedback() {
+        
+    }
+    
+    @IBAction func upgrade() {
+    }
 }
 
 // MARK: - UITextFieldDelegate
@@ -378,4 +473,3 @@ extension SettingsTableViewController: SenseiTabControllerDelegate {
         return true
     }
 }
-
