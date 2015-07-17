@@ -457,14 +457,14 @@ class SenseiViewController: BaseViewController {
     private func dispatchTutorialToAppropriateViewController() {
         if let screenName = TutorialManager.sharedInstance.notFinishedTutorialScreenName {
             switch screenName {
-            case .Sensei:
-                TutorialManager.sharedInstance.nextStep()
-            case .More:
-                (parentViewController as? SenseiTabController)?.showSettingsViewController()
-            case .Affirmation:
-                performSegueWithIdentifier(Constants.ToAffirmationsSegue, sender: self)
-            case .Visualisation:
-                performSegueWithIdentifier(Constants.ToVisualisationsSegue, sender: self)
+                case .Sensei:
+                    TutorialManager.sharedInstance.nextStep()
+                case .More:
+                    (parentViewController as? SenseiTabController)?.showSettingsViewController()
+                case .Affirmation:
+                    performSegueWithIdentifier(Constants.ToAffirmationsSegue, sender: self)
+                case .Visualisation:
+                    performSegueWithIdentifier(Constants.ToVisualisationsSegue, sender: self)
             }
         }
     }
@@ -545,10 +545,6 @@ extension SenseiViewController: SpeechBubbleCollectionViewCellDelegate {
             deleteMessageAtIndexPath(indexPath)
         }
     }
-    
-    func speechBubbleCollectionViewCellDidYes(cell: SpeechBubbleCollectionViewCell) {}
-    
-    func speechBubbleCollectionViewCellDidNo(cell: SpeechBubbleCollectionViewCell) {}
 }
 
 // MARK: - NSFetchedResultsControllerDelegate

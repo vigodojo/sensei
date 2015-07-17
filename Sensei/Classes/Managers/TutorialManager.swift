@@ -27,12 +27,12 @@ class TutorialManager {
     static let sharedInstance = TutorialManager()
 
     private var steps = [TutorialStep]()
-    private var stepCounter = 0
+    private var stepCounter = -1
     private(set) var lastCompletedStepNumber: Int?
     private(set) var completed = false
     
     var notFinishedTutorialScreenName: ScreenName? {
-        return currentStep?.screen
+        return ((stepCounter + 1) < steps.count) ? steps[stepCounter + 1].screen: nil
     }
     
     var currentStep: TutorialStep? {
@@ -65,26 +65,31 @@ class TutorialManager {
         if completed {
             return
         }
+        increaseStepCounter()
         if stepCounter < steps.count {
             let step = steps[stepCounter]
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidMoveToNextStep, object: nil, userInfo: [UserInfoKeys.TutorialStep: step])
         }
-        increaseStepCounter()
+        checkCompletion()
     }
     
     func skipStep() {
         increaseStepCounter()
+        checkCompletion()
     }
     
     // MARK: - Private
     
     private func increaseStepCounter() {
-        if stepCounter > 0 {
-            lastCompletedStepNumber = stepCounter
-            NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: stepCounter), forKey: UserDefaultsKeys.LastCompletedStepNumber)
-        }
         stepCounter++
-        if stepCounter > steps.count {
+        if stepCounter > 0 {
+            lastCompletedStepNumber = stepCounter - 1
+            NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastCompletedStepNumber!), forKey: UserDefaultsKeys.LastCompletedStepNumber)
+        }
+    }
+    
+    private func checkCompletion() {
+        if stepCounter >= (steps.count) {
             completed = true
             NSUserDefaults.standardUserDefaults().setBool(completed, forKey: UserDefaultsKeys.Completed)
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishTutorial, object: nil)
@@ -94,9 +99,10 @@ class TutorialManager {
     private func loadStepsFromPlist() {
         if let stepsPlistURL = NSBundle.mainBundle().URLForResource("Tutorial", withExtension: "plist") {
             if let stepDictionariesArray = NSArray(contentsOfURL: stepsPlistURL) as? [[String: AnyObject]] {
-                println("\(stepDictionariesArray)")
                 for stepDictionary in stepDictionariesArray {
-                    steps.append(tutorialStepFromDictionary(stepDictionary))
+                    let step = tutorialStepFromDictionary(stepDictionary)
+                    steps.append(step)
+                    println("Step: \(step)")
                 }
             }
         }

@@ -23,10 +23,6 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
         static let NoAnswer = "TutorialBubbleCollectionViewCellNotificationsNoAnswer"
         static let YesAnswer = "TutorialBubbleCollectionViewCellNotificationsYesAnswer"
     }
-    
-    private struct Constants {
-        static let FirstPageIndexPath = NSIndexPath(forItem: 0, inSection: 0)
-    }
 
     @IBOutlet weak var speechBubbleView: SpeechBubbleView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -37,8 +33,6 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     private var messages = [String]()
     
     weak var delegate: TutorialBubbleCollectionViewCellDelegate?
-    
-    var currentPageIndexPath = Constants.FirstPageIndexPath
     
     var type = BubbleCollectionViewCellType.Sensei {
         didSet {
@@ -60,12 +54,11 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
             return join("", messages)
         }
         set {
-            stringSeparator.columnSize = collectionView.frame.size
-            messages = stringSeparator.separateString(newValue)
-            currentPageIndexPath = Constants.FirstPageIndexPath
-            collectionView.reloadData()
+            updateDataSource(newValue)
         }
     }
+    
+    // MARK: - Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -78,6 +71,21 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
         let flowLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         flowLayout.itemSize.width = CGRectGetWidth(collectionView.frame)
         collectionView.collectionViewLayout.invalidateLayout()
+        let aText = text
+        if !aText.isEmpty {
+            updateDataSource(aText)
+        }
+    }
+    
+    // MARK: - Private
+    
+    private func updateDataSource(text: String) {
+        stringSeparator.columnSize = collectionView.frame.size
+        messages = stringSeparator.separateString(text)
+        collectionView.reloadData()
+        if messages.count > 0 {
+            collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: .None, animated: false)
+        }
     }
 
     // MARK: - IBActions
@@ -93,11 +101,13 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func next() {
-        if currentPageIndexPath.item >= messages.count - 1 {
-            delegate?.tutorialBubbleCollectionViewCellDidNext(self)
-        } else {
-            currentPageIndexPath = NSIndexPath(forItem: currentPageIndexPath.item + 1, inSection: 0)
-            collectionView.scrollToItemAtIndexPath(currentPageIndexPath, atScrollPosition: .None, animated: true)
+        if let indexPath = collectionView.indexPathsForVisibleItems().first as? NSIndexPath {
+            if indexPath.item >= messages.count - 1 {
+                delegate?.tutorialBubbleCollectionViewCellDidNext(self)
+            } else {
+                let newIndexPath = NSIndexPath(forItem: indexPath.item + 1, inSection: 0)
+                collectionView.scrollToItemAtIndexPath(newIndexPath, atScrollPosition: .None, animated: true)
+            }
         }
     }
 }
@@ -116,5 +126,3 @@ extension TutorialBubbleCollectionViewCell: UICollectionViewDataSource {
         return cell
     }
 }
-
-

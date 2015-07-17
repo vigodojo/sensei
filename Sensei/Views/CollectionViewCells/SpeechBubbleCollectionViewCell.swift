@@ -20,21 +20,13 @@ enum BubbleCollectionViewCellType {
 protocol SpeechBubbleCollectionViewCellDelegate: class {
     
     func speechBubbleCollectionViewCellDidClose(cell: SpeechBubbleCollectionViewCell)
-    func speechBubbleCollectionViewCellDidYes(cell: SpeechBubbleCollectionViewCell)
-    func speechBubbleCollectionViewCellDidNo(cell: SpeechBubbleCollectionViewCell)
 }
 
 class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     
-    struct Notifications {
-        static let NoAnswer = "SpeechBubbleCollectionViewCellNotificationsNoAnswer"
-        static let YesAnswer = "SpeechBubbleCollectionViewCellNotificationsYesAnswer"
-    }
-    
     private struct Constants {
         static let DefaultTextViewLeadingSpace: CGFloat = 8
         static let DefaultTextViewTrailingSpace: CGFloat = 48
-        static let DefaultAccessoryItemsContainerHeight: CGFloat = 32
     }
     
     @IBOutlet weak var speechBubbleView: SpeechBubbleView!
@@ -42,13 +34,11 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabelLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabelTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var accessoryItemsContainerHeightConstraint: NSLayoutConstraint!
     
     var type = BubbleCollectionViewCellType.Sensei {
         didSet {
             titleLabelLeadingConstraint.constant = Constants.DefaultTextViewLeadingSpace
             titleLabelTrailingConstraint.constant = Constants.DefaultTextViewTrailingSpace
-            accessoryItemsContainerHeightConstraint.constant = 0
             switch type {
                 case .Sensei:
                     speechBubbleView.pointerPosition = .Right
@@ -61,7 +51,6 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
                 case .Confirmation:
                     speechBubbleView.pointerPosition = .Right
                     closeButtonHidden = true
-                    accessoryItemsContainerHeightConstraint.constant = Constants.DefaultAccessoryItemsContainerHeight
             }
             setNeedsDisplay()
         }
@@ -97,15 +86,5 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     
     @IBAction func close() {
         delegate?.speechBubbleCollectionViewCellDidClose(self)
-    }
-    
-    @IBAction func yesAction() {
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.YesAnswer, object: nil)
-        delegate?.speechBubbleCollectionViewCellDidYes(self)
-    }
-    
-    @IBAction func noAction() {
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.NoAnswer, object: nil)
-        delegate?.speechBubbleCollectionViewCellDidNo(self)
     }
 }

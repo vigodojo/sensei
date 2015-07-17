@@ -131,10 +131,6 @@ class TutorialViewController: BaseViewController {
         }
     }
     
-//    func handleYesNoAnswerNotification(notification: NSNotification) {
-//        hideTutorialAnimated(true)
-//    }
-    
     // MARK: - Tutorial
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
@@ -148,13 +144,6 @@ class TutorialViewController: BaseViewController {
     }
     
     // MARK: - Private
-    
-    private func addObservers() {
-//        let noNotification = SpeechBubbleCollectionViewCell.Notifications.NoAnswer
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesNoAnswerNotification:"), name: noNotification, object: nil)
-//        let yesNotification = SpeechBubbleCollectionViewCell.Notifications.YesAnswer
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesNoAnswerNotification:"), name: yesNotification, object: nil)
-    }
     
     private func clear() {
         messages = []
@@ -227,8 +216,10 @@ extension TutorialViewController: TutorialBubbleCollectionViewCellDelegate {
     
     func tutorialBubbleCollectionViewCellDidNext(cell: TutorialBubbleCollectionViewCell) {
         if !TutorialManager.sharedInstance.completed {
-            if let tutorialStep = TutorialManager.sharedInstance.currentStep where !tutorialStep.requiresActionToProceed {
-                TutorialManager.sharedInstance.nextStep()
+            if let tutorialStep = TutorialManager.sharedInstance.currentStep {
+                if !tutorialStep.requiresActionToProceed {
+                    TutorialManager.sharedInstance.nextStep()
+                }
             }
         }
     }

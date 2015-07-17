@@ -10,8 +10,6 @@ import UIKit
 
 class UserMessageViewController: BaseViewController, UINavigationControllerDelegate {
     
-    var wasTutorialShown = false // temp
-    
     private struct ControlNames {
         static let BackButton = "BackButton"
         static let SlotsCollectionView = "SlotsCollectionView"
@@ -21,6 +19,8 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     @IBOutlet weak var navigationView: NavigationView!
     @IBOutlet weak var messageSwitchView: MessageSwitchView!
     @IBOutlet weak var scrollView: UIScrollView!
+    
+    private var didNextStep = false // TODO: Fix this some where, some how.
     
     // MARK: - Lifecycle
 
@@ -33,22 +33,23 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         addKeyboardObservers()
-        addTutorialObservers()
         addTutorialViewObservers()
+        addTutorialObservers()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        TutorialManager.sharedInstance.nextStep()
-//        if !wasTutorialShown {
-//            wasTutorialShown = true
-//            tutorialViewController?.setTutorialHidden(!Settings.sharedSettings.tutorialOn.boolValue, animated: true)
-//        }
+        if !didNextStep {
+            TutorialManager.sharedInstance.nextStep()
+            didNextStep = true
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        removeKeyboardObservers()
+        removeTutorialViewObservers()
+        removeTutorialObservers()
     }
     
     deinit {
@@ -106,7 +107,13 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     private func addTutorialViewObservers() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillShowNotification:"), name: TutorialViewController.Notifications.TutorialWillShow, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillHideNotification:"), name: TutorialViewController.Notifications.TutorialWillHide, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: SpeechBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
+    }
+    
+    private func removeTutorialViewObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialViewController.Notifications.TutorialWillShow, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialViewController.Notifications.TutorialWillHide, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
     }
 }
 

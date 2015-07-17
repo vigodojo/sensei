@@ -211,5 +211,97 @@
 		<key>Number</key>
 		<integer>12</integer>
 	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>This is the visualization screen. It works the same as the Affirmation screen, except here you create picture messages, and you only have 5 slots.</string>
+		<key>ScreenName</key>
+		<string>VisualisationScreen</string>
+		<key>Number</key>
+		<integer>13</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>Select a picture by tapping the camera icon in the lower left corner, and then enter text to be superimposed on top of the image. The idea of a visualization is that it either represents something you strive for or something positive in your life which you want to focus on.</string>
+		<key>ScreenName</key>
+		<string>VisualisationScreen</string>
+		<key>Number</key>
+		<integer>14</integer>
+	</dict>
+	<dict>
+		<key>EnabledContols</key>
+		<array>
+			<string>CameraButton</string>
+		</array>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>Message</key>
+		<string>Try to create a positive visualization by picking a picture of a loved one and typing &quot;Love!&quot;</string>
+		<key>ScreenName</key>
+		<string>VisualisationScreen</string>
+		<key>Number</key>
+		<integer>15</integer>
+	</dict>
+	<dict>
+		<key>AnimatableImage</key>
+		<dict>
+			<key>AnimationDuration</key>
+			<integer>3</integer>
+			<key>ImageNames</key>
+			<array>
+				<string>running_skeleton0</string>
+				<string>running_skeleton1</string>
+				<string>running_skeleton2</string>
+				<string>running_skeleton3</string>
+				<string>running_skeleton4</string>
+				<string>running_skeleton5</string>
+				<string>running_skeleton6</string>
+				<string>running_skeleton7</string>
+				<string>running_skeleton8</string>
+				<string>running_skeleton9</string>
+				<string>running_skeleton10</string>
+				<string>running_skeleton11</string>
+				<string>running_skeleton12</string>
+				<string>running_skeleton13</string>
+				<string>running_skeleton14</string>
+				<string>running_skeleton15</string>
+			</array>
+		</dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>That is a beautiful visualization &lt;#Name&gt;, well done! </string>
+		<key>ScreenName</key>
+		<string>VisualisationScreen</string>
+		<key>Number</key>
+		<integer>16</integer>
+	</dict>
+	<dict>
+		<key>EnabledContols</key>
+		<array>
+			<string>BackButton</string>
+		</array>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>Message</key>
+		<string>Now tap the back arrow to go back to the main screen please</string>
+		<key>ScreenName</key>
+		<string>VisualisationScreen</string>
+		<key>Number</key>
+		<integer>17</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>You have now learned how to use the main tools of this application. I hope you will have fun with it and get creative with your use of Affirmations and Visualizations.  I think you will find it will improve your outlook, boost your energy and even make you a more powerful person</string>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
+		<integer>13</integer>
+	</dict>
 </array>
 </plist>

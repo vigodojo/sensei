@@ -18,6 +18,11 @@ class VisualizationsViewController: UserMessageViewController {
         static let NumberOfFreeVisualizations = 1
         static let MessageSwitchViewHeight: CGFloat = 100
     }
+    
+    private struct ControlNames {
+        static let CameraButton = "CameraButton"
+        static let EditButton = "EditButton"
+    }
 
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Visualisation?")
     
@@ -29,6 +34,7 @@ class VisualizationsViewController: UserMessageViewController {
     
     @IBOutlet weak var scrollViewBottomSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageSwitchViewHeightConstraint: NSLayoutConstraint!
+    
     override weak var messageSwitchView: MessageSwitchView! {
         didSet {
             messageSwitchView.delegate = self
@@ -110,6 +116,14 @@ class VisualizationsViewController: UserMessageViewController {
     }
     
     // MARK: - Tutorial
+    
+    override func enableControls(controlNames: [String]?) {
+        super.enableControls(controlNames)
+        visualisationView.cameraButton.userInteractionEnabled = controlNames?.contains(ControlNames.CameraButton) ?? true
+        visualisationView.editButton.userInteractionEnabled = controlNames?.contains(ControlNames.EditButton) ?? true
+    }
+    
+    // MARK: - Tutorial View
     
     override func handleTutorialMoving() {
         if visualisationView.mode == .Editing {
@@ -194,6 +208,11 @@ class VisualizationsViewController: UserMessageViewController {
                 } else {
                     let visualisation = Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
                     visualisation.scaledFontSize = Visualization.scaledFontSizeForFontSize(fontSize, imageSize: image.size, insideRect: insideRect)
+                    if !TutorialManager.sharedInstance.completed {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            TutorialManager.sharedInstance.nextStep()
+                        }
+                    }
                 }
             }
         }
@@ -310,14 +329,14 @@ extension VisualizationsViewController: UIImagePickerControllerDelegate {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             visualisationView.configureWithText(selectedVisualization?.text ?? "", image: image.upOrientedImage.fullScreenImage)
             didChangeImage = true
-            dismissViewControllerAnimated(true) { [weak self] in
+            tutorialViewController?.dismissViewControllerAnimated(true) { [weak self] in
                 self?.visualisationView.mode = VisualizationViewMode.Editing
             }
         }
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 

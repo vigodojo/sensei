@@ -29,8 +29,8 @@ enum Gender: String, Printable {
 class Settings: NSManagedObject {
     
     struct Constants {
-        static let DefaultStartSleepTime = "10:00"
-        static let DefaultEndSleepTime = "06:00"
+        static let DefaultStartSleepTime = "23:00"
+        static let DefaultEndSleepTime = "08:00"
         static let MaxNumberOfLessons = 6
     }
     
@@ -85,14 +85,14 @@ class Settings: NSManagedObject {
     
     // MARK: Mapping
     
-    private static let requestPropertyMapping = ["dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight"]
+    private static let propertyMapping = ["dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight"]
 
-    private static let propertyMapping = requestPropertyMapping + ["sleepTimeWeekdays.start": "sleepTime.start", "sleepTimeWeekdays.end": "sleepTime.end", "sleepTimeWeekends.start": "sleepTimeWeekEnd.start", "sleepTimeWeekends.end": "sleepTimeWeekEnd.end"]
+    private static let entityPropertyMapping = propertyMapping + ["sleepTimeWeekdays.start": "sleepTime.start", "sleepTimeWeekdays.end": "sleepTime.end", "sleepTimeWeekends.start": "sleepTimeWeekEnd.start", "sleepTimeWeekends.end": "sleepTimeWeekEnd.end"]
 
     private static let transformers: [String: JSONValueTransformerProtocol] = ["dayOfBirth": LessonDateTransformer(), "sleepTimeWeekdays.start": SleepTimeEntityTransformer(), "sleepTimeWeekdays.end": SleepTimeEntityTransformer(), "sleepTimeWeekends.start": SleepTimeEntityTransformer(), "sleepTimeWeekends.end": SleepTimeEntityTransformer()]
     
     class var entityMapping: EntityMapping {
-        return EntityMapping(entityName: Settings.EntityName, propertyMapping: propertyMapping, primaryProperty: "numberOfLessons", valueTransformers: transformers)
+        return EntityMapping(entityName: Settings.EntityName, propertyMapping: entityPropertyMapping, primaryProperty: "numberOfLessons", valueTransformers: transformers)
     }
     
     class func updateWithJSON(json: JSONObject) {
@@ -100,6 +100,7 @@ class Settings: NSManagedObject {
     }
     
     class var objectMapping: RCObjectMapping {
+        let requestPropertyMapping = propertyMapping + ["name": "name"]
         let mapping = RCObjectMapping(objectClass: Settings.self, mappingDictionary: requestPropertyMapping)
         mapping.addRelationshipMapping(RCRelationshipMapping(fromKeyPath: "sleepTime", toKeyPath: "sleepTimeWeekdays", objectMapping: SleepTime.objectMapping))
         mapping.addRelationshipMapping(RCRelationshipMapping(fromKeyPath: "sleepTimeWeekEnd", toKeyPath: "sleepTimeWeekends", objectMapping: SleepTime.objectMapping))

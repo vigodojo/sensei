@@ -31,67 +31,6 @@
                                     <action selector="close" destination="kvc-o9-MLK" eventType="touchUpInside" id="SsL-xn-NxU"/>
                                 </connections>
                             </button>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sZP-a3-gQc">
-                                <rect key="frame" x="8" y="142" width="265" height="0.0"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aL1-tH-KwZ">
-                                        <rect key="frame" x="216" y="0.0" width="49" height="24"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="24" id="20m-ZM-bpx"/>
-                                            <constraint firstAttribute="width" constant="49" id="ezK-gB-XyX"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                        <state key="normal" title="YES">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                <real key="value" value="1.5"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="yesAction" destination="kvc-o9-MLK" eventType="touchUpInside" id="7ra-2X-sqL"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NRt-c3-ccV">
-                                        <rect key="frame" x="159" y="0.0" width="49" height="24"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="24" id="FOg-5a-sJd"/>
-                                            <constraint firstAttribute="width" constant="49" id="W5v-q8-jCr"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                        <state key="normal" title="NO">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                <real key="value" value="1.5"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="noAction" destination="kvc-o9-MLK" eventType="touchUpInside" id="3tN-DO-zys"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="aL1-tH-KwZ" firstAttribute="top" secondItem="sZP-a3-gQc" secondAttribute="top" id="JOf-hp-l7g"/>
-                                    <constraint firstAttribute="height" id="N2t-f3-ppd"/>
-                                    <constraint firstItem="aL1-tH-KwZ" firstAttribute="leading" secondItem="NRt-c3-ccV" secondAttribute="trailing" constant="8" id="Wsl-PM-uKC"/>
-                                    <constraint firstItem="NRt-c3-ccV" firstAttribute="top" secondItem="sZP-a3-gQc" secondAttribute="top" id="h4D-9r-pKa"/>
-                                    <constraint firstAttribute="trailing" secondItem="aL1-tH-KwZ" secondAttribute="trailing" id="xBb-m1-O79"/>
-                                </constraints>
-                            </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Guten Morgen" translatesAutoresizingMaskIntoConstraints="NO" id="oEO-RP-dDl">
                                 <rect key="frame" x="8" y="8" width="244" height="126"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -102,15 +41,12 @@
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="sZP-a3-gQc" firstAttribute="leading" secondItem="EWJ-4P-st8" secondAttribute="leading" constant="8" id="1Hi-Jj-bc3"/>
                             <constraint firstItem="GBn-PW-Mrd" firstAttribute="top" secondItem="EWJ-4P-st8" secondAttribute="top" id="5lP-dE-J6l"/>
                             <constraint firstAttribute="trailing" secondItem="GBn-PW-Mrd" secondAttribute="trailing" constant="20" id="9TU-0L-k3t"/>
                             <constraint firstItem="oEO-RP-dDl" firstAttribute="leading" secondItem="EWJ-4P-st8" secondAttribute="leading" constant="8" id="WBN-zJ-BLf"/>
-                            <constraint firstAttribute="trailing" secondItem="sZP-a3-gQc" secondAttribute="trailing" constant="27" id="ffd-ft-srW"/>
+                            <constraint firstAttribute="bottom" secondItem="oEO-RP-dDl" secondAttribute="bottom" constant="8" id="Xfd-Tz-T7f"/>
                             <constraint firstAttribute="trailing" secondItem="oEO-RP-dDl" secondAttribute="trailing" constant="48" id="g7v-0Q-t64"/>
                             <constraint firstItem="oEO-RP-dDl" firstAttribute="top" secondItem="EWJ-4P-st8" secondAttribute="top" constant="8" id="lYR-d7-OAa"/>
-                            <constraint firstItem="sZP-a3-gQc" firstAttribute="top" secondItem="oEO-RP-dDl" secondAttribute="bottom" constant="8" id="u8h-z2-j4K"/>
-                            <constraint firstAttribute="bottom" secondItem="sZP-a3-gQc" secondAttribute="bottom" id="zte-pZ-lYQ"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
@@ -129,7 +65,6 @@
                 <constraint firstItem="EWJ-4P-st8" firstAttribute="leading" secondItem="kvc-o9-MLK" secondAttribute="leading" id="xBP-7r-CDd"/>
             </constraints>
             <connections>
-                <outlet property="accessoryItemsContainerHeightConstraint" destination="N2t-f3-ppd" id="4qq-tP-ZWk"/>
                 <outlet property="closeButton" destination="GBn-PW-Mrd" id="D0h-ii-EvP"/>
                 <outlet property="speechBubbleView" destination="EWJ-4P-st8" id="Nps-ED-Wke"/>
                 <outlet property="textView" destination="oEO-RP-dDl" id="Xbv-7Q-Gh8"/>

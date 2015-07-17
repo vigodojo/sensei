@@ -71,3 +71,10 @@ class TutorialStep: Message {
         requiresActionToProceed = (dictionary[Keys.RequiresActionToProceed] as! NSNumber).boolValue
     }
 }
+
+extension TutorialStep: Printable {
+    
+    var description: String {
+        return "№: \(number); Screen: \(screen.rawValue); Requires Action To Proceed: \(requiresActionToProceed)"
+    }
+}
