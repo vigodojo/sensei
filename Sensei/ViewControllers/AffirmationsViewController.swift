@@ -289,20 +289,20 @@ extension AffirmationsViewController: NSFetchedResultsControllerDelegate {
         if let affirmation = anObject as? Affirmation {
             switch type {
                 case .Insert:
+                    messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
                     if TutorialManager.sharedInstance.completed {
                         let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
                         selectAffirmationWithNumber(number)
+                        APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
                     } else {
                         selectedAffirmation = affirmation
                     }
-                    messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
-                    APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
                 case .Update:
                     if TutorialManager.sharedInstance.completed {
                         let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
                         selectAffirmationWithNumber(number)
+                        APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)                        
                     }
-                    APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
                 case .Delete:
                     messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
                     messageSwitchView.selectedSlot = affirmation.number.integerValue

@@ -93,6 +93,7 @@ class TutorialManager {
             completed = true
             NSUserDefaults.standardUserDefaults().setBool(completed, forKey: UserDefaultsKeys.Completed)
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishTutorial, object: nil)
+            saveToServerCreatedData()
         }
     }
     
@@ -113,6 +114,17 @@ class TutorialManager {
             return QuestionTutorialStep(dictionary: dictionary)
         } else {
             return TutorialStep(dictionary: dictionary)
+        }
+    }
+    
+    private func saveToServerCreatedData() {
+        APIManager.sharedInstance.saveSettings(Settings.sharedSettings) {  error in
+            if let affirmation = Affirmation.affirmationWithNumber(NSNumber(integer: 0)) {
+                APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
+            }
+            if let visualisation = Visualization.visualizationWithNumber(NSNumber(integer: 0)) {
+                APIManager.sharedInstance.saveVisualization(visualisation, handler: nil)
+            }
         }
     }
 }

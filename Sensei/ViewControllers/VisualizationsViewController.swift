@@ -352,9 +352,13 @@ extension VisualizationsViewController: NSFetchedResultsControllerDelegate {
                         selectedVisualization = visualization
                     }
                     messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
-                    APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
+                    if TutorialManager.sharedInstance.completed {
+                        APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
+                    }
                 case .Update:
-                    APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
+                    if TutorialManager.sharedInstance.completed {
+                        APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
+                    }
                 case .Delete:
                     messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
                     messageSwitchView.selectedSlot = visualization.number.integerValue

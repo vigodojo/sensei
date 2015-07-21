@@ -10,6 +10,10 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
     
+    private struct Constants {
+        static let ScrollToTopTutorialStepNumber = 24
+    }
+    
     private struct SleepTimeSettings {
         var weekdaysStart: NSDate!
         var weekdaysEnd: NSDate!
@@ -178,7 +182,6 @@ class SettingsTableViewController: UITableViewController {
         updateSettings()
         setup()
         addObservers()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
         if !TutorialManager.sharedInstance.completed {
             allControlsEnable(false)
         }
@@ -221,6 +224,8 @@ class SettingsTableViewController: UITableViewController {
     private func addObservers() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleNoAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.NoAnswer, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didMoveToNextTutorialNotification:"), name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
     }
     
     private func saveSettings() {
@@ -352,6 +357,14 @@ class SettingsTableViewController: UITableViewController {
         rateInAppStoreButton.userInteractionEnabled = enabled
         feedbackButton.userInteractionEnabled = enabled
         upgradeButton.userInteractionEnabled = enabled
+    }
+    
+    func didMoveToNextTutorialNotification(notification: NSNotification) {
+        if let tutorialStep = notification.userInfo?[TutorialManager.UserInfoKeys.TutorialStep] as? TutorialStep {
+            if tutorialStep.number == Constants.ScrollToTopTutorialStepNumber && tableView.contentOffset.y == 0 {
+                TutorialManager.sharedInstance.nextStep()
+            }
+        }
     }
 
     // MARK: - Tutorial View

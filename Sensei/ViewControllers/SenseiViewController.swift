@@ -136,7 +136,9 @@ class SenseiViewController: BaseViewController {
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        removeAllExeptLessons()
+        if TutorialManager.sharedInstance.completed {
+            removeAllExeptLessons()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -236,7 +238,7 @@ class SenseiViewController: BaseViewController {
     #if DEBUG
 //        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
 //        let idfa = "2EAB0742-8A34-4315-8C1E-6666E0EE6666"
-        let idfa = "2EAB0742-8A34-4315-8C1E-69E6E6666366"
+        let idfa = "2EAB0742-8A34-4315-8C1E-6666E6666366"
     #else
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
     #endif
@@ -512,13 +514,11 @@ extension SenseiViewController: AnswerableViewDelegate {
                 switch question.questionSubject {
                     case .Name:
                         Settings.sharedSettings.name = "\(answerMessage)"
-                        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
                     case .Gender:
                         if let gender = Gender(rawValue: answerMessage.text) {
                             Settings.sharedSettings.gender = gender
-                            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
                         }
-                    default :
+                    default:
                         break
                 }
             }
