@@ -34,7 +34,7 @@ class SenseiViewController: BaseViewController {
     @IBOutlet weak var visualisationsButton: UIButton!
     
     private lazy var sizingCell: SpeechBubbleCollectionViewCell = {
-        NSBundle.mainBundle().loadNibNamed(SpeechBubbleCollectionViewCellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
+        NSBundle.mainBundle().loadNibNamed(RightSpeechBubbleCollectionViewCellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
     }()
     
     private var maxContentOffset: CGPoint {
@@ -99,7 +99,8 @@ class SenseiViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         (view as? AnswerableView)?.delegate = self
-        collectionView.registerNib(UINib(nibName: SpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: SpeechBubbleCollectionViewCellIdentifier)
+        collectionView.registerNib(UINib(nibName: RightSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: RightSpeechBubbleCollectionViewCellIdentifier)
+        collectionView.registerNib(UINib(nibName: LeftSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: LeftSpeechBubbleCollectionViewCellIdentifier)
         collectionView.contentInset = Constants.CollectionContentInset
         fetchLessons()
         addApplicationObservers()
@@ -236,7 +237,7 @@ class SenseiViewController: BaseViewController {
     #if DEBUG
 //        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
 //        let idfa = "2EAB0742-8A34-4315-8C1E-6666E0EE6666"
-        let idfa = "2EAB0742-8A34-4315-8C1E-69E6E6666366"
+        let idfa = "2EAB0742-8A34-6615-8C1E-69E6E6666366"
     #else
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
     #endif
@@ -479,11 +480,11 @@ extension SenseiViewController: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(SpeechBubbleCollectionViewCellIdentifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
-        cell.delegate = self
         let message = dataSource[indexPath.item]
+        let identifier = SpeechBubbleCollectionViewCell.reuseIdetifierForBubbleCellType(message is AnswerMessage ? .Me : .Sensei)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
+        cell.delegate = self
         cell.text = message.text
-        cell.type = message is AnswerMessage ? .Me : .Sensei
         return cell;
     }
 }
