@@ -17,7 +17,8 @@ class APIManager: NSObject {
     
     static let sharedInstance = APIManager()
 #if DEBUG
-    static let BaseURL = NSURL(string: "http://134.249.164.53:8839")!
+//    static let BaseURL = NSURL(string: "http://134.249.164.53:8839")!
+    static let BaseURL = NSURL(string: "http://134.249.164.53:8831")!
 #else
     static let BaseURL = NSURL(string: "http://134.249.164.53:8831")!
 #endif
@@ -167,6 +168,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = visualization
         }, completion: { (response) -> Void in
+            println("\(response)")
             if let handler = handler {
                 handler(error: response.error)
             }
@@ -178,6 +180,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Visualization + "\(visualization.number)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
+            println("\(response)")
             if let handler = handler {
                 handler(error: response.error)
             }

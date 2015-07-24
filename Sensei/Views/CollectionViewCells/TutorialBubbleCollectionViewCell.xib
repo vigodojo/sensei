@@ -16,10 +16,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="92"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="J1I-rO-zr0">
-                                <rect key="frame" x="8" y="8" width="284" height="76"/>
+                                <rect key="frame" x="8" y="8" width="294" height="76"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="quy-mZ-HrN">
-                                    <size key="itemSize" width="284" height="66"/>
+                                    <size key="itemSize" width="294" height="66"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -30,14 +30,14 @@
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dlp-tt-5pB">
-                                <rect key="frame" x="261" y="52" width="40" height="40"/>
+                                <rect key="frame" x="274" y="52" width="40" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="dBi-f7-lXj"/>
                                     <constraint firstAttribute="height" constant="40" id="ifC-lK-z9L"/>
                                 </constraints>
                                 <color key="tintColor" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <inset key="contentEdgeInsets" minX="28" minY="27" maxX="4" maxY="3"/>
+                                <inset key="contentEdgeInsets" minX="28" minY="24" maxX="4" maxY="6"/>
                                 <state key="normal" image="triangle_icone">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -46,10 +46,10 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CLG-c6-VXc">
-                                <rect key="frame" x="8" y="60" width="283" height="24"/>
+                                <rect key="frame" x="8" y="60" width="293" height="24"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zjX-9h-aSw">
-                                        <rect key="frame" x="234" y="0.0" width="49" height="24"/>
+                                        <rect key="frame" x="244" y="0.0" width="49" height="24"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="49" id="9bZ-L1-du3"/>
@@ -72,7 +72,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CVW-zk-BP8">
-                                        <rect key="frame" x="177" y="0.0" width="49" height="24"/>
+                                        <rect key="frame" x="187" y="0.0" width="49" height="24"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="49" id="bPK-Yb-tMY"/>
@@ -111,11 +111,11 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="CLG-c6-VXc" secondAttribute="bottom" constant="8" id="8rC-34-T2q"/>
                             <constraint firstAttribute="bottom" secondItem="Dlp-tt-5pB" secondAttribute="bottom" id="Vya-fF-ZB9"/>
-                            <constraint firstAttribute="trailing" secondItem="CLG-c6-VXc" secondAttribute="trailing" constant="29" id="Xbl-Ni-M0G"/>
+                            <constraint firstAttribute="trailing" secondItem="CLG-c6-VXc" secondAttribute="trailing" constant="19" id="Xbl-Ni-M0G"/>
                             <constraint firstItem="J1I-rO-zr0" firstAttribute="top" secondItem="ytY-bT-7Kp" secondAttribute="top" constant="8" id="YiL-9Z-tY3"/>
                             <constraint firstItem="CLG-c6-VXc" firstAttribute="leading" secondItem="ytY-bT-7Kp" secondAttribute="leading" constant="8" id="adH-o5-rPA"/>
-                            <constraint firstAttribute="trailing" secondItem="Dlp-tt-5pB" secondAttribute="trailing" constant="19" id="i0j-OU-m1F"/>
-                            <constraint firstAttribute="trailing" secondItem="J1I-rO-zr0" secondAttribute="trailing" constant="28" id="t75-vq-YDp"/>
+                            <constraint firstAttribute="trailing" secondItem="Dlp-tt-5pB" secondAttribute="trailing" constant="6" id="i0j-OU-m1F"/>
+                            <constraint firstAttribute="trailing" secondItem="J1I-rO-zr0" secondAttribute="trailing" constant="18" id="t75-vq-YDp"/>
                             <constraint firstAttribute="bottom" secondItem="J1I-rO-zr0" secondAttribute="bottom" constant="8" id="wvM-yu-aaI"/>
                             <constraint firstItem="J1I-rO-zr0" firstAttribute="leading" secondItem="ytY-bT-7Kp" secondAttribute="leading" constant="8" id="yxb-Hr-BL2"/>
                         </constraints>

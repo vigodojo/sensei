@@ -8,8 +8,10 @@
 
 import UIKit
 
-let SpeechBubbleCollectionViewCellNibName = "SpeechBubbleCollectionViewCell"
-let SpeechBubbleCollectionViewCellIdentifier = "SpeechBubbleCollectionViewCell"
+let RightSpeechBubbleCollectionViewCellNibName = "RightSpeechBubbleCollectionViewCell"
+let RightSpeechBubbleCollectionViewCellIdentifier = "RightSpeechBubbleCollectionViewCell"
+let LeftSpeechBubbleCollectionViewCellNibName = "LeftSpeechBubbleCollectionViewCell"
+let LeftSpeechBubbleCollectionViewCellIdentifier = "LeftSpeechBubbleCollectionViewCell"
 
 enum BubbleCollectionViewCellType {
     case Sensei
@@ -26,7 +28,7 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     
     private struct Constants {
         static let DefaultTextViewLeadingSpace: CGFloat = 8
-        static let DefaultTextViewTrailingSpace: CGFloat = 48
+        static let DefaultTextViewTrailingSpace: CGFloat = 28
     }
     
     @IBOutlet weak var speechBubbleView: SpeechBubbleView!
@@ -34,25 +36,11 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabelLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabelTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textView: UITextView!
-    
-    var type = BubbleCollectionViewCellType.Sensei {
-        didSet {
-            titleLabelLeadingConstraint.constant = Constants.DefaultTextViewLeadingSpace
-            titleLabelTrailingConstraint.constant = Constants.DefaultTextViewTrailingSpace
-            switch type {
-                case .Sensei:
-                    speechBubbleView.pointerPosition = .Right
-                    closeButtonHidden = false
-                case .Me:
-                    speechBubbleView.pointerPosition = .Left
-                    closeButtonHidden = true
-                    titleLabelLeadingConstraint.constant = speechBubbleView.pointerSize.width + Constants.DefaultTextViewLeadingSpace
-                    titleLabelTrailingConstraint.constant = Constants.DefaultTextViewLeadingSpace
-                case .Confirmation:
-                    speechBubbleView.pointerPosition = .Right
-                    closeButtonHidden = true
-            }
-            setNeedsDisplay()
+
+    class func reuseIdetifierForBubbleCellType(type: BubbleCollectionViewCellType) -> String {
+        switch type {
+            case .Sensei, .Confirmation: return "RightSpeechBubbleCollectionViewCell"
+            case .Me: return "LeftSpeechBubbleCollectionViewCell"
         }
     }
     
@@ -86,5 +74,14 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     
     @IBAction func close() {
         delegate?.speechBubbleCollectionViewCellDidClose(self)
+    }
+}
+
+// MARK: - UITextViewDelegate
+
+extension SpeechBubbleCollectionViewCell: UITextViewDelegate {
+    
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        return false
     }
 }

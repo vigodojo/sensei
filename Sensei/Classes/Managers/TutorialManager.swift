@@ -120,10 +120,11 @@ class TutorialManager {
     private func saveToServerCreatedData() {
         APIManager.sharedInstance.saveSettings(Settings.sharedSettings) {  error in
             if let affirmation = Affirmation.affirmationWithNumber(NSNumber(integer: 0)) {
-                APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
-            }
-            if let visualisation = Visualization.visualizationWithNumber(NSNumber(integer: 0)) {
-                APIManager.sharedInstance.saveVisualization(visualisation, handler: nil)
+                APIManager.sharedInstance.saveAffirmation(affirmation) { error in
+                    if let visualisation = Visualization.visualizationWithNumber(NSNumber(integer: 0)) {
+                        APIManager.sharedInstance.saveVisualization(visualisation, handler: nil)
+                    }
+                }
             }
         }
     }

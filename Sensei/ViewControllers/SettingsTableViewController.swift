@@ -112,24 +112,32 @@ class SettingsTableViewController: UITableViewController {
             weightPicker.reloadAllComponents()
             switch dataFormat {
                 case .US:
-                    let heightUS = DataFormatter.centimetersToFeetAndInches(heightCm)
-                    let feet = min(max(HeightPickerDelegate.Constants.MinHeightFt, heightUS.0), HeightPickerDelegate.Constants.MaxHeightFt)
-                    let inches = min(max(HeightPickerDelegate.Constants.MinHeightIn, Int(round(heightUS.1))), HeightPickerDelegate.Constants.MaxHeightIn)
-                    heightPicker.selectRow(feet - HeightPickerDelegate.Constants.MinHeightFt, inComponent: 0, animated: false)
-                    heightPicker.selectRow(inches - HeightPickerDelegate.Constants.MinHeightIn, inComponent: 1, animated: false)
-                    heightTextField.text = "\(feet)' \(inches)\""
-                
-                    let weightUS = min(max(WeightPickerDelegate.Constants.MinWeightLb, Int(round(DataFormatter.kilogramsToPounds(weightKg)))), WeightPickerDelegate.Constants.MaxWeightLb)
-                    weightPicker.selectRow(weightUS - WeightPickerDelegate.Constants.MinWeightLb, inComponent: 0, animated: false)
-                    weightTexField.text = "\(weightUS) " + Abbreviation.Pounds
-                case .Metric:
-                    let height = min(max(HeightPickerDelegate.Constants.MinHeightCm, Int(round(heightCm))), HeightPickerDelegate.Constants.MaxHeightCm)
-                    heightPicker.selectRow(height - HeightPickerDelegate.Constants.MinHeightCm, inComponent: 0, animated: false)
-                    heightTextField.text = "\(Int(round(heightCm))) " + Abbreviation.Centimetres
+                    if heightCm > 0 {
+                        let heightUS = DataFormatter.centimetersToFeetAndInches(heightCm)
+                        let feet = min(max(HeightPickerDelegate.Constants.MinHeightFt, heightUS.0), HeightPickerDelegate.Constants.MaxHeightFt)
+                        let inches = min(max(HeightPickerDelegate.Constants.MinHeightIn, Int(round(heightUS.1))), HeightPickerDelegate.Constants.MaxHeightIn)
+                        heightPicker.selectRow(feet - HeightPickerDelegate.Constants.MinHeightFt, inComponent: 0, animated: false)
+                        heightPicker.selectRow(inches - HeightPickerDelegate.Constants.MinHeightIn, inComponent: 1, animated: false)
+                        heightTextField.text = "\(feet)' \(inches)\""
+                    }
                     
-                    let weight = min(max(WeightPickerDelegate.Constants.MinWeightKg, Int(round(weightKg))), WeightPickerDelegate.Constants.MaxWeightKg)
-                    weightPicker.selectRow(weight - WeightPickerDelegate.Constants.MinWeightKg, inComponent: 0, animated: false)
-                    weightTexField.text = "\(weight) " + Abbreviation.Kilograms
+                    if weightKg > 0 {
+                        let weightUS = min(max(WeightPickerDelegate.Constants.MinWeightLb, Int(round(DataFormatter.kilogramsToPounds(weightKg)))), WeightPickerDelegate.Constants.MaxWeightLb)
+                        weightPicker.selectRow(weightUS - WeightPickerDelegate.Constants.MinWeightLb, inComponent: 0, animated: false)
+                        weightTexField.text = "\(weightUS) " + Abbreviation.Pounds
+                    }
+                case .Metric:
+                    if heightCm > 0 {
+                        let height = min(max(HeightPickerDelegate.Constants.MinHeightCm, Int(round(heightCm))), HeightPickerDelegate.Constants.MaxHeightCm)
+                        heightPicker.selectRow(height - HeightPickerDelegate.Constants.MinHeightCm, inComponent: 0, animated: false)
+                        heightTextField.text = "\(Int(round(heightCm))) " + Abbreviation.Centimetres
+                    }
+                    
+                    if weightKg > 0 {
+                        let weight = min(max(WeightPickerDelegate.Constants.MinWeightKg, Int(round(weightKg))), WeightPickerDelegate.Constants.MaxWeightKg)
+                        weightPicker.selectRow(weight - WeightPickerDelegate.Constants.MinWeightKg, inComponent: 0, animated: false)
+                        weightTexField.text = "\(weight) " + Abbreviation.Kilograms
+                    }
             }
             timePicker.locale = DataFormatter.locale
             datePicker.locale = DataFormatter.locale
@@ -139,8 +147,8 @@ class SettingsTableViewController: UITableViewController {
             }
         }
     }
-    private var heightCm = Double(HeightPickerDelegate.Constants.MinHeightCm)
-    private var weightKg = Double(WeightPickerDelegate.Constants.MinWeightLb)
+    private var heightCm = Double(0)//Double(HeightPickerDelegate.Constants.MinHeightCm)
+    private var weightKg = Double(0)//Double(WeightPickerDelegate.Constants.MinWeightLb)
     
     private var hasProfileBeenChanged: Bool {
         var dobEqual = false
@@ -241,8 +249,8 @@ class SettingsTableViewController: UITableViewController {
     private func saveProfile() {
         Settings.sharedSettings.dayOfBirth = DataFormatter.dateFromString(dateOfBirthTF.text)
         Settings.sharedSettings.gender = maleButton.selected ? .Male: .Female
-        Settings.sharedSettings.height = NSNumber(double: heightCm)
-        Settings.sharedSettings.weight = NSNumber(double: weightKg)
+        Settings.sharedSettings.height = heightCm > 0 ? NSNumber(double: heightCm): nil
+        Settings.sharedSettings.weight = weightKg > 0 ? NSNumber(double: weightKg): nil
     }
     
     private func updateSettings() {
@@ -264,13 +272,13 @@ class SettingsTableViewController: UITableViewController {
             dateOfBirthTF.text = ""
         }
         
-        if let height = Settings.sharedSettings.height {
+        if let height = Settings.sharedSettings.height where height.doubleValue > 0 {
             heightCm = height.doubleValue
         } else {
             heightTextField.text = ""
         }
         
-        if let weight = Settings.sharedSettings.weight {
+        if let weight = Settings.sharedSettings.weight where weight.doubleValue > 0 {
             weightKg = weight.doubleValue
         } else {
             weightTexField.text = ""

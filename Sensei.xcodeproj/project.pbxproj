@@ -53,7 +53,7 @@
 		40A026531B42DB6A00E18958 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A026521B42DB6A00E18958 /* Constants.swift */; };
 		40A139A51B0DB72C0010176D /* UserMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A41B0DB72C0010176D /* UserMessageViewController.swift */; };
 		40A139A91B0DC68D0010176D /* SlotCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */; };
-		40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */; };
+		40A1BD7A1B063E9C004ECD23 /* RightSpeechBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A1BD791B063E9C004ECD23 /* RightSpeechBubbleCollectionViewCell.xib */; };
 		40A248CB1B46955B00D8F3CB /* PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A248CA1B46955B00D8F3CB /* PushNotification.swift */; };
 		40A6741A1B21AF6C001408C3 /* SlotCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A674191B21AF6C001408C3 /* SlotCollectionViewCell.xib */; };
 		40A6741C1B21B11E001408C3 /* VisualizationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */; };
@@ -64,6 +64,7 @@
 		40AA2D9F1B3AE2C500606E4E /* WeightPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AA2D9E1B3AE2C500606E4E /* WeightPickerDelegate.swift */; };
 		40B960131B25A04600D36938 /* TextImagePreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B960121B25A04600D36938 /* TextImagePreviewController.swift */; };
 		40CBAEFE1B4BDE6000443FAA /* VisualisationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CBAEFD1B4BDE6000443FAA /* VisualisationView.swift */; };
+		40EA4DA31B624FBB0011EF1A /* LeftSpeechBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EA4DA21B624FBB0011EF1A /* LeftSpeechBubbleCollectionViewCell.xib */; };
 		40EB50EF1B4A630A003D5833 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40EB50EE1B4A630A003D5833 /* Fabric.framework */; };
 		40EB50F11B4A63EA003D5833 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40EB50F01B4A63EA003D5833 /* Crashlytics.framework */; };
 		40EB50F61B4A9DD0003D5833 /* MessageSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EB50F21B4A9DD0003D5833 /* MessageSwitchView.swift */; };
@@ -128,7 +129,7 @@
 		40A026521B42DB6A00E18958 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		40A139A41B0DB72C0010176D /* UserMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMessageViewController.swift; sourceTree = "<group>"; };
 		40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotCollectionViewCell.swift; sourceTree = "<group>"; };
-		40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeechBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
+		40A1BD791B063E9C004ECD23 /* RightSpeechBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightSpeechBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		40A248CA1B46955B00D8F3CB /* PushNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
 		40A674191B21AF6C001408C3 /* SlotCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SlotCollectionViewCell.xib; sourceTree = "<group>"; };
 		40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = VisualizationsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -139,6 +140,7 @@
 		40AA2D9E1B3AE2C500606E4E /* WeightPickerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightPickerDelegate.swift; sourceTree = "<group>"; };
 		40B960121B25A04600D36938 /* TextImagePreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TextImagePreviewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		40CBAEFD1B4BDE6000443FAA /* VisualisationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualisationView.swift; sourceTree = "<group>"; };
+		40EA4DA21B624FBB0011EF1A /* LeftSpeechBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftSpeechBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		40EB50EE1B4A630A003D5833 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		40EB50F01B4A63EA003D5833 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		40EB50F21B4A9DD0003D5833 /* MessageSwitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageSwitchView.swift; sourceTree = "<group>"; };
@@ -174,7 +176,8 @@
 				400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */,
 				400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */,
 				4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */,
-				40A1BD791B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib */,
+				40A1BD791B063E9C004ECD23 /* RightSpeechBubbleCollectionViewCell.xib */,
+				40EA4DA21B624FBB0011EF1A /* LeftSpeechBubbleCollectionViewCell.xib */,
 				40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */,
 				40A674191B21AF6C001408C3 /* SlotCollectionViewCell.xib */,
 			);
@@ -436,7 +439,7 @@
 				4084CFE61AFA611B000F8D47 /* LaunchScreen.xib in Resources */,
 				40A6741A1B21AF6C001408C3 /* SlotCollectionViewCell.xib in Resources */,
 				400CA4A51B57BDDD005665D6 /* TextCollectionViewCell.xib in Resources */,
-				40A1BD7A1B063E9C004ECD23 /* SpeechBubbleCollectionViewCell.xib in Resources */,
+				40A1BD7A1B063E9C004ECD23 /* RightSpeechBubbleCollectionViewCell.xib in Resources */,
 				404E0CA31B56527F00FE2F3F /* Tutorial.plist in Resources */,
 				408B320E1B0B7645001BB455 /* KeyboardInputAccessoryView.xib in Resources */,
 				40EB50F91B4A9DD0003D5833 /* NavigationView.xib in Resources */,
@@ -444,6 +447,7 @@
 				40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */,
 				4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */,
 				40EB50F71B4A9DD0003D5833 /* MessageSwitchView.xib in Resources */,
+				40EA4DA31B624FBB0011EF1A /* LeftSpeechBubbleCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
