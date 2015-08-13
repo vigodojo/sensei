@@ -16,7 +16,7 @@
                     <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="Ya5-TP-vhH" customClass="SpeechBubbleView" customModule="Sensei" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="118" height="142"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Guten Morgen" translatesAutoresizingMaskIntoConstraints="NO" id="AHX-Bj-Tf9">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Guten Morgen" translatesAutoresizingMaskIntoConstraints="NO" id="AHX-Bj-Tf9" customClass="IrresponsibleTextView" customModule="Sensei" customModuleProvider="target">
                                 <rect key="frame" x="12" y="8" width="98" height="126"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>

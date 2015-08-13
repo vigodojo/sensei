@@ -669,21 +669,21 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mqr-MT-GGn" id="pQ8-zJ-V3V">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DATA FORMAT:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3tl-NM-ueC">
-                                                    <rect key="frame" x="24" y="25" width="94" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DATA FORMAT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3tl-NM-ueC">
+                                                    <rect key="frame" x="24" y="25" width="92" height="16"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MXs-2h-Sld">
-                                                    <rect key="frame" x="485" y="22" width="85" height="22"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MXs-2h-Sld">
+                                                    <rect key="frame" x="495" y="22" width="75" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="5wN-Hk-mfm"/>
-                                                        <constraint firstAttribute="width" constant="85" id="TaZ-dY-0Zo"/>
+                                                        <constraint firstAttribute="width" constant="75" id="TaZ-dY-0Zo"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                                    <inset key="titleEdgeInsets" minX="-25" minY="0.0" maxX="25" maxY="0.0"/>
-                                                    <inset key="imageEdgeInsets" minX="58" minY="0.0" maxX="-58" maxY="0.0"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                    <inset key="titleEdgeInsets" minX="-20" minY="0.0" maxX="20" maxY="0.0"/>
+                                                    <inset key="imageEdgeInsets" minX="55" minY="0.0" maxX="-55" maxY="0.0"/>
                                                     <state key="normal" title="METRIC" image="radio_button_unselected">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -694,15 +694,15 @@
                                                         <action selector="selectDataFormat:" destination="dbf-lu-mRv" eventType="touchUpInside" id="Mab-Mv-5AI"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pYX-j0-yrf">
-                                                    <rect key="frame" x="419" y="22" width="49" height="22"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pYX-j0-yrf">
+                                                    <rect key="frame" x="429" y="22" width="49" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="49" id="frt-W1-qqC"/>
                                                         <constraint firstAttribute="height" constant="22" id="ygV-sG-RQ1"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                                    <inset key="titleEdgeInsets" minX="-25" minY="0.0" maxX="25" maxY="0.0"/>
-                                                    <inset key="imageEdgeInsets" minX="22" minY="0.0" maxX="-22" maxY="0.0"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                    <inset key="titleEdgeInsets" minX="-20" minY="0.0" maxX="20" maxY="0.0"/>
+                                                    <inset key="imageEdgeInsets" minX="25" minY="0.0" maxX="-25" maxY="0.0"/>
                                                     <state key="normal" title="US" image="radio_button_unselected">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -821,10 +821,10 @@
                                                         <constraint firstAttribute="width" constant="80" id="PQk-tK-2Aw"/>
                                                         <constraint firstAttribute="height" constant="22" id="wi6-SV-9OV"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                     <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="23" maxY="0.0"/>
-                                                    <inset key="titleEdgeInsets" minX="-20" minY="0.0" maxX="20" maxY="0.0"/>
-                                                    <inset key="imageEdgeInsets" minX="59" minY="0.0" maxX="-59" maxY="0.0"/>
+                                                    <inset key="titleEdgeInsets" minX="-22" minY="0.0" maxX="22" maxY="0.0"/>
+                                                    <inset key="imageEdgeInsets" minX="55" minY="0.0" maxX="-55" maxY="0.0"/>
                                                     <state key="normal" title="MALE" image="radio_button_unselected">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -835,16 +835,16 @@
                                                         <action selector="selectGender:" destination="dbf-lu-mRv" eventType="touchUpInside" id="Au9-jl-2Np"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOJ-C9-N4X">
-                                                    <rect key="frame" x="473" y="71" width="97" height="22"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOJ-C9-N4X">
+                                                    <rect key="frame" x="480" y="71" width="90" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="7w5-gv-9i2"/>
-                                                        <constraint firstAttribute="width" constant="97" id="QQj-3d-sSs"/>
+                                                        <constraint firstAttribute="width" constant="90" id="QQj-3d-sSs"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                     <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                                                     <inset key="titleEdgeInsets" minX="-20" minY="0.0" maxX="20" maxY="0.0"/>
-                                                    <inset key="imageEdgeInsets" minX="75" minY="0.0" maxX="-75" maxY="0.0"/>
+                                                    <inset key="imageEdgeInsets" minX="70" minY="0.0" maxX="-70" maxY="0.0"/>
                                                     <state key="normal" title="FEMALE" image="radio_button_unselected">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>

@@ -43,6 +43,10 @@ class AffirmationsViewController: UserMessageViewController {
         }
     }
     
+    override var upgradeAppMessage: String {
+        return "You can only have two active affirmations with the free version of this app, please upgrade to unlock all the slots"
+    }
+    
     private lazy var affirmationsFetchedResultController: NSFetchedResultsController = { [unowned self] in
         let fetchRequest = NSFetchRequest(entityName: Affirmation.EntityName)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "number", ascending: true)]
@@ -263,7 +267,12 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) { }
     
     func messageSwitchView(view: MessageSwitchView, shouldSelectSlotAtIndex index: Int) -> Bool {
-        return index < Constants.NumberOfFreeAffirmations
+        if index < Constants.NumberOfFreeAffirmations {
+            return true
+        } else {
+            showUpgradeAppMessage()
+            return false
+        }
     }
     
     func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool {
@@ -289,7 +298,6 @@ extension AffirmationsViewController: NSFetchedResultsControllerDelegate {
         if let affirmation = anObject as? Affirmation {
             switch type {
                 case .Insert:
-                    messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
                     if TutorialManager.sharedInstance.completed {
                         let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
                         selectAffirmationWithNumber(number)
@@ -297,6 +305,7 @@ extension AffirmationsViewController: NSFetchedResultsControllerDelegate {
                     } else {
                         selectedAffirmation = affirmation
                     }
+                    messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
                 case .Update:
                     if TutorialManager.sharedInstance.completed {
                         let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)

@@ -41,6 +41,10 @@ class VisualizationsViewController: UserMessageViewController {
         }
     }
     
+    override var upgradeAppMessage: String {
+        return "You can only have one active visualization with the free version of this app, please upgrade to unlock all the slots"
+    }
+    
     @IBOutlet var visualisationView: VisualisationView! {
         didSet {
             visualisationView.delegate = self
@@ -268,7 +272,12 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
     func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) { }
     
     func messageSwitchView(view: MessageSwitchView, shouldSelectSlotAtIndex index: Int) -> Bool {
-        return index < Constants.NumberOfFreeVisualizations
+        if index < Constants.NumberOfFreeVisualizations  {
+            return true
+        } else {
+            showUpgradeAppMessage()
+            return false
+        }
     }
     
     func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool {

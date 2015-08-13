@@ -35,6 +35,7 @@ class TutorialStep: Message {
     var id: String {
         return "\(number)"
     }
+    var attributedText: NSAttributedString?
     var text: String {
         get {
             if let message = message {

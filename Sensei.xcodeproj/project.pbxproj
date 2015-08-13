@@ -55,6 +55,7 @@
 		40A139A91B0DC68D0010176D /* SlotCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */; };
 		40A1BD7A1B063E9C004ECD23 /* RightSpeechBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A1BD791B063E9C004ECD23 /* RightSpeechBubbleCollectionViewCell.xib */; };
 		40A248CB1B46955B00D8F3CB /* PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A248CA1B46955B00D8F3CB /* PushNotification.swift */; };
+		40A3E3551B7CDA9A00E79257 /* PlainMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A3E3541B7CDA9A00E79257 /* PlainMessage.swift */; };
 		40A6741A1B21AF6C001408C3 /* SlotCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A674191B21AF6C001408C3 /* SlotCollectionViewCell.xib */; };
 		40A6741C1B21B11E001408C3 /* VisualizationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */; };
 		40A6741E1B21B1A4001408C3 /* AffirmationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A6741D1B21B1A4001408C3 /* AffirmationsViewController.swift */; };
@@ -131,6 +132,7 @@
 		40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotCollectionViewCell.swift; sourceTree = "<group>"; };
 		40A1BD791B063E9C004ECD23 /* RightSpeechBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightSpeechBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		40A248CA1B46955B00D8F3CB /* PushNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
+		40A3E3541B7CDA9A00E79257 /* PlainMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlainMessage.swift; sourceTree = "<group>"; };
 		40A674191B21AF6C001408C3 /* SlotCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SlotCollectionViewCell.xib; sourceTree = "<group>"; };
 		40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = VisualizationsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		40A6741D1B21B1A4001408C3 /* AffirmationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffirmationsViewController.swift; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 		404E0C8A1B5647CB00FE2F3F /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				40A3E3541B7CDA9A00E79257 /* PlainMessage.swift */,
 				404E0C8D1B5647CB00FE2F3F /* ConfirmationQuestion.swift */,
 				404E0C8F1B5647CB00FE2F3F /* Question.swift */,
 				404E0C8C1B5647CB00FE2F3F /* AnswerMessage.swift */,
@@ -491,6 +494,7 @@
 				404E0C851B56474E00FE2F3F /* Extensions.swift in Sources */,
 				404E0C9A1B5647CB00FE2F3F /* UserMessage.swift in Sources */,
 				40EB50F81B4A9DD0003D5833 /* NavigationView.swift in Sources */,
+				40A3E3551B7CDA9A00E79257 /* PlainMessage.swift in Sources */,
 				402C32B31B0392180045BAD7 /* SenseiTabController.swift in Sources */,
 				402F14591B0A0A42000C4261 /* APIManager.swift in Sources */,
 				401FBF931B20A221001DC2D0 /* SenseiModel.xcdatamodeld in Sources */,
@@ -592,7 +596,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "51b6f50d-c3f6-42ec-97eb-b84bb2b5228a";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -630,7 +634,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "51b6f50d-c3f6-42ec-97eb-b84bb2b5228a";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -652,7 +656,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "51b6f50d-c3f6-42ec-97eb-b84bb2b5228a";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Debug;
 		};
@@ -671,7 +675,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "51b6f50d-c3f6-42ec-97eb-b84bb2b5228a";
+				PROVISIONING_PROFILE = "d956be48-25b2-43c9-969f-6000bfb865b9";
 			};
 			name = Release;
 		};

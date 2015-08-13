@@ -13,6 +13,7 @@ protocol Message {
     var id: String { get }
     var text: String { get set }
     var date: NSDate { get set }
+    var attributedText: NSAttributedString? { get set }
 }
 
 class Lesson: NSManagedObject, Message {
@@ -22,7 +23,9 @@ class Lesson: NSManagedObject, Message {
     @NSManaged var lessonId: String
     @NSManaged var text: String
     @NSManaged var date: NSDate
+    
     var id: String { return lessonId }
+    var attributedText: NSAttributedString?
     
     override var description: String {
         return "id = \(id); text = \(text); date = \(date)"

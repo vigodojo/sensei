@@ -8,13 +8,4 @@
 
 import Foundation
 
-class ConfirmationQuestion: Message {
-    
-    var id: String { return "0" }
-    var text = ""
-    var date = NSDate()
-    
-    init(text: String) {
-        self.text = text
-    }
-}
+class ConfirmationQuestion: PlainMessage { }

@@ -40,6 +40,7 @@ class AnswerMessage: Message, Printable {
         }
         set {}
     }
+    var attributedText: NSAttributedString?
     
     var description: String {
         switch answer {

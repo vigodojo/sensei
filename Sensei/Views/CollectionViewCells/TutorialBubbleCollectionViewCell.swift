@@ -31,6 +31,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     
     private let stringSeparator = StringColumnSeparator(font: UIFont.speechBubbleTextFont, columnSize: CGSizeZero)
     private var messages = [String]()
+    private var attributedMessages: [NSAttributedString]?
     
     weak var delegate: TutorialBubbleCollectionViewCellDelegate?
     
@@ -77,9 +78,21 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    // MARK: - Public
+    
+    func setAttributedString(attributedString: NSAttributedString) {
+        stringSeparator.columnSize = collectionView.frame.size
+        attributedMessages = stringSeparator.separateAttributedString(attributedString)
+        collectionView.reloadData()
+        if messages.count > 0 {
+            collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: .None, animated: false)
+        }
+    }
+    
     // MARK: - Private
     
     private func updateDataSource(text: String) {
+        attributedMessages = nil
         stringSeparator.columnSize = collectionView.frame.size
         messages = stringSeparator.separateString(text)
         collectionView.reloadData()
@@ -117,12 +130,20 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
 extension TutorialBubbleCollectionViewCell: UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return messages.count
+        if let attributedMessages = attributedMessages {
+            return attributedMessages.count
+        } else {
+            return messages.count
+        }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TextCollectionViewCell.ReuseIdentifier, forIndexPath: indexPath) as! TextCollectionViewCell
-        cell.text = messages[indexPath.item]
+        if let attributedMessages = attributedMessages {
+            cell.attributedText = attributedMessages[indexPath.item]
+        } else {
+            cell.text = messages[indexPath.item]
+        }
         return cell
     }
 }

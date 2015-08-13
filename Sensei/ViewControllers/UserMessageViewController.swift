@@ -22,6 +22,10 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     
     private var didNextStep = false // TODO: Fix this some where, some how.
     
+    var upgradeAppMessage: String {
+        return ""
+    }
+    
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -56,12 +60,21 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
         println("\(self) ist Tod")
     }
     
+    // MARK: - Public
+    
     func fetchUserMessages() {
         
     }
     
     func hasChangesBeenMade() -> Bool {
         return false
+    }
+    
+    func showUpgradeAppMessage() {
+        let messageText = NSMutableAttributedString(string: upgradeAppMessage, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+        let range = (upgradeAppMessage as NSString).rangeOfString("upgrade")
+        messageText.addAttribute(NSLinkAttributeName, value: LinkToAppOnAppStore, range: range)
+        tutorialViewController?.showMessage(PlainMessage(attributedText: messageText))
     }
     
     // MARK: - Keyboard

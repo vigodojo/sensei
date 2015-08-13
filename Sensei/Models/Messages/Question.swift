@@ -25,6 +25,7 @@ class Question: NSObject, QuestionProtocol {
             questionText = newValue
         }
     }
+    var attributedText: NSAttributedString?
     
     var questionType: QuestionType {
         get {

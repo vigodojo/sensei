@@ -158,9 +158,9 @@ class AnswerableView: UIView {
     // MARK: - Private
     
     private func setup() {
-        NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: nil) { [weak self] (notification) -> Void in
-            if self?.inputView == nil {
-                self?.keyboardInputAccessoryView.textField.becomeFirstResponder()
+        NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: nil) { [unowned self] (notification) -> Void in
+            if self.inputView == nil && self.isFirstResponder() {
+                self.keyboardInputAccessoryView.textField.becomeFirstResponder()
             }
         }
         

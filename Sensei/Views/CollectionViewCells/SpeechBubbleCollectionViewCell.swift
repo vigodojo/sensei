@@ -24,6 +24,13 @@ protocol SpeechBubbleCollectionViewCellDelegate: class {
     func speechBubbleCollectionViewCellDidClose(cell: SpeechBubbleCollectionViewCell)
 }
 
+class IrresponsibleTextView: UITextView {
+    
+    override func canBecomeFirstResponder() -> Bool {
+        return false
+    }
+}
+
 class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     
     private struct Constants {
@@ -74,14 +81,5 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     
     @IBAction func close() {
         delegate?.speechBubbleCollectionViewCellDidClose(self)
-    }
-}
-
-// MARK: - UITextViewDelegate
-
-extension SpeechBubbleCollectionViewCell: UITextViewDelegate {
-    
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        return false
     }
 }

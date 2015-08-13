@@ -93,7 +93,6 @@ class TextImagePreviewController: UIViewController {
     @IBAction func tap(sender: UITapGestureRecognizer) {
         presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
-    
 }
 
 // MARK: - UIScrollViewDelegate

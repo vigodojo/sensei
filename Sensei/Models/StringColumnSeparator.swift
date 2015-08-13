@@ -27,7 +27,6 @@ class StringColumnSeparator {
         
         var location = 0
         var fitCFRange = CFRangeMake(0, 0)
-        let stringCount = count(string)
         let stringLength = (string as NSString).length
         while location < stringLength {
             CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(location, 0), nil, columnSize, &fitCFRange)
@@ -38,6 +37,25 @@ class StringColumnSeparator {
         }
         
         return strings
+    }
+    
+    func separateAttributedString(attributedString: NSAttributedString) -> [NSAttributedString] {
+        var attributedStrings = [NSAttributedString]()
+        
+        let framesetter = CTFramesetterCreateWithAttributedString((attributedString as CFAttributedString))
+        
+        var location = 0
+        var fitCFRange = CFRangeMake(0, 0)
+        let stringLength = attributedString.length
+        while location < stringLength {
+            CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(location, 0), nil, columnSize, &fitCFRange)
+            let fitRange = NSRangeFromCFRange(fitCFRange)
+            let attributedSubstring = attributedString.attributedSubstringFromRange(fitRange)
+            attributedStrings.append(attributedSubstring)
+            location = fitRange.location + fitRange.length
+        }
+        
+        return attributedStrings
     }
     
     // MARK: - Private

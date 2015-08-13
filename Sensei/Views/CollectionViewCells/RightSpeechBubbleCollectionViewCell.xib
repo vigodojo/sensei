@@ -31,7 +31,7 @@
                                     <action selector="close" destination="kvc-o9-MLK" eventType="touchUpInside" id="SsL-xn-NxU"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Guten Morgen" translatesAutoresizingMaskIntoConstraints="NO" id="oEO-RP-dDl">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Guten Morgen" translatesAutoresizingMaskIntoConstraints="NO" id="oEO-RP-dDl" customClass="IrresponsibleTextView" customModule="Sensei" customModuleProvider="target">
                                 <rect key="frame" x="8" y="8" width="98" height="126"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>

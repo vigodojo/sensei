@@ -42,6 +42,7 @@ class UserMessage: NSManagedObject, Message {
     
     var id: String { return "\(number)"}
     var date = NSDate()
+    var attributedText: NSAttributedString?
 
     var receiveTime: ReceiveTime {
         get {

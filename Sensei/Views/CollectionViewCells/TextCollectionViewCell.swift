@@ -24,6 +24,16 @@ class TextCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    var attributedText: NSAttributedString {
+        get {
+            return textView.attributedText
+        }
+        set {
+            textView.attributedText = nil
+            textView.attributedText = newValue
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         textView.textContainerInset = UIEdgeInsetsZero

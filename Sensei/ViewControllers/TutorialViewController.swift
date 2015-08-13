@@ -186,7 +186,11 @@ extension TutorialViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TutorialBubbleCollectionViewCell.ReuseIdentifier, forIndexPath: indexPath) as! TutorialBubbleCollectionViewCell
         let message = messages[indexPath.item]
-        cell.text = message.text
+        if let attributedText = message.attributedText {
+            cell.setAttributedString(attributedText)
+        } else {
+            cell.text = message.text
+        }
         cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
         cell.delegate = self
         return cell;
