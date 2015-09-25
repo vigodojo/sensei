@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var pushNotification: PushNotification?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        let notificationSettings = UIUserNotificationSettings(forTypes: .Alert | .Badge | .Sound, categories: nil)
+        let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
         pushNotification = extractPushFromLaunchOptions(launchOptions)
         Fabric.with([Crashlytics()])
@@ -49,11 +49,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             APIManager.sharedInstance.deviceToken = token
         }
-        println("Sensei Device Token: \(token)")
+        print("Sensei Device Token: \(token)")
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        println("Push Info = \(userInfo)")
+        print("Push Info = \(userInfo)")
         NSNotificationCenter.defaultCenter().postNotificationName(ApplicationDidReceiveRemotePushNotification, object: nil, userInfo: userInfo)
     }
     

@@ -73,7 +73,7 @@ class TutorialStep: Message {
     }
 }
 
-extension TutorialStep: Printable {
+extension TutorialStep: CustomStringConvertible {
     
     var description: String {
         return "№: \(number); Screen: \(screen.rawValue); Requires Action To Proceed: \(requiresActionToProceed)"

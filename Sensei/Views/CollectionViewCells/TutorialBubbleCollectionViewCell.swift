@@ -52,7 +52,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     
     var text: String {
         get {
-            return join("", messages)
+            return messages.joinWithSeparator("")
         }
         set {
             updateDataSource(newValue)
@@ -114,7 +114,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func next() {
-        if let indexPath = collectionView.indexPathsForVisibleItems().first as? NSIndexPath {
+        if let indexPath = collectionView.indexPathsForVisibleItems().first {
             if indexPath.item >= messages.count - 1 {
                 delegate?.tutorialBubbleCollectionViewCellDidNext(self)
             } else {

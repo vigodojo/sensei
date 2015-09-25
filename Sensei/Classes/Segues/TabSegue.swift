@@ -17,7 +17,7 @@ class TabSegue: UIStoryboardSegue {
     
     override func perform() {
         assert((sourceViewController as? TabSegueProtocol) != nil, "Source view controller must conform to TabSegueProtocol")
-        if let sourceViewController = sourceViewController as? TabSegueProtocol, destinationViewController = destinationViewController as? UIViewController {
+        if let sourceViewController = sourceViewController as? TabSegueProtocol {
             sourceViewController.viewControllers.append(destinationViewController)
         }
     }

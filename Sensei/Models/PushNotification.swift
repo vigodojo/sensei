@@ -14,7 +14,7 @@ enum PushType: String {
     case Visualisation = "V"
 }
 
-struct PushNotification: Printable {
+struct PushNotification: CustomStringConvertible {
     let id: String
     let date: NSDate?
     let type: PushType

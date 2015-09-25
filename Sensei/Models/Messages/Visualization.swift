@@ -44,15 +44,15 @@ class Visualization: UserMessage {
         return CGFloat(Int(imageSize.height * fontSize / CGRectGetHeight(imageRect)))
     }
     
-    class func outlinedTextAttributesWithMinFontSize() -> [NSObject: AnyObject] {
+    class func outlinedTextAttributesWithMinFontSize() -> [String: AnyObject] {
         return outlinedTextAttributesWithFontSize(MinFontSize)
     }
     
-    class func outlinedTextAttributesWithFontSize(fontSize: CGFloat) -> [NSObject: AnyObject] {
+    class func outlinedTextAttributesWithFontSize(fontSize: CGFloat) -> [String: AnyObject] {
         return outlinedTextAttributesWithFontSize(fontSize, color: UIColor.whiteColor())
     }
     
-    class func outlinedTextAttributesWithFontSize(fontSize: CGFloat, color: UIColor) -> [NSObject: AnyObject] {
+    class func outlinedTextAttributesWithFontSize(fontSize: CGFloat, color: UIColor) -> [String: AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = NSTextAlignment.Center
         
@@ -66,7 +66,7 @@ class Visualization: UserMessage {
     class func findFontSizeForText(text: String, textContainerSize: CGSize, maxFontSize: CGFloat) -> CGFloat? {
         var fontSize = maxFontSize
         if fontSize > Visualization.MinFontSize {
-            var width = NSAttributedString(string: text, attributes: Visualization.outlinedTextAttributesWithFontSize(fontSize)).size().width
+			var width = NSAttributedString(string: text, attributes: Visualization.outlinedTextAttributesWithFontSize(fontSize)).size().width
             while width >= textContainerSize.width && fontSize > Visualization.MinFontSize {
                 fontSize--
                 width = NSAttributedString(string: text, attributes: Visualization.outlinedTextAttributesWithFontSize(fontSize)).size().width
@@ -74,7 +74,7 @@ class Visualization: UserMessage {
         }
         if fontSize == Visualization.MinFontSize {
             let size = CGSizeMake(textContainerSize.width, CGFloat.max)
-            let options = (NSStringDrawingOptions.UsesLineFragmentOrigin | NSStringDrawingOptions.UsesFontLeading)
+            let options: NSStringDrawingOptions = ([NSStringDrawingOptions.UsesLineFragmentOrigin, NSStringDrawingOptions.UsesFontLeading])
             let attributes = Visualization.outlinedTextAttributesWithMinFontSize()
             let height = CGRectGetHeight((text as NSString).boundingRectWithSize(size, options: options, attributes: attributes, context: nil))
             return height <= textContainerSize.height ? fontSize: nil

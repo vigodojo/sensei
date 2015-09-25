@@ -49,14 +49,14 @@ class VigoSlider: UIControl {
         setup()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        println("awakeFromNib: \(thumbView)")
+        print("awakeFromNib: \(thumbView)")
         if thumbView == nil {
             setCustomThumbView(createDefaultTumbView())
         }
@@ -65,7 +65,7 @@ class VigoSlider: UIControl {
     override func drawRect(rect: CGRect) {
         let context = UIGraphicsGetCurrentContext()
         CGContextSaveGState(context)
-        drawScaleInContext(context)
+        drawScaleInContext(context!)
         CGContextRestoreGState(context)
     }
     
@@ -159,13 +159,13 @@ class VigoSlider: UIControl {
     
     // MARK: Tracking
     
-    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         let shouldBegin = thumbView.frame.contains(touch.locationInView(self))
         tapGesture.enabled = !shouldBegin
         return shouldBegin
     }
     
-    override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         let locationX = touch.locationInView(self).x
         if locationX >= scaleStartX && locationX <= (1.2 * scaleStartX + scaleWidth) {
             thumbView.center = CGPoint(x: locationX, y: scaleCenterY)
@@ -174,8 +174,8 @@ class VigoSlider: UIControl {
         return true
     }
     
-    override func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
-        setCurrentValueFromThumbXPosition(touch.locationInView(self).x, rounded: true)
+    override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
+        setCurrentValueFromThumbXPosition(touch!.locationInView(self).x, rounded: true)
         updateThumbViewCenterAnimated(true)
         tapGesture.enabled = true
     }

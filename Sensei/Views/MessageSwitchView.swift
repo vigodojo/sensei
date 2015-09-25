@@ -71,7 +71,7 @@ class MessageSwitchView: UIView {
             return index == -1 ? ReceiveTime.Morning: switchItems[index]
         }
         set {
-            if let index = find(switchItems, newValue) {
+            if let index = switchItems.indexOf(newValue) {
                 receiveTimeTextView.text = "\(newValue)"
                 receiveTimePickerView.selectRow(index, inComponent: 0, animated: false)
             }
@@ -80,13 +80,13 @@ class MessageSwitchView: UIView {
     
     var selectedSlot: Int? {
         get {
-            return slotsCollectionView.indexPathsForSelectedItems().first?.item
+            return slotsCollectionView.indexPathsForSelectedItems()?.first?.item
         }
         set {
             if let index = newValue {
-                if let previousSelectedIndxPath = currentSelectedIndexPath, selectedSlot = selectedSlot {
+                if let previousSelectedIndxPath = currentSelectedIndexPath {
                     if previousSelectedIndxPath.item != index {
-                        slotsCollectionView.deselectItemAtIndexPath(currentSelectedIndexPath, animated: false)
+                        slotsCollectionView.deselectItemAtIndexPath(previousSelectedIndxPath, animated: false)
                     } else {
                         return
                     }
@@ -100,7 +100,7 @@ class MessageSwitchView: UIView {
     
     // MARK: - Lifecycle
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -151,7 +151,7 @@ class MessageSwitchView: UIView {
     
     // MARK: - KVO
     
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if context == MessageSwitchViewSclotsCollectionViewBoundsContext {
             calculateSlotItemWidth()
         } else {
@@ -194,7 +194,7 @@ extension MessageSwitchView: UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if let previousSelectedIndxPath = currentSelectedIndexPath {
-            collectionView.deselectItemAtIndexPath(currentSelectedIndexPath, animated: false)
+            collectionView.deselectItemAtIndexPath(previousSelectedIndxPath, animated: false)
         }
         currentSelectedIndexPath = indexPath
         delegate?.messageSwitchView(self, didSelectSlotAtIndex: indexPath.item)
@@ -202,7 +202,7 @@ extension MessageSwitchView: UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         if let previousSelectedIndxPath = currentSelectedIndexPath {
-            return currentSelectedIndexPath != indexPath
+            return previousSelectedIndxPath != indexPath
         }
         return true
     }
@@ -232,7 +232,7 @@ extension MessageSwitchView: UIPickerViewDataSource {
 
 extension MessageSwitchView: UIPickerViewDelegate {
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return "\(switchItems[row])"
     }
     

@@ -15,15 +15,19 @@ extension UIView {
     func addEdgePinnedSubview(view: UIView) {
         view.frame = bounds
         addSubview(view)
-        view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view.translatesAutoresizingMaskIntoConstraints = false
         let bindings = ["view": view]
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0.0-[view]-0.0-|", options: NSLayoutFormatOptions.allZeros, metrics: nil, views: bindings))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0.0-[view]-0.0-|", options: NSLayoutFormatOptions.allZeros, metrics: nil, views: bindings))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0.0-[view]-0.0-|", options: NSLayoutFormatOptions(), metrics: nil, views: bindings))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0.0-[view]-0.0-|", options: NSLayoutFormatOptions(), metrics: nil, views: bindings))
     }
     
     var borderColor: UIColor? {
         get {
-            return UIColor(CGColor: layer.borderColor)
+			if let borderColor = layer.borderColor {
+				return UIColor(CGColor: borderColor)
+			} else {
+				return nil
+			}
         }
         set {
             layer.borderColor = newValue?.CGColor ?? UIColor.clearColor().CGColor
@@ -51,8 +55,8 @@ extension UIColor {
 
 extension Array {
     
-    func find(includedElement: T -> Bool) -> Int? {
-        for (idx, element) in enumerate(self) {
+    func find(includedElement: Element -> Bool) -> Int? {
+        for (idx, element) in self.enumerate() {
             if includedElement(element) {
                 return idx
             }
@@ -115,7 +119,7 @@ extension UIImage {
                 break;
         }
         
-        let context = CGBitmapContextCreate(nil, Int(size.width), Int(size.height), CGImageGetBitsPerComponent(CGImage), 0, CGImageGetColorSpace(CGImage), CGImageGetBitmapInfo(CGImage))
+        let context = CGBitmapContextCreate(nil, Int(size.width), Int(size.height), CGImageGetBitsPerComponent(CGImage), 0, CGImageGetColorSpace(CGImage), CGImageGetBitmapInfo(CGImage).rawValue)
         CGContextConcatCTM(context, transform)
         switch imageOrientation {
             case .Left, .LeftMirrored, .Right, .RightMirrored:
@@ -125,8 +129,8 @@ extension UIImage {
         }
         
         let newCGImage = CGBitmapContextCreateImage(context)
-        let newImage = UIImage(CGImage: newCGImage)
-        return newImage!
+        let newImage = UIImage(CGImage: newCGImage!)
+        return newImage
     }
     
     var fullScreenImage: UIImage {

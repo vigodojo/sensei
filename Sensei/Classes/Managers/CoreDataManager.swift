@@ -18,7 +18,7 @@ class CoreDataManager {
     
     lazy var applicationDocumentsDirectory: NSURL = {
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls.last as! NSURL
+        return urls.last! 
     }()
     
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -31,7 +31,10 @@ class CoreDataManager {
         let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("Sensei.sqlite")
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
-        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
+        do {
+            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+        } catch var error1 as NSError {
+            error = error1
             coordinator = nil
             var dict = [String: AnyObject]()
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
@@ -39,6 +42,8 @@ class CoreDataManager {
             dict[NSUnderlyingErrorKey] = error
             error = NSError(domain: "SENSEI_ERROR_DOMAIN", code: 666, userInfo: dict)
             NSLog("Unresolved error \(error), \(error!.userInfo)")
+        } catch {
+            fatalError()
         }
         return coordinator
     }()
@@ -58,8 +63,13 @@ class CoreDataManager {
     func saveContext () {
         if let moc = self.managedObjectContext {
             var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
+            if moc.hasChanges {
+                do {
+                    try moc.save()
+                } catch let error1 as NSError {
+                    error = error1
+                    NSLog("Unresolved error \(error), \(error!.userInfo)")
+                }
             }
         }
     }
@@ -67,7 +77,7 @@ class CoreDataManager {
     // MARK: - Creation
     
     func createObjectForEntityWithName(entityName: String) -> NSManagedObject {
-        return NSEntityDescription.insertNewObjectForEntityForName(entityName, inManagedObjectContext: self.managedObjectContext!) as! NSManagedObject
+        return NSEntityDescription.insertNewObjectForEntityForName(entityName, inManagedObjectContext: self.managedObjectContext!) 
     }
     
     // MARK: - Fetching
@@ -76,7 +86,7 @@ class CoreDataManager {
         let fetchRquest = NSFetchRequest(entityName: entityName)
         fetchRquest.sortDescriptors = sortDescriptors
         fetchRquest.predicate = predicate
-        return managedObjectContext!.executeFetchRequest(fetchRquest, error: nil) as? [NSManagedObject]
+        return (try? managedObjectContext!.executeFetchRequest(fetchRquest)) as? [NSManagedObject]
     }
     
     func fetchObjectsWithEntityName(entityName: String, sortDescriptors: [NSSortDescriptor]) -> [NSManagedObject]? {
@@ -119,7 +129,7 @@ class CoreDataManager {
     
     func createEntityObjectFromJSON(json: JSONObject, entityMapping: EntityMapping) -> NSManagedObject {
         let object = createObjectForEntityWithName(entityMapping.entityName)
-        for (objectKey, jsonKey) in entityMapping.propertyMapping {
+        for (objectKey, _) in entityMapping.propertyMapping {
             object.setValue(entityMapping.valueForProperty(objectKey, json: json), forKey: objectKey)
         }
         return object
@@ -127,7 +137,7 @@ class CoreDataManager {
     
     func updateEntityObject(object: NSManagedObject, withJSON json: JSONObject, entityMapping: EntityMapping) -> Bool {
         var hasChanges = false
-        for (objectKey, jsonKey) in entityMapping.propertyMapping {
+        for (objectKey, _) in entityMapping.propertyMapping {
             if let jsonValue = entityMapping.valueForProperty(objectKey, json: json) as? NSObject {
                 if (object.valueForKeyPath(objectKey) as? NSObject) != jsonValue {
                     object.setValue(jsonValue, forKeyPath: objectKey)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum Length: Printable {
+enum Length: CustomStringConvertible {
     case USLength(feet: Int, inches: Int)
     case MetricLength(Int)
     
@@ -68,7 +68,7 @@ class HeightPickerDelegate: NSObject, UIPickerViewDataSource, UIPickerViewDelega
     
     // MARK - UIPickerViewDelegate
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch (Settings.sharedSettings.dataFormat, component) {
             case (.Metric, 0): return "\(Constants.MinHeightCm + row) " + Abbreviation.Centimetres
             case (.US, 0): return "\(Constants.MinHeightFt + row)" + Abbreviation.Feet

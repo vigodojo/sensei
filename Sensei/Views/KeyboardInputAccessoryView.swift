@@ -46,7 +46,7 @@ class KeyboardInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var leftButton: UIButton!
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }

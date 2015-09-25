@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class AffirmationsViewController: UserMessageViewController {
+class AffirmationsViewController: UserMessageViewController, NSFetchedResultsControllerDelegate {
 
     private struct Constants {
         static let NumberOfAffirmations = 6
@@ -96,11 +96,16 @@ class AffirmationsViewController: UserMessageViewController {
     override func fetchUserMessages() {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { [unowned self] () -> Void in
             var error: NSError? = nil
-            if !self.affirmationsFetchedResultController.performFetch(&error) {
-                println("Failed to fetch user messages with error: \(error)")
+            do {
+                try self.affirmationsFetchedResultController.performFetch()
+            } catch let error1 as NSError {
+                error = error1
+                print("Failed to fetch user messages with error: \(error)")
+            } catch {
+                fatalError()
             }
             
-            println("\(self.affirmationsFetchedResultController.fetchedObjects)")
+            print("\(self.affirmationsFetchedResultController.fetchedObjects)")
 
             dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
                 self.messageSwitchView.reloadSlots()
@@ -246,16 +251,46 @@ class AffirmationsViewController: UserMessageViewController {
             tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
         }
     }
+
+	// MARK: - NSFetchedResultsControllerDelegate
+
+	func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+		if let affirmation = anObject as? Affirmation {
+			switch type {
+			case .Insert:
+				if TutorialManager.sharedInstance.completed {
+					let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
+					selectAffirmationWithNumber(number)
+					APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
+				} else {
+					selectedAffirmation = affirmation
+				}
+				messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
+			case .Update:
+				if TutorialManager.sharedInstance.completed {
+					let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
+					selectAffirmationWithNumber(number)
+					APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
+				}
+			case .Delete:
+				messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
+				messageSwitchView.selectedSlot = affirmation.number.integerValue
+				APIManager.sharedInstance.deleteAffirmation(affirmation, handler: nil)
+			default:
+				break
+			}
+		}
+	}
 }
 
 // MARK: - MessageSwitchViewDelegate
 
 extension AffirmationsViewController: MessageSwitchViewDelegate {
-    
+
     func numberOfSlotsInMessageSwitchView(view: MessageSwitchView) -> Int {
         return Constants.NumberOfAffirmations
     }
-    
+
     func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int) {
         fillAffirmationWithNumber(NSNumber(integer: index))
     }
@@ -287,39 +322,6 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
             affirmation.receiveTime = messageSwitchView.receiveTime
         }
         TutorialManager.sharedInstance.nextStep()
-    }
-}
-
-// MARK: - NSFetchedResultsControllerDelegate
-
-extension AffirmationsViewController: NSFetchedResultsControllerDelegate {
-    
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        if let affirmation = anObject as? Affirmation {
-            switch type {
-                case .Insert:
-                    if TutorialManager.sharedInstance.completed {
-                        let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
-                        selectAffirmationWithNumber(number)
-                        APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
-                    } else {
-                        selectedAffirmation = affirmation
-                    }
-                    messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
-                case .Update:
-                    if TutorialManager.sharedInstance.completed {
-                        let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
-                        selectAffirmationWithNumber(number)
-                        APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)                        
-                    }
-                case .Delete:
-                    messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
-                    messageSwitchView.selectedSlot = affirmation.number.integerValue
-                    APIManager.sharedInstance.deleteAffirmation(affirmation, handler: nil)
-                default:
-                    break
-            }
-        }
     }
 }
 

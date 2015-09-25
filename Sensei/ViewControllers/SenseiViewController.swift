@@ -121,7 +121,7 @@ class SenseiViewController: BaseViewController {
         super.viewDidAppear(animated)
         showLastReceivedVisualisation()
         if !TutorialManager.sharedInstance.completed {
-            if let lastCompletedStepNumber = TutorialManager.sharedInstance.lastCompletedStepNumber {
+            if let _ = TutorialManager.sharedInstance.lastCompletedStepNumber {
                 dispatchTutorialToAppropriateViewController()
             } else {
                 TutorialManager.sharedInstance.nextStep()
@@ -152,8 +152,11 @@ class SenseiViewController: BaseViewController {
     
     private func fetchLessons() {
         var error: NSError? = nil
-        if !self.lessonsFetchedResultController.performFetch(&error) {
-            println("Failed to fetch user messages with error: \(error)")
+        do {
+            try self.lessonsFetchedResultController.performFetch()
+        } catch let error1 as NSError {
+            error = error1
+            print("Failed to fetch user messages with error: \(error)")
             self.login()
             return
         }
@@ -238,20 +241,20 @@ class SenseiViewController: BaseViewController {
         
     #if DEBUG
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-//        let idfa = "2EAB0742-8A34-4315-8C1E-6666E0EE6666"
+//        let idfa = "2EAB0742-8A34-4316-6C1E-6666E0EE6666"
 //        let idfa = "66AB0742-8A34-6615-8C1E-69E6E6666366"
         
     #else
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
     #endif
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
-        println("IDFA = \(idfa)")
-        println("timezone = \(currentTimeZone)")
+        print("IDFA = \(idfa)")
+        print("timezone = \(currentTimeZone)")
         APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone) { error in
             if let error = error {
-                println("Failed to login with error \(error)")
+                print("Failed to login with error \(error)")
             } else {
-                println("Login is successful. Das ist fantastisch!")
+                print("Login is successful. Das ist fantastisch!")
                 if let push = (UIApplication.sharedApplication().delegate as? AppDelegate)?.pushNotification {
                     self.handleLaunchViaPush(push)
                     (UIApplication.sharedApplication().delegate as? AppDelegate)?.pushNotification = nil
@@ -312,7 +315,7 @@ class SenseiViewController: BaseViewController {
         }
         NSNotificationCenter.defaultCenter().addObserverForName(ApplicationDidReceiveRemotePushNotification, object: nil, queue: nil) { [unowned self] notification in
             if let userInfo = notification.userInfo, push = PushNotification(userInfo: userInfo) {
-                println("Push Info = \(userInfo)")
+                print("Push Info = \(userInfo)")
                 if UIApplication.sharedApplication().applicationState == .Inactive && self.previousApplicationState == .Background {
                     if !self.isTopViewController {
                         self.navigationController?.popToRootViewControllerAnimated(false)
@@ -352,8 +355,8 @@ class SenseiViewController: BaseViewController {
                     let index = self.dataSource.find {
                         let idsEqual = $0.id == push.id
                         if let pushDate = push.date {
-                            println("\(pushDate.timeIntervalSince1970) \($0.date.timeIntervalSince1970)")
-                            println("\($0)")
+                            print("\(pushDate.timeIntervalSince1970) \($0.date.timeIntervalSince1970)")
+                            print("\($0)")
                             let isDateEqueal = $0.date.compare(pushDate) == .OrderedSame
                             return idsEqual && isDateEqueal
                         }
@@ -498,7 +501,8 @@ extension SenseiViewController: UICollectionViewDelegateFlowLayout {
         sizingCell.text = dataSource[indexPath.item].text
         let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
         sizingCell.frame = CGRect(x: 0.0, y: 0.0, width: width, height: Constants.DefaultCellHeight)
-        let size = sizingCell.systemLayoutSizeFittingSize(CGSize(width: width, height: CGFloat.max), withHorizontalFittingPriority: 1000, verticalFittingPriority: 50)
+		sizingCell.textView.layoutIfNeeded()
+        let size = sizingCell.systemLayoutSizeFittingSize(CGSize(width: width, height: Constants.DefaultCellHeight), withHorizontalFittingPriority: 1000, verticalFittingPriority: 50)
         return size
     }
 }
@@ -524,7 +528,7 @@ extension SenseiViewController: AnswerableViewDelegate {
             }
             TutorialManager.sharedInstance.nextStep()
         }
-        println("\(self) submitted answer: \(answerMessage.text)")
+        print("\(self) submitted answer: \(answerMessage.text)")
     }
     
     func answerableViewDidCancel(answerableView: AnswerableView) {
@@ -532,7 +536,7 @@ extension SenseiViewController: AnswerableViewDelegate {
             TutorialManager.sharedInstance.skipStep()
         }
         TutorialManager.sharedInstance.nextStep()
-        println("\(self) canceled question")
+        print("\(self) canceled question")
     }
 }
 
@@ -561,10 +565,10 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
                         }
                         return true
                     }
-                    println("Deleted \(lesson.date)")
+                    print("Deleted \(lesson.date)")
                 case .Insert:
                     dataSource.append(lesson as Message)
-                    println("Inserted \(lesson.date)")
+                    print("Inserted \(lesson.date)")
                     break
                 default:
                     break
@@ -573,7 +577,7 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
     }
 
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        dataSource.sort { $0.date.compare($1.date) == .OrderedAscending }
+        dataSource.sortInPlace { $0.date.compare($1.date) == .OrderedAscending }
         reloadSectionAnimated(isTopViewController)
     }
 }

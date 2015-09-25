@@ -155,10 +155,10 @@ class SettingsTableViewController: UITableViewController {
         if let dob = Settings.sharedSettings.dayOfBirth {
             dobEqual = DataFormatter.stringFromDate(dob) == dateOfBirthTF.text
         } else {
-            dobEqual = dateOfBirthTF.text.isEmpty
+            dobEqual = dateOfBirthTF.text!.isEmpty
         }
 
-        var genderEqual = (Settings.sharedSettings.gender == (maleButton.selected ? .Male: .Female))
+        let genderEqual = (Settings.sharedSettings.gender == (maleButton.selected ? .Male: .Female))
         var heightEqual = false
         if let height = Settings.sharedSettings.height {
             heightEqual = height.doubleValue == heightCm
@@ -171,7 +171,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private var hasSettingsBeenChanged: Bool {
-        var numberOfLessonsEqual = Settings.sharedSettings.numberOfLessons.integerValue == numberOfLessonsSlider.currentValue
+        let numberOfLessonsEqual = Settings.sharedSettings.numberOfLessons.integerValue == numberOfLessonsSlider.currentValue
         var timeSettingsEqual = false
         if let timeSettings = sleepTimeSettings {
             let weekdaysStartEqual = Settings.sharedSettings.sleepTimeWeekdays.start.compare(timeSettings.weekdaysStart) == .OrderedSame
@@ -247,7 +247,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func saveProfile() {
-        Settings.sharedSettings.dayOfBirth = DataFormatter.dateFromString(dateOfBirthTF.text)
+        Settings.sharedSettings.dayOfBirth = DataFormatter.dateFromString(dateOfBirthTF.text!)
         Settings.sharedSettings.gender = maleButton.selected ? .Male: .Female
         Settings.sharedSettings.height = heightCm > 0 ? NSNumber(double: heightCm): nil
         Settings.sharedSettings.weight = weightKg > 0 ? NSNumber(double: weightKg): nil
@@ -256,7 +256,7 @@ class SettingsTableViewController: UITableViewController {
     private func updateSettings() {
         APIManager.sharedInstance.updateSettingsWithCompletion({ [weak self] (settings, error) -> Void in
             self?.fillFromSettings()
-            println("After \(Settings.sharedSettings)")
+            print("After \(Settings.sharedSettings)")
         })
     }
     
@@ -467,7 +467,7 @@ extension SettingsTableViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(textField: UITextField) {
         firstResponder = textField
         if textField.inputView == timePicker {
-            if let date = DataFormatter.timeFromString(textField.text) {
+            if let date = DataFormatter.timeFromString(textField.text!) {
                 timePicker.setDate(date, animated: false)
             }
         }

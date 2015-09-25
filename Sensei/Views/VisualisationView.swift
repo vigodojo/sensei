@@ -162,9 +162,9 @@ class VisualisationView: UIView {
     
     // MARK: - KVO
     
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if context == TextViewContentSizeContext {
-            if let contentSize = (change[NSKeyValueChangeNewKey] as? NSValue)?.CGSizeValue() {
+            if let contentSize = (change?[NSKeyValueChangeNewKey] as? NSValue)?.CGSizeValue() {
                 updateTextViewInsetsForContentSize(contentSize)
             }
         } else {
@@ -177,7 +177,7 @@ class VisualisationView: UIView {
     private func shrinkText(text: String) -> String {
         let maxHeight = maxTextHeight
         let size = CGSizeMake(CGRectGetWidth(textView.frame), CGFloat.max)
-        let options = (NSStringDrawingOptions.UsesLineFragmentOrigin | NSStringDrawingOptions.UsesFontLeading)
+        let options: NSStringDrawingOptions = ([NSStringDrawingOptions.UsesLineFragmentOrigin, NSStringDrawingOptions.UsesFontLeading])
         let attributes = Visualization.outlinedTextAttributesWithMinFontSize()
         var height = CGRectGetHeight((text as NSString).boundingRectWithSize(size, options: options, attributes: attributes, context: nil))
         var aText = text

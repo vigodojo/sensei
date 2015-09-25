@@ -57,7 +57,7 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     }
     
     deinit {
-        println("\(self) ist Tod")
+        print("\(self) ist Tod")
     }
     
     // MARK: - Public

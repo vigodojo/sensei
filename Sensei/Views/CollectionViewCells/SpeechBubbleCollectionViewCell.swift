@@ -74,7 +74,7 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
+        contentView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
         textView.textContainerInset = UIEdgeInsetsZero
         textView.textContainer.lineFragmentPadding = 0
     }

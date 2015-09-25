@@ -74,10 +74,10 @@ class SpeechBubbleView: UIView {
     
     private func bezierPathForRight() -> UIBezierPath {
         let aPointerSize = pointerSize
-        var beziePath = UIBezierPath()
+        let beziePath = UIBezierPath()
         let offset = lineWidth / 2.0
         let angle = RadiangsFromDegrees(55)
-        let pointerOffset = cornerRadius - PoinOnCircleWithRadius(cornerRadius, angle).x
+        let pointerOffset = cornerRadius - PoinOnCircleWithRadius(cornerRadius, angle: angle).x
         let rightEdgeOffset = cornerRadius + aPointerSize.width - pointerOffset + offset
         
         var point = CGPoint(x: cornerRadius + offset, y: cornerRadius + offset)
@@ -94,7 +94,7 @@ class SpeechBubbleView: UIView {
         let pointerStart = point
         point.y -= cornerRadius * 0.5
         point.x -= cornerRadius
-        let pointerEnd = PoinOnCircleWithRadius(cornerRadius, angle, origin: point)
+        let pointerEnd = PoinOnCircleWithRadius(cornerRadius, angle: angle, origin: point)
         addRightPointerToBezierPath(beziePath, startPoint: pointerStart, endPoint: pointerEnd)
         
         beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: angle, endAngle: CGFloat(M_PI_2), clockwise: true)
@@ -123,10 +123,10 @@ class SpeechBubbleView: UIView {
         let aPointerSize = pointerSize
         let offset = lineWidth / 2.0
         let angle = RadiangsFromDegrees(125)
-        let pointerOffset = PoinOnCircleWithRadius(cornerRadius, angle, origin: CGPoint(x: cornerRadius, y: cornerRadius))
+        let pointerOffset = PoinOnCircleWithRadius(cornerRadius, angle: angle, origin: CGPoint(x: cornerRadius, y: cornerRadius))
         let leftEdgeOffset = cornerRadius + aPointerSize.width - pointerOffset.x + offset
         
-        var beziePath = UIBezierPath()
+        let beziePath = UIBezierPath()
         var point = CGPoint(x: CGRectGetWidth(bounds) - cornerRadius - offset, y: cornerRadius + offset)
         beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(0), endAngle: CGFloat(-M_PI_2), clockwise: false)
         point = beziePath.currentPoint
@@ -141,7 +141,7 @@ class SpeechBubbleView: UIView {
         let pointerStart = point
         point.y -= cornerRadius * 0.5
         point.x += cornerRadius
-        let pointerEnd = PoinOnCircleWithRadius(cornerRadius, angle, origin: point)
+        let pointerEnd = PoinOnCircleWithRadius(cornerRadius, angle: angle, origin: point)
         addLeftPointerToBezierPath(beziePath, startPoint: pointerStart, endPoint: pointerEnd)
         
         beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: angle, endAngle: CGFloat(M_PI_2), clockwise: false)
@@ -167,8 +167,8 @@ class SpeechBubbleView: UIView {
 }
 
 func PoinOnCircleWithRadius(radius: CGFloat, angle: CGFloat, origin: CGPoint = CGPointZero) -> CGPoint {
-    var x = origin.x + radius * cos(angle)
-    var y = origin.y + radius * sin(angle)
+    let x = origin.x + radius * cos(angle)
+    let y = origin.y + radius * sin(angle)
     return CGPoint(x: x, y: y)
 }
 

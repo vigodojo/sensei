@@ -26,7 +26,7 @@ class NavigationView: UIView {
     
     // MARK: - Lifecycle
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }

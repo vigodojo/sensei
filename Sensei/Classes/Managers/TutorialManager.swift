@@ -103,7 +103,7 @@ class TutorialManager {
                 for stepDictionary in stepDictionariesArray {
                     let step = tutorialStepFromDictionary(stepDictionary)
                     steps.append(step)
-                    println("Step: \(step)")
+                    print("Step: \(step)")
                 }
             }
         }

@@ -21,7 +21,7 @@ class AnimatableImageView: UIImageView {
         completionClosure = completion
         let animation = CAKeyframeAnimation()
         animation.keyPath = Constants.KeyPathContents
-        animation.values = animatableImage.images.map { $0.CGImage }
+        animation.values = animatableImage.images.map { $0.CGImage! }
         animation.duration = animatableImage.animationDuration
         animation.repeatCount = Float(animatableImage.animationRepeatCount)
         animation.delegate = self
@@ -31,12 +31,12 @@ class AnimatableImageView: UIImageView {
     }
     
     func stopAnimatableImageAnimation() {
-        if let animation = layer.animationForKey(Constants.AnimatableImageAnimationKey) {
+        if let _ = layer.animationForKey(Constants.AnimatableImageAnimationKey) {
             layer.removeAnimationForKey(Constants.AnimatableImageAnimationKey)
         }
     }
  
-    override func animationDidStop(anim: CAAnimation!, finished flag: Bool) {
+    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
         if let completionClosure = completionClosure {
             completionClosure(finished: flag)
         }

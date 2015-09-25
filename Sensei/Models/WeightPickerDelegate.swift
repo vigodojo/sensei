@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum Mass: Printable {
+enum Mass: CustomStringConvertible {
     case USMass(pounds: Int)
     case MetricMass(kilograms: Int)
     
@@ -62,7 +62,7 @@ class WeightPickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataSour
     
     // MARK - UIPickerViewDelegate
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch Settings.sharedSettings.dataFormat {
             case .Metric: return "\(Constants.MinWeightKg + row) " + Abbreviation.Kilograms
             case .US: return "\(Constants.MinWeightLb + row) " + Abbreviation.Pounds

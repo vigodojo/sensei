@@ -75,7 +75,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = ["provider": "APPLE", "deviceURL": token]
         }, completion: { (response) -> Void in
-            println("\(response)")
+            print("\(response)")
         })
     }
     
@@ -141,7 +141,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = affirmation
         }, completion: { (response) -> Void in
-            println("\(response)")
+            print("\(response)")
             if let handler = handler {
                 handler(error: response.error)
             }
@@ -153,7 +153,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Affirmation + "\(affirmation.number.integerValue)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-            println("\(response)")
+            print("\(response)")
             if let handler = handler {
                 handler(error: response.error)
             }
@@ -168,7 +168,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = visualization
         }, completion: { (response) -> Void in
-            println("\(response)")
+            print("\(response)")
             if let handler = handler {
                 handler(error: response.error)
             }
@@ -180,7 +180,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Visualization + "\(visualization.number)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-            println("\(response)")
+            print("\(response)")
             if let handler = handler {
                 handler(error: response.error)
             }
@@ -194,7 +194,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Settings
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
-            println("\(response)")
+            print("\(response)")
             if let json = response.object as? JSONObject {
                 Settings.updateWithJSON(json)
             }
@@ -210,8 +210,8 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = settings
         }, completion: { (response) -> Void in
-            println("Request Corpse = \(NSString(data: response.request.HTTPBody!, encoding: 4))")
-            println("\(response)")
+            print("Request Corpse = \(NSString(data: response.request.HTTPBody!, encoding: 4))")
+            print("\(response)")
             if let handler = handler {
                 handler(error: response.error)
             }

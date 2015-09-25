@@ -15,7 +15,7 @@ enum Answer {
     case Date(NSDate)
 }
 
-class AnswerMessage: Message, Printable {
+class AnswerMessage: Message, CustomStringConvertible {
     
     private lazy var dateFormatter: NSDateFormatter = {
         let dateFormatter = NSDateFormatter()

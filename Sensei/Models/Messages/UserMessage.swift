@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import RestClient
 
-enum ReceiveTime: String, Printable {
+enum ReceiveTime: String, CustomStringConvertible {
     
     case AnyTime = "any"
     case Morning = "morning"

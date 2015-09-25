@@ -24,7 +24,7 @@ class TextImageView: UIView {
             }
         }
         
-        private override func drawInContext(ctx: CGContext!) {
+        private override func drawInContext(ctx: CGContext) {
             if let text = attributedText {
                 let textSize = textSizeForText(text)
                 let textOrigin = textOriginForTextSize(textSize)
@@ -37,7 +37,7 @@ class TextImageView: UIView {
         }
         
         private func textSizeForText(text: NSAttributedString) -> CGSize {
-            return text.boundingRectWithSize(CGSize(width: CGRectGetWidth(textRect), height: CGFloat.max), options: .UsesLineFragmentOrigin | .UsesFontLeading, context: nil).size
+            return text.boundingRectWithSize(CGSize(width: CGRectGetWidth(textRect), height: CGFloat.max), options: [.UsesLineFragmentOrigin, .UsesFontLeading], context: nil).size
         }
         
         private func textOriginForTextSize(textSize: CGSize) -> CGPoint {
@@ -67,7 +67,7 @@ class TextImageView: UIView {
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }

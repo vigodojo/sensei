@@ -60,12 +60,12 @@ class StringColumnSeparator {
     
     // MARK: - Private
     
-    private func attributesWithFont(font: UIFont) -> [NSObject: AnyObject] {
-        var font = CTFontCreateWithName(font.fontName, font.pointSize, nil)
+    private func attributesWithFont(font: UIFont) -> [String: AnyObject] {
+        let font = CTFontCreateWithName(font.fontName, font.pointSize, nil)
         var lineBreakMode = CTLineBreakMode.ByWordWrapping
         let lineBreakModeSet = CTParagraphStyleSetting(spec: CTParagraphStyleSpecifier.LineBreakMode, valueSize: sizeof(CTLineBreakMode), value: &lineBreakMode)
-        var paragraphStypeSettings = [lineBreakModeSet]
-        var paragraphStyle = CTParagraphStyleCreate(paragraphStypeSettings, paragraphStypeSettings.count);
+        let paragraphStypeSettings = [lineBreakModeSet]
+        let paragraphStyle = CTParagraphStyleCreate(paragraphStypeSettings, paragraphStypeSettings.count);
         return [String(kCTFontAttributeName): font, String(kCTParagraphStyleAttributeName): paragraphStyle]
     }
 }
@@ -75,8 +75,9 @@ class StringColumnSeparator {
 extension String {
     
     func rangeFromNSRange(nsRange: NSRange) -> Range<String.Index>? {
-        if let from = String.Index(self.utf16.startIndex + nsRange.location, within: self),
-            let to = String.Index(self.utf16.startIndex + nsRange.location + nsRange.length, within: self) {
+		let from16 = utf16.startIndex.advancedBy(nsRange.location, limit: utf16.endIndex)
+        if let from = String.Index(from16, within: self),
+            let to = String.Index(from16.advancedBy(nsRange.length, limit: utf16.endIndex), within: self) {
                 return from ..< to
         }
         return nil

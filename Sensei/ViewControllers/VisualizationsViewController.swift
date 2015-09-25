@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import AVFoundation
 
-class VisualizationsViewController: UserMessageViewController {
+class VisualizationsViewController: UserMessageViewController, NSFetchedResultsControllerDelegate {
    
     private struct Constants {
         static let VisuaizationCellReuseIdentifier = "VisualizationCollectionViewCell"
@@ -80,8 +80,13 @@ class VisualizationsViewController: UserMessageViewController {
     override func fetchUserMessages() {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { [unowned self] () -> Void in
             var error: NSError? = nil
-            if !self.visualizationFetchedResultController.performFetch(&error) {
-                println("Failed to fetch user messages with error: \(error)")
+            do {
+                try self.visualizationFetchedResultController.performFetch()
+            } catch let error1 as NSError {
+                error = error1
+                print("Failed to fetch user messages with error: \(error)")
+            } catch {
+                fatalError()
             }
             
             dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
@@ -241,7 +246,7 @@ class VisualizationsViewController: UserMessageViewController {
             let text = visualisationView.text
             let scaledFontSize = Visualization.scaledFontSizeForFontSize(visualisationView.currentFontSize, imageSize: image.size, insideRect: visualisationView.imageView.bounds)
             let imagePreviewController = TextImagePreviewController.imagePreviewControllerWithImage(image)
-            imagePreviewController.attributedText = NSAttributedString(string: text, attributes: Visualization.outlinedTextAttributesWithFontSize(scaledFontSize))
+			imagePreviewController.attributedText = NSAttributedString(string: text, attributes: Visualization.outlinedTextAttributesWithFontSize(scaledFontSize))
             self.presentViewController(imagePreviewController, animated: true, completion: nil)
         }
     }
@@ -251,16 +256,44 @@ class VisualizationsViewController: UserMessageViewController {
     @IBAction func visualizationImageViewTap(sender: UITapGestureRecognizer) {
         showVisualizationInPreview()
     }
+
+
+	// MARK: - NSFetchedResultsControllerDelegate
+
+	func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+		if let visualization = anObject as? Visualization {
+			switch type {
+			case .Insert:
+				if Constants.NumberOfFreeVisualizations == 1 {
+					selectedVisualization = visualization
+				}
+				messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
+				if TutorialManager.sharedInstance.completed {
+					APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
+				}
+			case .Update:
+				if TutorialManager.sharedInstance.completed {
+					APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
+				}
+			case .Delete:
+				messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
+				messageSwitchView.selectedSlot = visualization.number.integerValue
+				APIManager.sharedInstance.deleteVisualization(visualization, handler: nil)
+			default:
+				break
+			}
+		}
+	}
 }
 
 // MARK: - MessageSwitchViewDelegate
 
 extension VisualizationsViewController: MessageSwitchViewDelegate {
-    
+
     func numberOfSlotsInMessageSwitchView(view: MessageSwitchView) -> Int {
         return Constants.NumberOfVisualizations
     }
-    
+
     func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int) {
         fillVisualisationWithNumber(NSNumber(integer: index))
     }
@@ -334,7 +367,7 @@ extension VisualizationsViewController: VisualizationViewDelegate {
 
 extension VisualizationsViewController: UIImagePickerControllerDelegate {
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             visualisationView.configureWithText(selectedVisualization?.text ?? "", image: image.upOrientedImage.fullScreenImage)
             didChangeImage = true
@@ -347,35 +380,4 @@ extension VisualizationsViewController: UIImagePickerControllerDelegate {
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         picker.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
-}
-
-// MARK: - NSFetchedResultsControllerDelegate
-
-extension VisualizationsViewController: NSFetchedResultsControllerDelegate {
-    
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        if let visualization = anObject as? Visualization {
-            switch type {
-                case .Insert:
-                    if Constants.NumberOfFreeVisualizations == 1 {
-                        selectedVisualization = visualization
-                    }
-                    messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
-                    if TutorialManager.sharedInstance.completed {
-                        APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
-                    }
-                case .Update:
-                    if TutorialManager.sharedInstance.completed {
-                        APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
-                    }
-                case .Delete:
-                    messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
-                    messageSwitchView.selectedSlot = visualization.number.integerValue
-                    APIManager.sharedInstance.deleteVisualization(visualization, handler: nil)
-                default:
-                    break
-            }
-        }
-    }
-
 }

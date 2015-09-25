@@ -20,7 +20,7 @@ class PickerInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
     var didSubmit: (() -> Void)?
     var didCancel: (() -> Void)?
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }

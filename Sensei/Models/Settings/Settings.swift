@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import RestClient
 
-enum Gender: String, Printable {
+enum Gender: String, CustomStringConvertible {
     case Male = "male"
     case Female = "female"
     

@@ -81,7 +81,7 @@ class AnswerableView: UIView {
     
     // MARK: - Lifecycle
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -93,7 +93,7 @@ class AnswerableView: UIView {
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        println("\(classForCoder) ist Tod")
+        print("\(classForCoder) ist Tod")
     }
     
     // MARK - UIResponder
@@ -220,7 +220,7 @@ extension AnswerableView: UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        submitAnswer(Answer.Text(textField.text))
+        submitAnswer(Answer.Text(textField.text!))
         return true;
     }
 }
@@ -242,7 +242,7 @@ extension AnswerableView: UIPickerViewDataSource {
 
 extension AnswerableView: UIPickerViewDelegate {
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerOptions[row]
     }
 }
