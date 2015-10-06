@@ -20,7 +20,7 @@ class SenseiViewController: BaseViewController {
     private struct Constants {
         static let MinOpacity = CGFloat(0.2)
         static let DefaultCellHeight = CGFloat(30.0)
-        static let DefaultBottomSpace = CGFloat(80.0)
+        static let DefaultBottomSpace = CGFloat(66.0)
         static let CollectionContentInset = UIEdgeInsets(top: 0, left: 11, bottom: 0, right: 76)
         static let ToAffirmationsSegue = "Go To Affirmations"
         static let ToVisualisationsSegue = "Go To Visualisations"
@@ -32,6 +32,16 @@ class SenseiViewController: BaseViewController {
     @IBOutlet weak var senseiImageView: AnimatableImageView!
     @IBOutlet weak var affirmationsButton: UIButton!
     @IBOutlet weak var visualisationsButton: UIButton!
+	@IBOutlet weak var fadingImageView: UIImageView!
+
+	private lazy var transparrencyGradientLayer: CAGradientLayer = {
+		let gradientLayer = CAGradientLayer()
+		gradientLayer.colors = [UIColor(white: 0.0, alpha: 1.0).CGColor, UIColor(white: 0.0, alpha: 0.0).CGColor]
+		gradientLayer.locations = [CGFloat(0.0), CGFloat(1.0)]
+		gradientLayer.startPoint = CGPointZero
+		gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.6)
+		return gradientLayer
+	}()
     
     private lazy var sizingCell: SpeechBubbleCollectionViewCell = {
         NSBundle.mainBundle().loadNibNamed(RightSpeechBubbleCollectionViewCellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
@@ -102,6 +112,7 @@ class SenseiViewController: BaseViewController {
         collectionView.registerNib(UINib(nibName: RightSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: RightSpeechBubbleCollectionViewCellIdentifier)
         collectionView.registerNib(UINib(nibName: LeftSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: LeftSpeechBubbleCollectionViewCellIdentifier)
         collectionView.contentInset = Constants.CollectionContentInset
+		fadingImageView.layer.mask = transparrencyGradientLayer
         fetchLessons()
         addApplicationObservers()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
@@ -144,6 +155,7 @@ class SenseiViewController: BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+		transparrencyGradientLayer.frame = fadingImageView.bounds
         collectionView.contentInset.top = CGRectGetMinY(senseiImageView.frame)
     }
     
@@ -242,8 +254,8 @@ class SenseiViewController: BaseViewController {
     #if DEBUG
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
 //        let idfa = "2EAB0742-8A34-4316-6C1E-6666E0EE6666"
-//        let idfa = "66AB0742-8A34-6615-8C1E-69E6E6666366"
-        
+//        let idfa = "66AB0642-8A34-6615-8C1E-69E6E6666366"
+
     #else
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
     #endif
@@ -403,9 +415,11 @@ class SenseiViewController: BaseViewController {
         if size.height > senseiBottomSpaceConstraint.constant {
             view.layoutIfNeeded()
             self.collectionView.contentInset.bottom = size.height - Constants.DefaultBottomSpace + collectionViewBottomContentInset
+			let startPoiint = CGPoint(x: 0.0, y: (size.height - Constants.DefaultBottomSpace) / CGRectGetHeight(fadingImageView.frame))
             UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [unowned self] () -> Void in
                 self.senseiBottomSpaceConstraint.constant = size.height
                 self.collectionView.contentOffset = self.maxContentOffset
+				self.transparrencyGradientLayer.startPoint = startPoiint
                 self.view.layoutIfNeeded()
             }, completion: nil)
         }
@@ -416,6 +430,7 @@ class SenseiViewController: BaseViewController {
         UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [unowned self] () -> Void in
             self.senseiBottomSpaceConstraint.constant = Constants.DefaultBottomSpace
             self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
+			self.transparrencyGradientLayer.startPoint = CGPointZero
             self.view.layoutIfNeeded()
         }, completion: nil)
     }

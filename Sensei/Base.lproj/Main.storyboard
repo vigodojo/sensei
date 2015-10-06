@@ -123,9 +123,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ihU-65-WZz">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ihU-65-WZz">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Knudsendojo" translatesAutoresizingMaskIntoConstraints="NO" id="Nia-Fs-uzF">
+                                        <rect key="frame" x="0.0" y="-374" width="600" height="569"/>
+                                        <animations/>
+                                    </imageView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ImO-8t-8FL">
                                         <rect key="frame" x="13" y="8" width="508" height="92"/>
                                         <animations/>
@@ -165,6 +169,9 @@
                                     <constraint firstAttribute="height" constant="100" id="aY1-1g-pE7"/>
                                     <constraint firstAttribute="trailing" secondItem="PHS-Xl-anD" secondAttribute="trailing" constant="13" id="gR5-Pw-JZy"/>
                                     <constraint firstItem="ImO-8t-8FL" firstAttribute="leading" secondItem="ihU-65-WZz" secondAttribute="leading" constant="13" id="iIa-d3-lJ1"/>
+                                    <constraint firstItem="Nia-Fs-uzF" firstAttribute="leading" secondItem="ihU-65-WZz" secondAttribute="leading" id="nBp-Jn-zmK"/>
+                                    <constraint firstAttribute="bottom" secondItem="Nia-Fs-uzF" secondAttribute="bottom" constant="-95" id="pEU-LL-eHX"/>
+                                    <constraint firstAttribute="trailing" secondItem="Nia-Fs-uzF" secondAttribute="trailing" id="uj9-LJ-ZpP"/>
                                 </constraints>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QvE-3W-cZW">
@@ -178,6 +185,7 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Nia-Fs-uzF" firstAttribute="height" secondItem="1It-y6-uMM" secondAttribute="height" constant="-31" id="IPz-FU-v5C"/>
                             <constraint firstAttribute="trailing" secondItem="QvE-3W-cZW" secondAttribute="trailing" id="S9I-FW-4T8"/>
                             <constraint firstItem="QvE-3W-cZW" firstAttribute="top" secondItem="ihU-65-WZz" secondAttribute="bottom" id="Zr7-iQ-8Gn"/>
                             <constraint firstItem="ihU-65-WZz" firstAttribute="top" secondItem="1It-y6-uMM" secondAttribute="top" id="e8Y-fp-qbv"/>
@@ -212,7 +220,7 @@
                         <viewControllerLayoutGuide type="top" id="8ZL-mD-K9c"/>
                         <viewControllerLayoutGuide type="bottom" id="ZT2-S9-L03"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="nBU-UE-xiJ" customClass="AnswerableView" customModule="Sensei" customModuleProvider="target">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="nBU-UE-xiJ" customClass="AnswerableView" customModule="Sensei" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -236,11 +244,15 @@
                                     <outlet property="delegate" destination="9sk-6H-UQQ" id="Rbo-QH-L4d"/>
                                 </connections>
                             </collectionView>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h0u-hS-teU" customClass="FadingGradientView" customModule="Sensei" customModuleProvider="target">
+                            <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h0u-hS-teU">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Knudsendojo" translatesAutoresizingMaskIntoConstraints="NO" id="FJP-jG-auA">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i7j-O7-g18">
                                 <rect key="frame" x="163" y="564" width="126" height="24"/>
                                 <animations/>
@@ -289,28 +301,33 @@
                         <constraints>
                             <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="i7j-O7-g18" secondAttribute="bottom" constant="12" id="0Yr-uO-YdU"/>
                             <constraint firstAttribute="trailing" secondItem="h0u-hS-teU" secondAttribute="trailing" id="0j4-dP-BJB"/>
-                            <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="2A1-QW-FFs" secondAttribute="bottom" id="5kM-xz-p1P"/>
+                            <constraint firstItem="FJP-jG-auA" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" id="4WU-Wh-CPk"/>
                             <constraint firstItem="h0u-hS-teU" firstAttribute="top" secondItem="8ZL-mD-K9c" secondAttribute="bottom" id="BEq-RT-3T4"/>
+                            <constraint firstItem="2A1-QW-FFs" firstAttribute="height" secondItem="nBU-UE-xiJ" secondAttribute="height" id="EK1-ce-YuO"/>
                             <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="66" id="FvM-UG-dxG"/>
                             <constraint firstItem="mpr-qy-yfa" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" id="GTy-Jk-70e"/>
                             <constraint firstItem="i7j-O7-g18" firstAttribute="top" secondItem="rLE-xd-apt" secondAttribute="top" id="PFY-5r-9mW"/>
+                            <constraint firstAttribute="trailing" secondItem="FJP-jG-auA" secondAttribute="trailing" id="QCt-hx-yfx"/>
                             <constraint firstAttribute="centerX" secondItem="rLE-xd-apt" secondAttribute="centerX" constant="-75" id="TLR-VP-Zuw"/>
                             <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="mpr-qy-yfa" secondAttribute="bottom" constant="80" id="Y1e-hN-ZRq"/>
                             <constraint firstItem="h0u-hS-teU" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" id="Y4a-9J-g6m"/>
                             <constraint firstAttribute="trailing" secondItem="2A1-QW-FFs" secondAttribute="trailing" id="dx6-JZ-Agd"/>
+                            <constraint firstItem="FJP-jG-auA" firstAttribute="bottom" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="66" id="edc-3I-bnL"/>
                             <constraint firstAttribute="centerX" secondItem="i7j-O7-g18" secondAttribute="centerX" constant="74" id="fO1-lZ-eZm"/>
+                            <constraint firstItem="FJP-jG-auA" firstAttribute="height" secondItem="2A1-QW-FFs" secondAttribute="height" id="kGw-yq-eQa"/>
+                            <constraint firstItem="2A1-QW-FFs" firstAttribute="bottom" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="66" id="kvK-cA-e66"/>
                             <constraint firstItem="8zt-ws-naK" firstAttribute="bottom" secondItem="h0u-hS-teU" secondAttribute="bottom" constant="14" id="oO9-RK-5bI"/>
                             <constraint firstAttribute="trailing" secondItem="mpr-qy-yfa" secondAttribute="trailing" id="odT-nM-ic6"/>
                             <constraint firstItem="2A1-QW-FFs" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" id="q0A-uY-jic"/>
                             <constraint firstAttribute="trailing" secondItem="8zt-ws-naK" secondAttribute="trailing" constant="16" id="t9k-db-GJC"/>
                             <constraint firstItem="mpr-qy-yfa" firstAttribute="top" secondItem="8ZL-mD-K9c" secondAttribute="bottom" id="uM6-w9-2XN"/>
-                            <constraint firstItem="2A1-QW-FFs" firstAttribute="top" secondItem="8ZL-mD-K9c" secondAttribute="bottom" id="wAI-3e-5kY"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="affirmationsButton" destination="i7j-O7-g18" id="Y3V-lw-6qG"/>
                         <outlet property="collectionView" destination="mpr-qy-yfa" id="k0h-Ok-4eD"/>
                         <outlet property="fadingGradientView" destination="h0u-hS-teU" id="OpJ-hZ-EHu"/>
+                        <outlet property="fadingImageView" destination="FJP-jG-auA" id="w6l-rw-8pS"/>
                         <outlet property="senseiBottomSpaceConstraint" destination="FvM-UG-dxG" id="FNy-Mi-9ET"/>
                         <outlet property="senseiImageView" destination="8zt-ws-naK" id="jmb-t5-Mcd"/>
                         <outlet property="visualisationsButton" destination="rLE-xd-apt" id="MNw-VR-Wfh"/>
@@ -1412,7 +1429,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Knudsendojo" width="402" height="640"/>
+        <image name="Knudsendojo" width="412" height="640"/>
         <image name="VigoSensei" width="69" height="128"/>
         <image name="app_store" width="26" height="26"/>
         <image name="camera" width="25" height="19"/>
