@@ -12,8 +12,8 @@ class NumberThumbView: VigoSliderThumbView {
     
     private struct Constants {
         static let BorderColor = UIColor(hexColor:0x315D7F)
-        static let BorderWidth: CGFloat = 2.0
-        static let Font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
+        static let BorderWidth: CGFloat = 1.0
+        static let Font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
     }
     
     weak var textLabel: UILabel!

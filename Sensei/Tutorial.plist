@@ -115,7 +115,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>You have six message slots. Simply tap one of the numbers below to reveal that message. If the number is red the slot is empty, if it is black it is full. Once you have selected the slot you want to edit, you simply tap in the text field below to enter or modify the text</string>
+		<string>You have six message slots. Simply tap one of the numbers below to reveal that message. If the number is grey the slot is empty, if it is black it is full. Once you have selected the slot you want to edit, you simply tap in the text field below to enter or modify the text</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>

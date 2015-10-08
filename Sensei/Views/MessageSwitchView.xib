@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MessageSwitchView" customModule="Sensei" customModuleProvider="target">
@@ -17,13 +18,14 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="245" horizontalCompressionResistancePriority="740" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="tRv-S3-hJh" userLabel="Slots Collection View">
-                    <rect key="frame" x="12" y="14" width="296" height="29"/>
+                    <rect key="frame" x="12" y="14" width="296" height="35"/>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="29" id="z1x-AV-wFv"/>
+                        <constraint firstAttribute="height" constant="35" id="z1x-AV-wFv"/>
                     </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="CNf-qL-wfj">
-                        <size key="itemSize" width="38" height="28"/>
+                        <size key="itemSize" width="38" height="34"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -35,13 +37,15 @@
                     </connections>
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MESSAGE TIMING" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pT-A0-z2N">
-                    <rect key="frame" x="27" y="72" width="115" height="16"/>
+                    <rect key="frame" x="27" y="72" width="116" height="16"/>
+                    <animations/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="START OF DAY" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="W22-kQ-Yhw">
                     <rect key="frame" x="190" y="64" width="112" height="30"/>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -52,7 +56,7 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                            <integer key="value" value="2"/>
+                            <real key="value" value="0.5"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
                             <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -64,6 +68,7 @@
                 </textView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTF-C9-hd0">
                     <rect key="frame" x="190" y="64" width="112" height="30"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="OYa-S6-E5x"/>
                         <constraint firstAttribute="width" constant="112" id="gn8-nM-kem"/>
@@ -76,13 +81,14 @@
                     </connections>
                 </button>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="W22-kQ-Yhw" firstAttribute="top" secondItem="tRv-S3-hJh" secondAttribute="bottom" constant="21" id="3cW-W3-U9T"/>
-                <constraint firstItem="1pT-A0-z2N" firstAttribute="top" secondItem="tRv-S3-hJh" secondAttribute="bottom" constant="29" id="43E-cT-KT6"/>
+                <constraint firstItem="W22-kQ-Yhw" firstAttribute="top" secondItem="tRv-S3-hJh" secondAttribute="bottom" constant="15" id="3cW-W3-U9T"/>
+                <constraint firstItem="1pT-A0-z2N" firstAttribute="top" secondItem="tRv-S3-hJh" secondAttribute="bottom" constant="23" id="43E-cT-KT6"/>
                 <constraint firstItem="tRv-S3-hJh" firstAttribute="leading" secondItem="vSd-JS-Mns" secondAttribute="leading" constant="12" id="BdR-bi-x9i"/>
                 <constraint firstAttribute="trailing" secondItem="tRv-S3-hJh" secondAttribute="trailing" constant="12" id="BnX-DO-2Dx"/>
-                <constraint firstItem="aTF-C9-hd0" firstAttribute="top" secondItem="tRv-S3-hJh" secondAttribute="bottom" constant="21" id="ObL-Fo-BbU"/>
+                <constraint firstItem="aTF-C9-hd0" firstAttribute="top" secondItem="tRv-S3-hJh" secondAttribute="bottom" constant="15" id="ObL-Fo-BbU"/>
                 <constraint firstItem="tRv-S3-hJh" firstAttribute="top" secondItem="vSd-JS-Mns" secondAttribute="top" constant="14" id="mU7-A5-UDn"/>
                 <constraint firstAttribute="trailing" secondItem="aTF-C9-hd0" secondAttribute="trailing" constant="18" id="pgf-u3-ESk"/>
                 <constraint firstItem="1pT-A0-z2N" firstAttribute="leading" secondItem="vSd-JS-Mns" secondAttribute="leading" constant="27" id="wQ3-0t-EBb"/>

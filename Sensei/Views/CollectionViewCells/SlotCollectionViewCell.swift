@@ -14,7 +14,7 @@ class SlotCollectionViewCell: UICollectionViewCell {
     
     override var selected: Bool {
         didSet {
-            titleLabel.layer.borderWidth = selected ? 2: 0
+            titleLabel.layer.borderWidth = selected ? 1: 0
         }
     }
 }

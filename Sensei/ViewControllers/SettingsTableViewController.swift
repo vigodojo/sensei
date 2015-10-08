@@ -90,7 +90,6 @@ class SettingsTableViewController: UITableViewController {
         }
         return pickerDelegate
     }()
-
     
     private lazy var heightPicker: UIPickerView = { [unowned self] in
         let picker = UIPickerView()

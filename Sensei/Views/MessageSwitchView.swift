@@ -26,7 +26,7 @@ class MessageSwitchView: UIView {
     private struct Constants {
         static let NibName = "MessageSwitchView"
         static let SlotCellNibName = "SlotCollectionViewCell"
-        static let EmtySlotTextColor = UIColor(hexColor: 0xEA212D)
+        static let EmtySlotTextColor = UIColor(hexColor: 0x939598)
         static let FilledSlotTextColor = UIColor.blackColor()
     }
     
