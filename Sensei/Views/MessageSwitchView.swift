@@ -52,6 +52,7 @@ class MessageSwitchView: UIView {
         let picker = UIPickerView(frame: CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.frame), height: 250)))
         picker.dataSource = self
         picker.delegate = self
+		picker.backgroundColor = UIColor.whiteColor()
         return picker
     }()
     

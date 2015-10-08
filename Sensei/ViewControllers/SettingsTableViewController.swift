@@ -50,6 +50,7 @@ class SettingsTableViewController: UITableViewController {
         let picker = UIDatePicker()
         picker.datePickerMode = .Time
         picker.addTarget(self, action: Selector("timePickerDidChangeValue:"), forControlEvents: UIControlEvents.ValueChanged)
+		picker.backgroundColor = UIColor.whiteColor()
         return picker
     }()
     
@@ -57,6 +58,7 @@ class SettingsTableViewController: UITableViewController {
         let picker = UIDatePicker()
         picker.datePickerMode = .Date
         picker.addTarget(self, action: Selector("datePickerDidChangeValue:"), forControlEvents: UIControlEvents.ValueChanged)
+		picker.backgroundColor = UIColor.whiteColor()
         return picker
     }()
     
@@ -94,6 +96,7 @@ class SettingsTableViewController: UITableViewController {
         let picker = UIPickerView()
         picker.dataSource = self.heightPickerDelegate
         picker.delegate = self.heightPickerDelegate
+		picker.backgroundColor = UIColor.whiteColor()
         return picker
     }()
     
@@ -101,6 +104,7 @@ class SettingsTableViewController: UITableViewController {
         let picker = UIPickerView()
         picker.dataSource = self.weightPickerDelegate
         picker.delegate = self.weightPickerDelegate
+		picker.backgroundColor = UIColor.whiteColor()
         return picker
     }()
     
@@ -147,8 +151,8 @@ class SettingsTableViewController: UITableViewController {
             }
         }
     }
-    private var heightCm = Double(0)//Double(HeightPickerDelegate.Constants.MinHeightCm)
-    private var weightKg = Double(0)//Double(WeightPickerDelegate.Constants.MinWeightLb)
+    private var heightCm = Double(0)
+    private var weightKg = Double(0)
     
     private var hasProfileBeenChanged: Bool {
         var dobEqual = false
@@ -190,9 +194,6 @@ class SettingsTableViewController: UITableViewController {
         updateSettings()
         setup()
         addObservers()
-        if !TutorialManager.sharedInstance.completed {
-            allControlsEnable(false)
-        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -232,7 +233,6 @@ class SettingsTableViewController: UITableViewController {
     private func addObservers() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleNoAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.NoAnswer, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didMoveToNextTutorialNotification:"), name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
     }
     
@@ -341,31 +341,6 @@ class SettingsTableViewController: UITableViewController {
     }
     
     // MARK: - Tutorial
-    
-    func didFinishTutorialNotificatin(notification: NSNotification) {
-        allControlsEnable(true)
-    }
-    
-    private func allControlsEnable(enabled: Bool) {
-        numberOfLessonsSlider.userInteractionEnabled = enabled
-        tutorialSwitch.userInteractionEnabled = enabled
-        weekDaysStartTF.userInteractionEnabled = enabled
-        weekDaysEndTF.userInteractionEnabled = enabled
-        weekEndsStartTF.userInteractionEnabled = enabled
-        weekEndsEndTF.userInteractionEnabled = enabled
-        dateOfBirthTF.userInteractionEnabled = enabled
-        weightTexField.userInteractionEnabled = enabled
-        heightTextField.userInteractionEnabled = enabled
-        usDataFormatButton.userInteractionEnabled = enabled
-        metricDataFormatButton.userInteractionEnabled = enabled
-        maleButton.userInteractionEnabled = enabled
-        femaleButton.userInteractionEnabled = enabled
-        shareOnFacebookButton.userInteractionEnabled = enabled
-        tweetButton.userInteractionEnabled = enabled
-        rateInAppStoreButton.userInteractionEnabled = enabled
-        feedbackButton.userInteractionEnabled = enabled
-        upgradeButton.userInteractionEnabled = enabled
-    }
     
     func didMoveToNextTutorialNotification(notification: NSNotification) {
         if let tutorialStep = notification.userInfo?[TutorialManager.UserInfoKeys.TutorialStep] as? TutorialStep {

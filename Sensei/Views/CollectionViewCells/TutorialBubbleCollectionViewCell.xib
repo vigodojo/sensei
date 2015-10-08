@@ -16,21 +16,13 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ytY-bT-7Kp" customClass="SpeechBubbleView" customModule="Sensei" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="92"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="J1I-rO-zr0">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2aE-fa-BUm">
                                 <rect key="frame" x="8" y="8" width="294" height="76"/>
                                 <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="quy-mZ-HrN">
-                                    <size key="itemSize" width="294" height="66"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <connections>
-                                    <outlet property="dataSource" destination="gTV-IL-0wX" id="ilX-a9-a4i"/>
-                                    <outlet property="delegate" destination="gTV-IL-0wX" id="OAb-Li-v8l"/>
-                                </connections>
-                            </collectionView>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dlp-tt-5pB">
                                 <rect key="frame" x="274" y="52" width="40" height="40"/>
                                 <animations/>
@@ -117,14 +109,14 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="CLG-c6-VXc" secondAttribute="bottom" constant="8" id="8rC-34-T2q"/>
+                            <constraint firstItem="2aE-fa-BUm" firstAttribute="leading" secondItem="ytY-bT-7Kp" secondAttribute="leading" constant="8" id="Hx1-j5-2no"/>
+                            <constraint firstAttribute="trailing" secondItem="2aE-fa-BUm" secondAttribute="trailing" constant="18" id="PsO-Uj-b6B"/>
                             <constraint firstAttribute="bottom" secondItem="Dlp-tt-5pB" secondAttribute="bottom" id="Vya-fF-ZB9"/>
                             <constraint firstAttribute="trailing" secondItem="CLG-c6-VXc" secondAttribute="trailing" constant="19" id="Xbl-Ni-M0G"/>
-                            <constraint firstItem="J1I-rO-zr0" firstAttribute="top" secondItem="ytY-bT-7Kp" secondAttribute="top" constant="8" id="YiL-9Z-tY3"/>
                             <constraint firstItem="CLG-c6-VXc" firstAttribute="leading" secondItem="ytY-bT-7Kp" secondAttribute="leading" constant="8" id="adH-o5-rPA"/>
                             <constraint firstAttribute="trailing" secondItem="Dlp-tt-5pB" secondAttribute="trailing" constant="6" id="i0j-OU-m1F"/>
-                            <constraint firstAttribute="trailing" secondItem="J1I-rO-zr0" secondAttribute="trailing" constant="18" id="t75-vq-YDp"/>
-                            <constraint firstAttribute="bottom" secondItem="J1I-rO-zr0" secondAttribute="bottom" constant="8" id="wvM-yu-aaI"/>
-                            <constraint firstItem="J1I-rO-zr0" firstAttribute="leading" secondItem="ytY-bT-7Kp" secondAttribute="leading" constant="8" id="yxb-Hr-BL2"/>
+                            <constraint firstAttribute="bottom" secondItem="2aE-fa-BUm" secondAttribute="bottom" constant="8" id="kdA-Mk-8QQ"/>
+                            <constraint firstItem="2aE-fa-BUm" firstAttribute="top" secondItem="ytY-bT-7Kp" secondAttribute="top" constant="8" id="qOt-EN-lSq"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -141,15 +133,15 @@
             </constraints>
             <size key="customSize" width="309" height="99"/>
             <connections>
-                <outlet property="collectionView" destination="J1I-rO-zr0" id="GS1-e5-RVh"/>
                 <outlet property="controllsContainer" destination="CLG-c6-VXc" id="YHz-fm-1dV"/>
                 <outlet property="nextButton" destination="Dlp-tt-5pB" id="apT-Y3-5c3"/>
                 <outlet property="speechBubbleView" destination="ytY-bT-7Kp" id="5B6-ME-oIC"/>
+                <outlet property="textView" destination="2aE-fa-BUm" id="RPj-e3-9bg"/>
             </connections>
             <point key="canvasLocation" x="454" y="298"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="triangle_icone" width="8" height="10"/>
+        <image name="triangle_icone" width="10" height="8"/>
     </resources>
 </document>

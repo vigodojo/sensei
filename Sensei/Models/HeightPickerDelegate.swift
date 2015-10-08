@@ -36,6 +36,8 @@ class HeightPickerDelegate: NSObject, UIPickerViewDataSource, UIPickerViewDelega
         static let MaxHeightFt = 8
         static let MinHeightIn = 0
         static let MaxHeightIn = 11
+		static let USComponentWidth = CGFloat(70)
+		static let MetricComponentWidth = CGFloat(200)
     }
     
     var didChangeValueEvent: ((newHeight: Length) -> Void)?
@@ -82,4 +84,8 @@ class HeightPickerDelegate: NSObject, UIPickerViewDataSource, UIPickerViewDelega
             eventHandler(newHeight: currentValueForPickerView(pickerView))
         }
     }
+
+	func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+		return Settings.sharedSettings.dataFormat == .US ? Constants.USComponentWidth : Constants.MetricComponentWidth
+	}
 }

@@ -25,13 +25,9 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     }
 
     @IBOutlet weak var speechBubbleView: SpeechBubbleView!
-    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var controllsContainer: UIView!
     @IBOutlet weak var nextButton: UIButton!
-    
-    private let stringSeparator = StringColumnSeparator(font: UIFont.speechBubbleTextFont, columnSize: CGSizeZero)
-    private var messages = [String]()
-    private var attributedMessages: [NSAttributedString]?
+	@IBOutlet weak var textView: UITextView!
     
     weak var delegate: TutorialBubbleCollectionViewCellDelegate?
     
@@ -52,10 +48,12 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     
     var text: String {
         get {
-            return messages.joinWithSeparator("")
+            return textView.text ?? ""
         }
         set {
-            updateDataSource(newValue)
+            textView.text = nil
+			textView.text = newValue
+			textView.contentOffset = CGPointZero
         }
     }
     
@@ -63,42 +61,21 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let nib = UINib(nibName: TextCollectionViewCell.ReuseIdentifier, bundle: nil)
-        collectionView.registerNib(nib, forCellWithReuseIdentifier: TextCollectionViewCell.ReuseIdentifier)
+		textView.textContainerInset = UIEdgeInsetsZero
+		textView.textContainer.lineFragmentPadding = 0
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let flowLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        flowLayout.itemSize.width = CGRectGetWidth(collectionView.frame)
-        collectionView.collectionViewLayout.invalidateLayout()
-        let aText = text
-        if !aText.isEmpty {
-            updateDataSource(aText)
-        }
-    }
-    
+
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		textView.contentOffset = CGPointZero
+	}
+
     // MARK: - Public
     
     func setAttributedString(attributedString: NSAttributedString) {
-        stringSeparator.columnSize = collectionView.frame.size
-        attributedMessages = stringSeparator.separateAttributedString(attributedString)
-        collectionView.reloadData()
-        if messages.count > 0 {
-            collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: .None, animated: false)
-        }
-    }
-    
-    // MARK: - Private
-    
-    private func updateDataSource(text: String) {
-        attributedMessages = nil
-        stringSeparator.columnSize = collectionView.frame.size
-        messages = stringSeparator.separateString(text)
-        collectionView.reloadData()
-        if messages.count > 0 {
-            collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: .None, animated: false)
-        }
+		textView.text = nil
+		textView.attributedText = attributedString
+		textView.contentOffset = CGPointZero
     }
 
     // MARK: - IBActions
@@ -114,36 +91,12 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func next() {
-        if let indexPath = collectionView.indexPathsForVisibleItems().first {
-            if indexPath.item >= messages.count - 1 {
-                delegate?.tutorialBubbleCollectionViewCellDidNext(self)
-            } else {
-                let newIndexPath = NSIndexPath(forItem: indexPath.item + 1, inSection: 0)
-                collectionView.scrollToItemAtIndexPath(newIndexPath, atScrollPosition: .None, animated: true)
-            }
-        }
-    }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension TutorialBubbleCollectionViewCell: UICollectionViewDataSource {
-    
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let attributedMessages = attributedMessages {
-            return attributedMessages.count
-        } else {
-            return messages.count
-        }
-    }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TextCollectionViewCell.ReuseIdentifier, forIndexPath: indexPath) as! TextCollectionViewCell
-        if let attributedMessages = attributedMessages {
-            cell.attributedText = attributedMessages[indexPath.item]
-        } else {
-            cell.text = messages[indexPath.item]
-        }
-        return cell
+		if CGRectGetMaxY(textView.bounds) >= textView.contentSize.height {
+			delegate?.tutorialBubbleCollectionViewCellDidNext(self)
+		} else {
+			let height = CGRectGetHeight(textView.bounds)
+			let offsetY = max(min(textView.contentSize.height - height, textView.contentOffset.y + height), 0)
+			textView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: true)
+		}
     }
 }

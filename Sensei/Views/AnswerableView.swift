@@ -64,6 +64,7 @@ class AnswerableView: UIView {
     private lazy var dateInputView: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = UIDatePickerMode.Date
+		datePicker.backgroundColor = UIColor.whiteColor()
         return datePicker
     }()
     
@@ -71,6 +72,7 @@ class AnswerableView: UIView {
         let pickerView = UIPickerView()
         pickerView.dataSource = self
         pickerView.delegate = self
+		pickerView.backgroundColor = UIColor.whiteColor()
         return pickerView
     }()
     

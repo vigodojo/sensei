@@ -124,7 +124,6 @@ class CoreDataManager {
                 }
             }
         }
-//        saveContext()
     }
     
     func createEntityObjectFromJSON(json: JSONObject, entityMapping: EntityMapping) -> NSManagedObject {

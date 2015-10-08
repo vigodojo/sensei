@@ -250,12 +250,8 @@ class SenseiViewController: BaseViewController {
     
     private func login() {
         // TODO: - DELETE HARDCODED IDFA
-        
     #if DEBUG
-        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-//        let idfa = "2EAB0742-8A34-4316-6C1E-6666E0EE6666"
-//        let idfa = "66AB0642-8A34-6615-8C1E-69E6E6666366"
-
+        let idfa = "66AB6642-8A34-6615-8C1E-69E6E6666366"
     #else
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
     #endif

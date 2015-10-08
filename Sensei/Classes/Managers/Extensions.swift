@@ -162,3 +162,31 @@ extension UIFont {
         return UIFont(name: "HelveticaNeue-Bold", size: 13)!
     }
 }
+
+// MARK: - String
+
+extension String {
+
+	func rangeFromNSRange(nsRange: NSRange) -> Range<String.Index>? {
+		let from16 = utf16.startIndex.advancedBy(nsRange.location, limit: utf16.endIndex)
+		if let from = String.Index(from16, within: self),
+			let to = String.Index(from16.advancedBy(nsRange.length, limit: utf16.endIndex), within: self) {
+				return from ..< to
+		}
+		return nil
+	}
+
+	func substringWithNSRange(nsRange: NSRange) -> String {
+		if let range = rangeFromNSRange(nsRange) {
+			return substringWithRange(range)
+		} else {
+			return (self as NSString).substringWithRange(nsRange)
+		}
+	}
+}
+
+// MARK: - CFRange - NSRange
+
+func NSRangeFromCFRange(range: CFRange) -> NSRange {
+	return NSMakeRange(range.location, range.length)
+}
