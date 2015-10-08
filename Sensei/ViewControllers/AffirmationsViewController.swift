@@ -258,18 +258,14 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
 		if let affirmation = anObject as? Affirmation {
 			switch type {
 			case .Insert:
+				//messageSwitchView.selectedSlot = affirmation.number.integerValue
+				selectedAffirmation = affirmation
 				if TutorialManager.sharedInstance.completed {
-					let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
-					selectAffirmationWithNumber(number)
 					APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
-				} else {
-					selectedAffirmation = affirmation
 				}
 				messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
 			case .Update:
 				if TutorialManager.sharedInstance.completed {
-					let number = ((affirmation.number.integerValue + 1) % Constants.NumberOfFreeAffirmations)
-					selectAffirmationWithNumber(number)
 					APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
 				}
 			case .Delete:

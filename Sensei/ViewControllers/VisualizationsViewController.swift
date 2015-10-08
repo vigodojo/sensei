@@ -202,10 +202,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
             let insideRect = visualisationView.imageView.bounds
             let wasImageChanged = didChangeImage
             let currentVisualisation = selectedVisualization
-            
-            let number = ((index + 1) % Constants.NumberOfFreeVisualizations)
-            selectVisualizationWithNumber(number)
-            
+
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
                 if let visualisation = currentVisualisation {
                     if visualisation.text != text || visualisation.receiveTime != receiveTime || wasImageChanged {
@@ -264,9 +261,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 		if let visualization = anObject as? Visualization {
 			switch type {
 			case .Insert:
-				if Constants.NumberOfFreeVisualizations == 1 {
-					selectedVisualization = visualization
-				}
+				selectedVisualization = visualization
 				messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
 				if TutorialManager.sharedInstance.completed {
 					APIManager.sharedInstance.saveVisualization(visualization, handler: nil)

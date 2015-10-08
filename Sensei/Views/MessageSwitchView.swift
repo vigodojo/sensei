@@ -184,6 +184,7 @@ extension MessageSwitchView: UICollectionViewDataSource {
         cell.titleLabel.textColor = isEmpty ? Constants.EmtySlotTextColor: Constants.FilledSlotTextColor
         if currentSelectedIndexPath == indexPath {
             cell.selected = true
+			collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
         }
         return cell
     }
