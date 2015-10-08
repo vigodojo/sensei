@@ -16,12 +16,7 @@ class APIManager: NSObject {
     typealias ErrorHandlerClosure = (error: NSError?) -> Void
     
     static let sharedInstance = APIManager()
-//#if DEBUG
-//    static let BaseURL = NSURL(string: "http://134.249.164.53:8839")!
-//    static let BaseURL = NSURL(string: "http://134.249.164.53:8831")!
-//#else
-//    static let BaseURL = NSURL(string: "http://134.249.164.53:8831")!
-//#endif
+
 	static let BaseURL = NSURL(string: "http://projects.thinkmobiles.com:8831")!
 
     struct APIPath {
