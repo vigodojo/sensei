@@ -649,7 +649,7 @@
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e4e392d8-a8dd-458d-8bab-a6996b7d6611";
+				PROVISIONING_PROFILE = "cbc383c9-a7e1-4ffd-9bb9-085e46ad78d0";
 			};
 			name = Debug;
 		};
@@ -670,7 +670,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e4e392d8-a8dd-458d-8bab-a6996b7d6611";
+				PROVISIONING_PROFILE = "cbc383c9-a7e1-4ffd-9bb9-085e46ad78d0";
 			};
 			name = Release;
 		};
