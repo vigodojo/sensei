@@ -251,7 +251,7 @@ class SenseiViewController: BaseViewController {
     private func login() {
         // TODO: - DELETE HARDCODED IDFA
     #if DEBUG
-        let idfa = "66AB6642-8A34-6615-8C1E-69E6E6666366"
+		let idfa = "5666C71D-7FE6-42B9-962C-16B977B3C08F"
     #else
         let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
     #endif
@@ -309,7 +309,24 @@ class SenseiViewController: BaseViewController {
             scrollToLastNotUsersItemAnimated(false)
         }
     }
-    
+
+	private func caluclateSizeForItemAtIndexPath(indexPath: NSIndexPath) -> CGSize {
+		let fullWidth = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
+		let message = dataSource[indexPath.item]
+		sizingCell.text = message.text
+		sizingCell.frame = CGRect(x: 0.0, y: 0.0, width: fullWidth, height: Constants.DefaultCellHeight)
+		sizingCell.textView.layoutIfNeeded()
+		if #available(iOS 9, *) {
+			return sizingCell.systemLayoutSizeFittingSize(CGSize(width: fullWidth, height: Constants.DefaultCellHeight))
+		} else  {
+			let size = sizingCell.systemLayoutSizeFittingSize(CGSize(width: fullWidth, height: Constants.DefaultCellHeight), withHorizontalFittingPriority: 1000, verticalFittingPriority: 50)
+			let textSize = SpeechBubbleCollectionViewCell.sizeForText(message.text, maxWidth: fullWidth, type: message is AnswerMessage ? .Me : .Sensei)
+			print("Size \(size)")
+			print("text size \(textSize)")
+			return CGSize(width: min(size.width, textSize.width), height: size.height)
+		}
+	}
+
     // MARK: Push Handling
     
     private func addApplicationObservers() {
@@ -500,7 +517,10 @@ extension SenseiViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
         cell.delegate = self
         cell.text = message.text
-        return cell;
+		let size = caluclateSizeForItemAtIndexPath(indexPath)
+		let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
+		cell.speachBubleOffset = width - size.width
+        return cell
     }
 }
 
@@ -509,12 +529,9 @@ extension SenseiViewController: UICollectionViewDataSource {
 extension SenseiViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        sizingCell.text = dataSource[indexPath.item].text
-        let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
-        sizingCell.frame = CGRect(x: 0.0, y: 0.0, width: width, height: Constants.DefaultCellHeight)
-		sizingCell.textView.layoutIfNeeded()
-        let size = sizingCell.systemLayoutSizeFittingSize(CGSize(width: width, height: Constants.DefaultCellHeight), withHorizontalFittingPriority: 1000, verticalFittingPriority: 50)
-        return size
+		let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
+		let height = caluclateSizeForItemAtIndexPath(indexPath).height
+		return CGSize(width: width, height: height)
     }
 }
 

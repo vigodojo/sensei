@@ -15,10 +15,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="EWJ-4P-st8" customClass="SpeechBubbleView" customModule="Sensei" customModuleProvider="target">
-                        <rect key="frame" x="168" y="0.0" width="132" height="142"/>
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="142"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBn-PW-Mrd">
-                                <rect key="frame" x="96" y="0.0" width="30" height="30"/>
+                                <rect key="frame" x="264" y="0.0" width="30" height="30"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="7mF-fE-WPd"/>
@@ -34,10 +34,10 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Guten Morgen" translatesAutoresizingMaskIntoConstraints="NO" id="oEO-RP-dDl" customClass="IrresponsibleTextView" customModule="Sensei" customModuleProvider="target">
-                                <rect key="frame" x="8" y="8" width="102" height="126"/>
+                                <rect key="frame" x="8" y="8" width="270" height="126"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                 <connections>
@@ -71,14 +71,13 @@
                 <constraint firstAttribute="trailing" secondItem="EWJ-4P-st8" secondAttribute="trailing" id="ADJ-7J-zaD"/>
                 <constraint firstItem="EWJ-4P-st8" firstAttribute="top" secondItem="kvc-o9-MLK" secondAttribute="top" id="Oxw-UC-cJc"/>
                 <constraint firstAttribute="bottom" secondItem="EWJ-4P-st8" secondAttribute="bottom" id="pAj-zL-c8i"/>
-                <constraint firstItem="EWJ-4P-st8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kvc-o9-MLK" secondAttribute="leading" id="xBP-7r-CDd"/>
+                <constraint firstItem="EWJ-4P-st8" firstAttribute="leading" secondItem="kvc-o9-MLK" secondAttribute="leading" id="xBP-7r-CDd"/>
             </constraints>
             <connections>
                 <outlet property="closeButton" destination="GBn-PW-Mrd" id="D0h-ii-EvP"/>
+                <outlet property="speachBubleOffsetConstraint" destination="xBP-7r-CDd" id="neT-cq-aHI"/>
                 <outlet property="speechBubbleView" destination="EWJ-4P-st8" id="Nps-ED-Wke"/>
                 <outlet property="textView" destination="oEO-RP-dDl" id="Xbv-7Q-Gh8"/>
-                <outlet property="titleLabelLeadingConstraint" destination="WBN-zJ-BLf" id="VKe-jB-gel"/>
-                <outlet property="titleLabelTrailingConstraint" destination="g7v-0Q-t64" id="iDv-zj-nO3"/>
             </connections>
             <point key="canvasLocation" x="452" y="249"/>
         </collectionViewCell>

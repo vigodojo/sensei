@@ -69,7 +69,7 @@ class SpeechBubbleView: UIView {
         bodyPath.stroke()
         bodyPath.fill()
     }
-    
+
     // MARK: - Draw Upper Right Speech Bubble
     
     private func bezierPathForUpperRight() -> UIBezierPath {

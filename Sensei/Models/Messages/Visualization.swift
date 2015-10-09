@@ -14,7 +14,7 @@ import AVFoundation
 class Visualization: UserMessage {
     
     static let EntityName = "Visualization"
-    static let MinFontSize: CGFloat = 13.0
+    static let MinFontSize: CGFloat = 22.0
 
     @NSManaged private var pictureData: NSData?
     @NSManaged var scaledFontSize: NSNumber

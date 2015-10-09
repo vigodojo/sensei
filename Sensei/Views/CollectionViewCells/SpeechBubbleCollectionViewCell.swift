@@ -40,9 +40,8 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var speechBubbleView: SpeechBubbleView!
     @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var titleLabelLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var titleLabelTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textView: UITextView!
+	@IBOutlet weak var speachBubleOffsetConstraint: NSLayoutConstraint!
 
     class func reuseIdetifierForBubbleCellType(type: BubbleCollectionViewCellType) -> String {
         switch type {
@@ -69,6 +68,15 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
             closeButton.hidden = newValue
         }
     }
+
+	var speachBubleOffset: CGFloat {
+		get {
+			return speachBubleOffsetConstraint.constant
+		}
+		set {
+			speachBubleOffsetConstraint.constant = newValue
+		}
+	}
     
     var delegate: SpeechBubbleCollectionViewCellDelegate?
     
@@ -82,4 +90,18 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
     @IBAction func close() {
         delegate?.speechBubbleCollectionViewCellDidClose(self)
     }
+
+	class func sizeForText(text: String, maxWidth: CGFloat, type: BubbleCollectionViewCellType = .Sensei) -> CGSize {
+		let topAndBottomConstraints: CGFloat = 16
+		let leadingAndTrailingConstraints: CGFloat
+		switch type {
+			case .Sensei, .Confirmation: leadingAndTrailingConstraints = 35
+			case .Me: leadingAndTrailingConstraints = 25
+		}
+		let attributedText = NSAttributedString(string: text, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+		let constraintingSize = CGSize(width: maxWidth - leadingAndTrailingConstraints, height: CGFloat.max)
+		let textSize = attributedText.boundingRectWithSize(constraintingSize, options: [.UsesLineFragmentOrigin, .UsesFontLeading], context: nil).size
+
+		return CGSize(width: textSize.width + leadingAndTrailingConstraints, height: textSize.height + topAndBottomConstraints)
+	}
 }
