@@ -177,7 +177,8 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>Good job &lt;#Name&gt;!, You’ve created your first affirmation</string>
+		<string>Good job &lt;#Name&gt;!, You’ve created your first affirmation
+To delete an affirmation, make a long press on the slot number.</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
@@ -273,7 +274,8 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>That is a beautiful visualization &lt;#Name&gt;, well done! </string>
+		<string>That is a beautiful visualization &lt;#Name&gt;, well done!
+To delete an affirmation, make a long press on the slot number.</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>

@@ -17,6 +17,8 @@ protocol MessageSwitchViewDelegate: class {
     func messageSwitchView(view: MessageSwitchView, shouldSelectSlotAtIndex index: Int) -> Bool
     func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool
     func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView)
+    
+    func messageSwitchView(view: MessageSwitchView, longPressAtItem index: Int);
 }
 
 let MessageSwitchViewSclotsCollectionViewBoundsContext = UnsafeMutablePointer<Void>()
@@ -33,6 +35,7 @@ class MessageSwitchView: UIView {
     @IBOutlet weak var slotsCollectionView: UICollectionView!
     @IBOutlet weak var receiveTimeTextView: UITextView!
     @IBOutlet weak var receiveTimeButton: UIButton!
+    @IBOutlet weak var longPressGesture: UILongPressGestureRecognizer!
     
     private lazy var receiveTimePickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
         let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: DefaultInputAccessotyViewHeight))
@@ -99,6 +102,8 @@ class MessageSwitchView: UIView {
         }
     }
     
+    
+    
     // MARK: - Lifecycle
     
     required init?(coder aDecoder: NSCoder) {
@@ -128,7 +133,7 @@ class MessageSwitchView: UIView {
         receiveTimeTextView.inputAccessoryView = receiveTimePickerInputAccessoryView
         calculateSlotItemWidth()
     }
-
+    
     // MARK: - Public
     
     func reloadSlots() {
@@ -165,6 +170,20 @@ class MessageSwitchView: UIView {
     @IBAction func activateReceivingTimeView() {
         if let delegate = delegate where delegate.shouldActivateReceivingTimeViewInMessageSwitchView(self) {
             receiveTimeTextView.becomeFirstResponder()
+        }
+    }
+    
+    @IBAction func longPressAction(longPressGesture: UILongPressGestureRecognizer) {
+        switch longPressGesture.state {
+        case .Began:
+            if let indexPath = slotsCollectionView.indexPathForItemAtPoint(longPressGesture.locationInView(slotsCollectionView)) {
+                delegate?.messageSwitchView(self, longPressAtItem: indexPath.row)
+            }
+            break
+        case .Ended:
+            break
+        default :
+            break
         }
     }
 }

@@ -15,8 +15,8 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         static let NumberOfAffirmations = 6
         static let NumberOfFreeAffirmations = 2
         static let EstimatedKeyboardHeight: CGFloat = 224
-        static let MinTextViewHeight: CGFloat = 48
-        static let KeyboardTextViewSpace: CGFloat = 4
+        static let MinTextViewHeight: CGFloat = 59//48
+        static let KeyboardTextViewSpace: CGFloat = 11//4
     }
     
     private struct ControlNames {
@@ -28,6 +28,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var textView: PlaceholderedTextView!
     @IBOutlet weak var deleteButton: UIButton!
+    
     
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Affirmation?")
     
@@ -42,6 +43,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
             messageSwitchView.delegate = self
         }
     }
+    
     
     override var upgradeAppMessage: String {
         return "You can only have two active affirmations with the free version of this app, please upgrade to unlock all the slots"
@@ -90,6 +92,9 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     }
     
     private var selectedAffirmation: Affirmation?
+    
+    private var itemToDelete: Int?;
+    
     
     // MARK: - UserMessageViewController
     
@@ -151,6 +156,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         super.enableControls(controlNames)
         textView.userInteractionEnabled = controlNames?.contains(ControlNames.TextView) ?? true
         deleteButton.userInteractionEnabled = controlNames?.contains(ControlNames.DeleteButton) ?? true
+        messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.DeleteButton) ?? true
     }
     
     // MARK: - Tutorial View
@@ -191,7 +197,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
             messageSwitchView.receiveTime = affirmation.receiveTime
             textView.text = affirmation.text
             updateTextViewHeight()
-            deleteButton.hidden = false
+//            deleteButton.hidden = false
             selectedAffirmation = affirmation
         } else {
             resetInfo()
@@ -230,10 +236,17 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     }
     
     private func deleteAffirmation() {
-        if let affirmation = selectedAffirmation {
+        if let aff = Affirmation.affirmationWithNumber(itemToDelete!) {
+            CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(aff)
+            itemToDelete = nil
+            if aff == selectedAffirmation {
+                resetInfo()
+            }
+        } else if let affirmation = selectedAffirmation {
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(affirmation)
+            resetInfo()
         }
-        resetInfo()
+        
     }
     
     private func resetInfo() {
@@ -251,6 +264,16 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
             tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
         }
     }
+    
+    func deleteItem(atIndex index: Int) {
+        if let aff = Affirmation.affirmationWithNumber(index) {
+            if aff.text.characters.count > 0 {
+                itemToDelete = index
+                tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
+            }
+        }
+    }
+    
 
 	// MARK: - NSFetchedResultsControllerDelegate
 
@@ -270,7 +293,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
 				}
 			case .Delete:
 				messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
-				messageSwitchView.selectedSlot = affirmation.number.integerValue
+//				messageSwitchView.selectedSlot = affirmation.number.integerValue
 				APIManager.sharedInstance.deleteAffirmation(affirmation, handler: nil)
 			default:
 				break
@@ -288,6 +311,7 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     }
 
     func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int) {
+        textView.placeholder = String(format: "SLOT %i is empty. \nClick here to add new affirmation \nmore text", index+1)
         fillAffirmationWithNumber(NSNumber(integer: index))
     }
     
@@ -319,6 +343,11 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
         }
         TutorialManager.sharedInstance.nextStep()
     }
+    
+    func messageSwitchView(view: MessageSwitchView, longPressAtItem index: Int) {
+        self.deleteItem(atIndex: index);
+    }
+    
 }
 
 // MARK: - UITextViewDelegate
@@ -326,10 +355,10 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
 extension AffirmationsViewController: UITextViewDelegate {
     
     func textViewDidChange(textView: UITextView) {
-        if textView.contentSize.height != textViewHeightConstraint.constant {
+        /*if textView.contentSize.height != textViewHeightConstraint.constant {
             textViewHeightConstraint.constant = textViewHeight
-        }
-        deleteButton.hidden = !hasDisplayedContent
+        }*/
+//        deleteButton.hidden = !hasDisplayedContent
     }
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
@@ -340,4 +369,5 @@ extension AffirmationsViewController: UITextViewDelegate {
         }
         return true
     }
+    
 }

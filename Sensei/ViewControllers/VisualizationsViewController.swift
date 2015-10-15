@@ -17,6 +17,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         static let NumberOfVisualizations = 5
         static let NumberOfFreeVisualizations = 1
         static let MessageSwitchViewHeight: CGFloat = 100
+        static let VisualizationMessageSwitchViewHeight: CGFloat = 150
     }
     
     private struct ControlNames {
@@ -75,6 +76,8 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     
     private var didChangeImage = false
     
+    private var itemToDelete: Int?;
+    
     // MARK: - UserMessageViewController
     
     override func fetchUserMessages() {
@@ -117,7 +120,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     override func keyboardWillHideWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
         view.layoutIfNeeded()
         UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [weak self] in
-            self?.messageSwitchViewHeightConstraint.constant = Constants.MessageSwitchViewHeight
+            self?.messageSwitchViewHeightConstraint.constant = Constants.VisualizationMessageSwitchViewHeight
             self?.scrollViewBottomSpaceConstraint.constant = 0
             self?.scrollView.contentInset = UIEdgeInsetsZero
             self?.view.layoutIfNeeded()
@@ -130,6 +133,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         super.enableControls(controlNames)
         visualisationView.cameraButton.userInteractionEnabled = controlNames?.contains(ControlNames.CameraButton) ?? true
         visualisationView.editButton.userInteractionEnabled = controlNames?.contains(ControlNames.EditButton) ?? true
+        messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.EditButton) ?? true
     }
     
     // MARK: - Tutorial View
@@ -225,11 +229,24 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     }
     
     private func deleteVisualization() {
-        if let visualisation = selectedVisualization {
+        if let itemToDelete = itemToDelete {
+            deleteVisualization(atIndex: itemToDelete);
+        } else if let visualisation = selectedVisualization {
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(visualisation)
         }
         resetVisualizationCell()
         didChangeImage = false
+    }
+    
+    private func deleteVisualization(atIndex index:Int) {
+        if let visualization = Visualization.visualizationWithNumber(index) {
+            itemToDelete = nil
+            CoreDataManager.sharedInstance.managedObjectContext?.deleteObject(visualization)
+            if visualization == selectedVisualization {
+                resetVisualizationCell()
+                 didChangeImage = false
+            }
+        }
     }
 
     private func resetVisualizationCell() {
@@ -317,12 +334,17 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
             visualisation.receiveTime = messageSwitchView.receiveTime
         }
     }
+    
+    func messageSwitchView(view: MessageSwitchView, longPressAtItem index: Int) {
+        deleteVisualizationAtindex(index)
+    }
+
 }
 
 // MARK: - VisualizationViewDelegate
 
 extension VisualizationsViewController: VisualizationViewDelegate {
-    
+        
     func visualizationViewDidTakePhoto(cell: VisualisationView) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         alert.addAction(UIAlertAction(title: "Take Photo", style: UIAlertActionStyle.Default, handler: { [weak self] (action) -> Void in
@@ -347,6 +369,16 @@ extension VisualizationsViewController: VisualizationViewDelegate {
     
     func visualizationViewDidDelete(cell: VisualisationView) {
         tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
+    }
+    
+    func deleteVisualizationAtindex(index: Int) {
+        itemToDelete = index
+        if let visual = Visualization.visualizationWithNumber(index) {
+            if (visual.text.characters.count != 0 && visual.picture != nil) {
+                tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
+            }
+        }
+        
     }
     
     func minPossibleHeightForVisualizationView(view: VisualisationView) -> CGFloat {

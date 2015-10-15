@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MessageSwitchView" customModule="Sensei" customModuleProvider="target">
             <connections>
+                <outlet property="longPressGesture" destination="bCi-QK-XyB" id="wRa-ss-wwA"/>
                 <outlet property="receiveTimeButton" destination="aTF-C9-hd0" id="KnG-KC-71g"/>
                 <outlet property="receiveTimeTextView" destination="W22-kQ-Yhw" id="0fL-I0-7P4"/>
                 <outlet property="slotsCollectionView" destination="tRv-S3-hJh" id="mLl-nb-cKO"/>
@@ -17,86 +19,120 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="245" horizontalCompressionResistancePriority="740" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="tRv-S3-hJh" userLabel="Slots Collection View">
-                    <rect key="frame" x="12" y="14" width="296" height="35"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wlP-Fq-1tP">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <subviews>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="245" horizontalCompressionResistancePriority="740" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="tRv-S3-hJh" userLabel="Slots Collection View">
+                            <rect key="frame" x="12" y="14" width="296" height="35"/>
+                            <animations/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="z1x-AV-wFv"/>
+                            </constraints>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="CNf-qL-wfj">
+                                <size key="itemSize" width="38" height="34"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                            <cells/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="MgY-QT-vM1"/>
+                                <outlet property="delegate" destination="-1" id="mcY-Qb-fbQ"/>
+                                <outletCollection property="gestureRecognizers" destination="bCi-QK-XyB" appends="YES" id="rrM-6w-iFo"/>
+                            </connections>
+                        </collectionView>
+                    </subviews>
                     <animations/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="35" id="z1x-AV-wFv"/>
+                        <constraint firstItem="tRv-S3-hJh" firstAttribute="top" secondItem="wlP-Fq-1tP" secondAttribute="top" constant="14" id="5rc-g2-FCC"/>
+                        <constraint firstItem="tRv-S3-hJh" firstAttribute="leading" secondItem="wlP-Fq-1tP" secondAttribute="leading" constant="12" id="Fdb-FS-ZZh"/>
+                        <constraint firstItem="tRv-S3-hJh" firstAttribute="centerY" secondItem="wlP-Fq-1tP" secondAttribute="centerY" priority="750" id="cQo-2s-ZQe"/>
+                        <constraint firstAttribute="trailing" secondItem="tRv-S3-hJh" secondAttribute="trailing" constant="12" id="yaE-jG-LbF"/>
                     </constraints>
-                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="CNf-qL-wfj">
-                        <size key="itemSize" width="38" height="34"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                    <cells/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="MgY-QT-vM1"/>
-                        <outlet property="delegate" destination="-1" id="mcY-Qb-fbQ"/>
-                    </connections>
-                </collectionView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MESSAGE TIMING" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pT-A0-z2N">
-                    <rect key="frame" x="27" y="72" width="116" height="16"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oDE-cg-tsv">
+                    <rect key="frame" x="0.0" y="50" width="320" height="50"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MESSAGE TIMING" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pT-A0-z2N">
+                            <rect key="frame" x="27" y="17" width="116" height="16"/>
+                            <animations/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTF-C9-hd0">
+                            <rect key="frame" x="190" y="10" width="112" height="30"/>
+                            <animations/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="OYa-S6-E5x"/>
+                                <constraint firstAttribute="width" constant="112" id="gn8-nM-kem"/>
+                            </constraints>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="activateReceivingTimeView" destination="-1" eventType="touchUpInside" id="Ige-8O-CmN"/>
+                            </connections>
+                        </button>
+                        <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="START OF DAY" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="W22-kQ-Yhw">
+                            <rect key="frame" x="190" y="10" width="112" height="30"/>
+                            <animations/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="112" id="KFM-WO-MHw"/>
+                                <constraint firstAttribute="height" constant="30" id="i9k-cE-gRw"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                    <real key="value" value="0.5"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="6"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </textView>
+                    </subviews>
                     <animations/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="START OF DAY" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="W22-kQ-Yhw">
-                    <rect key="frame" x="190" y="64" width="112" height="30"/>
-                    <animations/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="112" id="KFM-WO-MHw"/>
-                        <constraint firstAttribute="height" constant="30" id="i9k-cE-gRw"/>
+                        <constraint firstAttribute="trailing" secondItem="W22-kQ-Yhw" secondAttribute="trailing" constant="18" id="1wh-ed-sZs"/>
+                        <constraint firstItem="aTF-C9-hd0" firstAttribute="centerY" secondItem="oDE-cg-tsv" secondAttribute="centerY" id="Bwx-Sp-hmK"/>
+                        <constraint firstItem="1pT-A0-z2N" firstAttribute="leading" secondItem="oDE-cg-tsv" secondAttribute="leading" constant="27" id="K00-6t-IkD"/>
+                        <constraint firstAttribute="trailing" secondItem="aTF-C9-hd0" secondAttribute="trailing" constant="18" id="ale-As-QB9"/>
+                        <constraint firstItem="W22-kQ-Yhw" firstAttribute="centerY" secondItem="oDE-cg-tsv" secondAttribute="centerY" id="mKO-MB-0eI"/>
+                        <constraint firstItem="1pT-A0-z2N" firstAttribute="centerY" secondItem="oDE-cg-tsv" secondAttribute="centerY" id="wXY-kQ-Vld"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                            <real key="value" value="0.5"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                            <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                            <integer key="value" value="6"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                </textView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTF-C9-hd0">
-                    <rect key="frame" x="190" y="64" width="112" height="30"/>
-                    <animations/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="OYa-S6-E5x"/>
-                        <constraint firstAttribute="width" constant="112" id="gn8-nM-kem"/>
-                    </constraints>
-                    <state key="normal">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="activateReceivingTimeView" destination="-1" eventType="touchUpInside" id="Ige-8O-CmN"/>
-                    </connections>
-                </button>
+                </view>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="W22-kQ-Yhw" firstAttribute="top" secondItem="tRv-S3-hJh" secondAttribute="bottom" constant="15" id="3cW-W3-U9T"/>
-                <constraint firstItem="1pT-A0-z2N" firstAttribute="top" secondItem="tRv-S3-hJh" secondAttribute="bottom" constant="23" id="43E-cT-KT6"/>
-                <constraint firstItem="tRv-S3-hJh" firstAttribute="leading" secondItem="vSd-JS-Mns" secondAttribute="leading" constant="12" id="BdR-bi-x9i"/>
-                <constraint firstAttribute="trailing" secondItem="tRv-S3-hJh" secondAttribute="trailing" constant="12" id="BnX-DO-2Dx"/>
-                <constraint firstItem="aTF-C9-hd0" firstAttribute="top" secondItem="tRv-S3-hJh" secondAttribute="bottom" constant="15" id="ObL-Fo-BbU"/>
-                <constraint firstItem="tRv-S3-hJh" firstAttribute="top" secondItem="vSd-JS-Mns" secondAttribute="top" constant="14" id="mU7-A5-UDn"/>
-                <constraint firstAttribute="trailing" secondItem="aTF-C9-hd0" secondAttribute="trailing" constant="18" id="pgf-u3-ESk"/>
-                <constraint firstItem="1pT-A0-z2N" firstAttribute="leading" secondItem="vSd-JS-Mns" secondAttribute="leading" constant="27" id="wQ3-0t-EBb"/>
-                <constraint firstAttribute="trailing" secondItem="W22-kQ-Yhw" secondAttribute="trailing" constant="18" id="z2m-Eb-91T"/>
+                <constraint firstAttribute="trailing" secondItem="wlP-Fq-1tP" secondAttribute="trailing" id="0xN-cJ-R9r"/>
+                <constraint firstItem="wlP-Fq-1tP" firstAttribute="leading" secondItem="vSd-JS-Mns" secondAttribute="leading" id="E5n-KB-bxc"/>
+                <constraint firstItem="oDE-cg-tsv" firstAttribute="leading" secondItem="vSd-JS-Mns" secondAttribute="leading" id="QMm-Ys-bwL"/>
+                <constraint firstItem="oDE-cg-tsv" firstAttribute="top" secondItem="wlP-Fq-1tP" secondAttribute="bottom" id="cpt-hB-Uhc"/>
+                <constraint firstAttribute="bottom" secondItem="oDE-cg-tsv" secondAttribute="bottom" id="i7J-MV-Js3"/>
+                <constraint firstAttribute="trailing" secondItem="oDE-cg-tsv" secondAttribute="trailing" id="omX-j3-HRb"/>
+                <constraint firstItem="wlP-Fq-1tP" firstAttribute="top" secondItem="vSd-JS-Mns" secondAttribute="top" id="p9f-iV-XlG"/>
+                <constraint firstItem="wlP-Fq-1tP" firstAttribute="height" secondItem="vSd-JS-Mns" secondAttribute="height" multiplier="1/2" id="uK8-uk-E5z"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="462" y="431"/>
         </view>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="bCi-QK-XyB">
+            <connections>
+                <action selector="longPressAction:" destination="-1" id="mbF-b9-Tjb"/>
+            </connections>
+        </pongPressGestureRecognizer>
     </objects>
 </document>
