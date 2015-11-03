@@ -37,6 +37,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
                 case .Sensei:
                     controllsContainer.hidden = true
                     nextButton.hidden = false
+//                    setArrowButtonVisibleIfNeeded(false)
                 case .Confirmation:
                     controllsContainer.hidden = false
                     nextButton.hidden = true
@@ -76,6 +77,19 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
 		textView.text = nil
 		textView.attributedText = attributedString
 		textView.contentOffset = CGPointZero
+        textView.layoutIfNeeded()
+//        setArrowButtonVisibleIfNeeded(true);
+    }
+    
+    // MARK: - Private
+    
+    private func setArrowButtonVisibleIfNeeded(hidden: Bool)
+    {
+        if hidden {
+            nextButton.hidden = hidden;
+        } else {
+            nextButton.hidden = textView.contentSize.height < textView.bounds.height
+        }
     }
 
     // MARK: - IBActions

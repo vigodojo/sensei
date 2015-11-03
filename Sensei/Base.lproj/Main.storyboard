@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="goE-cF-bxi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="goE-cF-bxi">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -273,7 +273,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rLE-xd-apt">
                                 <rect key="frame" x="312" y="564" width="126" height="24"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.19215686274509802" green="0.6705882352941176" blue="0.87450980392156863" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.19215686269999999" green="0.6705882353" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="83Q-f7-7GU"/>
                                     <constraint firstAttribute="width" constant="126" id="BRd-Y0-ben"/>
@@ -432,51 +432,51 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SHARE ON FACEBOOK" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Erq-oB-8ld">
-                                                    <rect key="frame" x="24" y="23" width="145" height="16"/>
+                                                    <rect key="frame" x="24" y="23" width="144.5" height="15.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TWEET ABOUT VIGO SENSEI" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQ6-yD-kN2">
-                                                    <rect key="frame" x="24" y="69" width="181" height="16"/>
+                                                    <rect key="frame" x="24" y="68" width="181" height="15.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="RATE IN APP STORE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sAq-Jh-wPH">
-                                                    <rect key="frame" x="24" y="115" width="129" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RATE IN APP STORE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sAq-Jh-wPH">
+                                                    <rect key="frame" x="24" y="113.5" width="128.5" height="15.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="GIVE US FEEDBACK" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XX9-tQ-c9j">
-                                                    <rect key="frame" x="24" y="161" width="127" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GIVE US FEEDBACK" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XX9-tQ-c9j">
+                                                    <rect key="frame" x="24" y="159" width="127" height="15.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="mail" translatesAutoresizingMaskIntoConstraints="NO" id="kzl-Le-uwR">
-                                                    <rect key="frame" x="542" y="156" width="28" height="26"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mail" translatesAutoresizingMaskIntoConstraints="NO" id="kzl-Le-uwR">
+                                                    <rect key="frame" x="542" y="154" width="28" height="26"/>
                                                     <animations/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter13" translatesAutoresizingMaskIntoConstraints="NO" id="ayG-pf-mBd">
-                                                    <rect key="frame" x="541" y="65" width="31" height="25"/>
+                                                    <rect key="frame" x="541" y="64" width="31" height="25"/>
                                                     <animations/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fb" translatesAutoresizingMaskIntoConstraints="NO" id="cKC-bl-onX">
                                                     <rect key="frame" x="544" y="18" width="26" height="26"/>
                                                     <animations/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="app_store" translatesAutoresizingMaskIntoConstraints="NO" id="lZZ-hr-VfX">
-                                                    <rect key="frame" x="544" y="110" width="26" height="26"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app_store" translatesAutoresizingMaskIntoConstraints="NO" id="lZZ-hr-VfX">
+                                                    <rect key="frame" x="544" y="108" width="26" height="26"/>
                                                     <animations/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KDH-Zh-Irv">
-                                                    <rect key="frame" x="0.0" y="205" width="600" height="46"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KDH-Zh-Irv">
+                                                    <rect key="frame" x="0.0" y="202" width="600" height="46"/>
                                                     <animations/>
                                                     <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
@@ -489,29 +489,29 @@
                                                         <action selector="upgrade" destination="dbf-lu-mRv" eventType="touchUpInside" id="NeJ-7A-qFQ"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="UPGRADE VIGO SENSEI" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WyI-pI-GNM">
-                                                    <rect key="frame" x="24" y="220" width="151" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UPGRADE VIGO SENSEI" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WyI-pI-GNM">
+                                                    <rect key="frame" x="24" y="217" width="151" height="15.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4fv-w5-jCR">
-                                                    <rect key="frame" x="544" y="215" width="26" height="26"/>
+                                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4fv-w5-jCR">
+                                                    <rect key="frame" x="544" y="212" width="26" height="26"/>
                                                     <animations/>
                                                     <state key="normal" image="upgrade">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C2x-7Y-w5q" userLabel="- WEEKDAYS">
-                                                    <rect key="frame" x="486" y="324" width="8" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C2x-7Y-w5q" userLabel="- WEEKDAYS">
+                                                    <rect key="frame" x="486" y="320" width="8" height="20.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="END" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="IX5-CJ-hG0" userLabel="END WEEKENDS">
-                                                    <rect key="frame" x="500" y="365" width="70" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="END" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="IX5-CJ-hG0" userLabel="END WEEKENDS">
+                                                    <rect key="frame" x="500" y="361" width="70" height="30"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="3gJ-Dz-MWE"/>
@@ -534,36 +534,36 @@
                                                         <outlet property="delegate" destination="dbf-lu-mRv" id="SJA-5V-phi"/>
                                                     </connections>
                                                 </textField>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Me9-SD-ds8" userLabel="- WEEKENDS">
-                                                    <rect key="frame" x="486" y="369" width="8" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Me9-SD-ds8" userLabel="- WEEKENDS">
+                                                    <rect key="frame" x="486" y="365" width="8" height="20.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="SLEEP TIME" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16s-Aj-5H4">
-                                                    <rect key="frame" x="24" y="281" width="78" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SLEEP TIME" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16s-Aj-5H4">
+                                                    <rect key="frame" x="24" y="278" width="77.5" height="15.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="WEEKDAYS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KV5-Wt-VnK">
-                                                    <rect key="frame" x="34" y="327" width="68" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WEEKDAYS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KV5-Wt-VnK">
+                                                    <rect key="frame" x="34" y="324" width="68" height="14.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="WEEKENDS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGE-zU-EeV">
-                                                    <rect key="frame" x="34" y="372" width="69" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WEEKENDS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGE-zU-EeV">
+                                                    <rect key="frame" x="34" y="369" width="69" height="14.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="START" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="klW-Zb-3CL" userLabel="START WEEKDAYS">
-                                                    <rect key="frame" x="410" y="320" width="70" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="START" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="klW-Zb-3CL" userLabel="START WEEKDAYS">
+                                                    <rect key="frame" x="410" y="316" width="70" height="30"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="ZNA-BF-ddo"/>
@@ -586,8 +586,8 @@
                                                         <outlet property="delegate" destination="dbf-lu-mRv" id="xsV-bb-LCz"/>
                                                     </connections>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="END" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="f41-cC-OEx" userLabel="END WEEKDAYS">
-                                                    <rect key="frame" x="500" y="320" width="70" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="END" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="f41-cC-OEx" userLabel="END WEEKDAYS">
+                                                    <rect key="frame" x="500" y="316" width="70" height="30"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="Q2S-c0-yEl"/>
@@ -610,8 +610,8 @@
                                                         <outlet property="delegate" destination="dbf-lu-mRv" id="IBB-Ki-51b"/>
                                                     </connections>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="START" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="5s2-RL-985" userLabel="START WEEKENDS">
-                                                    <rect key="frame" x="410" y="365" width="70" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="START" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="5s2-RL-985" userLabel="START WEEKENDS">
+                                                    <rect key="frame" x="410" y="361" width="70" height="30"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="Bi8-wB-lfD"/>
@@ -827,21 +827,21 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DATE OF BIRTH" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1W-yZ-sMG">
-                                                    <rect key="frame" x="34" y="124" width="91" height="15"/>
+                                                    <rect key="frame" x="34" y="123" width="91" height="15"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="WEIGHT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wkl-oK-JW7">
-                                                    <rect key="frame" x="34" y="214" width="436" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WEIGHT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wkl-oK-JW7">
+                                                    <rect key="frame" x="34" y="212.5" width="436" height="14.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="WEIGHT" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="B8D-nD-WQw">
-                                                    <rect key="frame" x="500" y="207" width="70" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="WEIGHT" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="B8D-nD-WQw">
+                                                    <rect key="frame" x="500" y="205" width="70" height="30"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="Gou-Fg-NDw"/>
@@ -862,7 +862,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </textField>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="HEIGHT" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="tlj-PN-7Nb">
-                                                    <rect key="frame" x="500" y="161" width="70" height="30"/>
+                                                    <rect key="frame" x="500" y="160" width="70" height="30"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="F1p-wU-O9z"/>
@@ -883,21 +883,21 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HEIGHT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nNL-Ia-YkQ">
-                                                    <rect key="frame" x="34" y="169" width="46" height="15"/>
+                                                    <rect key="frame" x="34" y="168" width="46" height="14.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PERSONAL PROFILE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPg-b4-zeA">
-                                                    <rect key="frame" x="24" y="23" width="131" height="16"/>
+                                                    <rect key="frame" x="24" y="23" width="131" height="15.5"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="D.O.B" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="Zhi-Vv-t6t">
-                                                    <rect key="frame" x="500" y="117" width="70" height="30"/>
+                                                    <rect key="frame" x="500" y="116" width="70" height="30"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="CRf-0U-fzX"/>
@@ -918,7 +918,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mf9-SV-dEc">
-                                                    <rect key="frame" x="34" y="71" width="80" height="22"/>
+                                                    <rect key="frame" x="34" y="70" width="80" height="22"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="80" id="PQk-tK-2Aw"/>
@@ -939,7 +939,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOJ-C9-N4X">
-                                                    <rect key="frame" x="480" y="71" width="90" height="22"/>
+                                                    <rect key="frame" x="480" y="70" width="90" height="22"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="7w5-gv-9i2"/>
@@ -1074,7 +1074,7 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <gestureRecognizers/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" priority="750" constant="59" id="hIa-jY-V7t"/>
+                                                    <constraint firstAttribute="height" constant="59" id="hIa-jY-V7t"/>
                                                 </constraints>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
@@ -1093,30 +1093,6 @@ more text</string>
                                                     <outlet property="delegate" destination="jn6-3W-nyd" id="Dx9-pX-jHx"/>
                                                 </connections>
                                             </textView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nb6-EU-kNz">
-                                                <rect key="frame" x="517" y="192" width="65" height="24"/>
-                                                <animations/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="24" id="l4C-cP-4kS"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
-                                                <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                                                <state key="normal" title="DELETE">
-                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                        <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                        <real key="value" value="1.5"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="delete" destination="jn6-3W-nyd" eventType="touchUpInside" id="eZj-a4-nW7"/>
-                                                </connections>
-                                            </button>
                                         </subviews>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1125,13 +1101,11 @@ more text</string>
                                             <constraint firstItem="1JB-iW-MTs" firstAttribute="bottom" secondItem="3zl-7m-GkK" secondAttribute="bottom" priority="100" constant="-11" id="CUf-cx-bv5"/>
                                             <constraint firstAttribute="bottom" secondItem="1JB-iW-MTs" secondAttribute="bottom" priority="250" constant="224" id="Dz5-xN-JoC"/>
                                             <constraint firstItem="udG-XM-9lq" firstAttribute="top" secondItem="ilV-R5-vwS" secondAttribute="top" id="GNm-bx-Ipi"/>
-                                            <constraint firstAttribute="trailing" secondItem="Nb6-EU-kNz" secondAttribute="trailing" constant="18" id="Hj2-nc-Zhu"/>
                                             <constraint firstItem="1JB-iW-MTs" firstAttribute="leading" secondItem="ilV-R5-vwS" secondAttribute="leading" constant="18" id="LDL-Pm-9AZ"/>
                                             <constraint firstItem="udG-XM-9lq" firstAttribute="leading" secondItem="ilV-R5-vwS" secondAttribute="leading" id="PZ2-hZ-bum"/>
                                             <constraint firstAttribute="trailing" secondItem="1JB-iW-MTs" secondAttribute="trailing" constant="18" id="SRb-Ch-hMB"/>
                                             <constraint firstItem="3zl-7m-GkK" firstAttribute="leading" secondItem="ilV-R5-vwS" secondAttribute="leading" id="YXf-AJ-HlO"/>
                                             <constraint firstItem="1JB-iW-MTs" firstAttribute="top" secondItem="udG-XM-9lq" secondAttribute="bottom" constant="14" id="iYR-Qg-5ez"/>
-                                            <constraint firstItem="Nb6-EU-kNz" firstAttribute="top" secondItem="1JB-iW-MTs" secondAttribute="bottom" constant="19" id="tUt-3J-Xzc"/>
                                             <constraint firstItem="3zl-7m-GkK" firstAttribute="top" secondItem="1JB-iW-MTs" secondAttribute="top" constant="-11" id="wgm-cK-1lS"/>
                                             <constraint firstAttribute="trailing" secondItem="3zl-7m-GkK" secondAttribute="trailing" id="ykn-Sh-z1u"/>
                                             <constraint firstAttribute="bottom" secondItem="3zl-7m-GkK" secondAttribute="bottom" id="yqP-dM-2cg"/>
@@ -1162,13 +1136,10 @@ more text</string>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="deleteButton" destination="Nb6-EU-kNz" id="5aI-Cn-1xS"/>
                         <outlet property="messageSwitchView" destination="udG-XM-9lq" id="ROf-QS-IIY"/>
                         <outlet property="navigationView" destination="kPf-aX-Djg" id="sYg-wX-wq4"/>
                         <outlet property="scrollView" destination="Zp2-CF-1D4" id="gkE-IR-ClI"/>
                         <outlet property="textView" destination="1JB-iW-MTs" id="RTp-d9-iPC"/>
-                        <outlet property="textViewBottomSpaceConstraint" destination="Dz5-xN-JoC" id="QTY-Kf-Mxc"/>
-                        <outlet property="textViewHeightConstraint" destination="hIa-jY-V7t" id="bvi-vM-bIL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V0Z-jt-1kT" userLabel="First Responder" sceneMemberID="firstResponder"/>

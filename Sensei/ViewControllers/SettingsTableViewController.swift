@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Social
+import MessageUI
 
 class SettingsTableViewController: UITableViewController {
     
@@ -165,10 +167,14 @@ class SettingsTableViewController: UITableViewController {
         var heightEqual = false
         if let height = Settings.sharedSettings.height {
             heightEqual = height.doubleValue == heightCm
+        } else {
+            heightEqual = true
         }
         var weightEqual = false
         if let weight = Settings.sharedSettings.weight {
             weightEqual = weight.doubleValue == weightKg
+        } else {
+            weightEqual = true;
         }
         return !dobEqual || !genderEqual || !heightEqual || !weightEqual
     }
@@ -416,10 +422,52 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func shareOnFaebook() {
+        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook) {
+            let social = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            //TODO: Add social share text
+            social.setInitialText("inital text")
+            social.addURL(NSURL(string: "http://apple.com"))
+            social.addImage(UIImage(named: "AppIcon"))
+        } else {
+            let alertController = UIAlertController(title: "Facebook unavailable", message: "Please enter you login and password in Settings.app", preferredStyle: .Alert)
+            alertController.addAction(UIAlertAction(title: "Settings", style: .Default, handler: { (UIAlertAction) -> Void in
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.sharedApplication().openURL(settingsURL)
+                    }
+                })
+                
+            }))
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (UIAlertAction) -> Void in
+            }))
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+
+        }
     }
     
     @IBAction func tweet() {
-        
+        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter) {
+            let social = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            //TODO: Add social share text
+            social.setInitialText("inital text")
+            social.addURL(NSURL(string: "http://apple.com"))
+            social.addImage(UIImage(named: "AppIcon"))
+        } else {
+            let alertController = UIAlertController(title: "Twitter unavailable", message: "Please enter you login and password in Settings.app", preferredStyle: .Alert)
+            alertController.addAction(UIAlertAction(title: "Settings", style: .Default, handler: { (UIAlertAction) -> Void in
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.sharedApplication().openURL(settingsURL)
+                    }
+                })
+            }))
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (UIAlertAction) -> Void in
+            }))
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+            
+        }
     }
     
     @IBAction func rateInAppStore() {
@@ -427,10 +475,15 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func giveFeedback() {
-        
+        if MFMailComposeViewController.canSendMail() {
+            
+        } else {
+            
+        }
     }
     
     @IBAction func upgrade() {
+        
     }
 }
 

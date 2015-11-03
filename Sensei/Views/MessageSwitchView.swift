@@ -17,8 +17,8 @@ protocol MessageSwitchViewDelegate: class {
     func messageSwitchView(view: MessageSwitchView, shouldSelectSlotAtIndex index: Int) -> Bool
     func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool
     func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView)
-    
     func messageSwitchView(view: MessageSwitchView, longPressAtItem index: Int);
+    func messageSwitchView(view: MessageSwitchView, itemAvailable index: Int) -> Bool
 }
 
 let MessageSwitchViewSclotsCollectionViewBoundsContext = UnsafeMutablePointer<Void>()
@@ -29,6 +29,7 @@ class MessageSwitchView: UIView {
         static let NibName = "MessageSwitchView"
         static let SlotCellNibName = "SlotCollectionViewCell"
         static let EmtySlotTextColor = UIColor(hexColor: 0x939598)
+        static let UnavailableTextColor = UIColor.redColor()
         static let FilledSlotTextColor = UIColor.blackColor()
     }
     
@@ -200,7 +201,8 @@ extension MessageSwitchView: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.SlotCellNibName, forIndexPath: indexPath) as! SlotCollectionViewCell
         cell.titleLabel.text = "\(indexPath.item + 1)"
         let isEmpty = delegate?.messageSwitchView(self, isSlotEmptyAtIndex: indexPath.item) ?? true
-        cell.titleLabel.textColor = isEmpty ? Constants.EmtySlotTextColor: Constants.FilledSlotTextColor
+        let itemAvailable = (delegate?.messageSwitchView(self, itemAvailable: indexPath.row))!
+        cell.titleLabel.textColor = isEmpty ? itemAvailable ? Constants.EmtySlotTextColor : Constants.UnavailableTextColor : Constants.FilledSlotTextColor
         if currentSelectedIndexPath == indexPath {
             cell.selected = true
 			collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)

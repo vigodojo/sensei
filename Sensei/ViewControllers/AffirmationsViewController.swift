@@ -21,13 +21,12 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     
     private struct ControlNames {
         static let TextView = "TextView"
-        static let DeleteButton = "DeleteButton"
+        static let LongPress = "LongPress"
     }
     
     @IBOutlet weak var textViewBottomSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var textView: PlaceholderedTextView!
-    @IBOutlet weak var deleteButton: UIButton!
     
     
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Affirmation?")
@@ -130,48 +129,13 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         return false
     }
     
-    // MARK: - Keyboard
-    
-    override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
-        let height = size.height + Constants.KeyboardTextViewSpace
-        if keyboardHeight != height {
-            keyboardHeight = height
-            let aTextViewBottomSpace = textViewBottomSpace
-            let aTextViewHeight = textViewHeight
-            let aBottomOffset = bottomContentOffset
-            view.layoutIfNeeded()
-            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomContentOffset, right: 0)
-            UIView.animateWithDuration(animationDuration, delay: 0.0, options: animationOptions, animations: { [weak self] in
-                self?.textViewBottomSpaceConstraint.constant = aTextViewBottomSpace
-                self?.textViewHeightConstraint.constant = aTextViewHeight
-                self?.scrollView.contentOffset = CGPoint(x: 0, y: aBottomOffset)
-                self?.view.layoutIfNeeded()
-            }, completion: nil)
-        }
-    }
     
     // MARK: - Tutorial
     
     override func enableControls(controlNames: [String]?) {
         super.enableControls(controlNames)
         textView.userInteractionEnabled = controlNames?.contains(ControlNames.TextView) ?? true
-        deleteButton.userInteractionEnabled = controlNames?.contains(ControlNames.DeleteButton) ?? true
-        messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.DeleteButton) ?? true
-    }
-    
-    // MARK: - Tutorial View
-    
-    override func handleTutorialMoving() {
-        let aTextViewBottomSpace = textViewBottomSpace
-        let aTextViewHeight = textViewHeight
-        if textViewBottomSpaceConstraint.constant != aTextViewBottomSpace || textViewHeightConstraint.constant != aTextViewHeight {
-            view.layoutIfNeeded()
-            UIView.animateWithDuration(AnimationDuration, animations: { [weak self] in
-                self?.textViewBottomSpaceConstraint.constant = aTextViewBottomSpace
-                self?.textViewHeightConstraint.constant = aTextViewHeight
-                self?.view.layoutIfNeeded()
-            })
-        }
+        messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.TextView) ?? true
     }
     
     override func handleYesAnswerNotification(notification: NSNotification) {
@@ -181,13 +145,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     
     // MARK: - Private
     
-    private func updateTextViewHeight() {
-        textView.layoutIfNeeded()
-        let height = textViewHeight
-        textViewHeightConstraint.constant = height
-        textView.setContentOffset(CGPoint(x: 0, y: max(0, textView.contentSize.height - height)), animated: false)
-    }
-    
     private func hasAffirmationBeenChanged(affirmation: Affirmation, newText: String, newReceiveTime: ReceiveTime) -> Bool {
         return affirmation.text != newText || affirmation.receiveTime != newReceiveTime
     }
@@ -196,8 +153,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         if let affirmation = affirmationWithNumber(number) {
             messageSwitchView.receiveTime = affirmation.receiveTime
             textView.text = affirmation.text
-            updateTextViewHeight()
-//            deleteButton.hidden = false
             selectedAffirmation = affirmation
         } else {
             resetInfo()
@@ -252,8 +207,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     private func resetInfo() {
         messageSwitchView.receiveTime = .Morning
         textView.text = ""
-        updateTextViewHeight()
-        deleteButton.hidden = true
+        textView.contentOffset = CGPointZero;
         selectedAffirmation = nil
     }
     
@@ -348,6 +302,10 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
         self.deleteItem(atIndex: index);
     }
     
+    func messageSwitchView(view: MessageSwitchView, itemAvailable index: Int) -> Bool {
+        return index < Constants.NumberOfFreeAffirmations ? true : false
+    }
+    
 }
 
 // MARK: - UITextViewDelegate
@@ -358,7 +316,6 @@ extension AffirmationsViewController: UITextViewDelegate {
         /*if textView.contentSize.height != textViewHeightConstraint.constant {
             textViewHeightConstraint.constant = textViewHeight
         }*/
-//        deleteButton.hidden = !hasDisplayedContent
     }
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {

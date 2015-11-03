@@ -338,6 +338,11 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
     func messageSwitchView(view: MessageSwitchView, longPressAtItem index: Int) {
         deleteVisualizationAtindex(index)
     }
+    
+    func messageSwitchView(view: MessageSwitchView, itemAvailable index: Int) -> Bool {
+        return index < Constants.NumberOfFreeVisualizations ? true : false
+    }
+
 
 }
 
