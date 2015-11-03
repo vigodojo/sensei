@@ -72,6 +72,7 @@
 		40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */; };
 		40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */; };
 		40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC078F1B0B86D8009A2000 /* BaseViewController.swift */; };
+		58DE41751BE903FE0051018C /* AlertMessagesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE41741BE903FE0051018C /* AlertMessagesService.swift */; };
 		7FC56FE91BD0C50D002F8105 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC56FE81BD0C50D002F8105 /* Social.framework */; };
 		C76E77721B189FE000986B6F /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76E77711B189FE000986B6F /* SettingsTableViewController.swift */; };
 		C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E32E9E1B184662008A2233 /* OSTextField.swift */; };
@@ -147,6 +148,7 @@
 		40EC078B1B0B7DCC009A2000 /* PickerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerInputAccessoryView.swift; sourceTree = "<group>"; };
 		40EC078D1B0B7DE4009A2000 /* PickerInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerInputAccessoryView.xib; sourceTree = "<group>"; };
 		40EC078F1B0B86D8009A2000 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		58DE41741BE903FE0051018C /* AlertMessagesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertMessagesService.swift; path = Services/AlertMessagesService.swift; sourceTree = "<group>"; };
 		7FC56FE81BD0C50D002F8105 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		C76E77711B189FE000986B6F /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		C7E32E9E1B184662008A2233 /* OSTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OSTextField.swift; path = Sensei/Classes/Extensions/OSTextField.swift; sourceTree = SOURCE_ROOT; };
@@ -184,6 +186,7 @@
 		402C32AE1B0392180045BAD7 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				58DE41731BE903E40051018C /* Services */,
 				C7E32E9D1B184619008A2233 /* Extensions */,
 				402F14541B0A0A24000C4261 /* Managers */,
 				402F14551B0A0A24000C4261 /* Segues */,
@@ -364,6 +367,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		58DE41701BE8FF8D0051018C /* AlertMessagesService */ = {
+			isa = PBXGroup;
+			children = (
+				58DE41741BE903FE0051018C /* AlertMessagesService.swift */,
+			);
+			name = AlertMessagesService;
+			sourceTree = "<group>";
+		};
+		58DE41731BE903E40051018C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				58DE41701BE8FF8D0051018C /* AlertMessagesService */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
 		C7E32E9D1B184619008A2233 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,6 +504,7 @@
 				40675C0C1B2F17BE00E8A9D4 /* NumberThumbView.swift in Sources */,
 				404E0C971B5647CB00FE2F3F /* ConfirmationQuestion.swift in Sources */,
 				40A6741E1B21B1A4001408C3 /* AffirmationsViewController.swift in Sources */,
+				58DE41751BE903FE0051018C /* AlertMessagesService.swift in Sources */,
 				40AA2D9D1B3AC91600606E4E /* DataFormatter.swift in Sources */,
 				40A026511B428A2B00E18958 /* TutorialViewController.swift in Sources */,
 				404E0C851B56474E00FE2F3F /* Extensions.swift in Sources */,
@@ -653,7 +673,7 @@
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cbc383c9-a7e1-4ffd-9bb9-085e46ad78d0";
+				PROVISIONING_PROFILE = "e1620d6b-b3e5-4312-aa61-fdd686c55eb3";
 			};
 			name = Debug;
 		};
@@ -674,7 +694,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cbc383c9-a7e1-4ffd-9bb9-085e46ad78d0";
+				PROVISIONING_PROFILE = "e1620d6b-b3e5-4312-aa61-fdd686c55eb3";
 			};
 			name = Release;
 		};

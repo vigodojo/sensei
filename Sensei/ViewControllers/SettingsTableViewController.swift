@@ -474,11 +474,22 @@ class SettingsTableViewController: UITableViewController {
         
     }
     
+    /**
+     Show the MFMailViewController to compose feedback message. 
+     Recipient should be set to 'sensei@vigosensei.com'
+     */
     @IBAction func giveFeedback() {
         if MFMailComposeViewController.canSendMail() {
             
-        } else {
+            let mailComposeController = MFMailComposeViewController()
+            mailComposeController.mailComposeDelegate = self
+            mailComposeController.setToRecipients(["sensei@vigosensei.com"])
+            mailComposeController.setSubject("Feedback")
             
+            self.presentViewController(mailComposeController, animated: true, completion: nil)
+            
+        } else {
+            AlertMessagesService.showWarningAlert(nil, message: "Can't send e-mail.", fromController: self, completion: nil)
         }
     }
     
@@ -520,4 +531,18 @@ extension SettingsTableViewController: SenseiTabControllerDelegate {
         }
         return true
     }
+}
+
+// MARK: - MFMailComposeViewControllerDelegate
+
+extension SettingsTableViewController: MFMailComposeViewControllerDelegate {
+    
+    /**
+     Delegate method that will be called when we are done with MFMailComposeViewController, 
+     it should be dismissed.
+     */
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
 }
