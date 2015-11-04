@@ -23,18 +23,20 @@ enum SocialPostingType: String {
 
 class SocialPostingService {
     
-    static let attachedText         = "#ViGoSensei app. It is making a positive difference in my life."
-    static let attachedURLString    = "http://itunes.com/apps/ViGoSensei"
-    static let attachedImageName    = "SenseiIconForPosting"
+    private struct Constants {
+        static let AttachedText         = "#ViGoSensei app. It is making a positive difference in my life."
+        static let AttachedURLString    = "http://itunes.com/apps/ViGoSensei"
+        static let AttachedImageName    = "SenseiIconForPosting"
+    }
     
     static func postToSocialNetworksWithType(socialPostingType: SocialPostingType, fromController: UIViewController, completion: SLComposeViewControllerCompletionHandler) {
 
         if SLComposeViewController.isAvailableForServiceType(socialPostingType.chosenService) {
             let socialController = SLComposeViewController(forServiceType: socialPostingType.chosenService)
             
-            let initialTextSet  = socialController.setInitialText(self.attachedText)
-            let urlSet          = socialController.addURL(NSURL(string: self.attachedURLString))
-            let imageSet        = socialController.addImage(UIImage(named: self.attachedImageName))
+            let initialTextSet  = socialController.setInitialText(Constants.AttachedText)
+            let urlSet          = socialController.addURL(NSURL(string: Constants.AttachedURLString))
+            let imageSet        = socialController.addImage(UIImage(named: Constants.AttachedImageName))
             
             socialController.completionHandler = completion
             

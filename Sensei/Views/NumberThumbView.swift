@@ -13,7 +13,7 @@ class NumberThumbView: VigoSliderThumbView {
     private struct Constants {
         static let BorderColor = UIColor(hexColor:0x315D7F)
         static let BorderWidth: CGFloat = 1.0
-        static let Font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
+        static let Font = UIFont(name: "HelveticaNeue", size: 20.0) //font has been changed to regular from bold, because of task 'Sensei Teaching intensity control: make numbers normal weight, not bold; (1h)' https://trello.com/c/USFImNIj/29-sensei-teaching-intensity-control-make-numbers-normal-weight-not-bold-1h
     }
     
     weak var textLabel: UILabel!
