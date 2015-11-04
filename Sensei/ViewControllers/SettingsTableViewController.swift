@@ -422,50 +422,13 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func shareOnFaebook() {
-        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook) {
-            let social = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            //TODO: Add social share text
-            social.setInitialText("inital text")
-            social.addURL(NSURL(string: "http://apple.com"))
-            social.addImage(UIImage(named: "AppIcon"))
-        } else {
-            let alertController = UIAlertController(title: "Facebook unavailable", message: "Please enter you login and password in Settings.app", preferredStyle: .Alert)
-            alertController.addAction(UIAlertAction(title: "Settings", style: .Default, handler: { (UIAlertAction) -> Void in
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
-                        UIApplication.sharedApplication().openURL(settingsURL)
-                    }
-                })
-                
-            }))
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (UIAlertAction) -> Void in
-            }))
+        SocialPostingService.postToSocialNetworksWithType(.Facebook, fromController: self) { (composeResult) -> Void in
             
-            self.presentViewController(alertController, animated: true, completion: nil)
-
         }
     }
     
     @IBAction func tweet() {
-        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter) {
-            let social = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            //TODO: Add social share text
-            social.setInitialText("inital text")
-            social.addURL(NSURL(string: "http://apple.com"))
-            social.addImage(UIImage(named: "AppIcon"))
-        } else {
-            let alertController = UIAlertController(title: "Twitter unavailable", message: "Please enter you login and password in Settings.app", preferredStyle: .Alert)
-            alertController.addAction(UIAlertAction(title: "Settings", style: .Default, handler: { (UIAlertAction) -> Void in
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
-                        UIApplication.sharedApplication().openURL(settingsURL)
-                    }
-                })
-            }))
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (UIAlertAction) -> Void in
-            }))
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
+        SocialPostingService.postToSocialNetworksWithType(.Twitter, fromController: self) { (composeResult) -> Void in
             
         }
     }
@@ -484,7 +447,7 @@ class SettingsTableViewController: UITableViewController {
             let mailComposeController = MFMailComposeViewController()
             mailComposeController.mailComposeDelegate = self
             mailComposeController.setToRecipients(["sensei@vigosensei.com"])
-            mailComposeController.setSubject("Feedback")
+            mailComposeController.setSubject("Note from a user")
             
             self.presentViewController(mailComposeController, animated: true, completion: nil)
             
