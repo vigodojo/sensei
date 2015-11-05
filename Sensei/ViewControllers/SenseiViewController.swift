@@ -39,7 +39,11 @@ class SenseiViewController: BaseViewController {
 		gradientLayer.colors = [UIColor(white: 0.0, alpha: 1.0).CGColor, UIColor(white: 0.0, alpha: 0.0).CGColor]
 		gradientLayer.locations = [CGFloat(0.0), CGFloat(1.0)]
 		gradientLayer.startPoint = CGPointZero
-		gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.6)
+        
+        /*
+        Changed relative to https://trello.com/c/CSYHKBXF/28-sensei-screen-please-move-transparent-gradient-start-up-3h, was - gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.6)
+        */
+		gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.3)
 		return gradientLayer
 	}()
     

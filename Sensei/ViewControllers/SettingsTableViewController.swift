@@ -439,7 +439,8 @@ class SettingsTableViewController: UITableViewController {
     
     /**
      Show the MFMailViewController to compose feedback message. 
-     Recipient should be set to 'sensei@vigosensei.com'
+     Recipient should be set to 'sensei@vigosensei.com', 
+     subject - 'Note from a user'
      */
     @IBAction func giveFeedback() {
         if MFMailComposeViewController.canSendMail() {
