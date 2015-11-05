@@ -185,6 +185,26 @@ extension String {
 	}
 }
 
+// MARK: - UIScrollView
+
+extension UIScrollView {
+    /**
+     Check whether scroll view has been scrolled to bottom
+     */
+    func scrollViewDidScrollToBottom() -> Bool
+    {
+        let scrollOffset        = self.contentOffset
+        let scrollBounds        = self.bounds
+        let scrollContentSize   = self.contentSize
+        let scrollInsets        = self.contentInset
+        
+        let y = scrollOffset.y + CGRectGetHeight(scrollBounds) - scrollInsets.bottom
+        let h = scrollContentSize.height
+        
+        return y >= h
+    }
+}
+
 // MARK: - CFRange - NSRange
 
 func NSRangeFromCFRange(range: CFRange) -> NSRange {

@@ -94,22 +94,6 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
             nextButton.hidden = !canLoadMoreMessages && CGRectGetMaxY(textView.bounds) >= textView.contentSize.height
         }
     }
-    
-    /**
-     Check whether scroll view has been scrolled to bottom
-     */
-    private func scrollViewDidScrollToBottom(scrollView: UIScrollView) -> Bool
-    {
-        let scrollOffset        = scrollView.contentOffset
-        let scrollBounds        = scrollView.bounds
-        let scrollContentSize   = scrollView.contentSize
-        let scrollInsets        = scrollView.contentInset
-        
-        let y = scrollOffset.y + CGRectGetHeight(scrollBounds) - scrollInsets.bottom
-        let h = scrollContentSize.height
-        
-        return y >= h
-    }
 
     // MARK: - IBActions
     
@@ -139,12 +123,12 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
 extension TutorialBubbleCollectionViewCell: UITextViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        setArrowButtonVisibleIfNeeded(scrollViewDidScrollToBottom(scrollView))
+        setArrowButtonVisibleIfNeeded(scrollView.scrollViewDidScrollToBottom())
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         
-        if scrollViewDidScrollToBottom(scrollView) {
+        if scrollView.scrollViewDidScrollToBottom() {
             delegate?.tutorialBubbleCollectionViewCellDidNext(self)
         }
   

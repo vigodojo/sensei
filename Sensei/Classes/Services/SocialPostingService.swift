@@ -25,7 +25,6 @@ class SocialPostingService {
     
     private struct Constants {
         static let AttachedText         = "#ViGoSensei app. It is making a positive difference in my life."
-        static let AttachedURLString    = "http://itunes.com/apps/ViGoSensei"
         static let AttachedImageName    = "SenseiIconForPosting"
     }
     
@@ -35,7 +34,7 @@ class SocialPostingService {
             let socialController = SLComposeViewController(forServiceType: socialPostingType.chosenService)
             
             let initialTextSet  = socialController.setInitialText(Constants.AttachedText)
-            let urlSet          = socialController.addURL(NSURL(string: Constants.AttachedURLString))
+            let urlSet          = socialController.addURL(LinkToAppOnAppStore)
             let imageSet        = socialController.addImage(UIImage(named: Constants.AttachedImageName))
             
             socialController.completionHandler = completion

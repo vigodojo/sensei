@@ -434,7 +434,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func rateInAppStore() {
-        
+        openAppStoreURL()
     }
     
     /**
@@ -457,7 +457,16 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func upgrade() {
-        
+        openAppStoreURL()
+    }
+    
+    /**
+     If application can open LinkToAppOnAppStore - let it be
+     */
+    private func openAppStoreURL() {
+        if UIApplication.sharedApplication().canOpenURL(LinkToAppOnAppStore) {
+            UIApplication.sharedApplication().openURL(LinkToAppOnAppStore)
+        }
     }
 }
 
