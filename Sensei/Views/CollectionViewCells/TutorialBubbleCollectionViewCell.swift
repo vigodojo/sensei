@@ -10,6 +10,7 @@ import UIKit
 
 protocol TutorialBubbleCollectionViewCellDelegate: class {
     
+    func tutorialBubbleCollectionViewCellCanShowMoreMessages(cell: TutorialBubbleCollectionViewCell) -> Bool
     func tutorialBubbleCollectionViewCellDidYes(cell: TutorialBubbleCollectionViewCell)
     func tutorialBubbleCollectionViewCellDidNo(cell: TutorialBubbleCollectionViewCell)
     func tutorialBubbleCollectionViewCellDidNext(cell: TutorialBubbleCollectionViewCell)
@@ -37,7 +38,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
                 case .Sensei:
                     controllsContainer.hidden = true
                     nextButton.hidden = false
-//                    setArrowButtonVisibleIfNeeded(false)
+                    setArrowButtonVisibleIfNeeded(nil)
                 case .Confirmation:
                     controllsContainer.hidden = false
                     nextButton.hidden = true
@@ -62,6 +63,8 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        textView.delegate = self
 		textView.textContainerInset = UIEdgeInsetsZero
 		textView.textContainer.lineFragmentPadding = 0
     }
@@ -78,18 +81,34 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
 		textView.attributedText = attributedString
 		textView.contentOffset = CGPointZero
         textView.layoutIfNeeded()
-//        setArrowButtonVisibleIfNeeded(true);
+        setArrowButtonVisibleIfNeeded(nil);
     }
     
     // MARK: - Private
     
-    private func setArrowButtonVisibleIfNeeded(hidden: Bool)
+    private func setArrowButtonVisibleIfNeeded(hidden: Bool?)
     {
-        if hidden {
-            nextButton.hidden = hidden;
-        } else {
-            nextButton.hidden = textView.contentSize.height < textView.bounds.height
+        if let hideNeeded = hidden {
+            nextButton.hidden = hideNeeded
+        } else if let canLoadMoreMessages = delegate?.tutorialBubbleCollectionViewCellCanShowMoreMessages(self) {
+            nextButton.hidden = !canLoadMoreMessages && CGRectGetMaxY(textView.bounds) >= textView.contentSize.height
         }
+    }
+    
+    /**
+     Check whether scroll view has been scrolled to bottom
+     */
+    private func scrollViewDidScrollToBottom(scrollView: UIScrollView) -> Bool
+    {
+        let scrollOffset        = scrollView.contentOffset
+        let scrollBounds        = scrollView.bounds
+        let scrollContentSize   = scrollView.contentSize
+        let scrollInsets        = scrollView.contentInset
+        
+        let y = scrollOffset.y + CGRectGetHeight(scrollBounds) - scrollInsets.bottom
+        let h = scrollContentSize.height
+        
+        return y >= h
     }
 
     // MARK: - IBActions
@@ -112,5 +131,22 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
 			let offsetY = max(min(textView.contentSize.height - height, textView.contentOffset.y + height), 0)
 			textView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: true)
 		}
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension TutorialBubbleCollectionViewCell: UITextViewDelegate {
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        setArrowButtonVisibleIfNeeded(scrollViewDidScrollToBottom(scrollView))
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        
+        if scrollViewDidScrollToBottom(scrollView) {
+            delegate?.tutorialBubbleCollectionViewCellDidNext(self)
+        }
+  
     }
 }

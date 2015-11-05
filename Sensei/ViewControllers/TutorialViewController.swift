@@ -46,6 +46,15 @@ class TutorialViewController: BaseViewController {
     
     var messages = [Message]()
     
+    var canLoadNextStep: Bool {
+        if !TutorialManager.sharedInstance.completed {
+            if let tutorialStep = TutorialManager.sharedInstance.currentStep {
+                return !tutorialStep.requiresActionToProceed
+            }
+        }
+        return false
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -191,8 +200,8 @@ extension TutorialViewController: UICollectionViewDataSource {
         } else {
             cell.text = message.text
         }
-        cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
         cell.delegate = self
+        cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
         return cell;
     }
 }
@@ -219,13 +228,13 @@ extension TutorialViewController: TutorialBubbleCollectionViewCellDelegate {
     }
     
     func tutorialBubbleCollectionViewCellDidNext(cell: TutorialBubbleCollectionViewCell) {
-        if !TutorialManager.sharedInstance.completed {
-            if let tutorialStep = TutorialManager.sharedInstance.currentStep {
-                if !tutorialStep.requiresActionToProceed {
-                    TutorialManager.sharedInstance.nextStep()
-                }
-            }
+        if canLoadNextStep {
+            TutorialManager.sharedInstance.nextStep()
         }
+    }
+    
+    func tutorialBubbleCollectionViewCellCanShowMoreMessages(cell: TutorialBubbleCollectionViewCell) -> Bool {
+        return canLoadNextStep
     }
 }
 
