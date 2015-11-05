@@ -85,7 +85,12 @@ class VisualisationView: UIView {
         }
         set {
             textView.attributedText = NSAttributedString(string: newValue, attributes: Visualization.outlinedTextAttributesWithFontSize(currentFontSize))
+            /*
+            Commenter relative to:
+            https://trello.com/c/pYOD8AIc/27-please-remove-the-placeholder-text-from-visualization
+            
             placeholderLabel.hidden = !newValue.isEmpty
+            */
         }
     }
     
@@ -118,7 +123,14 @@ class VisualisationView: UIView {
         super.awakeFromNib()
         textView.addObserver(self, forKeyPath: "contentSize", options: NSKeyValueObservingOptions.New, context: TextViewContentSizeContext)
         textView.textContainer.lineFragmentPadding = 0
+        
+        /*
+        Commenter relative to:
+        https://trello.com/c/pYOD8AIc/27-please-remove-the-placeholder-text-from-visualization
+        
         setupPlaceholderLabel()
+        */
+
         calculateMaxTextHeightForMinFontSize()
     }
     
@@ -254,6 +266,11 @@ class VisualisationView: UIView {
 
 extension VisualisationView: UITextViewDelegate {
     
+    /*
+    Commenter relative to:
+    https://trello.com/c/pYOD8AIc/27-please-remove-the-placeholder-text-from-visualization
+    
+    
     func textViewDidBeginEditing(textView: UITextView) {
         placeholderLabel.hidden = true
     }
@@ -261,6 +278,7 @@ extension VisualisationView: UITextViewDelegate {
     func textViewDidEndEditing(textView: UITextView) {
         placeholderLabel.hidden = !textView.text.isEmpty
     }
+    */
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
