@@ -29,7 +29,7 @@ class MessageSwitchView: UIView {
         static let NibName = "MessageSwitchView"
         static let SlotCellNibName = "SlotCollectionViewCell"
         static let EmtySlotTextColor = UIColor(hexColor: 0x939598)
-        static let UnavailableTextColor = UIColor.redColor()
+        static let UnavailableTextColor = UIColor(hexColor: 0x939598);//Changed from UIColor.redColor() relative to https://trello.com/c/NLPtzeav/44-empty-slot-items-must-be-colored-light-grey-they-are-currently-red-and-filled-slot-items-must-be-colored-black
         static let FilledSlotTextColor = UIColor.blackColor()
     }
     
