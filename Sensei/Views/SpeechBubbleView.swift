@@ -13,7 +13,8 @@ class SpeechBubbleView: UIView {
     
     enum PointerPosition: Int {
         case Left = 0
-        case Right
+        case TopRight
+        case BottomRight //this case added relative to https://trello.com/c/iZHV6sJt/37-tutorial-and-help-please-move-speech-bubble-pointer-to-the-top-right-of-the-bubble-see-comments
     }
     
     @IBInspectable var cornerRadius: CGFloat = 16 {
@@ -40,13 +41,13 @@ class SpeechBubbleView: UIView {
         }
     }
     
-    @IBInspectable var pointerPositionNumber: Int = PointerPosition.Right.rawValue {
+    @IBInspectable var pointerPositionNumber: Int = PointerPosition.TopRight.rawValue {
         didSet {
-            pointerPosition = PointerPosition(rawValue: pointerPositionNumber) ?? .Right
+            pointerPosition = PointerPosition(rawValue: pointerPositionNumber) ?? .TopRight
         }
     }
     
-    var pointerPosition: PointerPosition = PointerPosition.Right {
+    var pointerPosition: PointerPosition = PointerPosition.TopRight {
         didSet {
             setNeedsDisplay()
         }
@@ -61,7 +62,8 @@ class SpeechBubbleView: UIView {
         let bodyPath: UIBezierPath
         switch pointerPosition {
 			case .Left: bodyPath = bezierPathForLeft()
-			case .Right: bodyPath = bezierPathForUpperRight()
+			case .TopRight: bodyPath = bezierPathForUpperRight()
+            case .BottomRight: bodyPath = bezierPathForBottomRight()
         }
         bodyPath.lineWidth = lineWidth
         strokeColor.setStroke()
@@ -70,6 +72,59 @@ class SpeechBubbleView: UIView {
         bodyPath.fill()
     }
 
+    // MARK: - Draw Bottom Right Speech Bubble
+    
+    /**
+    These methods have been returned from previous commit relative to task:
+    https://trello.com/c/iZHV6sJt/37-tutorial-and-help-please-move-speech-bubble-pointer-to-the-top-right-of-the-bubble-see-comments
+    Pointer position in RightSpeechBubbleCollectionViewCell has been changed to 'BottomRight';
+    Pointer position in TutorialBubbleCollectionViewCell still stays on 'TopRight'
+    */
+    private func bezierPathForBottomRight() -> UIBezierPath {
+        let aPointerSize = pointerSize
+        let beziePath = UIBezierPath()
+        let offset = lineWidth / 2.0
+        let angle = RadiangsFromDegrees(55)
+        let pointerOffset = cornerRadius - PoinOnCircleWithRadius(cornerRadius, angle: angle).x
+        let rightEdgeOffset = cornerRadius + aPointerSize.width - pointerOffset + offset
+        
+        var point = CGPoint(x: cornerRadius + offset, y: cornerRadius + offset)
+        beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(M_PI), endAngle: CGFloat(-M_PI_2), clockwise: true)
+        point = beziePath.currentPoint
+        point.x = CGRectGetWidth(bounds) - rightEdgeOffset
+        beziePath.addLineToPoint(point)
+        point.y = cornerRadius + offset
+        beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(-M_PI_2), endAngle: 0.0, clockwise: true)
+        point = beziePath.currentPoint
+        point.y = CGRectGetHeight(bounds) - cornerRadius * 0.5 - offset
+        beziePath.addLineToPoint(point)
+        
+        let pointerStart = point
+        point.y -= cornerRadius * 0.5
+        point.x -= cornerRadius
+        let pointerEnd = PoinOnCircleWithRadius(cornerRadius, angle: angle, origin: point)
+        addBottomRightPointerToBezierPath(beziePath, startPoint: pointerStart, endPoint: pointerEnd)
+        
+        beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: angle, endAngle: CGFloat(M_PI_2), clockwise: true)
+        point = beziePath.currentPoint
+        point.x = cornerRadius + offset
+        beziePath.addLineToPoint(point)
+        point.y -= cornerRadius
+        beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(M_PI_2), endAngle: CGFloat(M_PI), clockwise: true)
+        beziePath.closePath()
+        return beziePath
+    }
+    
+    private func addBottomRightPointerToBezierPath(bezierPath: UIBezierPath, startPoint: CGPoint, endPoint: CGPoint) {
+        let aPointerSize = pointerSize
+        let xDelta = startPoint.x - endPoint.x
+        let farPoint = CGPoint(x: endPoint.x + aPointerSize.width, y: startPoint.y + aPointerSize.height)
+        var controlPoint = CGPoint(x: endPoint.x + xDelta * 1.2, y: startPoint.y + aPointerSize.height * 0.6)
+        bezierPath.addQuadCurveToPoint(farPoint, controlPoint: controlPoint)
+        controlPoint = CGPoint(x: endPoint.x + xDelta * 0.5, y: startPoint.y + aPointerSize.height * 0.95)
+        bezierPath.addQuadCurveToPoint(endPoint, controlPoint: controlPoint)
+    }
+    
     // MARK: - Draw Upper Right Speech Bubble
     
     private func bezierPathForUpperRight() -> UIBezierPath {
@@ -78,7 +133,6 @@ class SpeechBubbleView: UIView {
         let offset = lineWidth / 2.0
         let angle = RadiangsFromDegrees(-55)
         let pointerOffset = round(cornerRadius - PoinOnCircleWithRadius(cornerRadius, angle: angle).x)
-        
         var point = CGPoint(x: cornerRadius + offset, y: cornerRadius + offset)
         beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(M_PI), endAngle: CGFloat(-M_PI_2), clockwise: true)
         point = beziePath.currentPoint
