@@ -57,22 +57,7 @@ class SenseiViewController: BaseViewController {
     }
     
     private var bottomContentInset: CGFloat {
-        if dataSource.count > 0 {
-            var index = dataSource.count - 1
-            var height: CGFloat = 0
-            while index > -1 && dataSource[index] is AnswerMessage {
-                let indexPath = NSIndexPath(forItem: index, inSection: 0)
-                let cellSize = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAtIndexPath: indexPath)
-                height += cellSize.height + (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing
-                index--
-            }
-            if index > -1 {
-                let lastIndexPath = NSIndexPath(forItem: index, inSection: 0)
-                let lastCellSize = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAtIndexPath: lastIndexPath)
-                return CGRectGetHeight(senseiImageView.frame) - lastCellSize.height - height
-            }
-        }
-        return 0
+        return 80
     }
     
     private var collectionViewBottomContentInset: CGFloat {
@@ -146,6 +131,7 @@ class SenseiViewController: BaseViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        removeAllExeptLessons()
         removeKeyboardObservers()
         removeTutorialObservers()
     }
@@ -290,8 +276,13 @@ class SenseiViewController: BaseViewController {
     
     private func scrollToItemAtIndexPath(indexPath: NSIndexPath, animated: Bool) {
         if let attributes = self.collectionView.collectionViewLayout.layoutAttributesForItemAtIndexPath(indexPath) {
-            let offsetY = CGRectGetMinY(attributes.frame) - collectionView.contentInset.top
-            collectionView.setContentOffset(CGPoint(x: -Constants.CollectionContentInset.left, y: offsetY), animated: animated)
+            let collectionViewHeightWithoutBottomInset = CGRectGetHeight(collectionView.frame) - collectionViewBottomContentInset
+            let offs = CGRectGetMaxY(attributes.frame) - collectionViewHeightWithoutBottomInset
+            collectionView.performBatchUpdates({ [unowned self]() -> Void in
+                self.collectionView.setContentOffset(CGPoint(x: -Constants.CollectionContentInset.left, y: offs), animated: animated)
+            }, completion: { [unowned self] finished in
+                self.configureBubles()
+            })
         }
     }
     
@@ -304,7 +295,8 @@ class SenseiViewController: BaseViewController {
     private func reloadSectionAnimated(animated: Bool) {
         if animated {
             collectionView.performBatchUpdates({ [unowned self] in
-                self.collectionView.reloadSections(NSIndexSet(index: 0))
+//                self.collectionView.reloadSections(NSIndexSet(index: 0)) //it's blinking while reloading
+                self.collectionView.reloadData()                           //it's not
             }, completion: { [unowned self] finished in
                 self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
                 self.scrollToLastNotUsersItemAnimated(true)
@@ -523,10 +515,33 @@ extension SenseiViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
         cell.delegate = self
         cell.text = message.text
+        cell.showCloseButton(message is Lesson)
 		let size = caluclateSizeForItemAtIndexPath(indexPath)
 		let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
 		cell.speachBubleOffset = width - size.width
+        configureTipForCell(cell)
         return cell
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension SenseiViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        configureBubles()
+    }
+
+    func configureBubles() {
+        for indexPath in collectionView.indexPathsForVisibleItems() {
+            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! SpeechBubbleCollectionViewCell
+            configureTipForCell(cell)
+        }
+    }
+    
+    func configureTipForCell(cell: SpeechBubbleCollectionViewCell) {
+        let frameToIntersect = CGRectMake(0, CGRectGetMinY(senseiImageView.frame) - 22.0, CGRectGetWidth(view.frame), CGRectGetHeight(senseiImageView.frame)/4)
+        let cellFrameInView = collectionView.convertRect(cell.frame, toView: view)
+        cell.speechBubbleView.showBubbleTip = CGRectIntersectsRect(cellFrameInView, frameToIntersect)
     }
 }
 

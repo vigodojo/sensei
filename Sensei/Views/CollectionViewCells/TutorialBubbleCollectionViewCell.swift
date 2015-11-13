@@ -67,6 +67,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
         textView.delegate = self
 		textView.textContainerInset = UIEdgeInsetsZero
 		textView.textContainer.lineFragmentPadding = 0
+        textView.alwaysBounceVertical = true
     }
 
 	override func layoutSubviews() {

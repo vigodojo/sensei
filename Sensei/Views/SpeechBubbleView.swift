@@ -46,7 +46,11 @@ class SpeechBubbleView: UIView {
             pointerPosition = PointerPosition(rawValue: pointerPositionNumber) ?? .TopRight
         }
     }
-    
+    @IBInspectable var showBubbleTip: Bool = false {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     var pointerPosition: PointerPosition = PointerPosition.TopRight {
         didSet {
             setNeedsDisplay()
@@ -96,21 +100,35 @@ class SpeechBubbleView: UIView {
         point.y = cornerRadius + offset
         beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(-M_PI_2), endAngle: 0.0, clockwise: true)
         point = beziePath.currentPoint
-        point.y = CGRectGetHeight(bounds) - cornerRadius * 0.5 - offset
-        beziePath.addLineToPoint(point)
+
+
+        if showBubbleTip {
+            point.y = CGRectGetHeight(bounds) - cornerRadius*0.5 - offset
+            beziePath.addLineToPoint(point)
+            let pointerStart = point
+            point.y -= cornerRadius * 0.5
+            point.x -= cornerRadius
+
+            let pointerEnd = PoinOnCircleWithRadius(cornerRadius, angle: angle, origin: point)
+            addBottomRightPointerToBezierPath(beziePath, startPoint: pointerStart, endPoint: pointerEnd)
+            beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: angle, endAngle: CGFloat(M_PI_2), clockwise: true)
+        } else {
+            point.y = CGRectGetHeight(bounds) - cornerRadius - offset
+            beziePath.addLineToPoint(point)
+            
+            point.x = CGRectGetWidth(bounds) - rightEdgeOffset
+            point.y = bounds.size.height - cornerRadius - offset
+
+            beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(0.0), endAngle: CGFloat(M_PI_2), clockwise: true)
+        }
         
-        let pointerStart = point
-        point.y -= cornerRadius * 0.5
-        point.x -= cornerRadius
-        let pointerEnd = PoinOnCircleWithRadius(cornerRadius, angle: angle, origin: point)
-        addBottomRightPointerToBezierPath(beziePath, startPoint: pointerStart, endPoint: pointerEnd)
-        
-        beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: angle, endAngle: CGFloat(M_PI_2), clockwise: true)
-        point = beziePath.currentPoint
         point.x = cornerRadius + offset
+        point.y = CGRectGetHeight(bounds) - offset
         beziePath.addLineToPoint(point)
-        point.y -= cornerRadius
+    
+        point.y = bounds.size.height - cornerRadius - offset
         beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(M_PI_2), endAngle: CGFloat(M_PI), clockwise: true)
+        
         beziePath.closePath()
         return beziePath
     }

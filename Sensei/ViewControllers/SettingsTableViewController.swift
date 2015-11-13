@@ -208,6 +208,7 @@ class SettingsTableViewController: UITableViewController {
         if !TutorialManager.sharedInstance.completed {
             TutorialManager.sharedInstance.nextStep()
         }
+        tutorialSwitch.enabled = TutorialManager.sharedInstance.completed
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -381,13 +382,13 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func toggleTutorial(sender: UISwitch) {
         Settings.sharedSettings.tutorialOn = NSNumber(bool: tutorialSwitch.on)
-        if let tutorialViewController = tutorialViewController {
-            if sender.on {
-                tutorialViewController.showTutorialAnimated(true)
-            } else {
-                tutorialViewController.hideTutorialAnimated(true)
-            }
-        }
+//        if let tutorialViewController = tutorialViewController {
+//            if sender.on {
+//                tutorialViewController.showTutorialAnimated(true)
+//            } else {
+//                tutorialViewController.hideTutorialAnimated(true)
+//            }
+//        }
     }
     
     @IBAction func timePickerDidChangeValue(sender: UIDatePicker) {

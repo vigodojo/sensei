@@ -104,4 +104,10 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
 
 		return CGSize(width: textSize.width + leadingAndTrailingConstraints, height: textSize.height + topAndBottomConstraints)
 	}
+    
+    func showCloseButton(show: Bool) {
+        if let closeButton = closeButton {
+            closeButton.hidden = !show
+        }
+    }
 }

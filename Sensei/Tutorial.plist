@@ -177,8 +177,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>Good job &lt;#Name&gt;!, You’ve created your first affirmation
-To delete an affirmation, make a long press on the slot number.</string>
+		<string>Good job &lt;#Name&gt;!, You’ve created your first affirmation</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
@@ -274,8 +273,7 @@ To delete an affirmation, make a long press on the slot number.</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>That is a beautiful visualization &lt;#Name&gt;, well done!
-To delete an affirmation, make a long press on the slot number.</string>
+		<string>That is a beautiful visualization &lt;#Name&gt;, well done!</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
@@ -299,7 +297,7 @@ To delete an affirmation, make a long press on the slot number.</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>You have now learned how to use the main tools of this application. I hope you will have fun with it and get creative with your use of Affirmations and Visualizations.  I think you will find it will improve your outlook, boost your energy and even make you a more powerful person</string>
+		<string>You have now learned how to use the main tools of this application. I hope you will have fun with it and get creative with your use of Affirmations and Visualizations. I think you will find it will improve your outlook, boost your energy and even make you a more powerful person</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>

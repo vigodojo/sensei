@@ -379,7 +379,7 @@ extension VisualizationsViewController: VisualizationViewDelegate {
     func deleteVisualizationAtindex(index: Int) {
         itemToDelete = index
         if let visual = Visualization.visualizationWithNumber(index) {
-            if (visual.text.characters.count != 0 && visual.picture != nil) {
+            if (/*visual.text.characters.count != 0 && */visual.picture != nil) {
                 tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
             }
         }

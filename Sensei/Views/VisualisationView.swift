@@ -36,6 +36,7 @@ class VisualisationView: UIView {
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var placeholderLabel: UILabel!
+    @IBOutlet weak var noImageSelectedLabel: UILabel!
     @IBOutlet weak var imageBounderingView: UIView!
     @IBOutlet weak var imageContainerView: UIView!
     @IBOutlet weak var imageContainerHeightConstraint: NSLayoutConstraint!
@@ -73,6 +74,7 @@ class VisualisationView: UIView {
         }
         set {
             imageView.image = newValue
+            noImageSelectedLabel.hidden = (newValue != nil)
             let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(imageBounderingView.bounds), height: maxImageViewHeight))
             updateImageContainerViewWithBounds(rect)
             calculateMaxFontSize()
