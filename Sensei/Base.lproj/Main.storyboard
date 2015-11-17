@@ -1167,24 +1167,24 @@ more text</string>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hy9-Kc-s2q" customClass="MessageSwitchView" customModule="Sensei" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="31" width="600" height="150"/>
+                                <rect key="frame" x="0.0" y="31" width="600" height="110"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="Nt5-4J-QNK"/>
+                                    <constraint firstAttribute="height" constant="110" id="Nt5-4J-QNK"/>
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Las-2H-T8t">
-                                <rect key="frame" x="0.0" y="181" width="600" height="419"/>
+                                <rect key="frame" x="0.0" y="141" width="600" height="459"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9dr-0r-Haz" customClass="VisualisationView" customModule="Sensei" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="419"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="459"/>
                                         <subviews>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zDb-PC-xXT">
-                                                <rect key="frame" x="18" y="8" width="564" height="375"/>
+                                                <rect key="frame" x="18" y="8" width="564" height="415"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Mp-G7-7Xx">
-                                                        <rect key="frame" x="136" y="112" width="292" height="152"/>
+                                                        <rect key="frame" x="136" y="132" width="292" height="152"/>
                                                         <subviews>
                                                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="253" verticalHuggingPriority="253" horizontalCompressionResistancePriority="753" verticalCompressionResistancePriority="753" translatesAutoresizingMaskIntoConstraints="NO" id="fCr-xg-Sb3">
                                                                 <rect key="frame" x="0.0" y="0.0" width="292" height="152"/>
@@ -1213,7 +1213,7 @@ more text</string>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slot is empty, click the camera icon to create a new visualization" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MoN-mz-owe">
-                                                                <rect key="frame" x="8" y="8" width="276" height="34"/>
+                                                                <rect key="frame" x="8" y="59" width="276" height="34"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1223,6 +1223,7 @@ more text</string>
                                                         <animations/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
+                                                            <constraint firstItem="MoN-mz-owe" firstAttribute="centerY" secondItem="1Mp-G7-7Xx" secondAttribute="centerY" id="10e-rx-XyR"/>
                                                             <constraint firstItem="uOe-r0-tiJ" firstAttribute="top" secondItem="1Mp-G7-7Xx" secondAttribute="top" id="4d4-K1-Zqv"/>
                                                             <constraint firstItem="fCr-xg-Sb3" firstAttribute="top" secondItem="1Mp-G7-7Xx" secondAttribute="top" id="Dqs-IS-zoM"/>
                                                             <constraint firstAttribute="bottom" secondItem="fCr-xg-Sb3" secondAttribute="bottom" id="Iqu-5S-ULI"/>
@@ -1239,7 +1240,6 @@ more text</string>
                                                             <constraint firstItem="MoN-mz-owe" firstAttribute="leading" secondItem="1Mp-G7-7Xx" secondAttribute="leading" constant="8" id="nZ5-5w-WSI"/>
                                                             <constraint firstItem="fCr-xg-Sb3" firstAttribute="leading" secondItem="1Mp-G7-7Xx" secondAttribute="leading" id="oRU-yb-p45"/>
                                                             <constraint firstAttribute="bottom" secondItem="uOe-r0-tiJ" secondAttribute="bottom" id="tlm-sf-NcH"/>
-                                                            <constraint firstItem="MoN-mz-owe" firstAttribute="top" secondItem="1Mp-G7-7Xx" secondAttribute="top" constant="8" id="v0g-Hi-Z0k"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
@@ -1251,7 +1251,7 @@ more text</string>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PHn-O1-aXS">
-                                                <rect key="frame" x="536" y="387" width="46" height="24"/>
+                                                <rect key="frame" x="536" y="427" width="46" height="24"/>
                                                 <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="24" id="fme-Z5-IYw"/>
@@ -1275,7 +1275,7 @@ more text</string>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D8a-kG-PQM">
-                                                <rect key="frame" x="14" y="387" width="33" height="27"/>
+                                                <rect key="frame" x="14" y="427" width="33" height="27"/>
                                                 <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="33" id="P2C-Z5-LDV"/>

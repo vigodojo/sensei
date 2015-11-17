@@ -64,8 +64,10 @@ class SenseiViewController: BaseViewController {
     
     private var topContentInset: CGFloat {
         var top = CGRectGetMinY(senseiImageView.frame)
-        let height = caluclateSizeForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)).height
-        top = collectionView.frame.size.height - bottomContentInset - height
+        if dataSource.count > 0 {
+            let height = caluclateSizeForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)).height
+            top = collectionView.frame.size.height - bottomContentInset - height
+        }
         return top
     }
     
@@ -142,7 +144,6 @@ class SenseiViewController: BaseViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-//        removeAllExeptLessons()
         removeKeyboardObservers()
         removeTutorialObservers()
     }
