@@ -45,6 +45,16 @@ class TutorialManager {
         return nil
     }
     
+    var prevTutorialStep: TutorialStep? {
+        if completed {
+            return nil
+        }
+        if stepCounter - 1 > 0 && stepCounter < steps.count{
+            return steps[stepCounter - 1]
+        }
+        return nil
+    }
+    
     // MARK: - Lifecycle
     
     init() {
@@ -60,6 +70,18 @@ class TutorialManager {
     }
     
     // MARK: - Public
+    
+    func prevStep() {
+        if completed {
+            return
+        }
+        decreaseStepCounter()
+        if stepCounter < steps.count {
+            let step = steps[stepCounter]
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidMoveToNextStep, object: nil, userInfo: [UserInfoKeys.TutorialStep: step])
+        }
+        checkCompletion()
+    }
     
     func nextStep() {
         if completed {
@@ -82,6 +104,14 @@ class TutorialManager {
     
     private func increaseStepCounter() {
         stepCounter++
+        if stepCounter > 0 {
+            lastCompletedStepNumber = stepCounter - 1
+            NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastCompletedStepNumber!), forKey: UserDefaultsKeys.LastCompletedStepNumber)
+        }
+    }
+    
+    private func decreaseStepCounter() {
+        stepCounter--
         if stepCounter > 0 {
             lastCompletedStepNumber = stepCounter - 1
             NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastCompletedStepNumber!), forKey: UserDefaultsKeys.LastCompletedStepNumber)

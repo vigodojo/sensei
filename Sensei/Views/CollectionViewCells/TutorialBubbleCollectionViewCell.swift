@@ -13,6 +13,7 @@ protocol TutorialBubbleCollectionViewCellDelegate: class {
     func tutorialBubbleCollectionViewCellCanShowMoreMessages(cell: TutorialBubbleCollectionViewCell) -> Bool
     func tutorialBubbleCollectionViewCellDidYes(cell: TutorialBubbleCollectionViewCell)
     func tutorialBubbleCollectionViewCellDidNo(cell: TutorialBubbleCollectionViewCell)
+    func tutorialBubbleCollectionViewCellDidPrevious(cell: TutorialBubbleCollectionViewCell)
     func tutorialBubbleCollectionViewCellDidNext(cell: TutorialBubbleCollectionViewCell)
 }
 
@@ -30,6 +31,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var nextButton: UIButton!
 	@IBOutlet weak var textView: UITextView!
     
+    var bouncedTop: Bool = false
     weak var delegate: TutorialBubbleCollectionViewCellDelegate?
     
     var type = BubbleCollectionViewCellType.Sensei {
@@ -127,8 +129,18 @@ extension TutorialBubbleCollectionViewCell: UITextViewDelegate {
         setArrowButtonVisibleIfNeeded(scrollView.scrollViewDidScrollToBottom())
     }
     
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView.contentOffset.y < 0 {
+            bouncedTop = true
+        }
+    }
+    
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
+        if scrollView.scrollViewDidScrollToTop() && bouncedTop {
+            delegate?.tutorialBubbleCollectionViewCellDidPrevious(self)
+            bouncedTop = false
+            return
+        }
         if scrollView.scrollViewDidScrollToBottom() {
             delegate?.tutorialBubbleCollectionViewCellDidNext(self)
         }

@@ -191,6 +191,12 @@ extension UIScrollView {
     /**
      Check whether scroll view has been scrolled to bottom
      */
+    func scrollViewDidScrollToTop() -> Bool
+    {
+        let scrollOffset        = self.contentOffset
+        return scrollOffset.y == 0
+    }
+    
     func scrollViewDidScrollToBottom() -> Bool
     {
         let scrollOffset        = self.contentOffset

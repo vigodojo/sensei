@@ -47,17 +47,26 @@ class SenseiViewController: BaseViewController {
 		return gradientLayer
 	}()
     
+    private lazy var shouldReload: Bool = false
+    
     private lazy var sizingCell: SpeechBubbleCollectionViewCell = {
         NSBundle.mainBundle().loadNibNamed(RightSpeechBubbleCollectionViewCellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
     }()
     
     private var maxContentOffset: CGPoint {
-        let y = collectionView.contentSize.height - CGRectGetHeight(collectionView.frame) + collectionView.contentInset.bottom + min(0, bottomContentInset)
+        let y = collectionView.contentSize.height - CGRectGetHeight(collectionView.frame) + collectionView.contentInset.bottom
         return CGPoint(x: -Constants.CollectionContentInset.left, y: max(y, -collectionView.contentInset.top))
     }
     
     private var bottomContentInset: CGFloat {
-        return 80
+        return 100
+    }
+    
+    private var topContentInset: CGFloat {
+        var top = CGRectGetMinY(senseiImageView.frame)
+        let height = caluclateSizeForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)).height
+        top = collectionView.frame.size.height - bottomContentInset - height
+        return top
     }
     
     private var collectionViewBottomContentInset: CGFloat {
@@ -110,6 +119,8 @@ class SenseiViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         tutorialViewController?.tutorialHidden = true
+        collectionView.contentInset.bottom = collectionViewBottomContentInset
+
         if APIManager.sharedInstance.logined {
             APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         }
@@ -131,22 +142,22 @@ class SenseiViewController: BaseViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        removeAllExeptLessons()
+//        removeAllExeptLessons()
         removeKeyboardObservers()
         removeTutorialObservers()
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        if TutorialManager.sharedInstance.completed {
+//        if TutorialManager.sharedInstance.completed {
             removeAllExeptLessons()
-        }
+//        }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 		transparrencyGradientLayer.frame = fadingImageView.bounds
-        collectionView.contentInset.top = CGRectGetMinY(senseiImageView.frame)
+        collectionView.contentInset.top = topContentInset
     }
     
     // MARK: - Private
@@ -162,7 +173,6 @@ class SenseiViewController: BaseViewController {
             self.login()
             return
         }
-        
 
         if let lessons = self.lessonsFetchedResultController.fetchedObjects as? [Lesson] {
             self.dataSource += lessons.map { $0 as Message }
@@ -187,7 +197,6 @@ class SenseiViewController: BaseViewController {
             collectionView.performBatchUpdates({ [unowned self] () -> Void in
                 self.collectionView.insertItemsAtIndexPaths([indexPath])
                 }, completion: { [unowned self] (finished) -> Void in
-                    self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
                     if scroll {
                         self.scrollToItemAtIndexPath(indexPath, animated: true)
                     }
@@ -213,6 +222,8 @@ class SenseiViewController: BaseViewController {
                 self.scrollToLastNotUsersItemAnimated(true)
             }
             if let completion = completion {
+                self.configureBubles()
+                self.collectionView.contentInset.top = self.topContentInset
                 completion()
             }
         })
@@ -225,17 +236,26 @@ class SenseiViewController: BaseViewController {
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(message)
         }
         
-        collectionView.performBatchUpdates({ () -> Void in
+        collectionView.performBatchUpdates({ [unowned self] () -> Void in
             self.collectionView.deleteItemsAtIndexPaths([indexPath])
-        }, completion: nil)
+        }) { [unowned self] (finished) -> Void in
+            self.changeTopInsets()
+        }
     }
     
     private func removeAllExeptLessons() {
         dataSource = dataSource.filter { $0 is Lesson }
         collectionView.reloadData()
-        collectionView.contentInset.bottom = collectionViewBottomContentInset
     }
     
+    private func changeTopInsets() {
+        let shouldReload = collectionView.contentOffset.y == -collectionView.contentInset.top
+        self.collectionView.contentInset.top = self.topContentInset
+        if shouldReload {
+            collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: -collectionView.contentInset.top), animated: true)
+        }
+        configureBubles()
+    }
     // MARK: API Requests
     
     private func login() {
@@ -278,6 +298,7 @@ class SenseiViewController: BaseViewController {
         if let attributes = self.collectionView.collectionViewLayout.layoutAttributesForItemAtIndexPath(indexPath) {
             let collectionViewHeightWithoutBottomInset = CGRectGetHeight(collectionView.frame) - collectionViewBottomContentInset
             let offs = CGRectGetMaxY(attributes.frame) - collectionViewHeightWithoutBottomInset
+            collectionView.contentInset.top = topContentInset
             collectionView.performBatchUpdates({ [unowned self]() -> Void in
                 self.collectionView.setContentOffset(CGPoint(x: -Constants.CollectionContentInset.left, y: offs), animated: animated)
             }, completion: { [unowned self] finished in
@@ -295,15 +316,14 @@ class SenseiViewController: BaseViewController {
     private func reloadSectionAnimated(animated: Bool) {
         if animated {
             collectionView.performBatchUpdates({ [unowned self] in
-//                self.collectionView.reloadSections(NSIndexSet(index: 0)) //it's blinking while reloading
-                self.collectionView.reloadData()                           //it's not
+                self.collectionView.reloadSections(NSIndexSet(index: 0))
             }, completion: { [unowned self] finished in
-                self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
+                self.collectionView.contentInset.top = self.topContentInset
                 self.scrollToLastNotUsersItemAnimated(true)
             })
         } else {
             collectionView.reloadData()
-            collectionView.contentInset.bottom = collectionViewBottomContentInset
+            collectionView.contentInset.top = topContentInset
             scrollToLastNotUsersItemAnimated(false)
         }
     }
@@ -425,14 +445,15 @@ class SenseiViewController: BaseViewController {
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
         if size.height > senseiBottomSpaceConstraint.constant {
             view.layoutIfNeeded()
-            self.collectionView.contentInset.bottom = size.height - Constants.DefaultBottomSpace + collectionViewBottomContentInset
 			let startPoiint = CGPoint(x: 0.0, y: (size.height - Constants.DefaultBottomSpace) / CGRectGetHeight(fadingImageView.frame))
             UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [unowned self] () -> Void in
                 self.senseiBottomSpaceConstraint.constant = size.height
-                self.collectionView.contentOffset = self.maxContentOffset
+                self.collectionView.contentOffset = CGPointMake(self.collectionView.contentOffset.x,  self.collectionView.contentSize.height - (CGRectGetHeight(self.collectionView.frame) - size.height) + self.collectionView.contentInset.bottom)
 				self.transparrencyGradientLayer.startPoint = startPoiint
                 self.view.layoutIfNeeded()
-            }, completion: nil)
+            }, completion: { [unowned self] finished in
+                self.configureBubles()
+            })
         }
     }
     
@@ -440,7 +461,6 @@ class SenseiViewController: BaseViewController {
         view.layoutIfNeeded()
         UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [unowned self] () -> Void in
             self.senseiBottomSpaceConstraint.constant = Constants.DefaultBottomSpace
-            self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
 			self.transparrencyGradientLayer.startPoint = CGPointZero
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -605,6 +625,7 @@ extension SenseiViewController: SpeechBubbleCollectionViewCellDelegate {
 extension SenseiViewController: NSFetchedResultsControllerDelegate {
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        shouldReload = true
         if let lesson = anObject as? Lesson {
             switch type {
                 case .Delete:
@@ -614,9 +635,12 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
                         }
                         return true
                     }
+//                    collectionView.contentInset.top = topContentInset
+                    shouldReload = false
                     print("Deleted \(lesson.date)")
                 case .Insert:
                     dataSource.append(lesson as Message)
+                    collectionView.contentInset.top = topContentInset
                     print("Inserted \(lesson.date)")
                     break
                 default:
@@ -626,7 +650,10 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
     }
 
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        dataSource.sortInPlace { $0.date.compare($1.date) == .OrderedAscending }
-        reloadSectionAnimated(isTopViewController)
+        if shouldReload {
+            dataSource.sortInPlace { $0.date.compare($1.date) == .OrderedAscending }
+            reloadSectionAnimated(isTopViewController)
+            print("Reload")
+        }
     }
 }

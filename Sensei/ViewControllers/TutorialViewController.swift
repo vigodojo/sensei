@@ -46,6 +46,17 @@ class TutorialViewController: BaseViewController {
     
     var messages = [Message]()
     
+    var canLoadPrevStep: Bool {
+        if !TutorialManager.sharedInstance.completed {
+            if let tutorialStep = TutorialManager.sharedInstance.currentStep {
+                if let prevTutorialStep = TutorialManager.sharedInstance.prevTutorialStep {
+                    return tutorialStep.screen == prevTutorialStep.screen
+                }
+            }
+        }
+        return false
+    }
+    
     var canLoadNextStep: Bool {
         if !TutorialManager.sharedInstance.completed {
             if let tutorialStep = TutorialManager.sharedInstance.currentStep {
@@ -54,7 +65,7 @@ class TutorialViewController: BaseViewController {
         }
         return false
     }
-    
+
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -225,6 +236,12 @@ extension TutorialViewController: TutorialBubbleCollectionViewCellDelegate {
     
     func tutorialBubbleCollectionViewCellDidNo(cell: TutorialBubbleCollectionViewCell) {
         hideTutorialAnimated(true)
+    }
+    
+    func tutorialBubbleCollectionViewCellDidPrevious(cell: TutorialBubbleCollectionViewCell) {
+        if canLoadPrevStep {
+            TutorialManager.sharedInstance.prevStep()
+        }
     }
     
     func tutorialBubbleCollectionViewCellDidNext(cell: TutorialBubbleCollectionViewCell) {

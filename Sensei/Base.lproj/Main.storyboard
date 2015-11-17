@@ -229,7 +229,7 @@
                                 <animations/>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mpr-qy-yfa">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="534"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="18" minimumInteritemSpacing="0.0" id="p2R-qG-dl1">
@@ -301,6 +301,7 @@
                             <constraint firstAttribute="trailing" secondItem="h0u-hS-teU" secondAttribute="trailing" id="0j4-dP-BJB"/>
                             <constraint firstItem="FJP-jG-auA" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" id="4WU-Wh-CPk"/>
                             <constraint firstItem="rLE-xd-apt" firstAttribute="width" secondItem="i7j-O7-g18" secondAttribute="width" id="7lU-eT-UXS"/>
+                            <constraint firstItem="8zt-ws-naK" firstAttribute="bottom" secondItem="mpr-qy-yfa" secondAttribute="bottom" id="7o4-2b-xbp"/>
                             <constraint firstItem="h0u-hS-teU" firstAttribute="top" secondItem="8ZL-mD-K9c" secondAttribute="bottom" id="BEq-RT-3T4"/>
                             <constraint firstItem="2A1-QW-FFs" firstAttribute="height" secondItem="nBU-UE-xiJ" secondAttribute="height" id="EK1-ce-YuO"/>
                             <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="66" id="FvM-UG-dxG"/>
@@ -309,7 +310,6 @@
                             <constraint firstItem="i7j-O7-g18" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" constant="23" id="OUu-xP-zON"/>
                             <constraint firstItem="i7j-O7-g18" firstAttribute="top" secondItem="rLE-xd-apt" secondAttribute="top" id="PFY-5r-9mW"/>
                             <constraint firstAttribute="trailing" secondItem="FJP-jG-auA" secondAttribute="trailing" id="QCt-hx-yfx"/>
-                            <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="mpr-qy-yfa" secondAttribute="bottom" constant="80" id="Y1e-hN-ZRq"/>
                             <constraint firstItem="h0u-hS-teU" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" id="Y4a-9J-g6m"/>
                             <constraint firstAttribute="trailing" secondItem="2A1-QW-FFs" secondAttribute="trailing" id="dx6-JZ-Agd"/>
                             <constraint firstItem="FJP-jG-auA" firstAttribute="bottom" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="66" id="edc-3I-bnL"/>
