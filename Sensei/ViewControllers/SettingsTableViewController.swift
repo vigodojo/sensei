@@ -61,6 +61,10 @@ class SettingsTableViewController: UITableViewController {
         picker.datePickerMode = .Date
         picker.addTarget(self, action: Selector("datePickerDidChangeValue:"), forControlEvents: UIControlEvents.ValueChanged)
 		picker.backgroundColor = UIColor.whiteColor()
+        
+        let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
+        components.year -= 100
+        picker.minimumDate = NSCalendar.currentCalendar().dateFromComponents(components)
         return picker
     }()
     
@@ -303,10 +307,10 @@ class SettingsTableViewController: UITableViewController {
     
     private func updateSleepTimeSettingTextFields() {
         if let timeSettings = sleepTimeSettings {
-            weekDaysStartTF.text = DataFormatter.stringFromTime(timeSettings.weekdaysStart)
-            weekDaysEndTF.text = DataFormatter.stringFromTime(timeSettings.weekdaysEnd)
-            weekEndsStartTF.text = DataFormatter.stringFromTime(timeSettings.weekendsStart)
-            weekEndsEndTF.text = DataFormatter.stringFromTime(timeSettings.weekendsEnd)
+            weekDaysStartTF.text = DataFormatter.stringFromTime(timeSettings.weekdaysStart) ?? "11:00 PM"
+            weekDaysEndTF.text = DataFormatter.stringFromTime(timeSettings.weekdaysEnd) ?? "08:00 AM"
+            weekEndsStartTF.text = DataFormatter.stringFromTime(timeSettings.weekendsStart) ?? "12:00 AM"
+            weekEndsEndTF.text = DataFormatter.stringFromTime(timeSettings.weekendsEnd) ?? "09:00 AM"
         }
     }
     
@@ -382,13 +386,6 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func toggleTutorial(sender: UISwitch) {
         Settings.sharedSettings.tutorialOn = NSNumber(bool: tutorialSwitch.on)
-//        if let tutorialViewController = tutorialViewController {
-//            if sender.on {
-//                tutorialViewController.showTutorialAnimated(true)
-//            } else {
-//                tutorialViewController.hideTutorialAnimated(true)
-//            }
-//        }
     }
     
     @IBAction func timePickerDidChangeValue(sender: UIDatePicker) {

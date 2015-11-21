@@ -265,7 +265,7 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     }
 
     func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int) {
-        textView.placeholder = String(format: "SLOT %i is empty. \nClick here to add new affirmation \nmore text", index+1)
+        textView.placeholder = String(format: "SLOT %i is empty. \nPlease tap here to create a new affirmation", index+1)
         fillAffirmationWithNumber(NSNumber(integer: index))
     }
     

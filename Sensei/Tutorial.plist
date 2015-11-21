@@ -115,7 +115,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>You have six message slots. Simply tap one of the numbers below to reveal that message. If the number is grey the slot is empty, if it is black it is full. Once you have selected the slot you want to edit, you simply tap in the text field below to enter or modify the text</string>
+		<string>“You have six message slots. Simply tap one of the numbers below to reveal that message. If the number is grey the slot is empty, if it is black it is full. Once you have selected the slot you want to edit, you simply tap in the text field below to enter or modify the text.</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
@@ -129,7 +129,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Let’s create a test affirmation. Tap number 1, then tap the text field below, type “I am happy!” and hit ‘done’</string>
+		<string>Let’s create a test affirmation. Tap number 1, then tap the text field below, type “I am happy!” and hit “done</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
@@ -143,7 +143,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Now set the message timing by tapping the message timing field and choosing from one of the three possible values. “start of day” will send the message right after you wake up, “any time”  will send the message twice during the day or evening, “end of day” will send the message shortly before bedtime</string>
+		<string>Now set the message timing by tapping the message timing field and choosing from one of the three possible values. “start of day” will send the message right after you wake up, “any time”  will send the message twice during the day or evening, “end of day” will send the message shortly before bedtime.</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
@@ -297,7 +297,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>You have now learned how to use the main tools of this application. I hope you will have fun with it and get creative with your use of Affirmations and Visualizations. I think you will find it will improve your outlook, boost your energy and even make you a more powerful person.</string>
+		<string>You have now learned how to use the main tools of this application. I hope you will have fun with it and get creative with your use of Affirmations and Visualizations.  I think you will find it will improve your outlook, boost your energy and even make you a more powerful person</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
@@ -353,7 +353,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>The personal profile information is optional, but if you provide me this information it allows me to help you better, by providing information and guidance which fit your profile. You can enter that now or later, or never, it’s up to you</string>
+		<string>The personal profile information is optional, but if you provide me this information it allows me to help you better, by giving you lessons and guidance which fit your profile. You can enter that now or later, or never, it’s up to you</string>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>

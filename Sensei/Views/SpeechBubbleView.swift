@@ -118,7 +118,6 @@ class SpeechBubbleView: UIView {
             
             point.x = CGRectGetWidth(bounds) - rightEdgeOffset
             point.y = bounds.size.height - cornerRadius - offset
-
             beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(0.0), endAngle: CGFloat(M_PI_2), clockwise: true)
         }
         
@@ -224,7 +223,6 @@ class SpeechBubbleView: UIView {
         beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(M_PI_2), endAngle: 0.0, clockwise: false)
         beziePath.closePath()
         return beziePath
-        
     }
     
     private func addLeftPointerToBezierPath(bezierPath: UIBezierPath, startPoint: CGPoint, endPoint: CGPoint) {
