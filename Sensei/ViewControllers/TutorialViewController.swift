@@ -137,17 +137,20 @@ class TutorialViewController: BaseViewController {
     }
     
     func showMessage(message: Message) {
-        let isInsert = (messages.count == 0)
+//        let isInsert = (messages.count == 0)
         messages = [message]
         if tutorialHidden {
             collectionView.reloadData()
             showTutorialAnimated(true)
         } else {
-            if isInsert {
-                collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
-            } else {
-                collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
-            }
+            let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
+            cell.append(message.text)
+
+//            if isInsert {
+//                collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
+//            } else {
+//                collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
+//            }
         }
     }
     
@@ -236,12 +239,6 @@ extension TutorialViewController: TutorialBubbleCollectionViewCellDelegate {
     
     func tutorialBubbleCollectionViewCellDidNo(cell: TutorialBubbleCollectionViewCell) {
         hideTutorialAnimated(true)
-    }
-    
-    func tutorialBubbleCollectionViewCellDidPrevious(cell: TutorialBubbleCollectionViewCell) {
-        if canLoadPrevStep {
-            TutorialManager.sharedInstance.prevStep()
-        }
     }
     
     func tutorialBubbleCollectionViewCellDidNext(cell: TutorialBubbleCollectionViewCell) {

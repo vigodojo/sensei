@@ -13,7 +13,6 @@ protocol TutorialBubbleCollectionViewCellDelegate: class {
     func tutorialBubbleCollectionViewCellCanShowMoreMessages(cell: TutorialBubbleCollectionViewCell) -> Bool
     func tutorialBubbleCollectionViewCellDidYes(cell: TutorialBubbleCollectionViewCell)
     func tutorialBubbleCollectionViewCellDidNo(cell: TutorialBubbleCollectionViewCell)
-    func tutorialBubbleCollectionViewCellDidPrevious(cell: TutorialBubbleCollectionViewCell)
     func tutorialBubbleCollectionViewCellDidNext(cell: TutorialBubbleCollectionViewCell)
 }
 
@@ -55,10 +54,14 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
             return textView.text ?? ""
         }
         set {
-            textView.text = nil
-			textView.text = newValue
-			textView.contentOffset = CGPointZero
+            textView.text = newValue
+            textView.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
+            textView.contentOffset = CGPointZero
         }
+    }
+    
+    func append(text: String) {
+        textView.appendText(text)
     }
     
     // MARK: - Lifecycle
@@ -129,21 +132,9 @@ extension TutorialBubbleCollectionViewCell: UITextViewDelegate {
         setArrowButtonVisibleIfNeeded(scrollView.scrollViewDidScrollToBottom())
     }
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if scrollView.contentOffset.y < 0 {
-            bouncedTop = true
-        }
-    }
-    
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        if scrollView.scrollViewDidScrollToTop() && bouncedTop {
-            delegate?.tutorialBubbleCollectionViewCellDidPrevious(self)
-            bouncedTop = false
-            return
-        }
         if scrollView.scrollViewDidScrollToBottom() {
             delegate?.tutorialBubbleCollectionViewCellDidNext(self)
         }
-  
     }
 }

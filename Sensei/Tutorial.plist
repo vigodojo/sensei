@@ -129,7 +129,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Let’s create a test affirmation. Tap number 1, then tap the text field below, type “I am happy!” and hit “done</string>
+		<string>Let’s create a test affirmation. Tap number 1, then tap the text field below, type “I am happy!” and hit “done“</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>

@@ -35,6 +35,36 @@ extension UIView {
     }
 }
 
+// MARK: - UITextView+Append
+
+extension UITextView {
+    
+    func appendText(text: String) {
+        let prevText = self.text
+        self.text = text
+        self.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
+        let size = sizeThatFits(frame.size)
+
+        self.text = prevText
+
+        if !self.text.isEmpty {
+            self.text.appendContentsOf("\n\n")
+        }
+        self.text.appendContentsOf(text)
+
+        var bottomOffset = CGRectGetHeight(frame) - size.height
+        if bottomOffset < 0 {
+            bottomOffset = 0
+        }
+        self.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
+        let finalSize = sizeThatFits(frame.size)
+        let contentOffset = finalSize.height - size.height
+
+        textContainerInset = UIEdgeInsetsMake(textContainerInset.top, textContainerInset.left, bottomOffset, textContainerInset.right)
+        setContentOffset(CGPointMake(0, contentOffset), animated: true)
+    }
+}
+
 // MARK: - UIColor+Hex
 
 extension UIColor {

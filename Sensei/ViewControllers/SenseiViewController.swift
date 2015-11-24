@@ -123,7 +123,7 @@ class SenseiViewController: BaseViewController {
         tutorialViewController?.tutorialHidden = true
         collectionView.contentInset.bottom = collectionViewBottomContentInset
 
-        if APIManager.sharedInstance.logined {
+        if APIManager.sharedInstance.logined && TutorialManager.sharedInstance.completed {
             APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         }
         addKeyboardObservers()
@@ -470,6 +470,7 @@ class SenseiViewController: BaseViewController {
     // MARK: - Tutorial
     
     func didFinishTutorialNotificatin(notification: NSNotification) {
+        APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         enableControls(nil)
     }
     

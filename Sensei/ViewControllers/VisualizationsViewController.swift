@@ -17,7 +17,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         static let NumberOfVisualizations = 5
         static let NumberOfFreeVisualizations = 1
         static let MessageSwitchViewHeight: CGFloat = 100
-        static let VisualizationMessageSwitchViewHeight: CGFloat = 150
+        static let VisualizationMessageSwitchViewHeight: CGFloat = 110
     }
     
     private struct ControlNames {
