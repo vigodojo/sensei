@@ -273,7 +273,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>That is a beautiful visualization &lt;#Name&gt;, well done!</string>
+		<string>That is a beautiful visualization &lt;#Name&gt;, well done! To delete an Affirmation or a Visualization, simply press and hold the slot number for two seconds</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>

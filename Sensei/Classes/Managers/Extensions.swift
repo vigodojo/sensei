@@ -44,7 +44,6 @@ extension UITextView {
         self.text = text
         self.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
         let size = sizeThatFits(frame.size)
-
         self.text = prevText
 
         if !self.text.isEmpty {
@@ -60,7 +59,7 @@ extension UITextView {
         let finalSize = sizeThatFits(frame.size)
         let contentOffset = finalSize.height - size.height
 
-        textContainerInset = UIEdgeInsetsMake(textContainerInset.top, textContainerInset.left, bottomOffset, textContainerInset.right)
+        textContainerInset = UIEdgeInsetsMake(0, 0, bottomOffset, 0)
         setContentOffset(CGPointMake(0, contentOffset), animated: true)
     }
 }
