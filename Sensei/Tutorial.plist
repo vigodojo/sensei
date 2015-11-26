@@ -115,7 +115,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>“You have six message slots. Simply tap one of the numbers below to reveal that message. If the number is grey the slot is empty, if it is black it is full. Once you have selected the slot you want to edit, you simply tap in the text field below to enter or modify the text.</string>
+		<string>You have six message slots. Simply tap one of the numbers below to reveal that message. If the number is grey the slot is empty, if it is black it is full. Once you have selected the slot you want to edit, you simply tap in the text field below to enter or modify the text.</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
@@ -129,7 +129,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Let’s create a test affirmation. Tap number 1, then tap the text field below, type “I am happy!” and hit “done“</string>
+		<string>Let’s create a test affirmation. Tap number 1, then tap the text field below, type “I am happy!” and hit “done”</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
@@ -177,7 +177,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>Good job &lt;#Name&gt;!, You’ve created your first affirmation</string>
+		<string>Good job &lt;#Name&gt;! You’ve created your first affirmation</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
@@ -239,7 +239,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Try to create a positive visualization by picking a picture of a loved one and typing &quot;Love!&quot;</string>
+		<string>Try to create a positive visualization by picking a picture of a loved one and typing “Love!”</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
@@ -311,7 +311,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Let’s look at the additional functions on the ‘more’ page. Please tap the link in the top right corner.</string>
+		<string>Let’s look at the additional functions on the “more” page. Please tap the link in the top right corner.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
@@ -375,7 +375,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>The ‘sensei teaching intensity’ control allows you to set the intensity of my teachings both in terms of volume and tone. Keep in mind though that lessons are only available in the full version of the app, you will need to upgrade to get this feature. I hope you will love the app and decide to do so soon!</string>
+		<string>The “sensei teaching intensity” control allows you to set the intensity of my teachings both in terms of volume and tone. Keep in mind though that lessons are only available in the full version of the app, you will need to upgrade to get this feature. I hope you will love the app and decide to do so soon!</string>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>

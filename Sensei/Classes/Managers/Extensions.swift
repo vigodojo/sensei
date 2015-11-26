@@ -40,10 +40,12 @@ extension UIView {
 extension UITextView {
     
     func appendText(text: String) {
+        layoutManager.allowsNonContiguousLayout = false
         let prevText = self.text
         self.text = text
         self.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
-        let size = sizeThatFits(frame.size)
+        layoutIfNeeded()
+        let size = self.contentSize
         self.text = prevText
 
         if !self.text.isEmpty {
@@ -55,8 +57,10 @@ extension UITextView {
         if bottomOffset < 0 {
             bottomOffset = 0
         }
+        
         self.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
-        let finalSize = sizeThatFits(frame.size)
+        layoutIfNeeded()
+        let finalSize = self.contentSize
         let contentOffset = finalSize.height - size.height
 
         textContainerInset = UIEdgeInsetsMake(0, 0, bottomOffset, 0)

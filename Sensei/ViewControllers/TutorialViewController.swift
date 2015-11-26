@@ -145,6 +145,7 @@ class TutorialViewController: BaseViewController {
         } else {
             let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
             cell.append(message.text)
+            cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
 
 //            if isInsert {
 //                collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])

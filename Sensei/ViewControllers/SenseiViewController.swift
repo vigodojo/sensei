@@ -113,7 +113,10 @@ class SenseiViewController: BaseViewController {
         collectionView.registerNib(UINib(nibName: LeftSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: LeftSpeechBubbleCollectionViewCellIdentifier)
         collectionView.contentInset = Constants.CollectionContentInset
 		fadingImageView.layer.mask = transparrencyGradientLayer
-        fetchLessons()
+        
+        if TutorialManager.sharedInstance.completed {
+            fetchLessons()
+        }
         addApplicationObservers()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
     }
@@ -470,7 +473,8 @@ class SenseiViewController: BaseViewController {
     // MARK: - Tutorial
     
     func didFinishTutorialNotificatin(notification: NSNotification) {
-        APIManager.sharedInstance.lessonsHistoryCompletion(nil)
+        removeAllExeptLessons()
+        fetchLessons()
         enableControls(nil)
     }
     
