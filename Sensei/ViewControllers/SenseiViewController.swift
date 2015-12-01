@@ -294,6 +294,10 @@ class SenseiViewController: BaseViewController {
         addMessages([question], scroll: false) {
             (self.view as? AnswerableView)?.askQuestion(question)
         }
+        if let animatableimage = (question as! QuestionTutorialStep).animatableImage {
+            senseiImageView.animateAnimatableImage(animatableimage, completion: nil)
+        }
+
     }
     
     // MARK: UI Operations

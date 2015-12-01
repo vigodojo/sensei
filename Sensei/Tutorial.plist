@@ -3,8 +3,6 @@
 <plist version="1.0">
 <array>
 	<dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
@@ -29,12 +27,38 @@
 				<string>running_skeleton15</string>
 			</array>
 		</dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
 		<key>Number</key>
 		<integer>0</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
 	<dict>
+		<key>AnimatableImage</key>
+		<dict>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
+			<key>ImageNames</key>
+			<array>
+				<string>running_skeleton0</string>
+				<string>running_skeleton1</string>
+				<string>running_skeleton2</string>
+				<string>running_skeleton3</string>
+				<string>running_skeleton4</string>
+				<string>running_skeleton5</string>
+				<string>running_skeleton6</string>
+				<string>running_skeleton7</string>
+				<string>running_skeleton8</string>
+				<string>running_skeleton9</string>
+				<string>running_skeleton10</string>
+				<string>running_skeleton11</string>
+				<string>running_skeleton12</string>
+				<string>running_skeleton13</string>
+				<string>running_skeleton14</string>
+				<string>running_skeleton15</string>
+			</array>
+		</dict>
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>QuestionSubject</key>
@@ -54,6 +78,30 @@
 			<string>male</string>
 			<string>female</string>
 		</array>
+		<key>AnimatableImage</key>
+		<dict>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
+			<key>ImageNames</key>
+			<array>
+				<string>running_skeleton0</string>
+				<string>running_skeleton1</string>
+				<string>running_skeleton2</string>
+				<string>running_skeleton3</string>
+				<string>running_skeleton4</string>
+				<string>running_skeleton5</string>
+				<string>running_skeleton6</string>
+				<string>running_skeleton7</string>
+				<string>running_skeleton8</string>
+				<string>running_skeleton9</string>
+				<string>running_skeleton10</string>
+				<string>running_skeleton11</string>
+				<string>running_skeleton12</string>
+				<string>running_skeleton13</string>
+				<string>running_skeleton14</string>
+				<string>running_skeleton15</string>
+			</array>
+		</dict>
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>QuestionSubject</key>
