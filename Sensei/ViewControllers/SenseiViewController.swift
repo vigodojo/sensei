@@ -215,7 +215,6 @@ class SenseiViewController: BaseViewController {
         for index in dataSource.count..<(dataSource.count + messages.count) {
             indexPathes.append(NSIndexPath(forItem: index, inSection: 0))
         }
-        
         dataSource += messages
         
         collectionView.performBatchUpdates({ [unowned self] () -> Void in
@@ -231,6 +230,10 @@ class SenseiViewController: BaseViewController {
                 completion()
             }
         })
+    }
+    
+    func addMsesage(message: Message) {
+        addMessages([message], scroll: true, completion: nil)
     }
     
     private func deleteMessageAtIndexPath(indexPath: NSIndexPath) {
@@ -592,6 +595,7 @@ extension SenseiViewController: AnswerableViewDelegate {
     
     func answerableView(answerableView: AnswerableView, didSubmitAnswer answer: Answer) {
         let answerMessage = AnswerMessage(answer: answer)
+        print(answerMessage.text)
         addMessages([answerMessage], scroll: true) { [weak self] in
             if let question = self?.lastQuestion {
                 switch question.questionSubject {

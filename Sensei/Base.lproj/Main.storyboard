@@ -860,6 +860,9 @@
                                                             <integer key="value" value="5"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="dbf-lu-mRv" id="swM-XA-Gh6"/>
+                                                    </connections>
                                                 </textField>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="HEIGHT" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="tlj-PN-7Nb">
                                                     <rect key="frame" x="500" y="161" width="70" height="30"/>
@@ -881,6 +884,9 @@
                                                             <integer key="value" value="5"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="dbf-lu-mRv" id="Hjl-IK-3P6"/>
+                                                    </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HEIGHT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nNL-Ia-YkQ">
                                                     <rect key="frame" x="34" y="169" width="46" height="15"/>
@@ -916,6 +922,9 @@
                                                             <integer key="value" value="5"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="dbf-lu-mRv" id="VGj-Dr-HuB"/>
+                                                    </connections>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mf9-SV-dEc">
                                                     <rect key="frame" x="34" y="71" width="80" height="22"/>

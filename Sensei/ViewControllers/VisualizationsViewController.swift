@@ -317,6 +317,9 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
     func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) { }
     
     func messageSwitchView(view: MessageSwitchView, shouldSelectSlotAtIndex index: Int) -> Bool {
+        if NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion") {
+            return true
+        }
         if index < Constants.NumberOfFreeVisualizations  {
             return true
         } else {

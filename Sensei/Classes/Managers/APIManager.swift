@@ -78,6 +78,9 @@ class APIManager: NSObject {
     // MARK: Lessons
     
     func lessonsHistoryCompletion(handler: ErrorHandlerClosure?) {
+        if !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion") {
+            return
+        }
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
             builder.path = APIPath.LessonsHistory
             builder.requestMethod = RCRequestMethod.GET

@@ -46,7 +46,13 @@ class SettingsTableViewController: UITableViewController {
     
     private let SaveConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to save this changes?")
     
+    func confirmationTextWithPropertyName(property: String) -> ConfirmationQuestion {
+        return ConfirmationQuestion(text: "Are you sure you want to change \(property)?")
+    }
+    
     private var sleepTimeSettings: SleepTimeSettings?
+    
+    private var fieldToChange: String?
     
     private lazy var timePicker: UIDatePicker = { [unowned self] in
         let picker = UIDatePicker()
@@ -75,6 +81,12 @@ class SettingsTableViewController: UITableViewController {
         inputAccessoryView.leftButton.hidden = true
         inputAccessoryView.didSubmit = { [weak self] () -> Void in
             self?.view.endEditing(true)
+        
+            if let fieldName = self?.fieldToChange {
+                if TutorialManager.sharedInstance.completed {
+                    self?.showConfirmation(self!.confirmationTextWithPropertyName(fieldName))
+                }
+            }
         }
         return inputAccessoryView
     }()
@@ -85,6 +97,7 @@ class SettingsTableViewController: UITableViewController {
             self?.heightCm = newHeight.realValue
             self?.heightTextField.text = "\(newHeight)"
         }
+
         return pickerDelegate
     }()
     
@@ -94,6 +107,7 @@ class SettingsTableViewController: UITableViewController {
             self?.weightKg = newWeight.realValue
             self?.weightTexField.text = "\(newWeight)"
         }
+
         return pickerDelegate
     }()
     
@@ -264,10 +278,18 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func updateSettings() {
+        upgradeButton.enabled = !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion")
+
         APIManager.sharedInstance.updateSettingsWithCompletion({ [weak self] (settings, error) -> Void in
             self?.fillFromSettings()
             print("After \(Settings.sharedSettings)")
         })
+    }
+    
+    private func showConfirmation(question: ConfirmationQuestion) {
+        tutorialViewController?.askConfirmationQuestion(question)
+        fieldToChange = nil
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialDidHideNotification:"), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
     }
     
     private func fillFromSettings() {
@@ -300,17 +322,17 @@ class SettingsTableViewController: UITableViewController {
         }
         
         switch Settings.sharedSettings.gender {
-            case .Male : selectGender(maleButton)
-            case .Female: selectGender(femaleButton)
+            case .Male : configureGenderSelection(maleButton)
+            case .Female: configureGenderSelection(femaleButton)
         }
     }
     
     private func updateSleepTimeSettingTextFields() {
         if let timeSettings = sleepTimeSettings {
-            weekDaysStartTF.text = DataFormatter.stringFromTime(timeSettings.weekdaysStart) ?? "11:00 PM"
-            weekDaysEndTF.text = DataFormatter.stringFromTime(timeSettings.weekdaysEnd) ?? "08:00 AM"
-            weekEndsStartTF.text = DataFormatter.stringFromTime(timeSettings.weekendsStart) ?? "12:00 AM"
-            weekEndsEndTF.text = DataFormatter.stringFromTime(timeSettings.weekendsEnd) ?? "09:00 AM"
+            weekDaysStartTF.text = DataFormatter.stringFromTime(timeSettings.weekdaysStart)
+            weekDaysEndTF.text = DataFormatter.stringFromTime(timeSettings.weekdaysEnd)
+            weekEndsStartTF.text = DataFormatter.stringFromTime(timeSettings.weekendsStart)
+            weekEndsEndTF.text = DataFormatter.stringFromTime(timeSettings.weekendsEnd)
         }
     }
     
@@ -364,7 +386,7 @@ class SettingsTableViewController: UITableViewController {
     
     func tutorialDidHideNotification(notification: NSNotification) {
         (parentViewController as? SenseiTabController)?.delegate = nil
-        (parentViewController as? SenseiTabController)?.showSenseiViewController()
+//        (parentViewController as? SenseiTabController)?.showSenseiViewController()
     }
     
     func handleNoAnswerNotification(notification: NSNotification) {
@@ -415,6 +437,14 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func selectGender(sender: UIButton) {
+        if !((maleButton.selected && maleButton == sender) || (femaleButton.selected && femaleButton == sender)) {
+            fieldToChange = "sex"
+            showConfirmation(confirmationTextWithPropertyName("sex"))
+        }
+        configureGenderSelection(sender)
+    }
+    
+    func configureGenderSelection(sender: UIButton) {
         maleButton.selected = (sender == maleButton)
         femaleButton.selected = (sender == femaleButton)
     }
@@ -456,7 +486,14 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func upgrade() {
-        openAppStoreURL()
+        if !TutorialManager.sharedInstance.completed {
+            let alert = UIAlertView(title: "Alert", message: "You need to finish the tutorial first", delegate: nil, cancelButtonTitle: "Cancel", otherButtonTitles: "OK")
+            alert.show()
+            return
+        }
+        let alert = UIAlertView(title: "Alert", message: "Are you sure you want to upgrade Sensei app to Premium version?", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Upgrade")
+        alert.show()
+//        openAppStoreURL()
     }
     
     /**
@@ -469,12 +506,41 @@ class SettingsTableViewController: UITableViewController {
     }
 }
 
+// MARK: - UIAlertViewDelegate
+
+extension SettingsTableViewController: UIAlertViewDelegate {
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == 1 {
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "IsProVersion")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            
+            self.upgradeButton.enabled = false
+            self.upgradeButton.alpha = 0.3
+            
+            let parent = parentViewController as! SenseiTabController
+            parent.showSenseiViewController()
+
+//            (parent.viewControllers.first as! SenseiViewController).addMsesage(TutorialStep(dictionary: ["Message": "You've upgraded to pro version"]))
+        }
+    }
+}
+
 // MARK: - UITextFieldDelegate
 
 extension SettingsTableViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(textField: UITextField) {
         firstResponder = textField
+        fieldToChange = nil
+        if textField == dateOfBirthTF {
+            fieldToChange = "D.O.B"
+        }
+        if textField == heightTextField {
+            fieldToChange = "HEIGHT"
+        }
+        if textField == weightTexField {
+            fieldToChange = "WEIGHT"
+        }
         if textField.inputView == timePicker {
             if let date = DataFormatter.timeFromString(textField.text!) {
                 timePicker.setDate(date, animated: false)
@@ -493,8 +559,7 @@ extension SettingsTableViewController: SenseiTabControllerDelegate {
     
     func senseiTabController(senseiTabController: SenseiTabController, shouldSelectViewController: UIViewController) -> Bool {
         if hasProfileBeenChanged {
-            tutorialViewController?.askConfirmationQuestion(SaveConfirmationQuestion)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialDidHideNotification:"), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
+            showConfirmation(SaveConfirmationQuestion)
             return false
         } else if hasSettingsBeenChanged {
             saveSettings()

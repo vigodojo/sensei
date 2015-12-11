@@ -222,7 +222,7 @@ extension AnswerableView: UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        submitAnswer(Answer.Text(textField.text!))
+        submitAnswer(Answer.Text(textField.text!.capitalizedString))
         return true;
     }
 }

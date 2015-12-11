@@ -276,6 +276,9 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) { }
     
     func messageSwitchView(view: MessageSwitchView, shouldSelectSlotAtIndex index: Int) -> Bool {
+        if NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion") {
+            return true
+        }
         if index < Constants.NumberOfFreeAffirmations {
             return true
         } else {

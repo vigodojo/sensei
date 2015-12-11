@@ -137,21 +137,14 @@ class TutorialViewController: BaseViewController {
     }
     
     func showMessage(message: Message) {
-//        let isInsert = (messages.count == 0)
         messages = [message]
-        if tutorialHidden {
+        if tutorialHidden || TutorialManager.sharedInstance.completed {
             collectionView.reloadData()
             showTutorialAnimated(true)
         } else {
             let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
             cell.append(message.text)
             cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
-
-//            if isInsert {
-//                collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
-//            } else {
-//                collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)])
-//            }
         }
     }
     
