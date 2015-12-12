@@ -13,6 +13,8 @@ class TutorialManager {
     struct Notifications {
         static let DidMoveToNextStep = "TutorialManagerNotificationsDidMoveToNextStep"
         static let DidFinishTutorial = "TutorialManagerNotificationsDidFinishTutorial"
+        static let DidFinishUpgrade = "TutorialManagerNotificationsDidFinishUpgrade"
+
     }
     
     struct UserInfoKeys {
@@ -21,15 +23,21 @@ class TutorialManager {
     
     private struct UserDefaultsKeys {
         static let Completed = "TutorialManagerCompleted"
+        static let UpgradeCompleted = "TutorialUpgradeCompleted"
         static let LastCompletedStepNumber = "TutorialManagerLastCompletedStepNumber"
     }
     
     static let sharedInstance = TutorialManager()
 
     private var steps = [TutorialStep]()
+    private var upgradedSteps = [TutorialStep]()
+    
     private var stepCounter = -1
+    private var upgradedStepCounter = -1
+
     private(set) var lastCompletedStepNumber: Int?
     private(set) var completed = false
+    private(set) var upgradeCompleted = false
     
     var notFinishedTutorialScreenName: ScreenName? {
         return ((stepCounter + 1) < steps.count) ? steps[stepCounter + 1].screen: nil
@@ -41,6 +49,16 @@ class TutorialManager {
         }
         if stepCounter < steps.count {
             return steps[stepCounter]
+        }
+        return nil
+    }
+    
+    var currentUpgradedStep: TutorialStep? {
+        if UpgradeManager.sharedInstance.isProVersion() {
+            return nil
+        }
+        if upgradedStepCounter < upgradedSteps.count {
+            return upgradedSteps[upgradedStepCounter]
         }
         return nil
     }
@@ -60,6 +78,8 @@ class TutorialManager {
     init() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         completed = userDefaults.boolForKey(UserDefaultsKeys.Completed)
+        upgradeCompleted = userDefaults.boolForKey(UserDefaultsKeys.UpgradeCompleted)
+
         lastCompletedStepNumber = (userDefaults.objectForKey(UserDefaultsKeys.LastCompletedStepNumber) as? NSNumber)?.integerValue
         if let lastCompletedStepNumber = lastCompletedStepNumber {
             stepCounter = lastCompletedStepNumber
@@ -67,21 +87,10 @@ class TutorialManager {
         if !completed {
             loadStepsFromPlist()
         }
+        loadUpgradedStepsFromPlist()
     }
     
     // MARK: - Public
-    
-    func prevStep() {
-        if completed {
-            return
-        }
-        decreaseStepCounter()
-        if stepCounter < steps.count {
-            let step = steps[stepCounter]
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidMoveToNextStep, object: nil, userInfo: [UserInfoKeys.TutorialStep: step])
-        }
-        checkCompletion()
-    }
     
     func nextStep() {
         if completed {
@@ -93,6 +102,18 @@ class TutorialManager {
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidMoveToNextStep, object: nil, userInfo: [UserInfoKeys.TutorialStep: step])
         }
         checkCompletion()
+    }
+    
+    func nextUpgradedStep() {
+        if !UpgradeManager.sharedInstance.isProVersion() || upgradeCompleted {
+            return
+        }
+        upgradedStepCounter++
+        if upgradedStepCounter < upgradedSteps.count {
+            let step = upgradedSteps[upgradedStepCounter]
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidMoveToNextStep, object: nil, userInfo: [UserInfoKeys.TutorialStep: step])
+        }
+        checkUpgradeCompletin()
     }
     
     func skipStep() {
@@ -109,7 +130,7 @@ class TutorialManager {
             NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastCompletedStepNumber!), forKey: UserDefaultsKeys.LastCompletedStepNumber)
         }
     }
-    
+
     private func decreaseStepCounter() {
         stepCounter--
         if stepCounter > 0 {
@@ -119,10 +140,19 @@ class TutorialManager {
     }
     
     private func checkCompletion() {
-        if stepCounter >= (steps.count) {
+        if stepCounter >= (30) {
             completed = true
             NSUserDefaults.standardUserDefaults().setBool(completed, forKey: UserDefaultsKeys.Completed)
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishTutorial, object: nil)
+            saveToServerCreatedData()
+        }
+    }
+    
+    private func checkUpgradeCompletin() {
+        if  upgradedStepCounter >= upgradedSteps.count {
+            upgradeCompleted = true
+            NSUserDefaults.standardUserDefaults().setBool(upgradeCompleted, forKey: UserDefaultsKeys.UpgradeCompleted)
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishUpgrade, object: nil)
             saveToServerCreatedData()
         }
     }
@@ -134,6 +164,20 @@ class TutorialManager {
                     let step = tutorialStepFromDictionary(stepDictionary)
                     steps.append(step)
                     print("Step: \(step)")
+                }
+            }
+        }
+    }
+    
+    private func loadUpgradedStepsFromPlist() {
+        if let stepsPlistURL = NSBundle.mainBundle().URLForResource("Tutorial", withExtension: "plist") {
+            if let stepDictionariesArray = NSArray(contentsOfURL: stepsPlistURL) as? [[String: AnyObject]] {
+                for stepDictionary in stepDictionariesArray {
+                    if stepDictionary["Upgraded"]?.boolValue == true {
+                        let step = tutorialStepFromDictionary(stepDictionary)
+                        upgradedSteps.append(step)
+                        print("UpgradedStep: \(step)")
+                    }
                 }
             }
         }

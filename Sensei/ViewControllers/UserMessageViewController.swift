@@ -74,7 +74,7 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
         let messageText = NSMutableAttributedString(string: upgradeAppMessage, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
         let range = (upgradeAppMessage as NSString).rangeOfString("upgrade")
         messageText.addAttribute(NSLinkAttributeName, value: LinkToAppOnAppStore, range: range)
-        tutorialViewController?.showMessage(PlainMessage(attributedText: messageText))
+        tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
     }
     
     // MARK: - Keyboard

@@ -38,7 +38,7 @@
                                 </state>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CLG-c6-VXc">
-                                <rect key="frame" x="8" y="60" width="293" height="24"/>
+                                <rect key="frame" x="8" y="65" width="293" height="24"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zjX-9h-aSw">
                                         <rect key="frame" x="244" y="0.0" width="49" height="24"/>
@@ -90,7 +90,7 @@
                                     </button>
                                 </subviews>
                                 <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="zjX-9h-aSw" firstAttribute="top" secondItem="CLG-c6-VXc" secondAttribute="top" id="0wx-c0-neI"/>
                                     <constraint firstAttribute="bottom" secondItem="CVW-zk-BP8" secondAttribute="bottom" id="8YF-1s-h5N"/>
@@ -105,7 +105,7 @@
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="CLG-c6-VXc" secondAttribute="bottom" constant="8" id="8rC-34-T2q"/>
+                            <constraint firstAttribute="bottom" secondItem="CLG-c6-VXc" secondAttribute="bottom" constant="3" id="8rC-34-T2q"/>
                             <constraint firstItem="2aE-fa-BUm" firstAttribute="leading" secondItem="ytY-bT-7Kp" secondAttribute="leading" constant="8" id="Hx1-j5-2no"/>
                             <constraint firstAttribute="trailing" secondItem="2aE-fa-BUm" secondAttribute="trailing" constant="18" id="PsO-Uj-b6B"/>
                             <constraint firstAttribute="bottom" secondItem="Dlp-tt-5pB" secondAttribute="bottom" id="Vya-fF-ZB9"/>
@@ -135,7 +135,7 @@
                 <outlet property="speechBubbleView" destination="ytY-bT-7Kp" id="5B6-ME-oIC"/>
                 <outlet property="textView" destination="2aE-fa-BUm" id="RPj-e3-9bg"/>
             </connections>
-            <point key="canvasLocation" x="451" y="300"/>
+            <point key="canvasLocation" x="399" y="343"/>
         </collectionViewCell>
     </objects>
     <resources>

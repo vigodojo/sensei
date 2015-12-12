@@ -114,11 +114,12 @@ class SenseiViewController: BaseViewController {
         collectionView.contentInset = Constants.CollectionContentInset
 		fadingImageView.layer.mask = transparrencyGradientLayer
         
-        if TutorialManager.sharedInstance.completed {
+        if TutorialManager.sharedInstance.upgradeCompleted {
             fetchLessons()
         }
         addApplicationObservers()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishUpgradeNotificatin:"), name: TutorialManager.Notifications.DidFinishUpgrade, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -126,7 +127,7 @@ class SenseiViewController: BaseViewController {
         tutorialViewController?.tutorialHidden = true
         collectionView.contentInset.bottom = collectionViewBottomContentInset
 
-        if APIManager.sharedInstance.logined && TutorialManager.sharedInstance.completed {
+        if APIManager.sharedInstance.logined && TutorialManager.sharedInstance.upgradeCompleted {
             APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         }
         addKeyboardObservers()
@@ -136,12 +137,17 @@ class SenseiViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         showLastReceivedVisualisation()
+        let isPro = UpgradeManager.sharedInstance.isProVersion()
+        let isProCompleted = TutorialManager.sharedInstance.upgradeCompleted
+        
         if !TutorialManager.sharedInstance.completed {
             if let _ = TutorialManager.sharedInstance.lastCompletedStepNumber {
                 dispatchTutorialToAppropriateViewController()
             } else {
                 TutorialManager.sharedInstance.nextStep()
             }
+        } else if isPro && !isProCompleted {
+            TutorialManager.sharedInstance.nextUpgradedStep()
         }
     }
     
@@ -168,6 +174,7 @@ class SenseiViewController: BaseViewController {
     // MARK: Data Source Operations
     
     private func fetchLessons() {
+        
         var error: NSError? = nil
         do {
             try self.lessonsFetchedResultController.performFetch()
@@ -325,6 +332,9 @@ class SenseiViewController: BaseViewController {
     }
     
     private func reloadSectionAnimated(animated: Bool) {
+        if dataSource.count == 0 {
+            return;
+        }
         if animated {
             collectionView.performBatchUpdates({ [unowned self] in
                 self.collectionView.reloadSections(NSIndexSet(index: 0))
@@ -481,6 +491,11 @@ class SenseiViewController: BaseViewController {
     
     func didFinishTutorialNotificatin(notification: NSNotification) {
         removeAllExeptLessons()
+        enableControls(nil)
+    }
+    
+    func didFinishUpgradeNotificatin(notification: NSNotification) {
+        removeAllExeptLessons()
         fetchLessons()
         enableControls(nil)
     }
@@ -504,16 +519,29 @@ class SenseiViewController: BaseViewController {
         }
         if let animatableimage = tutorialStep.animatableImage {
             senseiImageView.animateAnimatableImage(animatableimage) { (finished) -> Void in
-                TutorialManager.sharedInstance.nextStep()
+                if !TutorialManager.sharedInstance.completed {
+                    TutorialManager.sharedInstance.nextStep()
+                } else if !TutorialManager.sharedInstance.upgradeCompleted {
+                    TutorialManager.sharedInstance.nextUpgradedStep()
+                }
+
             }
         } else if !tutorialStep.requiresActionToProceed {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                TutorialManager.sharedInstance.nextStep()
+                if !TutorialManager.sharedInstance.completed {
+                    TutorialManager.sharedInstance.nextStep()
+                } else if !TutorialManager.sharedInstance.upgradeCompleted {
+                    TutorialManager.sharedInstance.nextUpgradedStep()
+                }
             }
         }
     }
     
     override func enableControls(controlNames: [String]?) {
+        if controlNames?.count == 0 {
+            affirmationsButton.userInteractionEnabled = true
+            visualisationsButton.userInteractionEnabled = true
+        }
         affirmationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.AffirmationsButton) ?? true
         visualisationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.VisualisationsButton) ?? true
     }

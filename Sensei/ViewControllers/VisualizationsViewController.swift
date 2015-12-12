@@ -77,7 +77,23 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     private var didChangeImage = false
     
     private var itemToDelete: Int?;
+
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didUpgradeToPro:"), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
+    }
+
+    func didUpgradeToPro(notification: NSNotification) {
+        navigationController?.popViewControllerAnimated(true)
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     // MARK: - UserMessageViewController
     
     override func fetchUserMessages() {

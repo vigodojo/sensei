@@ -133,11 +133,12 @@ class TutorialViewController: BaseViewController {
     
     func askConfirmationQuestion(question: ConfirmationQuestion) {
         showBlockingWindow()
-        showMessage(question)
+        showMessage(question, upgrade: false)
     }
     
-    func showMessage(message: Message) {
+    func showMessage(message: Message, upgrade: Bool) {
         messages = [message]
+
         if tutorialHidden || TutorialManager.sharedInstance.completed {
             collectionView.reloadData()
             showTutorialAnimated(true)
@@ -152,7 +153,7 @@ class TutorialViewController: BaseViewController {
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         if tutorialStep.screen != .Sensei {
-            showMessage(tutorialStep)
+            showMessage(tutorialStep, upgrade: false)
         }
         if let animatableimage = tutorialStep.animatableImage {
             senseiImageView.stopAnimatableImageAnimation()
@@ -203,13 +204,13 @@ extension TutorialViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TutorialBubbleCollectionViewCell.ReuseIdentifier, forIndexPath: indexPath) as! TutorialBubbleCollectionViewCell
         let message = messages[indexPath.item]
+        cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
         if let attributedText = message.attributedText {
             cell.setAttributedString(attributedText)
         } else {
             cell.text = message.text
         }
         cell.delegate = self
-        cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
         return cell;
     }
 }

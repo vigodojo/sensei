@@ -26,9 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.with([Crashlytics()])
         TutorialManager.sharedInstance
         if !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion") {
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "TutorialUpgradeCompleted")
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "IsProVersion")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
+    
         return true
     }
     

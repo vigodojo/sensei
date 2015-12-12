@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3DA8D7D71C1ADCEF0075ADA5 /* UpgradeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */; };
 		400CA4A01B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */; };
 		400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */; };
 		4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */; };
@@ -80,6 +81,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeManager.swift; sourceTree = "<group>"; };
 		400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleView.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				402F14581B0A0A42000C4261 /* APIManager.swift */,
 				40A7B6BF1B12F7A00097852F /* CoreDataManager.swift */,
 				404E0CA41B56677300FE2F3F /* TutorialManager.swift */,
+				3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 				404E0CA11B564B3900FE2F3F /* AnimatableImage.swift in Sources */,
 				40EC07901B0B86D8009A2000 /* BaseViewController.swift in Sources */,
 				404E0C9F1B56484700FE2F3F /* TutorialStep.swift in Sources */,
+				3DA8D7D71C1ADCEF0075ADA5 /* UpgradeManager.swift in Sources */,
 				408B320A1B0B7295001BB455 /* AnswerableView.swift in Sources */,
 				40A026531B42DB6A00E18958 /* Constants.swift in Sources */,
 				405C1E631B43CE1D00400234 /* BlockingWindow.swift in Sources */,

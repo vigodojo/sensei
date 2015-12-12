@@ -71,6 +71,11 @@ class SettingsTableViewController: UITableViewController {
         let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
         components.year -= 100
         picker.minimumDate = NSCalendar.currentCalendar().dateFromComponents(components)
+        
+        let maxComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
+        maxComponents.year -= 10
+        picker.maximumDate = NSCalendar.currentCalendar().dateFromComponents(maxComponents)
+
         return picker
     }()
     
@@ -221,6 +226,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        upgradeButton.enabled = !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion")
         fillFromSettings()
         (parentViewController as? SenseiTabController)?.delegate = self
         if !TutorialManager.sharedInstance.completed {
@@ -258,6 +264,14 @@ class SettingsTableViewController: UITableViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleNoAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.NoAnswer, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didMoveToNextTutorialNotification:"), name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didUpgradeToPro:"), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
+    }
+    
+    func didUpgradeToPro(notification: NSNotification) {
+        if parentViewController is SenseiTabController {
+            let parent = parentViewController as! SenseiTabController
+            parent.showSenseiViewController()
+        }
     }
     
     private func saveSettings() {
@@ -278,8 +292,6 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func updateSettings() {
-        upgradeButton.enabled = !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion")
-
         APIManager.sharedInstance.updateSettingsWithCompletion({ [weak self] (settings, error) -> Void in
             self?.fillFromSettings()
             print("After \(Settings.sharedSettings)")
@@ -386,14 +398,13 @@ class SettingsTableViewController: UITableViewController {
     
     func tutorialDidHideNotification(notification: NSNotification) {
         (parentViewController as? SenseiTabController)?.delegate = nil
-//        (parentViewController as? SenseiTabController)?.showSenseiViewController()
     }
     
     func handleNoAnswerNotification(notification: NSNotification) {
-        if hasSettingsBeenChanged {
-            saveSettings()
-        }
-        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+//        if hasSettingsBeenChanged {
+//            saveSettings()
+//        }
+//        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
     }
     
     func handleYesAnswerNotification(notification: NSNotification) {
@@ -491,8 +502,7 @@ class SettingsTableViewController: UITableViewController {
             alert.show()
             return
         }
-        let alert = UIAlertView(title: "Alert", message: "Are you sure you want to upgrade Sensei app to Premium version?", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Upgrade")
-        alert.show()
+        UpgradeManager.sharedInstance.askForUpgrade()
 //        openAppStoreURL()
     }
     
@@ -502,25 +512,6 @@ class SettingsTableViewController: UITableViewController {
     private func openAppStoreURL() {
         if UIApplication.sharedApplication().canOpenURL(LinkToAppOnAppStore) {
             UIApplication.sharedApplication().openURL(LinkToAppOnAppStore)
-        }
-    }
-}
-
-// MARK: - UIAlertViewDelegate
-
-extension SettingsTableViewController: UIAlertViewDelegate {
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        if buttonIndex == 1 {
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "IsProVersion")
-            NSUserDefaults.standardUserDefaults().synchronize()
-            
-            self.upgradeButton.enabled = false
-            self.upgradeButton.alpha = 0.3
-            
-            let parent = parentViewController as! SenseiTabController
-            parent.showSenseiViewController()
-
-//            (parent.viewControllers.first as! SenseiViewController).addMsesage(TutorialStep(dictionary: ["Message": "You've upgraded to pro version"]))
         }
     }
 }
@@ -558,6 +549,12 @@ extension SettingsTableViewController: UITextFieldDelegate {
 extension SettingsTableViewController: SenseiTabControllerDelegate {
     
     func senseiTabController(senseiTabController: SenseiTabController, shouldSelectViewController: UIViewController) -> Bool {
+        if !TutorialManager.sharedInstance.completed {
+            saveSettings()
+            saveProfile()
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+            return true;
+        }
         if hasProfileBeenChanged {
             showConfirmation(SaveConfirmationQuestion)
             return false

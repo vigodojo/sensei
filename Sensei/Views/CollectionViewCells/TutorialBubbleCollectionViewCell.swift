@@ -28,7 +28,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var speechBubbleView: SpeechBubbleView!
     @IBOutlet weak var controllsContainer: UIView!
     @IBOutlet weak var nextButton: UIButton!
-	@IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var textView: UITextView!
     
     var bouncedTop: Bool = false
     weak var delegate: TutorialBubbleCollectionViewCellDelegate?
@@ -87,7 +87,9 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
 		textView.attributedText = attributedString
 		textView.contentOffset = CGPointZero
         textView.layoutIfNeeded()
-        setArrowButtonVisibleIfNeeded(nil);
+        textView.dataDetectorTypes = UIDataDetectorTypes.All
+        textView.selectable = true
+        setArrowButtonVisibleIfNeeded(nil)
     }
     
     // MARK: - Private
@@ -136,5 +138,13 @@ extension TutorialBubbleCollectionViewCell: UITextViewDelegate {
         if scrollView.scrollViewDidScrollToBottom() {
             delegate?.tutorialBubbleCollectionViewCellDidNext(self)
         }
+    }
+    
+    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+        if URL == LinkToAppOnAppStore {
+            UpgradeManager.sharedInstance.askForUpgrade()
+            return false;
+        }
+        return true;
     }
 }

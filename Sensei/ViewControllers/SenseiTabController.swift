@@ -54,6 +54,7 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     override func addTutorialObservers() {
         super.addTutorialObservers()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishUpgradeNotificatin:"), name: TutorialManager.Notifications.DidFinishUpgrade, object: nil)
     }
     
     func showSenseiViewController() {
@@ -100,6 +101,9 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     func didFinishTutorialNotificatin(notification: NSNotification) {
         enableControls(nil)
     }
+    func didFinishUpgradeNotificatin(notification: NSNotification) {
+        enableControls(nil)
+    }
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         switch tutorialStep.screen {
@@ -112,6 +116,11 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     }
     
     override func enableControls(controlNames: [String]?) {
+        if TutorialManager.sharedInstance.upgradeCompleted {
+            senseiTabButton.userInteractionEnabled = true
+            moreTabButton.userInteractionEnabled = true
+            return
+        }
         senseiTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.SenseiTab) ?? true
         moreTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.MoreTab) ?? true
     }
