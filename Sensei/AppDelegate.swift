@@ -30,7 +30,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "IsProVersion")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
-    
+
+//        let arrayOpen = "<array>\n"
+//        let arrayClose = "</array>"
+//        let stringOpen = "\t<string>"
+//        let stringClose = "</string>\n"
+
+//        let nameмMask = "7_punch_"
+//        let numberOfItems = 65
+
+//        var stringResult = arrayOpen
+//        for var i = 1; i < numberOfItems; i++ {
+//            stringResult.appendContentsOf("\(stringOpen)\(nameMask)\(String(format: "%04d", i))\(stringClose)")
+//        }
+//        stringResult.appendContentsOf(arrayClose)
+//        print(stringResult)
+
         return true
     }
     

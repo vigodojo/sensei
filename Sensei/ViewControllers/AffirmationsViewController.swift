@@ -30,6 +30,10 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     
     
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Affirmation?")
+
+    private func ReceiveTimeConfirmationQuestion(receiveTime: ReceiveTime) -> ConfirmationQuestion {
+        return ConfirmationQuestion(text: "There can be only one affirmation set for \(receiveTime.description). Are you sure you want to set this one for \(receiveTime.description)?")
+    }
     
     override weak var navigationView: NavigationView! {
         didSet {
@@ -42,7 +46,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
             messageSwitchView.delegate = self
         }
     }
-    
     
     override var upgradeAppMessage: String {
         return "You can only have two active affirmations with the free version of this app, please upgrade to unlock all the slots"
@@ -105,7 +108,8 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-    
+        CoreDataManager.sharedInstance.saveContext()
+        
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -153,10 +157,25 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     }
     
     override func handleYesAnswerNotification(notification: NSNotification) {
-        textView.resignFirstResponder()
-        deleteAffirmation()
+        if itemToDelete != nil {
+            textView.resignFirstResponder()
+            deleteAffirmation()
+        } else {
+            if (messageSwitchView.receiveTime != ReceiveTime.AnyTime) {
+                let aff = affirmationsWithReceiveTime(messageSwitchView.receiveTime)?.first
+                aff?.receiveTime = ReceiveTime.AnyTime
+                CoreDataManager.sharedInstance.saveContext()
+            }
+            saveChanges()
+        }
     }
     
+    override func handleNoAnswerNotification(notification: NSNotification) {
+        if itemToDelete == nil && selectedAffirmation != nil{
+            fillAffirmationWithNumber((selectedAffirmation?.number)!)
+        }
+    }
+
     // MARK: - Private
     
     private func hasAffirmationBeenChanged(affirmation: Affirmation, newText: String, newReceiveTime: ReceiveTime) -> Bool {
@@ -186,6 +205,14 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         return nil
     }
     
+    private func affirmationsWithReceiveTime(receiveTime: ReceiveTime) -> [Affirmation]? {
+        if let fetchedObjects = affirmationsFetchedResultController.fetchedObjects as? [Affirmation] {
+            let filteredMessages = fetchedObjects.filter(){ $0.receiveTime == receiveTime }
+            return filteredMessages
+        }
+        return nil
+    }
+    
     private func saveAffirmation() {
         let text = textView.text
         let receiveTime = messageSwitchView.receiveTime
@@ -207,18 +234,20 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     private func deleteAffirmation() {
         if let aff = Affirmation.affirmationWithNumber(itemToDelete!) {
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(aff)
+            CoreDataManager.sharedInstance.saveContext()
             itemToDelete = nil
             if aff == selectedAffirmation {
                 resetInfo()
             }
         } else if let affirmation = selectedAffirmation {
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(affirmation)
+            CoreDataManager.sharedInstance.saveContext()
             resetInfo()
         }
     }
     
     private func resetInfo() {
-        messageSwitchView.receiveTime = .Morning
+        messageSwitchView.receiveTime = .AnyTime
         textView.text = ""
         textView.contentOffset = CGPointZero;
         selectedAffirmation = nil
@@ -306,12 +335,29 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     }
     
     func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView) {
+        if messageSwitchView.receiveTime != ReceiveTime.AnyTime {
+            if var affirmations = affirmationsWithReceiveTime(messageSwitchView.receiveTime) {
+                if selectedAffirmation != nil && affirmations.contains(selectedAffirmation!) {
+                    affirmations.removeAtIndex(affirmations.indexOf(selectedAffirmation!)!)
+                }
+                if affirmations.count > 0 {
+                    tutorialViewController?.askConfirmationQuestion(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime))
+                } else {
+                    saveChanges()
+                }
+            }
+        } else {
+            saveChanges()
+        }
+        TutorialManager.sharedInstance.nextStep()
+    }
+    
+    private func saveChanges() {
         if selectedAffirmation == nil {
             saveAffirmation()
         } else if let affirmation = selectedAffirmation where affirmation.receiveTime != messageSwitchView.receiveTime {
             affirmation.receiveTime = messageSwitchView.receiveTime
         }
-        TutorialManager.sharedInstance.nextStep()
     }
     
     func messageSwitchView(view: MessageSwitchView, longPressAtItem index: Int) {
@@ -321,7 +367,6 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     func messageSwitchView(view: MessageSwitchView, itemAvailable index: Int) -> Bool {
         return index < Constants.NumberOfFreeAffirmations ? true : false
     }
-    
 }
 
 // MARK: - UITextViewDelegate

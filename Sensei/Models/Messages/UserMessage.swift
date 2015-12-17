@@ -43,7 +43,8 @@ class UserMessage: NSManagedObject, Message {
     var id: String { return "\(number)"}
     var date = NSDate()
     var attributedText: NSAttributedString?
-
+    var preMessage: String?
+    
     var receiveTime: ReceiveTime {
         get {
             return ReceiveTime(string: receiveTimeString)
@@ -51,6 +52,15 @@ class UserMessage: NSManagedObject, Message {
         set {
             receiveTimeString = newValue.rawValue
         }
+    }
+    
+    func fullMessage() -> String {
+        if self is Affirmation {
+            if  let prefix = self.preMessage {
+                return "\(prefix) \(text)"
+            }
+        }
+        return text
     }
     
     // MARK: Mapping

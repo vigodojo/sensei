@@ -18,13 +18,23 @@ struct PushNotification: CustomStringConvertible {
     let id: String
     let date: NSDate?
     let type: PushType
+    let alert: String
     
     init?(userInfo: [NSObject: AnyObject]) {
         let idString = userInfo["id"] as? String
         let typeString = userInfo["type"] as? String
-        if let id = idString, typeString = typeString, type = PushType(rawValue: typeString) {
+        let alertString = userInfo["aps"]!["alert"] as? String
+        
+        if let id = idString, typeString = typeString, type = PushType(rawValue: typeString), alert = alertString {
             self.id = id
             self.type = type
+            
+            if type == .Affirmation || type == .Visualisation {
+                self.alert = alert
+            } else {
+                self.alert = ""
+            }
+
             if let dateString = userInfo["date"] as? String {
                 date = LessonDateTransformer().valueFromString(dateString) as? NSDate
             } else {
@@ -36,6 +46,6 @@ struct PushNotification: CustomStringConvertible {
     }
     
     var description: String {
-        return "id = \(id); date = \(date); timeInterval = \(date?.timeIntervalSince1970); type = \(type)"
+        return "id = \(id); date = \(date); timeInterval = \(date?.timeIntervalSince1970); type = \(type); alert =\(alert)"
     }
 }

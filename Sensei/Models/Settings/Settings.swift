@@ -13,6 +13,7 @@ import RestClient
 enum Gender: String, CustomStringConvertible {
     case Male = "male"
     case Female = "female"
+    case SheMale = "shemale"
     
     var description: String {
         return self.rawValue
@@ -22,6 +23,7 @@ enum Gender: String, CustomStringConvertible {
         switch self {
             case .Male: return "sir"
             case .Female: return "ms"
+            case .SheMale: return ""
         }
     }
 }
@@ -59,7 +61,7 @@ class Settings: NSManagedObject {
     
     var gender: Gender {
         get {
-            return Gender(rawValue: genderString) ?? Gender.Male
+            return Gender(rawValue: genderString) ?? Gender.SheMale
         }
         set {
             genderString = newValue.rawValue

@@ -116,7 +116,10 @@ class SenseiViewController: BaseViewController {
         
         if TutorialManager.sharedInstance.upgradeCompleted {
             fetchLessons()
+        } else {
+            login()
         }
+        
         addApplicationObservers()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishUpgradeNotificatin:"), name: TutorialManager.Notifications.DidFinishUpgrade, object: nil)
@@ -126,7 +129,7 @@ class SenseiViewController: BaseViewController {
         super.viewWillAppear(animated)
         tutorialViewController?.tutorialHidden = true
         collectionView.contentInset.bottom = collectionViewBottomContentInset
-
+        removeAllExeptLessons()
         if APIManager.sharedInstance.logined && TutorialManager.sharedInstance.upgradeCompleted {
             APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         }
@@ -195,18 +198,19 @@ class SenseiViewController: BaseViewController {
     private func insertMessage(message: Message, scroll: Bool) {
         var inserIndex: Int? = nil
         if dataSource.count > 1 {
-            for index in 0..<(dataSource.count - 1) {
-                if dataSource[index].date.compare(message.date) == .OrderedAscending && dataSource[index + 1].date.compare(message.date) == .OrderedDescending {
-                    inserIndex = index + 1
-                    break
+            dataSource.append(message)
+            dataSource = dataSource.sort({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending})
+            let id = message.id
+            for index in 0..<(dataSource.count) {
+                if dataSource[index].id == id {
+                    inserIndex = index
                 }
             }
         }
         if let inserIndex = inserIndex {
-            dataSource.insert(message, atIndex: inserIndex)
             let indexPath = NSIndexPath(forItem: inserIndex, inSection: 0)
             collectionView.performBatchUpdates({ [unowned self] () -> Void in
-                self.collectionView.insertItemsAtIndexPaths([indexPath])
+                self.collectionView.reloadSections(NSIndexSet(index: 0))
                 }, completion: { [unowned self] (finished) -> Void in
                     if scroll {
                         self.scrollToItemAtIndexPath(indexPath, animated: true)
@@ -277,9 +281,21 @@ class SenseiViewController: BaseViewController {
     #if DEBUG
 //		let idfa = "5666C71D-7FE6-42B9-962C-16B977B3C08F"
 //		let idfa = "8161C71D-7FE6-42B9-912C-16B977B3C08F" // meine
-		let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+        if NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") == nil {
+            NSUserDefaults.standardUserDefaults().setObject(NSUUID().UUIDString, forKey: "AutoUUID")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+        
+//		let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+        let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
     #else
-        let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+        if NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") == nil {
+            NSUserDefaults.standardUserDefaults().setObject(NSUUID().UUIDString, forKey: "AutoUUID")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+        
+//		let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+        let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
     #endif
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         print("IDFA = \(idfa)")
@@ -352,14 +368,14 @@ class SenseiViewController: BaseViewController {
 	private func caluclateSizeForItemAtIndexPath(indexPath: NSIndexPath) -> CGSize {
 		let fullWidth = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
 		let message = dataSource[indexPath.item]
-		sizingCell.text = message.text
+		sizingCell.text = (message is UserMessage) ? (message as! UserMessage).fullMessage() : message.text
 		sizingCell.frame = CGRect(x: 0.0, y: 0.0, width: fullWidth, height: Constants.DefaultCellHeight)
 		sizingCell.textView.layoutIfNeeded()
 		if #available(iOS 9, *) {
 			return sizingCell.systemLayoutSizeFittingSize(CGSize(width: fullWidth, height: Constants.DefaultCellHeight))
 		} else  {
 			let size = sizingCell.systemLayoutSizeFittingSize(CGSize(width: fullWidth, height: Constants.DefaultCellHeight), withHorizontalFittingPriority: 1000, verticalFittingPriority: 50)
-			let textSize = SpeechBubbleCollectionViewCell.sizeForText(message.text, maxWidth: fullWidth, type: message is AnswerMessage ? .Me : .Sensei)
+			let textSize = SpeechBubbleCollectionViewCell.sizeForText(sizingCell.text, maxWidth: fullWidth, type: message is AnswerMessage ? .Me : .Sensei)
 			print("Size \(size)")
 			print("text size \(textSize)")
 			return CGSize(width: min(size.width, textSize.width), height: size.height)
@@ -402,6 +418,7 @@ class SenseiViewController: BaseViewController {
                     if let date = push.date {
                         affirmation.date = date
                     }
+                    affirmation.preMessage = push.alert
                     self.insertMessage(affirmation, scroll: self.isTopViewController)
                 }
             case .Visualisation:
@@ -434,6 +451,7 @@ class SenseiViewController: BaseViewController {
                         if let date = push.date {
                             affirmation.date = date
                         }
+                        affirmation.preMessage = push.alert
                         self.insertMessage(affirmation, scroll: true)
                     }
                 case .Visualisation:
@@ -490,7 +508,7 @@ class SenseiViewController: BaseViewController {
     // MARK: - Tutorial
     
     func didFinishTutorialNotificatin(notification: NSNotification) {
-        removeAllExeptLessons()
+//        removeAllExeptLessons()
         enableControls(nil)
     }
     
@@ -575,7 +593,8 @@ extension SenseiViewController: UICollectionViewDataSource {
         let identifier = SpeechBubbleCollectionViewCell.reuseIdetifierForBubbleCellType(message is AnswerMessage ? .Me : .Sensei)
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
         cell.delegate = self
-        cell.text = message.text
+        
+        cell.text = (message is UserMessage) ? (message as! UserMessage).fullMessage() : message.text
         cell.showCloseButton(message is Lesson)
 		let size = caluclateSizeForItemAtIndexPath(indexPath)
 		let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))

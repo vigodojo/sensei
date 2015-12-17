@@ -43,6 +43,8 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var rateInAppStoreButton: UIButton!
     @IBOutlet weak var feedbackButton: UIButton!
     @IBOutlet weak var upgradeButton: UIButton!
+    @IBOutlet weak var upgradeSeparatorView: UIView!
+    @IBOutlet weak var upgradeViewHeightConstraint: NSLayoutConstraint!
     
     private let SaveConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to save this changes?")
     
@@ -88,7 +90,10 @@ class SettingsTableViewController: UITableViewController {
             self?.view.endEditing(true)
         
             if let fieldName = self?.fieldToChange {
-                if TutorialManager.sharedInstance.completed {
+                let weightChanged = self?.weightKg == Settings.sharedSettings.weight?.doubleValue
+                let heightChanged = self?.heightCm == Settings.sharedSettings.height?.doubleValue
+                
+                if TutorialManager.sharedInstance.completed && (Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date)!) != NSComparisonResult.OrderedSame || weightChanged || heightChanged) {
                     self?.showConfirmation(self!.confirmationTextWithPropertyName(fieldName))
                 }
             }
@@ -186,7 +191,7 @@ class SettingsTableViewController: UITableViewController {
             dobEqual = dateOfBirthTF.text!.isEmpty
         }
 
-        let genderEqual = (Settings.sharedSettings.gender == (maleButton.selected ? .Male: .Female))
+        let genderEqual = (Settings.sharedSettings.gender == (maleButton.selected ? .Male: .Female)) || (!maleButton.selected && !femaleButton.selected)
         var heightEqual = false
         if let height = Settings.sharedSettings.height {
             heightEqual = height.doubleValue == heightCm
@@ -226,13 +231,20 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        upgradeButton.enabled = !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion")
+        refreshUpgradState()
         fillFromSettings()
         (parentViewController as? SenseiTabController)?.delegate = self
         if !TutorialManager.sharedInstance.completed {
             TutorialManager.sharedInstance.nextStep()
         }
         tutorialSwitch.enabled = TutorialManager.sharedInstance.completed
+    }
+    
+    func refreshUpgradState() {
+        upgradeButton.enabled = !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion")
+        upgradeViewHeightConstraint.constant = UpgradeManager.sharedInstance.isProVersion() ? 0.0 : 46.0
+        upgradeSeparatorView.hidden = !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion")
+        tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 2, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -271,6 +283,7 @@ class SettingsTableViewController: UITableViewController {
         if parentViewController is SenseiTabController {
             let parent = parentViewController as! SenseiTabController
             parent.showSenseiViewController()
+            refreshUpgradState()
         }
     }
     
@@ -336,6 +349,7 @@ class SettingsTableViewController: UITableViewController {
         switch Settings.sharedSettings.gender {
             case .Male : configureGenderSelection(maleButton)
             case .Female: configureGenderSelection(femaleButton)
+            case .SheMale: configureGenderSelection(UIButton())
         }
     }
     
@@ -401,6 +415,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func handleNoAnswerNotification(notification: NSNotification) {
+        fillFromSettings()
 //        if hasSettingsBeenChanged {
 //            saveSettings()
 //        }
@@ -450,7 +465,11 @@ class SettingsTableViewController: UITableViewController {
     @IBAction func selectGender(sender: UIButton) {
         if !((maleButton.selected && maleButton == sender) || (femaleButton.selected && femaleButton == sender)) {
             fieldToChange = "sex"
-            showConfirmation(confirmationTextWithPropertyName("sex"))
+            if TutorialManager.sharedInstance.completed {
+                showConfirmation(confirmationTextWithPropertyName("sex"))
+            } else {
+                handleYesAnswerNotification(NSNotification())
+            }
         }
         configureGenderSelection(sender)
     }
@@ -516,6 +535,20 @@ class SettingsTableViewController: UITableViewController {
     }
 }
 
+// MARK: - UITableViewDelegate
+
+extension SettingsTableViewController {
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        switch (indexPath.row) {
+            case 0: return 94.0;
+            case 1: return 65.0;
+            case 2: return UpgradeManager.sharedInstance.isProVersion() ? 370.0 : 416.0;
+            case 3: return 66.0;
+            case 4: return 262.0;
+            default: return 0
+        }
+    }
+}
 // MARK: - UITextFieldDelegate
 
 extension SettingsTableViewController: UITextFieldDelegate {

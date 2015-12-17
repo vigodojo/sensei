@@ -73,7 +73,7 @@ class MessageSwitchView: UIView {
     var receiveTime: ReceiveTime {
         get {
             let index = receiveTimePickerView.selectedRowInComponent(0)
-            return index == -1 ? ReceiveTime.Morning: switchItems[index]
+            return index == -1 ? ReceiveTime.AnyTime: switchItems[index]
         }
         set {
             if let index = switchItems.indexOf(newValue) {

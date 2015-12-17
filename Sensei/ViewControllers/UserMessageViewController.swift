@@ -107,6 +107,8 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     
     func handleYesAnswerNotification(notification: NSNotification) {}
     
+    func handleNoAnswerNotification(notification: NSNotification) {}
+    
     // MARK: - Private
     
     private func addSnapshot() {
@@ -121,6 +123,7 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillShowNotification:"), name: TutorialViewController.Notifications.TutorialWillShow, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillHideNotification:"), name: TutorialViewController.Notifications.TutorialWillHide, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleNoAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.NoAnswer, object: nil)
     }
     
     private func removeTutorialViewObservers() {

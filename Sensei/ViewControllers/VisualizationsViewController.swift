@@ -27,6 +27,10 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Visualisation?")
     
+    private func ReceiveTimeConfirmationQuestion(receiveTime: ReceiveTime) -> ConfirmationQuestion {
+        return ConfirmationQuestion(text: "There can be only one visualization set for \(receiveTime.description). Are you sure you want to set this one for \(receiveTime.description)?")
+    }
+    
     override weak var navigationView: NavigationView! {
         didSet {
             navigationView.titleLabel.text = "VISUALIZATIONS"
@@ -90,6 +94,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        CoreDataManager.sharedInstance.saveContext()
         
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -170,10 +175,25 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     }
     
     override func handleYesAnswerNotification(notification: NSNotification) {
-        deleteVisualization()
-        visualisationView?.mode = .Default
+        if itemToDelete != nil {
+            deleteVisualization()
+            visualisationView?.mode = .Default
+        } else {
+            if (messageSwitchView.receiveTime != ReceiveTime.AnyTime) {
+                let vis = visualizationsWithReceiveTime(messageSwitchView.receiveTime)?.first
+                vis?.receiveTime = ReceiveTime.AnyTime
+                CoreDataManager.sharedInstance.saveContext()
+            }
+            saveVisualization()
+        }
     }
-        
+    
+    override func handleNoAnswerNotification(notification: NSNotification) {
+        if itemToDelete == nil && selectedVisualization != nil{
+            fillVisualisationWithNumber((selectedVisualization?.number)!)
+        }
+    }
+    
     // MARK: - Private
     
     private func hasVisualizationBeenChanged(visualization: Visualization, newText: String, newReceiveTime: ReceiveTime) -> Bool {
@@ -203,6 +223,14 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         if let fetchedObjects = visualizationFetchedResultController.fetchedObjects as? [Visualization] {
             let filteredMessages = fetchedObjects.filter(){ $0.number.compare(number) == .OrderedSame }
             return filteredMessages.first
+        }
+        return nil
+    }
+    
+    private func visualizationsWithReceiveTime(receiveTime: ReceiveTime) -> [Visualization]? {
+        if let fetchedObjects = visualizationFetchedResultController.fetchedObjects as? [Visualization] {
+            let filteredMessages = fetchedObjects.filter(){ $0.receiveTime == receiveTime }
+            return filteredMessages
         }
         return nil
     }
@@ -266,7 +294,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     }
 
     private func resetVisualizationCell() {
-        messageSwitchView.receiveTime = .Morning
+        messageSwitchView.receiveTime = .AnyTime
         visualisationView.configureWithText("", image: nil)
         selectedVisualization = nil
     }
@@ -349,8 +377,27 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
     }
     
     func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView) {
-        if let visualisation = selectedVisualization where visualisation.receiveTime != messageSwitchView.receiveTime {
-            visualisation.receiveTime = messageSwitchView.receiveTime
+        if messageSwitchView.receiveTime != ReceiveTime.AnyTime {
+            if var visualizations = visualizationsWithReceiveTime(messageSwitchView.receiveTime) {
+                if selectedVisualization != nil && visualizations.contains(selectedVisualization!) {
+                    visualizations.removeAtIndex(visualizations.indexOf(selectedVisualization!)!)
+                }
+                if visualizations.count > 0 {
+                    tutorialViewController?.askConfirmationQuestion(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime))
+                } else {
+                    saveChanges()
+                }
+            }
+        } else {
+            saveChanges()
+        }
+    }
+
+    private func saveChanges() {
+        if selectedVisualization == nil {
+            saveVisualization()
+        } else if let visualization = selectedVisualization where visualization.receiveTime != messageSwitchView.receiveTime {
+            visualization.receiveTime = messageSwitchView.receiveTime
         }
     }
     
@@ -361,8 +408,6 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
     func messageSwitchView(view: MessageSwitchView, itemAvailable index: Int) -> Bool {
         return index < Constants.NumberOfFreeVisualizations ? true : false
     }
-
-
 }
 
 // MARK: - VisualizationViewDelegate
