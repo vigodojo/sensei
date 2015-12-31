@@ -23,6 +23,8 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     struct Notifications {
         static let NoAnswer = "TutorialBubbleCollectionViewCellNotificationsNoAnswer"
         static let YesAnswer = "TutorialBubbleCollectionViewCellNotificationsYesAnswer"
+        static let AfirmationTap = "TutorialBubbleCollectionViewCellNotificationsAffirmatinTap"
+        static let VisualizationTap = "TutorialBubbleCollectionViewCellNotificationsVisualizationTap"
     }
 
     @IBOutlet weak var speechBubbleView: SpeechBubbleView!
@@ -57,11 +59,15 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
             textView.text = newValue
             textView.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
             textView.contentOffset = CGPointZero
+            print(textView.contentSize)
+            print(textView.bounds)
+            setArrowButtonVisibleIfNeeded(textView.contentSize.height < CGRectGetMaxY(textView.bounds))
         }
     }
     
-    func append(text: String) {
-        textView.appendText(text)
+    func append(text: String, autoscroll: Bool) {
+        textView.appendText(text, autoscroll: autoscroll)
+        setArrowButtonVisibleIfNeeded(nil)
     }
     
     // MARK: - Lifecycle
@@ -98,8 +104,10 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     {
         if let hideNeeded = hidden {
             nextButton.hidden = hideNeeded
-        } else if let canLoadMoreMessages = delegate?.tutorialBubbleCollectionViewCellCanShowMoreMessages(self) {
-            nextButton.hidden = !canLoadMoreMessages && CGRectGetMaxY(textView.bounds) >= textView.contentSize.height
+        } else {
+//            let height = textView.contentSize.height
+            let size = textView.sizeThatFits(CGSize(width: textView.bounds.size.width, height: CGFloat(MAXFLOAT)))
+            nextButton.hidden = CGRectGetMaxY(textView.bounds) > size.height
         }
     }
 
@@ -143,8 +151,15 @@ extension TutorialBubbleCollectionViewCell: UITextViewDelegate {
     func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
         if URL == LinkToAppOnAppStore {
             UpgradeManager.sharedInstance.askForUpgrade()
-            return false;
+            return false
+        } else if URL == LinkToAffirmation {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.AfirmationTap, object: nil)
+            return false
+        } else if URL == LinkToVisualization {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.VisualizationTap, object: nil)
+            return false
         }
+        
         return true;
     }
 }

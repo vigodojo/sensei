@@ -28,12 +28,7 @@ struct PushNotification: CustomStringConvertible {
         if let id = idString, typeString = typeString, type = PushType(rawValue: typeString), alert = alertString {
             self.id = id
             self.type = type
-            
-            if type == .Affirmation || type == .Visualisation {
-                self.alert = alert
-            } else {
-                self.alert = ""
-            }
+            self.alert = alert
 
             if let dateString = userInfo["date"] as? String {
                 date = LessonDateTransformer().valueFromString(dateString) as? NSDate

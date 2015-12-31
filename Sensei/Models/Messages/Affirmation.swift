@@ -13,6 +13,7 @@ import RestClient
 class Affirmation: UserMessage {
     
     static let EntityName = "Affirmation"
+    static let MaxTextLength = 120
     
     class func createAffirmationNumber(number: NSNumber, text: String, receiveTime: ReceiveTime) -> Affirmation {
         let newAffirmation = NSEntityDescription.insertNewObjectForEntityForName(Affirmation.EntityName, inManagedObjectContext: CoreDataManager.sharedInstance.managedObjectContext!) as! Affirmation

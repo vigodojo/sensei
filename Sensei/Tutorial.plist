@@ -9,72 +9,72 @@
 			<integer>3</integer>
 			<key>ImageNames</key>
             <array>
-                <string>1_bow_0001</string>
-                <string>1_bow_0002</string>
-                <string>1_bow_0003</string>
-                <string>1_bow_0004</string>
-                <string>1_bow_0005</string>
-                <string>1_bow_0006</string>
-                <string>1_bow_0007</string>
-                <string>1_bow_0008</string>
-                <string>1_bow_0009</string>
-                <string>1_bow_0010</string>
-                <string>1_bow_0011</string>
-                <string>1_bow_0012</string>
-                <string>1_bow_0013</string>
-                <string>1_bow_0014</string>
-                <string>1_bow_0015</string>
-                <string>1_bow_0016</string>
-                <string>1_bow_0017</string>
-                <string>1_bow_0018</string>
-                <string>1_bow_0019</string>
-                <string>1_bow_0020</string>
-                <string>1_bow_0021</string>
-                <string>1_bow_0022</string>
-                <string>1_bow_0023</string>
-                <string>1_bow_0024</string>
-                <string>1_bow_0025</string>
-                <string>1_bow_0026</string>
-                <string>1_bow_0027</string>
-                <string>1_bow_0028</string>
-                <string>1_bow_0029</string>
-                <string>1_bow_0030</string>
-                <string>1_bow_0031</string>
-                <string>1_bow_0032</string>
-                <string>1_bow_0033</string>
-                <string>1_bow_0034</string>
-                <string>1_bow_0035</string>
-                <string>1_bow_0036</string>
-                <string>1_bow_0037</string>
-                <string>1_bow_0038</string>
-                <string>1_bow_0039</string>
-                <string>1_bow_0040</string>
-                <string>1_bow_0041</string>
-                <string>1_bow_0042</string>
-                <string>1_bow_0043</string>
-                <string>1_bow_0044</string>
-                <string>1_bow_0045</string>
-                <string>1_bow_0046</string>
-                <string>1_bow_0047</string>
-                <string>1_bow_0048</string>
-                <string>1_bow_0049</string>
-                <string>1_bow_0050</string>
-                <string>1_bow_0051</string>
-                <string>1_bow_0052</string>
-                <string>1_bow_0053</string>
-                <string>1_bow_0054</string>
-                <string>1_bow_0055</string>
-                <string>1_bow_0056</string>
-                <string>1_bow_0057</string>
-                <string>1_bow_0058</string>
-                <string>1_bow_0059</string>
-                <string>1_bow_0060</string>
-                <string>1_bow_0061</string>
-                <string>1_bow_0062</string>
-                <string>1_bow_0063</string>
-                <string>1_bow_0064</string>
+                <string>3_standbow_0001</string>
+                <string>3_standbow_0002</string>
+                <string>3_standbow_0003</string>
+                <string>3_standbow_0004</string>
+                <string>3_standbow_0005</string>
+                <string>3_standbow_0006</string>
+                <string>3_standbow_0007</string>
+                <string>3_standbow_0008</string>
+                <string>3_standbow_0009</string>
+                <string>3_standbow_0010</string>
+                <string>3_standbow_0011</string>
+                <string>3_standbow_0012</string>
+                <string>3_standbow_0013</string>
+                <string>3_standbow_0014</string>
+                <string>3_standbow_0015</string>
+                <string>3_standbow_0016</string>
+                <string>3_standbow_0017</string>
+                <string>3_standbow_0018</string>
+                <string>3_standbow_0019</string>
+                <string>3_standbow_0020</string>
+                <string>3_standbow_0021</string>
+                <string>3_standbow_0022</string>
+                <string>3_standbow_0023</string>
+                <string>3_standbow_0024</string>
+                <string>3_standbow_0025</string>
+                <string>3_standbow_0026</string>
+                <string>3_standbow_0027</string>
+                <string>3_standbow_0028</string>
+                <string>3_standbow_0029</string>
+                <string>3_standbow_0030</string>
+                <string>3_standbow_0031</string>
+                <string>3_standbow_0032</string>
+                <string>3_standbow_0033</string>
+                <string>3_standbow_0034</string>
+                <string>3_standbow_0035</string>
+                <string>3_standbow_0036</string>
+                <string>3_standbow_0037</string>
+                <string>3_standbow_0038</string>
+                <string>3_standbow_0039</string>
+                <string>3_standbow_0040</string>
+                <string>3_standbow_0041</string>
+                <string>3_standbow_0042</string>
+                <string>3_standbow_0043</string>
+                <string>3_standbow_0044</string>
+                <string>3_standbow_0045</string>
+                <string>3_standbow_0046</string>
+                <string>3_standbow_0047</string>
+                <string>3_standbow_0048</string>
+                <string>3_standbow_0049</string>
+                <string>3_standbow_0050</string>
+                <string>3_standbow_0051</string>
+                <string>3_standbow_0052</string>
+                <string>3_standbow_0053</string>
+                <string>3_standbow_0054</string>
+                <string>3_standbow_0055</string>
+                <string>3_standbow_0056</string>
+                <string>3_standbow_0057</string>
+                <string>3_standbow_0058</string>
+                <string>3_standbow_0059</string>
+                <string>3_standbow_0060</string>
+                <string>3_standbow_0061</string>
+                <string>3_standbow_0062</string>
+                <string>3_standbow_0063</string>
+                <string>3_standbow_0064</string>
             </array>
-		</dict>
+        </dict>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
@@ -86,7 +86,7 @@
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>2</integer>
+			<integer>3</integer>
 			<key>ImageNames</key>
             <array>
                 <string>2_sitstand_0001</string>
@@ -177,7 +177,7 @@
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>2</integer>
+			<integer>3</integer>
 			<key>ImageNames</key>
             <array>
                 <string>1_bow_0001</string>
@@ -711,7 +711,7 @@
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>2</integer>
+			<integer>3</integer>
 			<key>ImageNames</key>
             <array>
                 <string>4_kick_0001</string>
@@ -793,73 +793,74 @@
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>2</integer>
+			<integer>3</integer>
 			<key>ImageNames</key>
             <array>
-                <string>1_bow_0001</string>
-                <string>1_bow_0002</string>
-                <string>1_bow_0003</string>
-                <string>1_bow_0004</string>
-                <string>1_bow_0005</string>
-                <string>1_bow_0006</string>
-                <string>1_bow_0007</string>
-                <string>1_bow_0008</string>
-                <string>1_bow_0009</string>
-                <string>1_bow_0010</string>
-                <string>1_bow_0011</string>
-                <string>1_bow_0012</string>
-                <string>1_bow_0013</string>
-                <string>1_bow_0014</string>
-                <string>1_bow_0015</string>
-                <string>1_bow_0016</string>
-                <string>1_bow_0017</string>
-                <string>1_bow_0018</string>
-                <string>1_bow_0019</string>
-                <string>1_bow_0020</string>
-                <string>1_bow_0021</string>
-                <string>1_bow_0022</string>
-                <string>1_bow_0023</string>
-                <string>1_bow_0024</string>
-                <string>1_bow_0025</string>
-                <string>1_bow_0026</string>
-                <string>1_bow_0027</string>
-                <string>1_bow_0028</string>
-                <string>1_bow_0029</string>
-                <string>1_bow_0030</string>
-                <string>1_bow_0031</string>
-                <string>1_bow_0032</string>
-                <string>1_bow_0033</string>
-                <string>1_bow_0034</string>
-                <string>1_bow_0035</string>
-                <string>1_bow_0036</string>
-                <string>1_bow_0037</string>
-                <string>1_bow_0038</string>
-                <string>1_bow_0039</string>
-                <string>1_bow_0040</string>
-                <string>1_bow_0041</string>
-                <string>1_bow_0042</string>
-                <string>1_bow_0043</string>
-                <string>1_bow_0044</string>
-                <string>1_bow_0045</string>
-                <string>1_bow_0046</string>
-                <string>1_bow_0047</string>
-                <string>1_bow_0048</string>
-                <string>1_bow_0049</string>
-                <string>1_bow_0050</string>
-                <string>1_bow_0051</string>
-                <string>1_bow_0052</string>
-                <string>1_bow_0053</string>
-                <string>1_bow_0054</string>
-                <string>1_bow_0055</string>
-                <string>1_bow_0056</string>
-                <string>1_bow_0057</string>
-                <string>1_bow_0058</string>
-                <string>1_bow_0059</string>
-                <string>1_bow_0060</string>
-                <string>1_bow_0061</string>
-                <string>1_bow_0062</string>
-                <string>1_bow_0063</string>
-                <string>1_bow_0064</string>
+                <string>3_standbow_0001</string>
+                <string>3_standbow_0002</string>
+                <string>3_standbow_0003</string>
+                <string>3_standbow_0004</string>
+                <string>3_standbow_0005</string>
+                <string>3_standbow_0006</string>
+                <string>3_standbow_0007</string>
+                <string>3_standbow_0008</string>
+                <string>3_standbow_0009</string>
+                <string>3_standbow_0010</string>
+                <string>3_standbow_0011</string>
+                <string>3_standbow_0012</string>
+                <string>3_standbow_0013</string>
+                <string>3_standbow_0014</string>
+                <string>3_standbow_0015</string>
+                <string>3_standbow_0016</string>
+                <string>3_standbow_0017</string>
+                <string>3_standbow_0018</string>
+                <string>3_standbow_0019</string>
+                <string>3_standbow_0020</string>
+                <string>3_standbow_0021</string>
+                <string>3_standbow_0022</string>
+                <string>3_standbow_0023</string>
+                <string>3_standbow_0024</string>
+                <string>3_standbow_0025</string>
+                <string>3_standbow_0026</string>
+                <string>3_standbow_0027</string>
+                <string>3_standbow_0028</string>
+                <string>3_standbow_0029</string>
+                <string>3_standbow_0030</string>
+                <string>3_standbow_0031</string>
+                <string>3_standbow_0032</string>
+                <string>3_standbow_0033</string>
+                <string>3_standbow_0034</string>
+                <string>3_standbow_0035</string>
+                <string>3_standbow_0036</string>
+                <string>3_standbow_0037</string>
+                <string>3_standbow_0038</string>
+                <string>3_standbow_0039</string>
+                <string>3_standbow_0040</string>
+                <string>3_standbow_0041</string>
+                <string>3_standbow_0042</string>
+                <string>3_standbow_0043</string>
+                <string>3_standbow_0044</string>
+                <string>3_standbow_0045</string>
+                <string>3_standbow_0046</string>
+                <string>3_standbow_0047</string>
+                <string>3_standbow_0048</string>
+                <string>3_standbow_0049</string>
+                <string>3_standbow_0050</string>
+                <string>3_standbow_0051</string>
+                <string>3_standbow_0052</string>
+                <string>3_standbow_0053</string>
+                <string>3_standbow_0054</string>
+                <string>3_standbow_0055</string>
+                <string>3_standbow_0056</string>
+                <string>3_standbow_0057</string>
+                <string>3_standbow_0058</string>
+                <string>3_standbow_0059</string>
+                <string>3_standbow_0060</string>
+                <string>3_standbow_0061</string>
+                <string>3_standbow_0062</string>
+                <string>3_standbow_0063</string>
+                <string>3_standbow_0064</string>
+                
             </array>
 		</dict>
 		<key>Number</key>
@@ -877,7 +878,7 @@
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>2</integer>
+			<integer>3</integer>
 			<key>ImageNames</key>
             <array>
                 <string>4_kick_0001</string>
@@ -985,73 +986,73 @@
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>2</integer>
+			<integer>3</integer>
 			<key>ImageNames</key>
             <array>
-                <string>1_bow_0001</string>
-                <string>1_bow_0002</string>
-                <string>1_bow_0003</string>
-                <string>1_bow_0004</string>
-                <string>1_bow_0005</string>
-                <string>1_bow_0006</string>
-                <string>1_bow_0007</string>
-                <string>1_bow_0008</string>
-                <string>1_bow_0009</string>
-                <string>1_bow_0010</string>
-                <string>1_bow_0011</string>
-                <string>1_bow_0012</string>
-                <string>1_bow_0013</string>
-                <string>1_bow_0014</string>
-                <string>1_bow_0015</string>
-                <string>1_bow_0016</string>
-                <string>1_bow_0017</string>
-                <string>1_bow_0018</string>
-                <string>1_bow_0019</string>
-                <string>1_bow_0020</string>
-                <string>1_bow_0021</string>
-                <string>1_bow_0022</string>
-                <string>1_bow_0023</string>
-                <string>1_bow_0024</string>
-                <string>1_bow_0025</string>
-                <string>1_bow_0026</string>
-                <string>1_bow_0027</string>
-                <string>1_bow_0028</string>
-                <string>1_bow_0029</string>
-                <string>1_bow_0030</string>
-                <string>1_bow_0031</string>
-                <string>1_bow_0032</string>
-                <string>1_bow_0033</string>
-                <string>1_bow_0034</string>
-                <string>1_bow_0035</string>
-                <string>1_bow_0036</string>
-                <string>1_bow_0037</string>
-                <string>1_bow_0038</string>
-                <string>1_bow_0039</string>
-                <string>1_bow_0040</string>
-                <string>1_bow_0041</string>
-                <string>1_bow_0042</string>
-                <string>1_bow_0043</string>
-                <string>1_bow_0044</string>
-                <string>1_bow_0045</string>
-                <string>1_bow_0046</string>
-                <string>1_bow_0047</string>
-                <string>1_bow_0048</string>
-                <string>1_bow_0049</string>
-                <string>1_bow_0050</string>
-                <string>1_bow_0051</string>
-                <string>1_bow_0052</string>
-                <string>1_bow_0053</string>
-                <string>1_bow_0054</string>
-                <string>1_bow_0055</string>
-                <string>1_bow_0056</string>
-                <string>1_bow_0057</string>
-                <string>1_bow_0058</string>
-                <string>1_bow_0059</string>
-                <string>1_bow_0060</string>
-                <string>1_bow_0061</string>
-                <string>1_bow_0062</string>
-                <string>1_bow_0063</string>
-                <string>1_bow_0064</string>
+                <string>3_standbow_0001</string>
+                <string>3_standbow_0002</string>
+                <string>3_standbow_0003</string>
+                <string>3_standbow_0004</string>
+                <string>3_standbow_0005</string>
+                <string>3_standbow_0006</string>
+                <string>3_standbow_0007</string>
+                <string>3_standbow_0008</string>
+                <string>3_standbow_0009</string>
+                <string>3_standbow_0010</string>
+                <string>3_standbow_0011</string>
+                <string>3_standbow_0012</string>
+                <string>3_standbow_0013</string>
+                <string>3_standbow_0014</string>
+                <string>3_standbow_0015</string>
+                <string>3_standbow_0016</string>
+                <string>3_standbow_0017</string>
+                <string>3_standbow_0018</string>
+                <string>3_standbow_0019</string>
+                <string>3_standbow_0020</string>
+                <string>3_standbow_0021</string>
+                <string>3_standbow_0022</string>
+                <string>3_standbow_0023</string>
+                <string>3_standbow_0024</string>
+                <string>3_standbow_0025</string>
+                <string>3_standbow_0026</string>
+                <string>3_standbow_0027</string>
+                <string>3_standbow_0028</string>
+                <string>3_standbow_0029</string>
+                <string>3_standbow_0030</string>
+                <string>3_standbow_0031</string>
+                <string>3_standbow_0032</string>
+                <string>3_standbow_0033</string>
+                <string>3_standbow_0034</string>
+                <string>3_standbow_0035</string>
+                <string>3_standbow_0036</string>
+                <string>3_standbow_0037</string>
+                <string>3_standbow_0038</string>
+                <string>3_standbow_0039</string>
+                <string>3_standbow_0040</string>
+                <string>3_standbow_0041</string>
+                <string>3_standbow_0042</string>
+                <string>3_standbow_0043</string>
+                <string>3_standbow_0044</string>
+                <string>3_standbow_0045</string>
+                <string>3_standbow_0046</string>
+                <string>3_standbow_0047</string>
+                <string>3_standbow_0048</string>
+                <string>3_standbow_0049</string>
+                <string>3_standbow_0050</string>
+                <string>3_standbow_0051</string>
+                <string>3_standbow_0052</string>
+                <string>3_standbow_0053</string>
+                <string>3_standbow_0054</string>
+                <string>3_standbow_0055</string>
+                <string>3_standbow_0056</string>
+                <string>3_standbow_0057</string>
+                <string>3_standbow_0058</string>
+                <string>3_standbow_0059</string>
+                <string>3_standbow_0060</string>
+                <string>3_standbow_0061</string>
+                <string>3_standbow_0062</string>
+                <string>3_standbow_0063</string>
+                <string>3_standbow_0064</string>
             </array>
 		</dict>
 		<key>Number</key>

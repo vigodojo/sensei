@@ -39,13 +39,13 @@ extension UIView {
 
 extension UITextView {
     
-    func appendText(text: String) {
+    func appendText(text: String, autoscroll: Bool) {
         layoutManager.allowsNonContiguousLayout = false
         let prevText = self.text
         self.text = text
         self.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
         layoutIfNeeded()
-        let size = self.contentSize
+        let textSize = self.contentSize
         self.text = prevText
 
         if !self.text.isEmpty {
@@ -53,7 +53,7 @@ extension UITextView {
         }
         self.text.appendContentsOf(text)
 
-        var bottomOffset = CGRectGetHeight(frame) - size.height
+        var bottomOffset = CGRectGetHeight(frame) - textSize.height
         if bottomOffset < 0 {
             bottomOffset = 0
         }
@@ -61,10 +61,12 @@ extension UITextView {
         self.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
         layoutIfNeeded()
         let finalSize = self.contentSize
-        let contentOffset = finalSize.height - size.height
+        let contentOffset = finalSize.height - textSize.height
 
         textContainerInset = UIEdgeInsetsMake(0, 0, bottomOffset, 0)
-        setContentOffset(CGPointMake(0, contentOffset), animated: true)
+        if autoscroll == true {
+            setContentOffset(CGPointMake(0, contentOffset), animated: true)
+        }
     }
 }
 

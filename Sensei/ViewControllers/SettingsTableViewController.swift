@@ -90,10 +90,29 @@ class SettingsTableViewController: UITableViewController {
             self?.view.endEditing(true)
         
             if let fieldName = self?.fieldToChange {
-                let weightChanged = self?.weightKg == Settings.sharedSettings.weight?.doubleValue
-                let heightChanged = self?.heightCm == Settings.sharedSettings.height?.doubleValue
+                if fieldName == "date of birth" {
+                    self?.dateOfBirthTF.text = DataFormatter.stringFromDate((self?.datePicker.date)!)
+                }
                 
-                if TutorialManager.sharedInstance.completed && (Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date)!) != NSComparisonResult.OrderedSame || weightChanged || heightChanged) {
+                if fieldName == "height" {
+                    let pickerDelegate = self?.heightPickerDelegate
+                    let currentValue = pickerDelegate?.currentValueForPickerView((self?.heightPicker)!)
+                    self?.heightCm = currentValue!.realValue
+                    self?.heightTextField.text = "\(currentValue!)"
+                }
+                
+                if fieldName == "weight" {
+                    let pickerDelegate = self?.weightPickerDelegate
+                    let currentValue = pickerDelegate?.currentValueForPickerView((self?.weightPicker)!)
+                    self?.weightKg = currentValue!.realValue
+                    self?.weightTexField.text = "\(currentValue!)"
+                }
+                
+                let weightChanged = self?.weightKg == Settings.sharedSettings.weight?.doubleValue || (Settings.sharedSettings.weight == nil && self?.weightKg != nil)
+                let heightChanged = self?.heightCm == Settings.sharedSettings.height?.doubleValue || (Settings.sharedSettings.height == nil && self?.heightCm != nil)
+                let dobChanged = Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date)!) != NSComparisonResult.OrderedSame && Settings.sharedSettings.dayOfBirth != nil
+
+                if TutorialManager.sharedInstance.completed && (dobChanged || weightChanged || heightChanged) {
                     self?.showConfirmation(self!.confirmationTextWithPropertyName(fieldName))
                 }
             }
@@ -220,6 +239,8 @@ class SettingsTableViewController: UITableViewController {
         return !numberOfLessonsEqual || !timeSettingsEqual
     }
     
+    private var previousApplicationState = UIApplicationState.Background
+
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -239,6 +260,30 @@ class SettingsTableViewController: UITableViewController {
         }
         tutorialSwitch.enabled = TutorialManager.sharedInstance.completed
     }
+    
+    private func handleReceivedPushNotification(push: PushNotification) {
+        if UIApplication.sharedApplication().applicationState == .Inactive && self.previousApplicationState == .Background {
+            (self.navigationController?.viewControllers.first as? SenseiTabController)?.showSenseiViewController()
+            return
+        }
+        switch push.type {
+            case .Lesson:
+                if let _ = parentViewController as? SenseiTabController {
+                    let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont, NSForegroundColorAttributeName: UIColor.blackColor()])
+                    tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: false)
+                }
+            case .Affirmation:
+                if let affirmation = Affirmation.affirmationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
+                    let messageText = NSMutableAttributedString(string: affirmation.fullMessage(), attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+                    tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
+                }
+            case .Visualisation:
+                let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+                messageText.addAttribute(NSLinkAttributeName, value: LinkToVisualization, range: NSMakeRange(0, messageText.length))
+                tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
+        }
+    }
+    
     
     func refreshUpgradState() {
         upgradeButton.enabled = !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion")
@@ -277,6 +322,23 @@ class SettingsTableViewController: UITableViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didMoveToNextTutorialNotification:"), name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didUpgradeToPro:"), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [unowned self] notification in
+            self.previousApplicationState = UIApplicationState.Background
+        }
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
+            self.previousApplicationState = UIApplicationState.Active
+        }
+        NSNotificationCenter.defaultCenter().addObserverForName(ApplicationDidReceiveRemotePushNotification, object: nil, queue: nil) { [unowned self] notification in
+            if let userInfo = notification.userInfo, push = PushNotification(userInfo: userInfo) {
+                self.handleReceivedPushNotification(push)
+            }
+        }
+        NSNotificationCenter.defaultCenter().addObserverForName(TutorialBubbleCollectionViewCell.Notifications.VisualizationTap, object: nil, queue: nil) { [unowned self] notification in
+            if let _ = self.parentViewController as? SenseiTabController {
+                self.tutorialViewController?.hideTutorialAnimated(true)
+            }
+        }
     }
     
     func didUpgradeToPro(notification: NSNotification) {
@@ -322,6 +384,7 @@ class SettingsTableViewController: UITableViewController {
         tutorialSwitch.on = Settings.sharedSettings.tutorialOn.boolValue
         sleepTimeSettings = SleepTimeSettings(weekdaysStart: Settings.sharedSettings.sleepTimeWeekdays.start, weekdaysEnd: Settings.sharedSettings.sleepTimeWeekdays.end, weekendsStart: Settings.sharedSettings.sleepTimeWeekends.start, weekendsEnd: Settings.sharedSettings.sleepTimeWeekends.end)
         updateSleepTimeSettingTextFields()
+        
         if let date = Settings.sharedSettings.dayOfBirth {
             dateOfBirthTF.text = DataFormatter.stringFromDate(date)
             datePicker.setDate(date, animated: false)
@@ -329,12 +392,14 @@ class SettingsTableViewController: UITableViewController {
             dateOfBirthTF.text = ""
         }
         
+        heightCm = Double(0)
         if let height = Settings.sharedSettings.height where height.doubleValue > 0 {
             heightCm = height.doubleValue
         } else {
             heightTextField.text = ""
         }
         
+        weightKg = Double(0)
         if let weight = Settings.sharedSettings.weight where weight.doubleValue > 0 {
             weightKg = weight.doubleValue
         } else {
@@ -416,13 +481,13 @@ class SettingsTableViewController: UITableViewController {
     
     func handleNoAnswerNotification(notification: NSNotification) {
         fillFromSettings()
-//        if hasSettingsBeenChanged {
-//            saveSettings()
-//        }
-//        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
     }
     
     func handleYesAnswerNotification(notification: NSNotification) {
+        performYesAnswerAction()
+    }
+    
+    func performYesAnswerAction() {
         if hasSettingsBeenChanged {
             saveSettings()
         }
@@ -468,7 +533,7 @@ class SettingsTableViewController: UITableViewController {
             if TutorialManager.sharedInstance.completed {
                 showConfirmation(confirmationTextWithPropertyName("sex"))
             } else {
-                handleYesAnswerNotification(NSNotification())
+                performYesAnswerAction()
             }
         }
         configureGenderSelection(sender)
@@ -557,13 +622,13 @@ extension SettingsTableViewController: UITextFieldDelegate {
         firstResponder = textField
         fieldToChange = nil
         if textField == dateOfBirthTF {
-            fieldToChange = "D.O.B"
+            fieldToChange = "date of birth"
         }
         if textField == heightTextField {
-            fieldToChange = "HEIGHT"
+            fieldToChange = "height"
         }
         if textField == weightTexField {
-            fieldToChange = "WEIGHT"
+            fieldToChange = "weight"
         }
         if textField.inputView == timePicker {
             if let date = DataFormatter.timeFromString(textField.text!) {

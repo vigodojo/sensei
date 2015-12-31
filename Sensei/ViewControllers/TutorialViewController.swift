@@ -26,6 +26,8 @@ class TutorialViewController: BaseViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var senseiImageView: AnimatableImageView!
     
+    private var nextTimer: NSTimer?
+    
     var tutorialContainerHeight: CGFloat {
         return tutorialContainerViewHeightConstraint.constant
     }
@@ -45,18 +47,7 @@ class TutorialViewController: BaseViewController {
     }
     
     var messages = [Message]()
-    
-    var canLoadPrevStep: Bool {
-        if !TutorialManager.sharedInstance.completed {
-            if let tutorialStep = TutorialManager.sharedInstance.currentStep {
-                if let prevTutorialStep = TutorialManager.sharedInstance.prevTutorialStep {
-                    return tutorialStep.screen == prevTutorialStep.screen
-                }
-            }
-        }
-        return false
-    }
-    
+
     var canLoadNextStep: Bool {
         if !TutorialManager.sharedInstance.completed {
             if let tutorialStep = TutorialManager.sharedInstance.currentStep {
@@ -144,7 +135,8 @@ class TutorialViewController: BaseViewController {
             showTutorialAnimated(true)
         } else {
             let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
-            cell.append(message.text)
+
+            cell.append(message.text, autoscroll: (TutorialManager.sharedInstance.prevTutorialStep?.requiresActionToProceed)!)
             cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
         }
     }
@@ -157,7 +149,29 @@ class TutorialViewController: BaseViewController {
         }
         if let animatableimage = tutorialStep.animatableImage {
             senseiImageView.stopAnimatableImageAnimation()
-            senseiImageView.animateAnimatableImage(animatableimage, completion: nil)
+            senseiImageView.animateAnimatableImage(animatableimage, completion: { [unowned self] (finished) -> Void in
+                self.autoShowNext()
+            })
+        } else {
+            autoShowNext()
+        }
+    }
+    
+    func autoShowNext() {
+        var show = true;
+        if let cell = self.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? TutorialBubbleCollectionViewCell {
+            show = cell.textView.contentSize.height <= CGRectGetMaxY(cell.textView.bounds)
+        }
+        
+        if canLoadNextStep && (nextTimer == nil || nextTimer?.valid == false) && show && TutorialManager.sharedInstance.currentStep?.screen != .Sensei {
+            nextTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "goNext:", userInfo: nil, repeats: false)
+        }
+    }
+    
+    func goNext(timer: NSTimer) {
+        nextTimer?.invalidate()
+        if canLoadNextStep {
+            TutorialManager.sharedInstance.nextStep()
         }
     }
     
@@ -205,6 +219,7 @@ extension TutorialViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TutorialBubbleCollectionViewCell.ReuseIdentifier, forIndexPath: indexPath) as! TutorialBubbleCollectionViewCell
         let message = messages[indexPath.item]
         cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
+        
         if let attributedText = message.attributedText {
             cell.setAttributedString(attributedText)
         } else {
@@ -237,9 +252,7 @@ extension TutorialViewController: TutorialBubbleCollectionViewCellDelegate {
     }
     
     func tutorialBubbleCollectionViewCellDidNext(cell: TutorialBubbleCollectionViewCell) {
-        if canLoadNextStep {
-            TutorialManager.sharedInstance.nextStep()
-        }
+        autoShowNext()
     }
     
     func tutorialBubbleCollectionViewCellCanShowMoreMessages(cell: TutorialBubbleCollectionViewCell) -> Bool {

@@ -1,4 +1,3 @@
-
 //
 //  AppDelegate.swift
 //  Sensei
@@ -35,13 +34,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let arrayClose = "</array>"
 //        let stringOpen = "\t<string>"
 //        let stringClose = "</string>\n"
-
-//        let nameмMask = "7_punch_"
+//
+//        let nameMask = "3_standbow_"
 //        let numberOfItems = 65
-
+//
 //        var stringResult = arrayOpen
 //        for var i = 1; i < numberOfItems; i++ {
 //            stringResult.appendContentsOf("\(stringOpen)\(nameMask)\(String(format: "%04d", i))\(stringClose)")
+//        }
+//        stringResult.appendContentsOf(arrayClose)
+//        print(stringResult)
+//======
+//        let arrayOpen = "@["
+//        let arrayClose = "]"
+//        let stringOpen = "@\""
+//        let stringClose = "\""
+//        let numberOfItems = 64
+//
+//        var stringResult = arrayOpen
+//        for var i = 0; i < numberOfItems; i++ {
+//            stringResult.appendContentsOf("\(stringOpen)\(String(format: "4_%05d", i))\(stringClose)")
+//            if i < numberOfItems - 1 {
+//                stringResult.appendContentsOf(", ")
+//            }
 //        }
 //        stringResult.appendContentsOf(arrayClose)
 //        print(stringResult)

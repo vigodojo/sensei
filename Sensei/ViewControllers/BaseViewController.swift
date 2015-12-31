@@ -55,11 +55,19 @@ class BaseViewController: UIViewController {
     // MARK: - Tutorial
     
     func addTutorialObservers() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("visualizationTapped:"), name: TutorialBubbleCollectionViewCell.Notifications.VisualizationTap, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("affirmationTapped:"), name: TutorialBubbleCollectionViewCell.Notifications.AfirmationTap, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didMoveToNextTutorialNotification:"), name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
     }
     
     func removeTutorialObservers() {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
+    }
+    
+    func affirmationTapped(notification: NSNotification) {
+    }
+  
+    func visualizationTapped(notification: NSNotification) {
     }
     
     func didMoveToNextTutorialNotification(notification: NSNotification) {

@@ -139,7 +139,7 @@
                                             <outlet property="delegate" destination="goE-cF-bxi" id="b21-1N-IXe"/>
                                         </connections>
                                     </collectionView>
-                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="PHS-Xl-anD" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
+                                    <imageView contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="PHS-Xl-anD" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
                                         <rect key="frame" x="518" y="3" width="69" height="128"/>
                                         <gestureRecognizers/>
                                         <constraints>
@@ -268,7 +268,7 @@
                                     <segue destination="nak-G7-NDS" kind="show" identifier="Go To Visualisations" id="raB-ai-HYb"/>
                                 </connections>
                             </button>
-                            <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="8zt-ws-naK" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
+                            <imageView contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="8zt-ws-naK" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
                                 <rect key="frame" x="515" y="406" width="69" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="36o-oJ-w1t"/>
@@ -1051,12 +1051,20 @@ Please tap here to create a new affirmation</string>
                                                     <outlet property="delegate" destination="jn6-3W-nyd" id="Dx9-pX-jHx"/>
                                                 </connections>
                                             </textView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="120" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dg5-TS-NrO">
+                                                <rect key="frame" x="561" y="196" width="21" height="15"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstItem="Dg5-TS-NrO" firstAttribute="top" secondItem="1JB-iW-MTs" secondAttribute="bottom" constant="6" id="7eN-de-2zx"/>
                                             <constraint firstAttribute="trailing" secondItem="udG-XM-9lq" secondAttribute="trailing" id="8R2-n3-x5d"/>
                                             <constraint firstItem="1JB-iW-MTs" firstAttribute="bottom" secondItem="3zl-7m-GkK" secondAttribute="bottom" priority="100" constant="-11" id="CUf-cx-bv5"/>
                                             <constraint firstAttribute="bottom" secondItem="1JB-iW-MTs" secondAttribute="bottom" priority="250" constant="224" id="Dz5-xN-JoC"/>
+                                            <constraint firstItem="Dg5-TS-NrO" firstAttribute="trailing" secondItem="1JB-iW-MTs" secondAttribute="trailing" id="G4U-fW-ENF"/>
                                             <constraint firstItem="udG-XM-9lq" firstAttribute="top" secondItem="ilV-R5-vwS" secondAttribute="top" id="GNm-bx-Ipi"/>
                                             <constraint firstItem="1JB-iW-MTs" firstAttribute="leading" secondItem="ilV-R5-vwS" secondAttribute="leading" constant="18" id="LDL-Pm-9AZ"/>
                                             <constraint firstItem="udG-XM-9lq" firstAttribute="leading" secondItem="ilV-R5-vwS" secondAttribute="leading" id="PZ2-hZ-bum"/>
@@ -1091,6 +1099,7 @@ Please tap here to create a new affirmation</string>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="charactersLeftLabel" destination="Dg5-TS-NrO" id="QoU-mJ-a1D"/>
                         <outlet property="messageSwitchView" destination="udG-XM-9lq" id="ROf-QS-IIY"/>
                         <outlet property="navigationView" destination="kPf-aX-Djg" id="sYg-wX-wq4"/>
                         <outlet property="scrollView" destination="Zp2-CF-1D4" id="gkE-IR-ClI"/>
@@ -1366,7 +1375,7 @@ Please tap here to create a new affirmation</string>
     </scenes>
     <resources>
         <image name="Knudsendojo" width="412" height="640"/>
-        <image name="VigoSensei" width="69" height="128"/>
+        <image name="VigoSensei" width="124" height="128"/>
         <image name="app_store" width="26" height="26"/>
         <image name="camera" width="25" height="19"/>
         <image name="fb" width="26" height="26"/>

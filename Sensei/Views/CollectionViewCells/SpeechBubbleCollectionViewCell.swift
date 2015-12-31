@@ -55,8 +55,20 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
             return textView.text
         }
         set {
+            textView.attributedText = NSAttributedString(string: "", attributes: nil)
             textView.text = nil
             textView.text = newValue
+        }
+    }
+    
+    var attributedText: NSAttributedString {
+        get {
+            return textView.attributedText
+        }
+        set {
+            textView.text = nil
+            textView.attributedText = NSAttributedString(string: "", attributes: nil)
+            textView.attributedText = newValue
         }
     }
     
@@ -109,5 +121,16 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
         if let closeButton = closeButton {
             closeButton.hidden = !show
         }
+    }
+}
+
+extension SpeechBubbleCollectionViewCell: UITextViewDelegate {
+    
+    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+        if URL == LinkToVisualization {
+            NSNotificationCenter.defaultCenter().postNotificationName(TutorialBubbleCollectionViewCell.Notifications.VisualizationTap, object: nil)
+            return false
+        }
+        return true
     }
 }

@@ -104,6 +104,11 @@ class SenseiViewController: BaseViewController {
     private var lastAffirmation: Affirmation?
     private var lastVisualisation: Visualization?
     
+    
+    func isLastAffirmation() -> Bool {
+        return lastAffirmation != nil
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -121,6 +126,7 @@ class SenseiViewController: BaseViewController {
         }
         
         addApplicationObservers()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialDidHideNotification:"), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishUpgradeNotificatin:"), name: TutorialManager.Notifications.DidFinishUpgrade, object: nil)
     }
@@ -129,7 +135,7 @@ class SenseiViewController: BaseViewController {
         super.viewWillAppear(animated)
         tutorialViewController?.tutorialHidden = true
         collectionView.contentInset.bottom = collectionViewBottomContentInset
-        removeAllExeptLessons()
+
         if APIManager.sharedInstance.logined && TutorialManager.sharedInstance.upgradeCompleted {
             APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         }
@@ -156,6 +162,7 @@ class SenseiViewController: BaseViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        removeAllExeptLessons()
         removeKeyboardObservers()
         removeTutorialObservers()
     }
@@ -285,17 +292,17 @@ class SenseiViewController: BaseViewController {
             NSUserDefaults.standardUserDefaults().setObject(NSUUID().UUIDString, forKey: "AutoUUID")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
-        
-//		let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
         let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
+//		let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+        
     #else
         if NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") == nil {
             NSUserDefaults.standardUserDefaults().setObject(NSUUID().UUIDString, forKey: "AutoUUID")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
-        
-//		let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
         let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
+
+//		let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
     #endif
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         print("IDFA = \(idfa)")
@@ -323,7 +330,6 @@ class SenseiViewController: BaseViewController {
         if let animatableimage = (question as! QuestionTutorialStep).animatableImage {
             senseiImageView.animateAnimatableImage(animatableimage, completion: nil)
         }
-
     }
     
     // MARK: UI Operations
@@ -413,20 +419,60 @@ class SenseiViewController: BaseViewController {
         switch push.type {
             case .Lesson:
                 APIManager.sharedInstance.lessonsHistoryCompletion(nil)
+                if !self.isTopViewController {
+                    let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont, NSForegroundColorAttributeName: UIColor.blackColor()])
+                    tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: false)
+                }
             case .Affirmation:
                 if let affirmation = Affirmation.affirmationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
                     if let date = push.date {
                         affirmation.date = date
                     }
                     affirmation.preMessage = push.alert
-                    self.insertMessage(affirmation, scroll: self.isTopViewController)
+                    self.lastAffirmation = affirmation
+
+                    if !(self.navigationController?.topViewController is SenseiTabController) || ((parentViewController as? SenseiTabController)?.currentViewController is SettingsTableViewController) {
+                        let messageText = NSMutableAttributedString(string: affirmation.fullMessage(), attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+                        tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: false)
+
+                    } else if self.isTopViewController {
+                        self.insertMessage(affirmation, scroll: self.isTopViewController)
+                    }
                 }
             case .Visualisation:
                 self.lastVisualisation = Visualization.visualizationWithNumber(NSNumber(integer: (push.id as NSString).integerValue))
-                if self.isTopViewController {
-                    self.showLastReceivedVisualisation()
+                self.lastVisualisation?.preMessage = push.alert
+
+                if !(self.navigationController?.topViewController is SenseiTabController) || ((parentViewController as? SenseiTabController)?.currentViewController is SettingsTableViewController) {
+                    let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+                    messageText.addAttribute(NSLinkAttributeName, value: LinkToVisualization, range: NSMakeRange(0, messageText.length))
+                    tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
+
+                } else if self.isTopViewController {
+                    self.insertMessage(lastVisualisation!, scroll: self.isTopViewController)
+                    self.refreshVisualizations()
                 }
             }
+    }
+    
+    func refreshVisualizations() {
+        var indexPaths = Array<NSIndexPath>()
+        
+        for (index, element) in self.dataSource.enumerate() {
+            if (element is Visualization) {
+                indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+            }
+        }
+        collectionView.reloadItemsAtIndexPaths(indexPaths)
+    }
+    
+    override func affirmationTapped(notification: NSNotification) {
+
+    }
+    
+    override func visualizationTapped(notification: NSNotification) {
+        tutorialViewController?.hideTutorialAnimated(true)
+        self.showLastReceivedVisualisation()
     }
     
     private func handleLaunchViaPush(push: PushNotification) {
@@ -466,6 +512,7 @@ class SenseiViewController: BaseViewController {
         if let visualisation = lastVisualisation {
             showVisualisation(visualisation)
             self.lastVisualisation = nil
+            self.refreshVisualizations()
         }
     }
     
@@ -507,6 +554,11 @@ class SenseiViewController: BaseViewController {
     
     // MARK: - Tutorial
     
+    func tutorialDidHideNotification(notification: NSNotification) {
+        self.lastAffirmation = nil
+        self.lastVisualisation = nil
+    }
+
     func didFinishTutorialNotificatin(notification: NSNotification) {
 //        removeAllExeptLessons()
         enableControls(nil)
@@ -594,7 +646,22 @@ extension SenseiViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
         cell.delegate = self
         
-        cell.text = (message is UserMessage) ? (message as! UserMessage).fullMessage() : message.text
+        var mesageBody: NSMutableAttributedString;
+        if let lastOne = lastVisualisation, let visualization = message as? Visualization {
+            if visualization == lastOne {
+                mesageBody = NSMutableAttributedString(string: visualization.fullMessage(), attributes: [NSLinkAttributeName: LinkToVisualization])
+            } else {
+                let text = (message is UserMessage) ? (message as! UserMessage).fullMessage() : message.text
+                mesageBody = NSMutableAttributedString(string: text)
+            }
+        } else {
+            let text = (message is UserMessage) ? (message as! UserMessage).fullMessage() : message.text
+            mesageBody = NSMutableAttributedString(string: text)
+        }
+        
+        mesageBody.addAttribute(NSFontAttributeName, value: UIFont.speechBubbleTextFont, range: NSMakeRange(0, mesageBody.length))
+        cell.attributedText = mesageBody
+
         cell.showCloseButton(message is Lesson)
 		let size = caluclateSizeForItemAtIndexPath(indexPath)
 		let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
