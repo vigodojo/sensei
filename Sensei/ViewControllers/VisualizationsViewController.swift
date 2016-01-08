@@ -28,7 +28,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Visualisation?")
     
     private func ReceiveTimeConfirmationQuestion(receiveTime: ReceiveTime) -> ConfirmationQuestion {
-        return ConfirmationQuestion(text: "There can be only one visualization set for \(receiveTime.description). Are you sure you want to set this one for \(receiveTime.description)?")
+        return ConfirmationQuestion(text: "There can be only one visualization set for \(receiveTime.description).")
     }
     
     override weak var navigationView: NavigationView! {

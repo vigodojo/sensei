@@ -33,7 +33,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Affirmation?")
 
     private func ReceiveTimeConfirmationQuestion(receiveTime: ReceiveTime) -> ConfirmationQuestion {
-        return ConfirmationQuestion(text: "There can be only one affirmation set for \(receiveTime.description). Are you sure you want to set this one for \(receiveTime.description)?")
+        return ConfirmationQuestion(text: "There can be only one affirmation set for \(receiveTime.description).")
     }
     
     override weak var navigationView: NavigationView! {
@@ -310,7 +310,7 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     }
 
     func messageSwitchView(view: MessageSwitchView, didSelectSlotAtIndex index: Int) {
-        textView.placeholder = String(format: "SLOT %i is empty. \nPlease tap here to create a new affirmation", index+1)
+        textView.placeholder = String(format: "Slot %i is empty. \nPlease tap here to create a new affirmation", index+1)
         fillAffirmationWithNumber(NSNumber(integer: index))
     }
     

@@ -59,8 +59,6 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
             textView.text = newValue
             textView.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
             textView.contentOffset = CGPointZero
-            print(textView.contentSize)
-            print(textView.bounds)
             setArrowButtonVisibleIfNeeded(textView.contentSize.height < CGRectGetMaxY(textView.bounds))
         }
     }

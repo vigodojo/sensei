@@ -565,7 +565,6 @@ class SenseiViewController: BaseViewController {
     }
     
     func didFinishUpgradeNotificatin(notification: NSNotification) {
-        removeAllExeptLessons()
         fetchLessons()
         enableControls(nil)
     }
