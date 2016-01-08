@@ -46,6 +46,7 @@ class Settings: NSManagedObject {
     @NSManaged var tutorialOn: NSNumber
     @NSManaged var height: NSNumber?
     @NSManaged var weight: NSNumber?
+    @NSManaged var isProVersion: NSNumber?
     @NSManaged var dayOfBirth: NSDate?
     @NSManaged var sleepTimeWeekdays: SleepTime
     @NSManaged var sleepTimeWeekends: SleepTime
@@ -87,7 +88,7 @@ class Settings: NSManagedObject {
     
     // MARK: Mapping
     
-    private static let propertyMapping = ["dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight"]
+    private static let propertyMapping = ["isProVersion":"isUpgraded", "dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight"]
 
     private static let entityPropertyMapping = propertyMapping + ["sleepTimeWeekdays.start": "sleepTime.start", "sleepTimeWeekdays.end": "sleepTime.end", "sleepTimeWeekends.start": "sleepTimeWeekEnd.start", "sleepTimeWeekends.end": "sleepTimeWeekEnd.end"]
 
@@ -118,6 +119,7 @@ class Settings: NSManagedObject {
     private class func createDeafultSettings() -> Settings {
         let settings = CoreDataManager.sharedInstance.createObjectForEntityWithName(Settings.EntityName) as! Settings
         settings.name = ""
+        settings.isProVersion = NSNumber(bool: false)
         settings.dataFormat = Settings.defaultDataFormat
         settings.sleepTimeWeekdays = SleepTime.sleepTimeWithStartTimeStrng(Constants.DefaultStartSleepTime, endTimeString: Constants.DefaultEndSleepTime)
         settings.sleepTimeWeekends = SleepTime.sleepTimeWithStartTimeStrng(Constants.DefaultStartSleepTime, endTimeString: Constants.DefaultEndSleepTime)

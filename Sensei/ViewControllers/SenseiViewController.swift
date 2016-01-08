@@ -146,7 +146,7 @@ class SenseiViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         showLastReceivedVisualisation()
-        let isPro = UpgradeManager.sharedInstance.isProVersion()
+        let isPro = Settings.sharedSettings.isProVersion?.boolValue == true
         let isProCompleted = TutorialManager.sharedInstance.upgradeCompleted
         
         if !TutorialManager.sharedInstance.completed {

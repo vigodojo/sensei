@@ -28,11 +28,13 @@ class CoreDataManager {
     
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
         var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+        
         let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("Sensei.sqlite")
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
-            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: [NSMigratePersistentStoresAutomaticallyOption:NSNumber(bool: true),
+                NSInferMappingModelAutomaticallyOption:NSNumber(bool: true)])
         } catch var error1 as NSError {
             error = error1
             coordinator = nil

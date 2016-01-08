@@ -79,7 +79,7 @@ class APIManager: NSObject {
     // MARK: Lessons
     
     func lessonsHistoryCompletion(handler: ErrorHandlerClosure?) {
-        if !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion") {
+        if Settings.sharedSettings.isProVersion?.boolValue == true {
             return
         }
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in

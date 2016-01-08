@@ -286,9 +286,9 @@ class SettingsTableViewController: UITableViewController {
     
     
     func refreshUpgradState() {
-        upgradeButton.enabled = !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion")
-        upgradeViewHeightConstraint.constant = UpgradeManager.sharedInstance.isProVersion() ? 0.0 : 46.0
-        upgradeSeparatorView.hidden = !NSUserDefaults.standardUserDefaults().boolForKey("IsProVersion")
+        upgradeButton.enabled = Settings.sharedSettings.isProVersion?.boolValue == false
+        upgradeViewHeightConstraint.constant = Settings.sharedSettings.isProVersion?.boolValue == true ? 0.0 : 46.0
+        upgradeSeparatorView.hidden = Settings.sharedSettings.isProVersion?.boolValue == false
         tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 2, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None)
     }
     
@@ -343,6 +343,10 @@ class SettingsTableViewController: UITableViewController {
     
     func didUpgradeToPro(notification: NSNotification) {
         if parentViewController is SenseiTabController {
+            Settings.sharedSettings.isProVersion = NSNumber(bool: true)
+            CoreDataManager.sharedInstance.saveContext()
+            saveSettings()
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
             let parent = parentViewController as! SenseiTabController
             parent.showSenseiViewController()
             refreshUpgradState()
@@ -607,7 +611,7 @@ extension SettingsTableViewController {
         switch (indexPath.row) {
             case 0: return 94.0;
             case 1: return 65.0;
-            case 2: return UpgradeManager.sharedInstance.isProVersion() ? 370.0 : 416.0;
+            case 2: return Settings.sharedSettings.isProVersion?.boolValue == true ? 370.0 : 416.0;
             case 3: return 66.0;
             case 4: return 262.0;
             default: return 0

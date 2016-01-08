@@ -54,7 +54,7 @@ class TutorialManager {
     }
     
     var currentUpgradedStep: TutorialStep? {
-        if UpgradeManager.sharedInstance.isProVersion() {
+        if Settings.sharedSettings.isProVersion?.boolValue == true {
             return nil
         }
         if upgradedStepCounter < upgradedSteps.count {
@@ -105,7 +105,7 @@ class TutorialManager {
     }
     
     func nextUpgradedStep() {
-        if !UpgradeManager.sharedInstance.isProVersion() || upgradeCompleted {
+        if Settings.sharedSettings.isProVersion?.boolValue == false || upgradeCompleted {
             return
         }
         upgradedStepCounter++

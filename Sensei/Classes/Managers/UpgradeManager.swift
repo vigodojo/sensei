@@ -12,10 +12,6 @@ import UIKit
 
 
 class UpgradeManager:NSObject {
-
-    struct UpgradeKey {
-        static let IsProVersion = "IsProVersion"
-    }
     
     struct Notifications {
         static let DidUpgrade = "UpgradeManagerDidUpgrade"
@@ -28,16 +24,17 @@ class UpgradeManager:NSObject {
         alert.show()
     }
     
-    func isProVersion() -> Bool {
-        return NSUserDefaults.standardUserDefaults().boolForKey(UpgradeKey.IsProVersion)
-    }
+//    func isProVersion() -> Bool {
+//        return NSUserDefaults.standardUserDefaults().boolForKey(UpgradeKey.IsProVersion)
+//    }
 }
 
 extension UpgradeManager: UIAlertViewDelegate{
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: UpgradeKey.IsProVersion)
-            NSUserDefaults.standardUserDefaults().synchronize()
+            Settings.sharedSettings.isProVersion = NSNumber(bool: true)
+            CoreDataManager.sharedInstance.saveContext()
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidUpgrade, object: nil);
         }
     }

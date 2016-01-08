@@ -81,6 +81,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV1.xcdatamodel; sourceTree = "<group>"; };
 		3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeManager.swift; sourceTree = "<group>"; };
 		400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -743,9 +744,10 @@
 		401FBF911B20A221001DC2D0 /* SenseiModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */,
 				401FBF921B20A221001DC2D0 /* SenseiModel.xcdatamodel */,
 			);
-			currentVersion = 401FBF921B20A221001DC2D0 /* SenseiModel.xcdatamodel */;
+			currentVersion = 3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */;
 			path = SenseiModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
