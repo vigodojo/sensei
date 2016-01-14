@@ -59,7 +59,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
             textView.text = newValue
             textView.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
             textView.contentOffset = CGPointZero
-            setArrowButtonVisibleIfNeeded(textView.contentSize.height < CGRectGetMaxY(textView.bounds))
+            setArrowButtonVisibleIfNeeded(textView.contentSize.height <= CGRectGetMaxY(textView.bounds))
         }
     }
     
@@ -88,8 +88,11 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     
     func setAttributedString(attributedString: NSAttributedString) {
 		textView.text = nil
+        textView.attributedText = nil
 		textView.attributedText = attributedString
 		textView.contentOffset = CGPointZero
+        textView.contentInset = UIEdgeInsetsZero
+        textView.textContainerInset = UIEdgeInsetsZero
         textView.layoutIfNeeded()
         textView.dataDetectorTypes = UIDataDetectorTypes.All
         textView.selectable = true

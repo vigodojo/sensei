@@ -252,6 +252,8 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        Settings.sharedSettings.isProVersion = NSNumber(bool: false)
+        CoreDataManager.sharedInstance.saveContext()
         refreshUpgradState()
         fillFromSettings()
         (parentViewController as? SenseiTabController)?.delegate = self

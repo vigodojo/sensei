@@ -51,6 +51,9 @@ class TutorialViewController: BaseViewController {
     var canLoadNextStep: Bool {
         if !TutorialManager.sharedInstance.completed {
             if let tutorialStep = TutorialManager.sharedInstance.currentStep {
+                if tutorialStep.number == 14 {
+                    print("");
+                }
                 return !tutorialStep.requiresActionToProceed
             }
         }
@@ -144,33 +147,39 @@ class TutorialViewController: BaseViewController {
     // MARK: - Tutorial
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
-        if tutorialStep.screen != .Sensei {
-            showMessage(tutorialStep, upgrade: false)
-        }
         if let animatableimage = tutorialStep.animatableImage {
             senseiImageView.stopAnimatableImageAnimation()
-            senseiImageView.animateAnimatableImage(animatableimage, completion: { [unowned self] (finished) -> Void in
-                self.autoShowNext()
-            })
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                self.senseiImageView.animateAnimatableImage(animatableimage, completion: { [unowned self] (finished) -> Void in
+                    if tutorialStep.screen != .Sensei {
+                        self.showMessage(tutorialStep, upgrade: false)
+                    }
+                    self.autoShowNext()
+                })
+            }
         } else {
+            if tutorialStep.screen != .Sensei {
+                self.showMessage(tutorialStep, upgrade: false)
+            }
             autoShowNext()
         }
     }
     
     func autoShowNext() {
-        var show = true;
-        if let cell = self.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? TutorialBubbleCollectionViewCell {
-            show = cell.textView.contentSize.height <= CGRectGetMaxY(cell.textView.bounds)
-        }
-        
-        if canLoadNextStep && (nextTimer == nil || nextTimer?.valid == false) && show && TutorialManager.sharedInstance.currentStep?.screen != .Sensei {
+        if canLoadNextStep && (nextTimer == nil || nextTimer?.valid == false) && TutorialManager.sharedInstance.currentStep?.screen != .Sensei {
             nextTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "goNext:", userInfo: nil, repeats: false)
         }
     }
     
     func goNext(timer: NSTimer) {
         nextTimer?.invalidate()
+        if let step = TutorialManager.sharedInstance.currentStep {
+            if step.number == 14 {
+                print("")
+            }
+        }
         if canLoadNextStep {
+            print("nextStep")
             TutorialManager.sharedInstance.nextStep()
         }
     }
@@ -203,7 +212,27 @@ class TutorialViewController: BaseViewController {
     @IBAction func touchOnSensei(senser: UITapGestureRecognizer) {
         if TutorialManager.sharedInstance.completed {
             hideTutorialAnimated(true)
+        } else if TutorialManager.sharedInstance.currentStep?.number >= 29 {
+            if let animatableImage = bowsAnimatableImage() {
+                senseiImageView.animateAnimatableImage(animatableImage, completion: { [unowned self](finished) -> Void in
+                    let cell = self.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
+                    cell.append("Not yet, we need to complete the tutorial first please.", autoscroll: true)
+                })
+            }
         }
+    }
+    
+    func bowsAnimatableImage() -> AnimatableImage? {
+        if let animationsURL = NSBundle.mainBundle().URLForResource("Animations", withExtension: "plist") {
+            if let animationsArray = NSArray(contentsOfURL: animationsURL) as? [[String: AnyObject]] {
+                for animationDictionary in animationsArray {
+                    if animationDictionary["Name"] as! String == "StandsBow" {
+                        return AnimatableImage(dictionary: animationDictionary["AnimatableImage"] as! Dictionary)
+                    }
+                }
+            }
+        }
+        return nil
     }
 }
 

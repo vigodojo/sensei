@@ -44,7 +44,7 @@ class TutorialManager {
     }
     
     var currentStep: TutorialStep? {
-        if completed {
+        if completed || stepCounter < 0 {
             return nil
         }
         if stepCounter < steps.count {
@@ -96,6 +96,11 @@ class TutorialManager {
         if completed {
             return
         }
+        if let step = TutorialManager.sharedInstance.currentStep {
+            if step.number == 14 {
+                print("")
+            }
+        }
         increaseStepCounter()
         if stepCounter < steps.count {
             let step = steps[stepCounter]
@@ -140,7 +145,7 @@ class TutorialManager {
     }
     
     private func checkCompletion() {
-        if stepCounter >= (30) {
+        if stepCounter >= (34) {
             completed = true
             NSUserDefaults.standardUserDefaults().setBool(completed, forKey: UserDefaultsKeys.Completed)
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishTutorial, object: nil)

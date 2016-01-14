@@ -9,7 +9,7 @@
 import Foundation
 
 let AnimationDuration = 0.25
-let TutorialStepTimeinteval = UInt64(3)
+let TutorialStepTimeinteval = UInt64(2)
 let LinkToAppOnAppStore = NSURL(string: "https://itunes.apple.com/us/genre/ios/id36?mt=8")!
 
 let LinkToAffirmation = NSURL(string: "AffirmationUrl")!

@@ -33,7 +33,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Affirmation?")
 
     private func ReceiveTimeConfirmationQuestion(receiveTime: ReceiveTime) -> ConfirmationQuestion {
-        return ConfirmationQuestion(text: "There can be only one affirmation set for \(receiveTime.description).")
+        return ConfirmationQuestion(text: "There can be only one affirmation set for \(receiveTime.description.lowercaseString).")
     }
     
     override weak var navigationView: NavigationView! {
@@ -49,7 +49,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     }
     
     override var upgradeAppMessage: String {
-        return "You can only have two active affirmations with the free version of this app, please upgrade to unlock all the slots"
+        return "You can only use slots 1 and 2 in the free version of this app, please upgrade to unlock all the slots."
     }
     
     private lazy var affirmationsFetchedResultController: NSFetchedResultsController = { [unowned self] in

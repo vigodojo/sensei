@@ -25,8 +25,8 @@ class AnimatableImageView: UIImageView {
         animation.duration = animatableImage.animationDuration
         animation.repeatCount = Float(animatableImage.animationRepeatCount)
         animation.delegate = self
-        animation.removedOnCompletion = true
-        
+        animation.removedOnCompletion = false
+        self.image = animatableImage.images.last
         layer.addAnimation(animation, forKey: Constants.AnimatableImageAnimationKey)
     }
     
@@ -41,5 +41,4 @@ class AnimatableImageView: UIImageView {
             completionClosure(finished: flag)
         }
     }
-
 }

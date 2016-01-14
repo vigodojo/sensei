@@ -6,178 +6,7 @@
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>3</integer>
-			<key>ImageNames</key>
-			<array>
-				<string>3_standbow_0001</string>
-				<string>3_standbow_0002</string>
-				<string>3_standbow_0003</string>
-				<string>3_standbow_0004</string>
-				<string>3_standbow_0005</string>
-				<string>3_standbow_0006</string>
-				<string>3_standbow_0007</string>
-				<string>3_standbow_0008</string>
-				<string>3_standbow_0009</string>
-				<string>3_standbow_0010</string>
-				<string>3_standbow_0011</string>
-				<string>3_standbow_0012</string>
-				<string>3_standbow_0013</string>
-				<string>3_standbow_0014</string>
-				<string>3_standbow_0015</string>
-				<string>3_standbow_0016</string>
-				<string>3_standbow_0017</string>
-				<string>3_standbow_0018</string>
-				<string>3_standbow_0019</string>
-				<string>3_standbow_0020</string>
-				<string>3_standbow_0021</string>
-				<string>3_standbow_0022</string>
-				<string>3_standbow_0023</string>
-				<string>3_standbow_0024</string>
-				<string>3_standbow_0025</string>
-				<string>3_standbow_0026</string>
-				<string>3_standbow_0027</string>
-				<string>3_standbow_0028</string>
-				<string>3_standbow_0029</string>
-				<string>3_standbow_0030</string>
-				<string>3_standbow_0031</string>
-				<string>3_standbow_0032</string>
-				<string>3_standbow_0033</string>
-				<string>3_standbow_0034</string>
-				<string>3_standbow_0035</string>
-				<string>3_standbow_0036</string>
-				<string>3_standbow_0037</string>
-				<string>3_standbow_0038</string>
-				<string>3_standbow_0039</string>
-				<string>3_standbow_0040</string>
-				<string>3_standbow_0041</string>
-				<string>3_standbow_0042</string>
-				<string>3_standbow_0043</string>
-				<string>3_standbow_0044</string>
-				<string>3_standbow_0045</string>
-				<string>3_standbow_0046</string>
-				<string>3_standbow_0047</string>
-				<string>3_standbow_0048</string>
-				<string>3_standbow_0049</string>
-				<string>3_standbow_0050</string>
-				<string>3_standbow_0051</string>
-				<string>3_standbow_0052</string>
-				<string>3_standbow_0053</string>
-				<string>3_standbow_0054</string>
-				<string>3_standbow_0055</string>
-				<string>3_standbow_0056</string>
-				<string>3_standbow_0057</string>
-				<string>3_standbow_0058</string>
-				<string>3_standbow_0059</string>
-				<string>3_standbow_0060</string>
-				<string>3_standbow_0061</string>
-				<string>3_standbow_0062</string>
-				<string>3_standbow_0063</string>
-				<string>3_standbow_0064</string>
-			</array>
-		</dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Number</key>
-		<integer>0</integer>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
-	</dict>
-	<dict>
-		<key>AnimatableImage</key>
-		<dict>
-			<key>AnimationDuration</key>
-			<integer>3</integer>
-			<key>ImageNames</key>
-			<array>
-				<string>2_sitstand_0001</string>
-				<string>2_sitstand_0002</string>
-				<string>2_sitstand_0003</string>
-				<string>2_sitstand_0004</string>
-				<string>2_sitstand_0005</string>
-				<string>2_sitstand_0006</string>
-				<string>2_sitstand_0007</string>
-				<string>2_sitstand_0008</string>
-				<string>2_sitstand_0009</string>
-				<string>2_sitstand_0010</string>
-				<string>2_sitstand_0011</string>
-				<string>2_sitstand_0012</string>
-				<string>2_sitstand_0013</string>
-				<string>2_sitstand_0014</string>
-				<string>2_sitstand_0015</string>
-				<string>2_sitstand_0016</string>
-				<string>2_sitstand_0017</string>
-				<string>2_sitstand_0018</string>
-				<string>2_sitstand_0019</string>
-				<string>2_sitstand_0020</string>
-				<string>2_sitstand_0021</string>
-				<string>2_sitstand_0022</string>
-				<string>2_sitstand_0023</string>
-				<string>2_sitstand_0024</string>
-				<string>2_sitstand_0025</string>
-				<string>2_sitstand_0026</string>
-				<string>2_sitstand_0027</string>
-				<string>2_sitstand_0028</string>
-				<string>2_sitstand_0029</string>
-				<string>2_sitstand_0030</string>
-				<string>2_sitstand_0031</string>
-				<string>2_sitstand_0032</string>
-				<string>2_sitstand_0033</string>
-				<string>2_sitstand_0034</string>
-				<string>2_sitstand_0035</string>
-				<string>2_sitstand_0036</string>
-				<string>2_sitstand_0037</string>
-				<string>2_sitstand_0038</string>
-				<string>2_sitstand_0039</string>
-				<string>2_sitstand_0040</string>
-				<string>2_sitstand_0041</string>
-				<string>2_sitstand_0042</string>
-				<string>2_sitstand_0043</string>
-				<string>2_sitstand_0044</string>
-				<string>2_sitstand_0045</string>
-				<string>2_sitstand_0046</string>
-				<string>2_sitstand_0047</string>
-				<string>2_sitstand_0048</string>
-				<string>2_sitstand_0049</string>
-				<string>2_sitstand_0050</string>
-				<string>2_sitstand_0051</string>
-				<string>2_sitstand_0052</string>
-				<string>2_sitstand_0053</string>
-				<string>2_sitstand_0054</string>
-				<string>2_sitstand_0055</string>
-				<string>2_sitstand_0056</string>
-				<string>2_sitstand_0057</string>
-				<string>2_sitstand_0058</string>
-				<string>2_sitstand_0059</string>
-				<string>2_sitstand_0060</string>
-				<string>2_sitstand_0061</string>
-				<string>2_sitstand_0062</string>
-				<string>2_sitstand_0063</string>
-				<string>2_sitstand_0064</string>
-			</array>
-		</dict>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>QuestionSubject</key>
-		<string>Name</string>
-		<key>QuestionType</key>
-		<string>TEXT</string>
-		<key>Message</key>
-		<string>Welcome to Vigo Dojo and thank you for downloading the Vigo Sensei app. I am your Sensei. What is your name please?</string>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
-		<key>Number</key>
-		<integer>1</integer>
-	</dict>
-	<dict>
-		<key>Answers</key>
-		<array>
-			<string>male</string>
-			<string>female</string>
-		</array>
-		<key>AnimatableImage</key>
-		<dict>
-			<key>AnimationDuration</key>
-			<integer>3</integer>
+			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>1_bow_0001</string>
@@ -247,23 +76,194 @@
 			</array>
 		</dict>
 		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Number</key>
+		<integer>0</integer>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>QuestionSubject</key>
-		<string>Gender</string>
+		<string>Name</string>
 		<key>QuestionType</key>
-		<string>RADIO</string>
+		<string>TEXT</string>
 		<key>Message</key>
-		<string>Nice to meet you &lt;#Name&gt; I look forward to working with you. May I ask your sex please?</string>
+		<string>Welcome to Vigo Dojo and thank you for downloading the Vigo Sensei app. I am your Sensei. What is your name please?</string>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
+		<integer>1</integer>
+	</dict>
+	<dict>
+		<key>AnimatableImage</key>
+		<dict>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
+			<key>ImageNames</key>
+			<array>
+				<string>2_sistand_0001</string>
+				<string>2_sistand_0002</string>
+				<string>2_sistand_0003</string>
+				<string>2_sistand_0004</string>
+				<string>2_sistand_0005</string>
+				<string>2_sistand_0006</string>
+				<string>2_sistand_0007</string>
+				<string>2_sistand_0008</string>
+				<string>2_sistand_0009</string>
+				<string>2_sistand_0010</string>
+				<string>2_sistand_0011</string>
+				<string>2_sistand_0012</string>
+				<string>2_sistand_0013</string>
+				<string>2_sistand_0014</string>
+				<string>2_sistand_0015</string>
+				<string>2_sistand_0016</string>
+				<string>2_sistand_0017</string>
+				<string>2_sistand_0018</string>
+				<string>2_sistand_0019</string>
+				<string>2_sistand_0020</string>
+				<string>2_sistand_0021</string>
+				<string>2_sistand_0022</string>
+				<string>2_sistand_0023</string>
+				<string>2_sistand_0024</string>
+				<string>2_sistand_0025</string>
+				<string>2_sistand_0026</string>
+				<string>2_sistand_0027</string>
+				<string>2_sistand_0028</string>
+				<string>2_sistand_0029</string>
+				<string>2_sistand_0030</string>
+				<string>2_sistand_0031</string>
+				<string>2_sistand_0032</string>
+				<string>2_sistand_0033</string>
+				<string>2_sistand_0034</string>
+				<string>2_sistand_0035</string>
+				<string>2_sistand_0036</string>
+				<string>2_sistand_0037</string>
+				<string>2_sistand_0038</string>
+				<string>2_sistand_0039</string>
+				<string>2_sistand_0040</string>
+				<string>2_sistand_0041</string>
+				<string>2_sistand_0042</string>
+				<string>2_sistand_0043</string>
+				<string>2_sistand_0044</string>
+				<string>2_sistand_0045</string>
+				<string>2_sistand_0046</string>
+				<string>2_sistand_0047</string>
+				<string>2_sistand_0048</string>
+				<string>2_sistand_0049</string>
+				<string>2_sistand_0050</string>
+				<string>2_sistand_0051</string>
+				<string>2_sistand_0052</string>
+				<string>2_sistand_0053</string>
+				<string>2_sistand_0054</string>
+				<string>2_sistand_0055</string>
+				<string>2_sistand_0056</string>
+				<string>2_sistand_0057</string>
+				<string>2_sistand_0058</string>
+				<string>2_sistand_0059</string>
+				<string>2_sistand_0060</string>
+				<string>2_sistand_0061</string>
+				<string>2_sistand_0062</string>
+				<string>2_sistand_0063</string>
+				<string>2_sistand_0064</string>
+			</array>
+		</dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>Nice to meet you &lt;#Name&gt; I look forward to working with you.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>2</integer>
 	</dict>
 	<dict>
+		<key>Answers</key>
+		<array>
+			<string>male</string>
+			<string>female</string>
+		</array>
+		<key>AnimatableImage</key>
+		<dict>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
+			<key>ImageNames</key>
+			<array>
+				<string>3_standbow_0001</string>
+				<string>3_standbow_0002</string>
+				<string>3_standbow_0003</string>
+				<string>3_standbow_0004</string>
+				<string>3_standbow_0005</string>
+				<string>3_standbow_0006</string>
+				<string>3_standbow_0007</string>
+				<string>3_standbow_0008</string>
+				<string>3_standbow_0009</string>
+				<string>3_standbow_0010</string>
+				<string>3_standbow_0011</string>
+				<string>3_standbow_0012</string>
+				<string>3_standbow_0013</string>
+				<string>3_standbow_0014</string>
+				<string>3_standbow_0015</string>
+				<string>3_standbow_0016</string>
+				<string>3_standbow_0017</string>
+				<string>3_standbow_0018</string>
+				<string>3_standbow_0019</string>
+				<string>3_standbow_0020</string>
+				<string>3_standbow_0021</string>
+				<string>3_standbow_0022</string>
+				<string>3_standbow_0023</string>
+				<string>3_standbow_0024</string>
+				<string>3_standbow_0025</string>
+				<string>3_standbow_0026</string>
+				<string>3_standbow_0027</string>
+				<string>3_standbow_0028</string>
+				<string>3_standbow_0029</string>
+				<string>3_standbow_0030</string>
+				<string>3_standbow_0031</string>
+				<string>3_standbow_0032</string>
+				<string>3_standbow_0033</string>
+				<string>3_standbow_0034</string>
+				<string>3_standbow_0035</string>
+				<string>3_standbow_0036</string>
+				<string>3_standbow_0037</string>
+				<string>3_standbow_0038</string>
+				<string>3_standbow_0039</string>
+				<string>3_standbow_0040</string>
+				<string>3_standbow_0041</string>
+				<string>3_standbow_0042</string>
+				<string>3_standbow_0043</string>
+				<string>3_standbow_0044</string>
+				<string>3_standbow_0045</string>
+				<string>3_standbow_0046</string>
+				<string>3_standbow_0047</string>
+				<string>3_standbow_0048</string>
+				<string>3_standbow_0049</string>
+				<string>3_standbow_0050</string>
+				<string>3_standbow_0051</string>
+				<string>3_standbow_0052</string>
+				<string>3_standbow_0053</string>
+				<string>3_standbow_0054</string>
+				<string>3_standbow_0055</string>
+				<string>3_standbow_0056</string>
+				<string>3_standbow_0057</string>
+				<string>3_standbow_0058</string>
+				<string>3_standbow_0059</string>
+				<string>3_standbow_0060</string>
+				<string>3_standbow_0061</string>
+				<string>3_standbow_0062</string>
+				<string>3_standbow_0063</string>
+				<string>3_standbow_0064</string>
+			</array>
+		</dict>
 		<key>RequiresActionToProceed</key>
-		<false/>
+		<true/>
+		<key>QuestionSubject</key>
+		<string>Gender</string>
+		<key>QuestionType</key>
+		<string>RADIO</string>
 		<key>Message</key>
-		<string>Thank you &lt;#PersonalTitle&gt;</string>
+		<string>May I ask your sex please?</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
@@ -273,11 +273,21 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>I will now guide you through how to use this app and the tools it contains.</string>
+		<string>Thank you &lt;#PersonalTitle&gt;</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>4</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>I will now guide you through how to use this app and the tools it contains.</string>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
+		<integer>5</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -291,17 +301,27 @@
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
-		<integer>5</integer>
+		<integer>6</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>This is the affirmation screen. Let me briefly explain what an affirmation is. It is a statement you write down and say out loud every day. It should be present tense, positive, personal and specific.  I will message you and remind you to say the affirmations you have created.</string>
+		<string>This is the Affirmation screen. Let me briefly explain what an affirmation is. It is a statement you write down and say out loud every day. It should be present tense, positive, personal and specific.</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
-		<integer>6</integer>
+		<integer>7</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>I will message you and remind you to say the affirmations you have created.</string>
+		<key>ScreenName</key>
+		<string>AffirmationScreen</string>
+		<key>Number</key>
+		<integer>8</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -311,7 +331,7 @@
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
-		<integer>7</integer>
+		<integer>9</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -325,7 +345,7 @@
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
-		<integer>8</integer>
+		<integer>10</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -335,17 +355,17 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string> Now set the message timing by tapping the message timing field and choosing from one of the three possible values. [start of day] will send the message right after you wake up, [any time] will send the message twice during the day or evening, [end of day] will send the message shortly before bedtime.</string>
+		<string>Now set the message timing by tapping the message timing field and choosing from one of the three possible values. [start of day] will send the message right after you wake up, [any time] will send the message twice during the day or evening, [end of day] will send the message shortly before bedtime.</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
-		<integer>9</integer>
+		<integer>11</integer>
 	</dict>
 	<dict>
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>3</integer>
+			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>6_punch_0001</string>
@@ -421,7 +441,7 @@
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
-		<integer>10</integer>
+		<integer>12</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -435,7 +455,7 @@
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
-		<integer>11</integer>
+		<integer>13</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -449,17 +469,17 @@
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
-		<integer>12</integer>
+		<integer>14</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>This is the visualization screen. It works the same as the Affirmation screen, except here you create picture messages, and you only have 5 slots.</string>
+		<string>This is the Visualization screen. It works the same as the Affirmation screen, except here you create picture messages, and you only have 5 slots.</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
-		<integer>13</integer>
+		<integer>15</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -469,7 +489,7 @@
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
-		<integer>14</integer>
+		<integer>16</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -483,79 +503,79 @@
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
-		<integer>15</integer>
+		<integer>17</integer>
 	</dict>
 	<dict>
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>3</integer>
+			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
-				<string>1_bow_0001</string>
-				<string>1_bow_0002</string>
-				<string>1_bow_0003</string>
-				<string>1_bow_0004</string>
-				<string>1_bow_0005</string>
-				<string>1_bow_0006</string>
-				<string>1_bow_0007</string>
-				<string>1_bow_0008</string>
-				<string>1_bow_0009</string>
-				<string>1_bow_0010</string>
-				<string>1_bow_0011</string>
-				<string>1_bow_0012</string>
-				<string>1_bow_0013</string>
-				<string>1_bow_0014</string>
-				<string>1_bow_0015</string>
-				<string>1_bow_0016</string>
-				<string>1_bow_0017</string>
-				<string>1_bow_0018</string>
-				<string>1_bow_0019</string>
-				<string>1_bow_0020</string>
-				<string>1_bow_0021</string>
-				<string>1_bow_0022</string>
-				<string>1_bow_0023</string>
-				<string>1_bow_0024</string>
-				<string>1_bow_0025</string>
-				<string>1_bow_0026</string>
-				<string>1_bow_0027</string>
-				<string>1_bow_0028</string>
-				<string>1_bow_0029</string>
-				<string>1_bow_0030</string>
-				<string>1_bow_0031</string>
-				<string>1_bow_0032</string>
-				<string>1_bow_0033</string>
-				<string>1_bow_0034</string>
-				<string>1_bow_0035</string>
-				<string>1_bow_0036</string>
-				<string>1_bow_0037</string>
-				<string>1_bow_0038</string>
-				<string>1_bow_0039</string>
-				<string>1_bow_0040</string>
-				<string>1_bow_0041</string>
-				<string>1_bow_0042</string>
-				<string>1_bow_0043</string>
-				<string>1_bow_0044</string>
-				<string>1_bow_0045</string>
-				<string>1_bow_0046</string>
-				<string>1_bow_0047</string>
-				<string>1_bow_0048</string>
-				<string>1_bow_0049</string>
-				<string>1_bow_0050</string>
-				<string>1_bow_0051</string>
-				<string>1_bow_0052</string>
-				<string>1_bow_0053</string>
-				<string>1_bow_0054</string>
-				<string>1_bow_0055</string>
-				<string>1_bow_0056</string>
-				<string>1_bow_0057</string>
-				<string>1_bow_0058</string>
-				<string>1_bow_0059</string>
-				<string>1_bow_0060</string>
-				<string>1_bow_0061</string>
-				<string>1_bow_0062</string>
-				<string>1_bow_0063</string>
-				<string>1_bow_0064</string>
+				<string>3_standbow_0001</string>
+				<string>3_standbow_0002</string>
+				<string>3_standbow_0003</string>
+				<string>3_standbow_0004</string>
+				<string>3_standbow_0005</string>
+				<string>3_standbow_0006</string>
+				<string>3_standbow_0007</string>
+				<string>3_standbow_0008</string>
+				<string>3_standbow_0009</string>
+				<string>3_standbow_0010</string>
+				<string>3_standbow_0011</string>
+				<string>3_standbow_0012</string>
+				<string>3_standbow_0013</string>
+				<string>3_standbow_0014</string>
+				<string>3_standbow_0015</string>
+				<string>3_standbow_0016</string>
+				<string>3_standbow_0017</string>
+				<string>3_standbow_0018</string>
+				<string>3_standbow_0019</string>
+				<string>3_standbow_0020</string>
+				<string>3_standbow_0021</string>
+				<string>3_standbow_0022</string>
+				<string>3_standbow_0023</string>
+				<string>3_standbow_0024</string>
+				<string>3_standbow_0025</string>
+				<string>3_standbow_0026</string>
+				<string>3_standbow_0027</string>
+				<string>3_standbow_0028</string>
+				<string>3_standbow_0029</string>
+				<string>3_standbow_0030</string>
+				<string>3_standbow_0031</string>
+				<string>3_standbow_0032</string>
+				<string>3_standbow_0033</string>
+				<string>3_standbow_0034</string>
+				<string>3_standbow_0035</string>
+				<string>3_standbow_0036</string>
+				<string>3_standbow_0037</string>
+				<string>3_standbow_0038</string>
+				<string>3_standbow_0039</string>
+				<string>3_standbow_0040</string>
+				<string>3_standbow_0041</string>
+				<string>3_standbow_0042</string>
+				<string>3_standbow_0043</string>
+				<string>3_standbow_0044</string>
+				<string>3_standbow_0045</string>
+				<string>3_standbow_0046</string>
+				<string>3_standbow_0047</string>
+				<string>3_standbow_0048</string>
+				<string>3_standbow_0049</string>
+				<string>3_standbow_0050</string>
+				<string>3_standbow_0051</string>
+				<string>3_standbow_0052</string>
+				<string>3_standbow_0053</string>
+				<string>3_standbow_0054</string>
+				<string>3_standbow_0055</string>
+				<string>3_standbow_0056</string>
+				<string>3_standbow_0057</string>
+				<string>3_standbow_0058</string>
+				<string>3_standbow_0059</string>
+				<string>3_standbow_0060</string>
+				<string>3_standbow_0061</string>
+				<string>3_standbow_0062</string>
+				<string>3_standbow_0063</string>
+				<string>3_standbow_0064</string>
 			</array>
 		</dict>
 		<key>RequiresActionToProceed</key>
@@ -565,7 +585,7 @@
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
-		<integer>16</integer>
+		<integer>18</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -579,17 +599,17 @@
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
-		<integer>17</integer>
+		<integer>19</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>You have now learned how to use the main tools of this application. I hope you will have fun with it and get creative with your use of affirmations and visualizations.  I think you will find it will improve your outlook, boost your energy and even make you a more powerful person</string>
+		<string>You have now learned how to use the main tools of this application. I hope you will have fun with it and get creative with your use of affirmations and visuali-zations. I think you will find it will improve your outlook, boost your energy and even make you a more powerful person.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
-		<integer>18</integer>
+		<integer>20</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -603,7 +623,7 @@
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
-		<integer>19</integer>
+		<integer>21</integer>
 	</dict>
 	<dict>
 		<key>AllowedActionName</key>
@@ -615,7 +635,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>20</integer>
+		<integer>22</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -625,7 +645,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>21</integer>
+		<integer>23</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -635,7 +655,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>22</integer>
+		<integer>24</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -645,7 +665,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>23</integer>
+		<integer>25</integer>
 	</dict>
 	<dict>
 		<key>AllowedActionName</key>
@@ -653,27 +673,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Now scroll up to the top of the page again please</string>
-		<key>ScreenName</key>
-		<string>MoreScreen</string>
-		<key>Number</key>
-		<integer>24</integer>
-	</dict>
-	<dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>The ‘sensei teaching intensity’ control allows you to set the intensity of my teachings both in terms of volume and tone. Keep in mind though that lessons are only available in the full version of the app, you will need to upgrade to get this feature. I hope you will love the app and decide to do so soon!</string>
-		<key>ScreenName</key>
-		<string>MoreScreen</string>
-		<key>Number</key>
-		<integer>25</integer>
-	</dict>
-	<dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>The instructions control turns instructions on or off. If they are on, I will continue to provide pointers on how to use affirmations and visualizations. You may want to leave this on for a while until you feel you master it</string>
+		<string>Now scroll up to the top of the page again please.</string>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
@@ -683,11 +683,41 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>The other links on this page should be self-explanatory. We really hope that you will love the app, upgrade it, share it, tweet about it, and rate it well. If for any reason you don’t think the app meets your expectations, or if you have any suggestions or feed-back, we encourage you to use the feedback function to send us an email.</string>
+		<string>The ‘Sensei teaching intensity’ control allows you to set the intensity of my teachings both in terms of volume and tone. Keep in mind though that lessons are only available in the full version of the app, you will need to upgrade to get this feature. I hope you will love the app and decide to do so soon!</string>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>27</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>The instructions control turns instructions on or off. If they are on, I will continue to provide pointers on how to use affirmations and visualizations. You may want to leave this on for a while until you feel you master it.</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>28</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>Whenever I slide in from above with instructions or notifications, you can always ask me to leave by tapping me.</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>29</integer>
+	</dict>
+	<dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>The other links on this page should be self-explanatory. We really hope that you will love the app, upgrade it, share it, tweet about it, and rate it well. If for any reason you don’t think the app meets your expectations, or if you have any suggestions or feedback, we encourage you to use the feedback function to send us an email.</string>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>Number</key>
+		<integer>30</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -701,17 +731,23 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>28</integer>
+		<integer>31</integer>
 	</dict>
 	<dict>
 		<key>Message</key>
 		<string>You have now completed the tutorial, well done &lt;#Name&gt;!</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
+		<key>Number</key>
+		<integer>32</integer>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+	</dict>
+	<dict>
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>3</integer>
+			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>4_kick_0001</string>
@@ -780,20 +816,20 @@
 				<string>4_kick_0064</string>
 			</array>
 		</dict>
-		<key>Number</key>
-		<integer>29</integer>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
-	</dict>
-	<dict>
 		<key>Message</key>
 		<string>You are now ready to use the app. I trust you will enjoy!</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
+		<key>Number</key>
+		<integer>33</integer>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+	</dict>
+	<dict>
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>3</integer>
+			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>3_standbow_0001</string>
@@ -862,8 +898,10 @@
 				<string>3_standbow_0064</string>
 			</array>
 		</dict>
+		<key>RequiresActionToProceed</key>
+		<false/>
 		<key>Number</key>
-		<integer>30</integer>
+		<integer>34</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -874,92 +912,92 @@
 		<string>Thank you for upgrading the app.</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
-		<key>AnimatableImage</key>
-		<dict>
-			<key>AnimationDuration</key>
-			<integer>3</integer>
-			<key>ImageNames</key>
-			<array>
-				<string>4_kick_0001</string>
-				<string>4_kick_0002</string>
-				<string>4_kick_0003</string>
-				<string>4_kick_0004</string>
-				<string>4_kick_0005</string>
-				<string>4_kick_0006</string>
-				<string>4_kick_0007</string>
-				<string>4_kick_0008</string>
-				<string>4_kick_0009</string>
-				<string>4_kick_0010</string>
-				<string>4_kick_0011</string>
-				<string>4_kick_0012</string>
-				<string>4_kick_0013</string>
-				<string>4_kick_0014</string>
-				<string>4_kick_0015</string>
-				<string>4_kick_0016</string>
-				<string>4_kick_0017</string>
-				<string>4_kick_0018</string>
-				<string>4_kick_0019</string>
-				<string>4_kick_0020</string>
-				<string>4_kick_0021</string>
-				<string>4_kick_0022</string>
-				<string>4_kick_0023</string>
-				<string>4_kick_0024</string>
-				<string>4_kick_0025</string>
-				<string>4_kick_0026</string>
-				<string>4_kick_0027</string>
-				<string>4_kick_0028</string>
-				<string>4_kick_0029</string>
-				<string>4_kick_0030</string>
-				<string>4_kick_0031</string>
-				<string>4_kick_0032</string>
-				<string>4_kick_0033</string>
-				<string>4_kick_0034</string>
-				<string>4_kick_0035</string>
-				<string>4_kick_0036</string>
-				<string>4_kick_0037</string>
-				<string>4_kick_0038</string>
-				<string>4_kick_0039</string>
-				<string>4_kick_0040</string>
-				<string>4_kick_0041</string>
-				<string>4_kick_0042</string>
-				<string>4_kick_0043</string>
-				<string>4_kick_0044</string>
-				<string>4_kick_0045</string>
-				<string>4_kick_0046</string>
-				<string>4_kick_0047</string>
-				<string>4_kick_0048</string>
-				<string>4_kick_0049</string>
-				<string>4_kick_0050</string>
-				<string>4_kick_0051</string>
-				<string>4_kick_0052</string>
-				<string>4_kick_0053</string>
-				<string>4_kick_0054</string>
-				<string>4_kick_0055</string>
-				<string>4_kick_0056</string>
-				<string>4_kick_0057</string>
-				<string>4_kick_0058</string>
-				<string>4_kick_0059</string>
-				<string>4_kick_0060</string>
-				<string>4_kick_0061</string>
-				<string>4_kick_0062</string>
-				<string>4_kick_0063</string>
-				<string>4_kick_0064</string>
-			</array>
-		</dict>
 		<key>Number</key>
-		<integer>31</integer>
+		<integer>35</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
 	<dict>
 		<key>Upgraded</key>
 		<true/>
+		<key>AnimatableImage</key>
+		<dict>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
+			<key>ImageNames</key>
+			<array>
+				<string>7_punch_0001</string>
+				<string>7_punch_0002</string>
+				<string>7_punch_0003</string>
+				<string>7_punch_0004</string>
+				<string>7_punch_0005</string>
+				<string>7_punch_0006</string>
+				<string>7_punch_0007</string>
+				<string>7_punch_0008</string>
+				<string>7_punch_0009</string>
+				<string>7_punch_0010</string>
+				<string>7_punch_0011</string>
+				<string>7_punch_0012</string>
+				<string>7_punch_0013</string>
+				<string>7_punch_0014</string>
+				<string>7_punch_0015</string>
+				<string>7_punch_0016</string>
+				<string>7_punch_0017</string>
+				<string>7_punch_0018</string>
+				<string>7_punch_0019</string>
+				<string>7_punch_0020</string>
+				<string>7_punch_0021</string>
+				<string>7_punch_0022</string>
+				<string>7_punch_0023</string>
+				<string>7_punch_0024</string>
+				<string>7_punch_0025</string>
+				<string>7_punch_0026</string>
+				<string>7_punch_0027</string>
+				<string>7_punch_0028</string>
+				<string>7_punch_0029</string>
+				<string>7_punch_0030</string>
+				<string>7_punch_0031</string>
+				<string>7_punch_0032</string>
+				<string>7_punch_0033</string>
+				<string>7_punch_0034</string>
+				<string>7_punch_0035</string>
+				<string>7_punch_0036</string>
+				<string>7_punch_0037</string>
+				<string>7_punch_0038</string>
+				<string>7_punch_0039</string>
+				<string>7_punch_0040</string>
+				<string>7_punch_0041</string>
+				<string>7_punch_0042</string>
+				<string>7_punch_0043</string>
+				<string>7_punch_0044</string>
+				<string>7_punch_0045</string>
+				<string>7_punch_0046</string>
+				<string>7_punch_0047</string>
+				<string>7_punch_0048</string>
+				<string>7_punch_0049</string>
+				<string>7_punch_0050</string>
+				<string>7_punch_0051</string>
+				<string>7_punch_0052</string>
+				<string>7_punch_0053</string>
+				<string>7_punch_0054</string>
+				<string>7_punch_0055</string>
+				<string>7_punch_0056</string>
+				<string>7_punch_0057</string>
+				<string>7_punch_0058</string>
+				<string>7_punch_0059</string>
+				<string>7_punch_0060</string>
+				<string>7_punch_0061</string>
+				<string>7_punch_0062</string>
+				<string>7_punch_0063</string>
+				<string>7_punch_0064</string>
+			</array>
+		</dict>
 		<key>Message</key>
 		<string>Now you can use six affirmation and five visualization slots create the perfect mix of messages. Play around with it and have fun.</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>32</integer>
+		<integer>36</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -967,11 +1005,11 @@
 		<key>Upgraded</key>
 		<true/>
 		<key>Message</key>
-		<string>You will now receive my lessons. By default the teaching intensity is set to 3, which is a medium intensity. ‘0’ turns off lessons all together.</string>
+		<string>You will now receive my lessons. By default the teaching intensity is set to &apos;3&apos;, which is a medium intensity. ‘0’ turns off lessons all together.</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>33</integer>
+		<integer>37</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -979,11 +1017,11 @@
 		<key>Upgraded</key>
 		<true/>
 		<key>Message</key>
-		<string>You will notice a little red ‘x’ in the top right corner of the lessons. If you are not interested in a lesson hit that x to indicate that. this will help teach me what type of lessons you prefer, both in terms of topic and format. Use this feature carefully please, as you may end up missing out on good lessons, or even shut down lessons altogether, if you keep rejecting them.</string>
+		<string>You will notice a little red ‘x’ in the top right corner of the lessons. If you are not interested in a lesson, hit that &apos;x&apos; to indicate that. This will help teach me what type of lessons you prefer, both in terms of topic and format. Use this feature carefully please, as you may end up missing out on good lessons, or even shut down lessons altogether, if you keep rejecting them.</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>33</integer>
+		<integer>38</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -994,10 +1032,20 @@
 		<string>Enjoy!</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
+		<key>Number</key>
+		<integer>39</integer>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+	</dict>
+	<dict>
+		<key>Upgraded</key>
+		<true/>
+		<key>RequiresActionToProceed</key>
+		<false/>
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
-			<integer>3</integer>
+			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>3_standbow_0001</string>
@@ -1067,7 +1115,7 @@
 			</array>
 		</dict>
 		<key>Number</key>
-		<integer>34</integer>
+		<integer>40</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>

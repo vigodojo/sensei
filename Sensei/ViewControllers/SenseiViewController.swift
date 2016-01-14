@@ -324,11 +324,29 @@ class SenseiViewController: BaseViewController {
     
     private func askQuestion(question: QuestionProtocol) {
         lastQuestion = question
-        addMessages([question], scroll: false) {
-            (self.view as? AnswerableView)?.askQuestion(question)
+        if let _ = (question as! QuestionTutorialStep).animatableImage {
+            if TutorialManager.sharedInstance.currentStep?.number == 0 {
+                self.animateQuestionAnimation(question)
+            } else {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                    self.animateQuestionAnimation(question)
+                }
+            }
+        } else {
+            self.addMessages([question], scroll: false) {
+                (self.view as? AnswerableView)?.askQuestion(question)
+            }
         }
+    }
+    
+    func animateQuestionAnimation(question: QuestionProtocol) {
         if let animatableimage = (question as! QuestionTutorialStep).animatableImage {
-            senseiImageView.animateAnimatableImage(animatableimage, completion: nil)
+            self.senseiImageView.animateAnimatableImage(animatableimage, completion: { [unowned self](finished) -> Void in
+                self.senseiImageView.image = animatableimage.images.last
+                self.addMessages([question], scroll: false) {
+                    (self.view as? AnswerableView)?.askQuestion(question)
+                }
+            })
         }
     }
     
@@ -571,6 +589,9 @@ class SenseiViewController: BaseViewController {
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         super.didMoveToNextTutorial(tutorialStep)
+        if tutorialStep.screen != .Sensei {
+            return
+        }
         if  tutorialStep is QuestionTutorialStep {
             handleQuestionTutorialStep(tutorialStep as! QuestionTutorialStep)
         } else {
@@ -583,26 +604,39 @@ class SenseiViewController: BaseViewController {
     }
     
     private func handleTutorialStep(tutorialStep: TutorialStep) {
-        if !tutorialStep.text.isEmpty {
-            addMessages([tutorialStep], scroll: true, completion: nil)
-        }
+        
         if let animatableimage = tutorialStep.animatableImage {
-            senseiImageView.animateAnimatableImage(animatableimage) { (finished) -> Void in
-                if !TutorialManager.sharedInstance.completed {
-                    TutorialManager.sharedInstance.nextStep()
-                } else if !TutorialManager.sharedInstance.upgradeCompleted {
-                    TutorialManager.sharedInstance.nextUpgradedStep()
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                self.senseiImageView.animateAnimatableImage(animatableimage) { (finished) -> Void in
+                    self.senseiImageView.image = animatableimage.images.last
+                    self.handleTutorialStepAction(tutorialStep)
                 }
-
             }
         } else if !tutorialStep.requiresActionToProceed {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                if !TutorialManager.sharedInstance.completed {
-                    TutorialManager.sharedInstance.nextStep()
-                } else if !TutorialManager.sharedInstance.upgradeCompleted {
-                    TutorialManager.sharedInstance.nextUpgradedStep()
-                }
+                self.handleTutorialStepAction(tutorialStep)
             }
+        } else {
+//            if (TutorialManager.sharedInstance.prevTutorialStep?.requiresActionToProceed)! && TutorialManager.sharedInstance.prevTutorialStep?.screen == tutorialStep.screen {
+//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+//                    self.handleTutorialStepAction(tutorialStep)
+//                }
+//            } else {
+                if !tutorialStep.text.isEmpty {
+                    self.addMessages([tutorialStep], scroll: true, completion: nil)
+                }
+//            }
+        }
+    }
+    
+    private func handleTutorialStepAction(tutorialStep: TutorialStep) {
+        if !tutorialStep.text.isEmpty {
+            self.addMessages([tutorialStep], scroll: true, completion: nil)
+        }
+        if !TutorialManager.sharedInstance.completed {
+            TutorialManager.sharedInstance.nextStep()
+        } else if !TutorialManager.sharedInstance.upgradeCompleted {
+            TutorialManager.sharedInstance.nextUpgradedStep()
         }
     }
     
