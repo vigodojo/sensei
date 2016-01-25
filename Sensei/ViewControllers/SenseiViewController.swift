@@ -131,6 +131,29 @@ class SenseiViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishUpgradeNotificatin:"), name: TutorialManager.Notifications.DidFinishUpgrade, object: nil)
     }
     
+    func setSitSensei(notification: NSNotification) {
+        showSitSenseiAnimation()
+    }
+    
+    func showSitSenseiAnimation() {
+        if !TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.lastStepNumber() < 1 {
+            senseiImageView.image = UIImage(named: "1_bow_0064")
+        } else {
+            if (UIApplication.sharedApplication().delegate as! AppDelegate).shouldSit {
+                (UIApplication.sharedApplication().delegate as! AppDelegate).shouldSit = false
+                senseiImageView.image = UIImage(named: "1_bow_0064")
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                    self.senseiImageView.animateAnimatableImage(AnimationManager.sharedManager.sitsBowAnimatableImage()!, completion: { (finished) -> Void in
+                        self.senseiImageView.animateAnimatableImage(AnimationManager.sharedManager.sitStandAnimatableImage()!, completion: nil)
+                    })
+                }
+            } else {
+                senseiImageView.image = UIImage(named: "VigoSensei")
+                print("Stand")
+            }
+        }
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         tutorialViewController?.tutorialHidden = true
@@ -139,8 +162,12 @@ class SenseiViewController: BaseViewController {
         if APIManager.sharedInstance.logined && TutorialManager.sharedInstance.upgradeCompleted {
             APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         }
+        
+        showSitSenseiAnimation()
+        
         addKeyboardObservers()
         addTutorialObservers()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("setSitSensei:"), name: "SitSenseiNotification", object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -324,17 +351,14 @@ class SenseiViewController: BaseViewController {
     
     private func askQuestion(question: QuestionProtocol) {
         lastQuestion = question
-        if let _ = (question as! QuestionTutorialStep).animatableImage {
-            if TutorialManager.sharedInstance.currentStep?.number == 0 {
+        let delay = self.dataSource.count > 0 ? (question as! QuestionTutorialStep).delayBefore : 0
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(delay) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            if let _ = (question as! QuestionTutorialStep).animatableImage {
                 self.animateQuestionAnimation(question)
             } else {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                    self.animateQuestionAnimation(question)
+                self.addMessages([question], scroll: false) {
+                    (self.view as? AnswerableView)?.askQuestion(question)
                 }
-            }
-        } else {
-            self.addMessages([question], scroll: false) {
-                (self.view as? AnswerableView)?.askQuestion(question)
             }
         }
     }
@@ -592,7 +616,7 @@ class SenseiViewController: BaseViewController {
         if tutorialStep.screen != .Sensei {
             return
         }
-        if  tutorialStep is QuestionTutorialStep {
+        if tutorialStep is QuestionTutorialStep {
             handleQuestionTutorialStep(tutorialStep as! QuestionTutorialStep)
         } else {
             handleTutorialStep(tutorialStep)
@@ -604,28 +628,20 @@ class SenseiViewController: BaseViewController {
     }
     
     private func handleTutorialStep(tutorialStep: TutorialStep) {
-        
-        if let animatableimage = tutorialStep.animatableImage {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+        let delay = tutorialStep.delayBefore
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(delay) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            if let animatableimage = tutorialStep.animatableImage {
                 self.senseiImageView.animateAnimatableImage(animatableimage) { (finished) -> Void in
                     self.senseiImageView.image = animatableimage.images.last
                     self.handleTutorialStepAction(tutorialStep)
                 }
-            }
-        } else if !tutorialStep.requiresActionToProceed {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            } else if !tutorialStep.requiresActionToProceed {
                 self.handleTutorialStepAction(tutorialStep)
-            }
-        } else {
-//            if (TutorialManager.sharedInstance.prevTutorialStep?.requiresActionToProceed)! && TutorialManager.sharedInstance.prevTutorialStep?.screen == tutorialStep.screen {
-//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(TutorialStepTimeinteval * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-//                    self.handleTutorialStepAction(tutorialStep)
-//                }
-//            } else {
+            } else {
                 if !tutorialStep.text.isEmpty {
                     self.addMessages([tutorialStep], scroll: true, completion: nil)
                 }
-//            }
+            }
         }
     }
     

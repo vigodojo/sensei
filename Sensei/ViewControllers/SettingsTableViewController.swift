@@ -10,6 +10,22 @@ import UIKit
 import Social
 import MessageUI
 
+enum FieldName: String {
+    case DOB = "date of birth"
+    case Weight = "weight"
+    case Height = "height"
+    case Sex = "sex"
+}
+
+enum CellHeight: CGFloat {
+    case TeachingIntencityHeight = 94.0
+    case InstructionSwitchHeight = 65.0
+    case ShareUpgradeSleepTimeHeightPro = 370.0
+    case ShareUpgradeSleepTimeHeightReg = 416.0
+    case DateFormatHeight = 66.0
+    case PersonalProfileHeight = 262.0
+}
+
 class SettingsTableViewController: UITableViewController {
     
     private struct Constants {
@@ -48,13 +64,13 @@ class SettingsTableViewController: UITableViewController {
     
     private let SaveConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to save this changes?")
     
-    func confirmationTextWithPropertyName(property: String) -> ConfirmationQuestion {
+    func confirmationTextWithPropertyName(property: FieldName) -> ConfirmationQuestion {
         return ConfirmationQuestion(text: "Are you sure you want to change \(property)?")
     }
     
     private var sleepTimeSettings: SleepTimeSettings?
     
-    private var fieldToChange: String?
+    private var fieldToChange: FieldName?
     
     private lazy var timePicker: UIDatePicker = { [unowned self] in
         let picker = UIDatePicker()
@@ -90,30 +106,33 @@ class SettingsTableViewController: UITableViewController {
             self?.view.endEditing(true)
         
             if let fieldName = self?.fieldToChange {
-                if fieldName == "date of birth" {
+                if fieldName == .DOB {
                     self?.dateOfBirthTF.text = DataFormatter.stringFromDate((self?.datePicker.date)!)
                 }
                 
-                if fieldName == "height" {
+                if fieldName == .Height {
                     let pickerDelegate = self?.heightPickerDelegate
                     let currentValue = pickerDelegate?.currentValueForPickerView((self?.heightPicker)!)
                     self?.heightCm = currentValue!.realValue
                     self?.heightTextField.text = "\(currentValue!)"
                 }
                 
-                if fieldName == "weight" {
+                if fieldName == .Weight {
                     let pickerDelegate = self?.weightPickerDelegate
                     let currentValue = pickerDelegate?.currentValueForPickerView((self?.weightPicker)!)
                     self?.weightKg = currentValue!.realValue
                     self?.weightTexField.text = "\(currentValue!)"
                 }
                 
-                let weightChanged = self?.weightKg == Settings.sharedSettings.weight?.doubleValue || (Settings.sharedSettings.weight == nil && self?.weightKg != nil)
-                let heightChanged = self?.heightCm == Settings.sharedSettings.height?.doubleValue || (Settings.sharedSettings.height == nil && self?.heightCm != nil)
+                print("\(Settings.sharedSettings.weight?.doubleValue) | \(self?.weightKg)")
+                let weightChanged = Settings.sharedSettings.weight?.doubleValue != self?.weightKg && Settings.sharedSettings.weight?.doubleValue > 0 && self?.weightKg > 0
+                let heightChanged = Settings.sharedSettings.height?.doubleValue != self?.heightCm && Settings.sharedSettings.height?.doubleValue > 0 && self?.heightCm > 0
                 let dobChanged = Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date)!) != NSComparisonResult.OrderedSame && Settings.sharedSettings.dayOfBirth != nil
-
-                if TutorialManager.sharedInstance.completed && (dobChanged || weightChanged || heightChanged) {
+                
+                if (dobChanged || weightChanged || heightChanged) {
                     self?.showConfirmation(self!.confirmationTextWithPropertyName(fieldName))
+                } else {
+                    self?.performYesAnswerAction()
                 }
             }
         }
@@ -252,7 +271,6 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        Settings.sharedSettings.isProVersion = NSNumber(bool: false)
         CoreDataManager.sharedInstance.saveContext()
         refreshUpgradState()
         fillFromSettings()
@@ -535,11 +553,11 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func selectGender(sender: UIButton) {
         if !((maleButton.selected && maleButton == sender) || (femaleButton.selected && femaleButton == sender)) {
-            fieldToChange = "sex"
-            if TutorialManager.sharedInstance.completed {
-                showConfirmation(confirmationTextWithPropertyName("sex"))
+            fieldToChange = .Sex
+            if Settings.sharedSettings.gender != .SheMale {
+                showConfirmation(confirmationTextWithPropertyName(fieldToChange!))
             } else {
-                performYesAnswerAction()
+                Settings.sharedSettings.gender = maleButton.selected ? .Male : .Female
             }
         }
         configureGenderSelection(sender)
@@ -611,11 +629,11 @@ class SettingsTableViewController: UITableViewController {
 extension SettingsTableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch (indexPath.row) {
-            case 0: return 94.0;
-            case 1: return 65.0;
-            case 2: return Settings.sharedSettings.isProVersion?.boolValue == true ? 370.0 : 416.0;
-            case 3: return 66.0;
-            case 4: return 262.0;
+            case 0: return CellHeight.TeachingIntencityHeight.rawValue
+            case 1: return CellHeight.InstructionSwitchHeight.rawValue
+            case 2: return Settings.sharedSettings.isProVersion?.boolValue == true ? CellHeight.ShareUpgradeSleepTimeHeightPro.rawValue : CellHeight.ShareUpgradeSleepTimeHeightReg.rawValue
+            case 3: return CellHeight.DateFormatHeight.rawValue;
+            case 4: return CellHeight.PersonalProfileHeight.rawValue
             default: return 0
         }
     }
@@ -628,13 +646,13 @@ extension SettingsTableViewController: UITextFieldDelegate {
         firstResponder = textField
         fieldToChange = nil
         if textField == dateOfBirthTF {
-            fieldToChange = "date of birth"
+            fieldToChange = .DOB
         }
         if textField == heightTextField {
-            fieldToChange = "height"
+            fieldToChange = .Height
         }
         if textField == weightTexField {
-            fieldToChange = "weight"
+            fieldToChange = .Weight
         }
         if textField.inputView == timePicker {
             if let date = DataFormatter.timeFromString(textField.text!) {

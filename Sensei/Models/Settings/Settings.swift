@@ -21,8 +21,8 @@ enum Gender: String, CustomStringConvertible {
     
     var personalTitle: String {
         switch self {
-            case .Male: return "sir"
-            case .Female: return "ms"
+            case .Male: return "Sir"
+            case .Female: return "Ms"
             case .SheMale: return ""
         }
     }

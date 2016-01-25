@@ -92,14 +92,13 @@ class TutorialManager {
     
     // MARK: - Public
     
+    func lastStepNumber() -> Int {
+        return stepCounter
+    }
+    
     func nextStep() {
         if completed {
             return
-        }
-        if let step = TutorialManager.sharedInstance.currentStep {
-            if step.number == 14 {
-                print("")
-            }
         }
         increaseStepCounter()
         if stepCounter < steps.count {

@@ -98,13 +98,13 @@
                         <outlet property="containerView" destination="9og-ON-adB" id="770-fF-3rz"/>
                         <outlet property="moreTabButton" destination="uWU-1H-GLQ" id="cSw-Mj-btN"/>
                         <outlet property="senseiTabButton" destination="fAF-j8-A82" id="7H6-CD-9hM"/>
-                        <segue destination="9sk-6H-UQQ" kind="custom" identifier="SwitchToSenseiViewController" customClass="TabSegue" customModule="Sensei" id="vPH-Bn-iSy"/>
                         <segue destination="dbf-lu-mRv" kind="custom" identifier="SwitchToMoreViewController" customClass="TabSegue" customModule="Sensei" id="NXr-Z9-5RZ"/>
+                        <segue destination="BII-m9-5jJ" kind="custom" identifier="SwitchToSenseiViewController" customClass="TabSegue" customModule="Sensei" customModuleProvider="target" id="Kom-Wm-dl5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1328" y="446"/>
+            <point key="canvasLocation" x="1253" y="63"/>
         </scene>
         <!--Tutorial View Controller-->
         <scene sceneID="lKx-cg-qx6">
@@ -199,124 +199,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-174" y="446"/>
-        </scene>
-        <!--Sensei View Controller-->
-        <scene sceneID="gB7-8D-Ifd">
-            <objects>
-                <viewController id="9sk-6H-UQQ" customClass="SenseiViewController" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="8ZL-mD-K9c"/>
-                        <viewControllerLayoutGuide type="bottom" id="ZT2-S9-L03"/>
-                    </layoutGuides>
-                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="nBU-UE-xiJ" customClass="AnswerableView" customModule="Sensei" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Knudsendojo" translatesAutoresizingMaskIntoConstraints="NO" id="2A1-QW-FFs">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </imageView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mpr-qy-yfa">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="534"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="18" minimumInteritemSpacing="0.0" id="p2R-qG-dl1">
-                                    <size key="itemSize" width="300" height="142"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                                <connections>
-                                    <outlet property="dataSource" destination="9sk-6H-UQQ" id="kCc-mj-jgI"/>
-                                    <outlet property="delegate" destination="9sk-6H-UQQ" id="Rbo-QH-L4d"/>
-                                </connections>
-                            </collectionView>
-                            <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h0u-hS-teU">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Knudsendojo" translatesAutoresizingMaskIntoConstraints="NO" id="FJP-jG-auA">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i7j-O7-g18">
-                                <rect key="frame" x="23" y="564" width="266" height="24"/>
-                                <color key="backgroundColor" red="0.10980392156862745" green="0.62745098039215685" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="A2Z-QD-KBA"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                <state key="normal" title="AFFIRMATIONS">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="jn6-3W-nyd" kind="show" identifier="Go To Affirmations" id="iQz-ZM-eNO"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rLE-xd-apt">
-                                <rect key="frame" x="312" y="564" width="265" height="24"/>
-                                <color key="backgroundColor" red="0.19215686269999999" green="0.6705882353" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="83Q-f7-7GU"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                <state key="normal" title="VISUALIZATIONS">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="nak-G7-NDS" kind="show" identifier="Go To Visualisations" id="raB-ai-HYb"/>
-                                </connections>
-                            </button>
-                            <imageView contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="8zt-ws-naK" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
-                                <rect key="frame" x="515" y="406" width="69" height="128"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="36o-oJ-w1t"/>
-                                    <constraint firstAttribute="width" constant="69" id="m2o-KU-f3c"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="i7j-O7-g18" secondAttribute="bottom" constant="12" id="0Yr-uO-YdU"/>
-                            <constraint firstAttribute="trailing" secondItem="h0u-hS-teU" secondAttribute="trailing" id="0j4-dP-BJB"/>
-                            <constraint firstItem="FJP-jG-auA" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" id="4WU-Wh-CPk"/>
-                            <constraint firstItem="rLE-xd-apt" firstAttribute="width" secondItem="i7j-O7-g18" secondAttribute="width" id="7lU-eT-UXS"/>
-                            <constraint firstItem="8zt-ws-naK" firstAttribute="bottom" secondItem="mpr-qy-yfa" secondAttribute="bottom" id="7o4-2b-xbp"/>
-                            <constraint firstItem="h0u-hS-teU" firstAttribute="top" secondItem="8ZL-mD-K9c" secondAttribute="bottom" id="BEq-RT-3T4"/>
-                            <constraint firstItem="2A1-QW-FFs" firstAttribute="height" secondItem="nBU-UE-xiJ" secondAttribute="height" id="EK1-ce-YuO"/>
-                            <constraint firstItem="ZT2-S9-L03" firstAttribute="top" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="66" id="FvM-UG-dxG"/>
-                            <constraint firstItem="mpr-qy-yfa" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" id="GTy-Jk-70e"/>
-                            <constraint firstItem="rLE-xd-apt" firstAttribute="leading" secondItem="i7j-O7-g18" secondAttribute="trailing" constant="23" id="MTL-mV-Rxx"/>
-                            <constraint firstItem="i7j-O7-g18" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" constant="23" id="OUu-xP-zON"/>
-                            <constraint firstItem="i7j-O7-g18" firstAttribute="top" secondItem="rLE-xd-apt" secondAttribute="top" id="PFY-5r-9mW"/>
-                            <constraint firstAttribute="trailing" secondItem="FJP-jG-auA" secondAttribute="trailing" id="QCt-hx-yfx"/>
-                            <constraint firstItem="h0u-hS-teU" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" id="Y4a-9J-g6m"/>
-                            <constraint firstAttribute="trailing" secondItem="2A1-QW-FFs" secondAttribute="trailing" id="dx6-JZ-Agd"/>
-                            <constraint firstItem="FJP-jG-auA" firstAttribute="bottom" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="66" id="edc-3I-bnL"/>
-                            <constraint firstAttribute="trailing" secondItem="rLE-xd-apt" secondAttribute="trailing" constant="23" id="iXE-8j-q65"/>
-                            <constraint firstItem="FJP-jG-auA" firstAttribute="height" secondItem="2A1-QW-FFs" secondAttribute="height" id="kGw-yq-eQa"/>
-                            <constraint firstItem="2A1-QW-FFs" firstAttribute="bottom" secondItem="8zt-ws-naK" secondAttribute="bottom" constant="66" id="kvK-cA-e66"/>
-                            <constraint firstItem="8zt-ws-naK" firstAttribute="bottom" secondItem="h0u-hS-teU" secondAttribute="bottom" constant="14" id="oO9-RK-5bI"/>
-                            <constraint firstAttribute="trailing" secondItem="mpr-qy-yfa" secondAttribute="trailing" id="odT-nM-ic6"/>
-                            <constraint firstItem="2A1-QW-FFs" firstAttribute="leading" secondItem="nBU-UE-xiJ" secondAttribute="leading" id="q0A-uY-jic"/>
-                            <constraint firstAttribute="trailing" secondItem="8zt-ws-naK" secondAttribute="trailing" constant="16" id="t9k-db-GJC"/>
-                            <constraint firstItem="mpr-qy-yfa" firstAttribute="top" secondItem="8ZL-mD-K9c" secondAttribute="bottom" id="uM6-w9-2XN"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="affirmationsButton" destination="i7j-O7-g18" id="Y3V-lw-6qG"/>
-                        <outlet property="collectionView" destination="mpr-qy-yfa" id="k0h-Ok-4eD"/>
-                        <outlet property="fadingGradientView" destination="h0u-hS-teU" id="OpJ-hZ-EHu"/>
-                        <outlet property="fadingImageView" destination="FJP-jG-auA" id="w6l-rw-8pS"/>
-                        <outlet property="senseiBottomSpaceConstraint" destination="FvM-UG-dxG" id="FNy-Mi-9ET"/>
-                        <outlet property="senseiImageView" destination="8zt-ws-naK" id="jmb-t5-Mcd"/>
-                        <outlet property="visualisationsButton" destination="rLE-xd-apt" id="MNw-VR-Wfh"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="S8z-Z5-MYz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2044" y="119"/>
+            <point key="canvasLocation" x="-196" y="317"/>
         </scene>
         <!--Settings Table View Controller-->
         <scene sceneID="vfL-eB-9Af">
@@ -990,7 +873,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FGT-YO-sa5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2044" y="816"/>
+            <point key="canvasLocation" x="1834" y="1059"/>
         </scene>
         <!--Affirmations View Controller-->
         <scene sceneID="9vc-NN-4I7">
@@ -1051,20 +934,12 @@ Please tap here to create a new affirmation</string>
                                                     <outlet property="delegate" destination="jn6-3W-nyd" id="Dx9-pX-jHx"/>
                                                 </connections>
                                             </textView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="120" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dg5-TS-NrO">
-                                                <rect key="frame" x="561" y="196" width="21" height="15"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="Dg5-TS-NrO" firstAttribute="top" secondItem="1JB-iW-MTs" secondAttribute="bottom" constant="6" id="7eN-de-2zx"/>
                                             <constraint firstAttribute="trailing" secondItem="udG-XM-9lq" secondAttribute="trailing" id="8R2-n3-x5d"/>
                                             <constraint firstItem="1JB-iW-MTs" firstAttribute="bottom" secondItem="3zl-7m-GkK" secondAttribute="bottom" priority="100" constant="-11" id="CUf-cx-bv5"/>
                                             <constraint firstAttribute="bottom" secondItem="1JB-iW-MTs" secondAttribute="bottom" priority="250" constant="224" id="Dz5-xN-JoC"/>
-                                            <constraint firstItem="Dg5-TS-NrO" firstAttribute="trailing" secondItem="1JB-iW-MTs" secondAttribute="trailing" id="G4U-fW-ENF"/>
                                             <constraint firstItem="udG-XM-9lq" firstAttribute="top" secondItem="ilV-R5-vwS" secondAttribute="top" id="GNm-bx-Ipi"/>
                                             <constraint firstItem="1JB-iW-MTs" firstAttribute="leading" secondItem="ilV-R5-vwS" secondAttribute="leading" constant="18" id="LDL-Pm-9AZ"/>
                                             <constraint firstItem="udG-XM-9lq" firstAttribute="leading" secondItem="ilV-R5-vwS" secondAttribute="leading" id="PZ2-hZ-bum"/>
@@ -1099,7 +974,6 @@ Please tap here to create a new affirmation</string>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="charactersLeftLabel" destination="Dg5-TS-NrO" id="QoU-mJ-a1D"/>
                         <outlet property="messageSwitchView" destination="udG-XM-9lq" id="ROf-QS-IIY"/>
                         <outlet property="navigationView" destination="kPf-aX-Djg" id="sYg-wX-wq4"/>
                         <outlet property="scrollView" destination="Zp2-CF-1D4" id="gkE-IR-ClI"/>
@@ -1370,7 +1244,124 @@ Please tap here to create a new affirmation</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OrN-2C-ssC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="600" y="446"/>
+            <point key="canvasLocation" x="518" y="317"/>
+        </scene>
+        <!--Sensei View Controller-->
+        <scene sceneID="xyG-zV-Srx">
+            <objects>
+                <viewController id="BII-m9-5jJ" customClass="SenseiViewController" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wKE-qF-yki"/>
+                        <viewControllerLayoutGuide type="bottom" id="KZy-uO-hs9"/>
+                    </layoutGuides>
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="lQE-Fo-0Gf" customClass="AnswerableView" customModule="Sensei" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Knudsendojo" translatesAutoresizingMaskIntoConstraints="NO" id="ADr-Be-Y3Z">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UUv-h4-auF">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="534"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="18" minimumInteritemSpacing="0.0" id="WAd-fB-dFP">
+                                    <size key="itemSize" width="300" height="142"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BII-m9-5jJ" id="DBA-XT-lh6"/>
+                                    <outlet property="delegate" destination="BII-m9-5jJ" id="uBK-LP-c18"/>
+                                </connections>
+                            </collectionView>
+                            <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bda-1S-RJp">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Knudsendojo" translatesAutoresizingMaskIntoConstraints="NO" id="1w7-5X-fM9">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xlf-Nb-mFF">
+                                <rect key="frame" x="23" y="564" width="266" height="24"/>
+                                <color key="backgroundColor" red="0.10980392160000001" green="0.62745098040000002" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="d4B-PG-OaH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                <state key="normal" title="AFFIRMATIONS">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="jn6-3W-nyd" kind="show" identifier="Go To Affirmations" id="mAS-Zj-CyD"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LDJ-Py-bdg">
+                                <rect key="frame" x="312" y="564" width="265" height="24"/>
+                                <color key="backgroundColor" red="0.19215686269999999" green="0.6705882353" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="kl6-zy-euJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                <state key="normal" title="VISUALIZATIONS">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="nak-G7-NDS" kind="show" identifier="Go To Visualisations" id="pdC-Mp-anF"/>
+                                </connections>
+                            </button>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="Rut-uN-STO" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
+                                <rect key="frame" x="460" y="406" width="124" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="124" id="fNb-I9-faI"/>
+                                    <constraint firstAttribute="height" constant="128" id="ghW-BD-O05"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="LDJ-Py-bdg" firstAttribute="width" secondItem="Xlf-Nb-mFF" secondAttribute="width" id="0y6-qT-fnR"/>
+                            <constraint firstItem="Rut-uN-STO" firstAttribute="bottom" secondItem="Bda-1S-RJp" secondAttribute="bottom" constant="14" id="2WB-kX-A5d"/>
+                            <constraint firstItem="UUv-h4-auF" firstAttribute="top" secondItem="wKE-qF-yki" secondAttribute="bottom" id="5zW-Ew-Pqo"/>
+                            <constraint firstItem="ADr-Be-Y3Z" firstAttribute="bottom" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="66" id="9U4-cH-Vn7"/>
+                            <constraint firstAttribute="trailing" secondItem="Rut-uN-STO" secondAttribute="trailing" constant="16" id="AbI-Jg-HOS"/>
+                            <constraint firstItem="KZy-uO-hs9" firstAttribute="top" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="66" id="EJU-34-GbJ"/>
+                            <constraint firstItem="Bda-1S-RJp" firstAttribute="top" secondItem="wKE-qF-yki" secondAttribute="bottom" id="ESZ-gN-IRk"/>
+                            <constraint firstItem="Bda-1S-RJp" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="H6U-VW-6xA"/>
+                            <constraint firstAttribute="trailing" secondItem="LDJ-Py-bdg" secondAttribute="trailing" constant="23" id="MCT-3t-tay"/>
+                            <constraint firstAttribute="trailing" secondItem="1w7-5X-fM9" secondAttribute="trailing" id="MUm-p1-5L1"/>
+                            <constraint firstItem="1w7-5X-fM9" firstAttribute="bottom" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="66" id="MXI-Kc-hQN"/>
+                            <constraint firstAttribute="trailing" secondItem="ADr-Be-Y3Z" secondAttribute="trailing" id="OsI-6e-0XS"/>
+                            <constraint firstItem="ADr-Be-Y3Z" firstAttribute="height" secondItem="lQE-Fo-0Gf" secondAttribute="height" id="R1Q-NJ-ww8"/>
+                            <constraint firstItem="Xlf-Nb-mFF" firstAttribute="top" secondItem="LDJ-Py-bdg" secondAttribute="top" id="af4-BE-N4f"/>
+                            <constraint firstItem="LDJ-Py-bdg" firstAttribute="leading" secondItem="Xlf-Nb-mFF" secondAttribute="trailing" constant="23" id="cb0-CH-d7N"/>
+                            <constraint firstItem="Rut-uN-STO" firstAttribute="bottom" secondItem="UUv-h4-auF" secondAttribute="bottom" id="fds-Gg-XXD"/>
+                            <constraint firstItem="UUv-h4-auF" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="gOQ-zc-YCz"/>
+                            <constraint firstAttribute="trailing" secondItem="Bda-1S-RJp" secondAttribute="trailing" id="hel-uP-jet"/>
+                            <constraint firstItem="1w7-5X-fM9" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="ise-lj-5TO"/>
+                            <constraint firstAttribute="trailing" secondItem="UUv-h4-auF" secondAttribute="trailing" id="rN7-DY-Cqt"/>
+                            <constraint firstItem="KZy-uO-hs9" firstAttribute="top" secondItem="Xlf-Nb-mFF" secondAttribute="bottom" constant="12" id="vRM-ND-eeD"/>
+                            <constraint firstItem="ADr-Be-Y3Z" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="vxJ-8m-lvN"/>
+                            <constraint firstItem="Xlf-Nb-mFF" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" constant="23" id="xy5-fV-T97"/>
+                            <constraint firstItem="1w7-5X-fM9" firstAttribute="height" secondItem="ADr-Be-Y3Z" secondAttribute="height" id="zkK-jw-QRT"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="affirmationsButton" destination="Xlf-Nb-mFF" id="bCI-Qi-jib"/>
+                        <outlet property="collectionView" destination="UUv-h4-auF" id="rm2-dn-o5r"/>
+                        <outlet property="fadingGradientView" destination="Bda-1S-RJp" id="Eo5-GV-OCJ"/>
+                        <outlet property="fadingImageView" destination="1w7-5X-fM9" id="oMo-8A-kpI"/>
+                        <outlet property="senseiBottomSpaceConstraint" destination="EJU-34-GbJ" id="l9f-Zc-pYG"/>
+                        <outlet property="senseiImageView" destination="Rut-uN-STO" id="lWa-ty-F9Y"/>
+                        <outlet property="visualisationsButton" destination="LDJ-Py-bdg" id="t0j-Qg-z0H"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IGf-04-Ja2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2006" y="113"/>
         </scene>
     </scenes>
     <resources>

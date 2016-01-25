@@ -220,7 +220,23 @@ class AnswerableView: UIView {
 
 extension AnswerableView: UITextFieldDelegate {
     
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        return (textField.text?.characters)!.count + string.characters.count <= 36
+    }
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if (textField.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).isEmpty)! {
+            textField.layer.borderColor = UIColor.redColor().CGColor
+            textField.layer.borderWidth = 1.0
+            textField.layer.cornerRadius = 5
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                textField.layer.borderColor = UIColor.clearColor().CGColor
+                textField.layer.borderWidth = 1.0
+            }
+
+            return false
+        }
         textField.resignFirstResponder()
         submitAnswer(Answer.Text(textField.text!.capitalizedString))
         return true;

@@ -27,8 +27,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     @IBOutlet weak var textViewBottomSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var textView: PlaceholderedTextView!
-    @IBOutlet weak var charactersLeftLabel: UILabel!
-    
     
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Affirmation?")
 
@@ -187,7 +185,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         if let affirmation = affirmationWithNumber(number) {
             messageSwitchView.receiveTime = affirmation.receiveTime
             textView.text = affirmation.text
-            charactersLeftLabel.text = "\(Affirmation.MaxTextLength - textView.text.characters.count)"
 
             selectedAffirmation = affirmation
         } else {
@@ -384,7 +381,6 @@ extension AffirmationsViewController: UITextViewDelegate {
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         let length = textView.text.characters.count + text.characters.count
-        charactersLeftLabel.text = "\(Affirmation.MaxTextLength - length)"
         
         if text == "\n" {
             textView.resignFirstResponder()
@@ -393,6 +389,12 @@ extension AffirmationsViewController: UITextViewDelegate {
         }
         
         if length >= Affirmation.MaxTextLength {
+            if (tutorialViewController?.tutorialHidden)! {
+                tutorialViewController?.showTutorialAnimated(true)
+            }
+            let cell = tutorialViewController!.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
+            cell.showWarningMessage("You can only use 130 characters for each affirmation. Please modify accordingly.", disappear: true)
+
             return false
         }
 

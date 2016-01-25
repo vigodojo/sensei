@@ -17,7 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var pushNotification: PushNotification?
-
+    var shouldSit: Bool = false
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
@@ -28,25 +29,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "TutorialUpgradeCompleted")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
-
-//        let arrayOpen = "<array>\n"
-//        let arrayClose = "</array>"
-//        let stringOpen = "\t<string>"
-//        let stringClose = "</string>\n"
-//
-//        let nameMask = "7_punch_"
-//        let numberOfItems = 65
-//
-//        var stringResult = arrayOpen
-//        for var i = 1; i < numberOfItems; i++ {
-//            stringResult.appendContentsOf("\(stringOpen)\(nameMask)\(String(format: "%04d", i))\(stringClose)")
-//        }
-//        stringResult.appendContentsOf(arrayClose)
-//        print(stringResult)
-
         return true
     }
     
+    func postSitSenseiNotification() {
+        if TutorialManager.sharedInstance.completed {
+            NSNotificationCenter.defaultCenter().postNotificationName("SitSenseiNotification", object: nil)
+        }
+    }
+    
+    func shouldSenseiSit() -> Bool {
+        let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
+        let lastActivity = NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") == nil ? NSDate() : NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") as! NSDate
+
+        let activityComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: lastActivity)
+        let sleepEndComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.end)
+        
+        let lastActivityDate = NSCalendar.currentCalendar().dateFromComponents(activityComponents)
+        let sleeptimeEndDate = NSCalendar.currentCalendar().dateFromComponents(sleepEndComponents)
+        
+        print("====")
+        print("sleepEnds: \(sleepTime.end)")
+        print("lastActivity: \(lastActivity)")
+        print("====")
+        print("sleepEndsDate: \(sleeptimeEndDate)")
+        print("lastActivityDate: \(lastActivityDate)")
+        print("====")
+        print("now: \(NSDate())")
+        let lastActivityBeforeSleep = lastActivityDate!.compare(sleeptimeEndDate!) == NSComparisonResult.OrderedAscending
+        let nowAfterSleep = sleeptimeEndDate!.compare(NSDate()) == NSComparisonResult.OrderedAscending
+
+        return lastActivityBeforeSleep && nowAfterSleep
+    }
+    
+    func applicationDidBecomeActive(application: UIApplication) {
+        shouldSit = shouldSenseiSit()
+        if shouldSit {
+            postSitSenseiNotification()
+        }
+        NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "LastActiveTime")
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+
     func applicationDidEnterBackground(application: UIApplication) {
         CoreDataManager.sharedInstance.saveContext()
     }
@@ -58,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         application.registerForRemoteNotifications()
     }
-    
+
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         var token = deviceToken.description.stringByReplacingOccurrencesOfString("<", withString: "", options: .CaseInsensitiveSearch, range: nil)
         token = token.stringByReplacingOccurrencesOfString(">", withString: "", options: .CaseInsensitiveSearch, range: nil)
@@ -70,6 +94,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             APIManager.sharedInstance.deviceToken = token
         }
         print("Sensei Device Token: \(token)")
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        print("error: \(error.localizedDescription)")
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {

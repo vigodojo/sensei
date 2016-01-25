@@ -22,6 +22,12 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Some Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5x3-O3-QGF">
+                                <rect key="frame" x="8" y="8" width="301" height="76"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dlp-tt-5pB">
                                 <rect key="frame" x="274" y="52" width="40" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -99,7 +105,10 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Dlp-tt-5pB" firstAttribute="trailing" secondItem="5x3-O3-QGF" secondAttribute="trailing" constant="5" id="8Mk-x6-csg"/>
                             <constraint firstAttribute="bottom" secondItem="CLG-c6-VXc" secondAttribute="bottom" constant="3" id="8rC-34-T2q"/>
+                            <constraint firstItem="5x3-O3-QGF" firstAttribute="top" secondItem="2aE-fa-BUm" secondAttribute="top" id="Ej2-dV-W4U"/>
+                            <constraint firstItem="5x3-O3-QGF" firstAttribute="leading" secondItem="2aE-fa-BUm" secondAttribute="leading" id="HrH-6S-UM3"/>
                             <constraint firstItem="2aE-fa-BUm" firstAttribute="leading" secondItem="ytY-bT-7Kp" secondAttribute="leading" constant="8" id="Hx1-j5-2no"/>
                             <constraint firstAttribute="trailing" secondItem="2aE-fa-BUm" secondAttribute="trailing" constant="18" id="PsO-Uj-b6B"/>
                             <constraint firstAttribute="bottom" secondItem="Dlp-tt-5pB" secondAttribute="bottom" id="Vya-fF-ZB9"/>
@@ -108,6 +117,7 @@
                             <constraint firstAttribute="trailing" secondItem="Dlp-tt-5pB" secondAttribute="trailing" constant="6" id="i0j-OU-m1F"/>
                             <constraint firstAttribute="bottom" secondItem="2aE-fa-BUm" secondAttribute="bottom" constant="8" id="kdA-Mk-8QQ"/>
                             <constraint firstItem="2aE-fa-BUm" firstAttribute="top" secondItem="ytY-bT-7Kp" secondAttribute="top" constant="8" id="qOt-EN-lSq"/>
+                            <constraint firstItem="5x3-O3-QGF" firstAttribute="bottom" secondItem="2aE-fa-BUm" secondAttribute="bottom" id="wmg-pD-638"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -126,8 +136,9 @@
                 <outlet property="nextButton" destination="Dlp-tt-5pB" id="apT-Y3-5c3"/>
                 <outlet property="speechBubbleView" destination="ytY-bT-7Kp" id="5B6-ME-oIC"/>
                 <outlet property="textView" destination="2aE-fa-BUm" id="RPj-e3-9bg"/>
+                <outlet property="warningTextView" destination="5x3-O3-QGF" id="8GP-Ot-DQg"/>
             </connections>
-            <point key="canvasLocation" x="399" y="343"/>
+            <point key="canvasLocation" x="-141" y="370"/>
         </collectionViewCell>
     </objects>
     <resources>

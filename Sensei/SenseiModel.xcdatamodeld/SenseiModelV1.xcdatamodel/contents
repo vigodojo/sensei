@@ -13,7 +13,7 @@
         <attribute name="height" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="isProVersion" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <attribute name="numberOfLessons" attributeType="Integer 32" defaultValueString="6" syncable="YES"/>
+        <attribute name="numberOfLessons" attributeType="Integer 32" defaultValueString="3" syncable="YES"/>
         <attribute name="tutorialOn" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <relationship name="sleepTimeWeekdays" maxCount="1" deletionRule="Cascade" destinationEntity="SleepTime" inverseName="settingsForWeekdays" inverseEntity="SleepTime" syncable="YES"/>

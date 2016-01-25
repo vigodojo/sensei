@@ -12,6 +12,7 @@ class TutorialStep: Message {
     
     private struct Keys {
         static let Number = "Number"
+        static let DelayBefore = "DelayBefore"
         static let ScreenName = "ScreenName"
         static let Message = "Message"
         static let AnimatableImage = "AnimatableImage"
@@ -29,9 +30,11 @@ class TutorialStep: Message {
     let screen: ScreenName
     var message: String?
     var animatableImage: AnimatableImage?
+    var delayBefore: Double = 0
     let enabledContols: [String]
     let allowedAction: ActionName?
     let requiresActionToProceed: Bool
+    
     var id: String {
         return "\(number)"
     }
@@ -59,6 +62,7 @@ class TutorialStep: Message {
     init(dictionary: [String: AnyObject]) {
         number = (dictionary[Keys.Number] as! NSNumber).integerValue
         screen = ScreenName(rawValue: dictionary[Keys.ScreenName] as! String)!
+        delayBefore = (dictionary[Keys.DelayBefore] as? NSNumber)?.doubleValue ?? 0
         message = dictionary[Keys.Message] as? String
         if let animatableImageDictionary = dictionary[Keys.AnimatableImage] as? [String: AnyObject] {
             animatableImage = AnimatableImage(dictionary: animatableImageDictionary)
@@ -76,6 +80,6 @@ class TutorialStep: Message {
 extension TutorialStep: CustomStringConvertible {
     
     var description: String {
-        return "№: \(number); Screen: \(screen.rawValue); Requires Action To Proceed: \(requiresActionToProceed)"
+        return "№: \(number); DelayBefore: \(delayBefore); Screen: \(screen.rawValue); Requires Action To Proceed: \(requiresActionToProceed)"
     }
 }

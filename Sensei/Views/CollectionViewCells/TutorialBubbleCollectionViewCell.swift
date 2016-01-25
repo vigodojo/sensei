@@ -31,6 +31,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var controllsContainer: UIView!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var warningTextView: UITextView!
     
     var bouncedTop: Bool = false
     weak var delegate: TutorialBubbleCollectionViewCellDelegate?
@@ -61,6 +62,38 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
             textView.contentOffset = CGPointZero
             setArrowButtonVisibleIfNeeded(textView.contentSize.height <= CGRectGetMaxY(textView.bounds))
         }
+    }
+    
+    func showWarningMessage(message: String, disappear: Bool) {
+        if !warningTextView.hidden {
+            return
+        }
+        warningTextView.alpha = 0.0
+        warningTextView.hidden = false
+        warningTextView.text = message
+        warningTextView.contentOffset = CGPointZero
+        warningTextView.contentInset = UIEdgeInsetsZero
+        warningTextView.textContainerInset = UIEdgeInsetsZero
+        warningTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
+        warningTextView.layoutIfNeeded()
+        
+        UIView.animateWithDuration(0.3, animations: { [unowned self] () -> Void in
+            self.warningTextView.alpha = 1.0
+        }) { (finished) -> Void in
+            if !disappear {
+                return
+            }
+            UIView.animateWithDuration(0.4, delay: 2.0, options: .CurveEaseOut, animations:{ [unowned self] () -> Void in
+                self.warningTextView.alpha = 0.0
+            }) { (finished) -> Void in
+                self.warningTextView.hidden = true
+            }
+        }
+    }
+    
+    func hideWarning() {
+        self.warningTextView.alpha = 0.0
+        self.warningTextView.hidden = true
     }
     
     func append(text: String, autoscroll: Bool) {

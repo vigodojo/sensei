@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D5533121C564B6F0093E5D6 /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5533111C564B6F0093E5D6 /* AnimationManager.swift */; };
 		3DA8D7D71C1ADCEF0075ADA5 /* UpgradeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */; };
 		3DB7C3DE1C480C4B00A234F8 /* Animations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB7C3DD1C480C4B00A234F8 /* Animations.plist */; };
 		400CA4A01B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */; };
@@ -82,6 +83,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D5533111C564B6F0093E5D6 /* AnimationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV1.xcdatamodel; sourceTree = "<group>"; };
 		3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeManager.swift; sourceTree = "<group>"; };
 		3DB7C3DD1C480C4B00A234F8 /* Animations.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animations.plist; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				40A7B6BF1B12F7A00097852F /* CoreDataManager.swift */,
 				404E0CA41B56677300FE2F3F /* TutorialManager.swift */,
 				3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */,
+				3D5533111C564B6F0093E5D6 /* AnimationManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 				404E0C991B5647CB00FE2F3F /* Question.swift in Sources */,
 				4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */,
 				40AA2D9B1B3ABF8500606E4E /* HeightPickerDelegate.swift in Sources */,
+				3D5533121C564B6F0093E5D6 /* AnimationManager.swift in Sources */,
 				406266DB1B1D9FF700F161B6 /* FadingGradientView.swift in Sources */,
 				404E0C9B1B5647CB00FE2F3F /* Visualization.swift in Sources */,
 				400CA4A01B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift in Sources */,

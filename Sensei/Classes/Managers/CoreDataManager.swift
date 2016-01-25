@@ -138,14 +138,17 @@ class CoreDataManager {
     
     func updateEntityObject(object: NSManagedObject, withJSON json: JSONObject, entityMapping: EntityMapping) -> Bool {
         var hasChanges = false
+        print("до")
         for (objectKey, _) in entityMapping.propertyMapping {
             if let jsonValue = entityMapping.valueForProperty(objectKey, json: json) as? NSObject {
+                print("key: \(objectKey); value: \(jsonValue)")
                 if (object.valueForKeyPath(objectKey) as? NSObject) != jsonValue {
                     object.setValue(jsonValue, forKeyPath: objectKey)
                     hasChanges = true
                 }
             }
         }
+        print("после")
         return hasChanges
     }
 }
