@@ -99,16 +99,20 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     // MARK: - Tutorial
     
     func didFinishTutorialNotificatin(notification: NSNotification) {
-        enableControls(nil)
+        senseiTabButton.userInteractionEnabled = true
+        moreTabButton.userInteractionEnabled = true
     }
     func didFinishUpgradeNotificatin(notification: NSNotification) {
-        enableControls(nil)
+        senseiTabButton.userInteractionEnabled = true
+        moreTabButton.userInteractionEnabled = true
     }
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         switch tutorialStep.screen {
             case .Sensei, .More:
-                enableControls(tutorialStep.enabledContols)
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(tutorialStep.delayBefore) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                    self.enableControls(tutorialStep.enabledContols)
+                }
                 break
             default:
                 break
@@ -116,11 +120,10 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     }
     
     override func enableControls(controlNames: [String]?) {
-        if TutorialManager.sharedInstance.upgradeCompleted {
-            senseiTabButton.userInteractionEnabled = true
-            moreTabButton.userInteractionEnabled = true
+        if TutorialManager.sharedInstance.completed {
             return
         }
+
         senseiTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.SenseiTab) ?? true
         moreTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.MoreTab) ?? true
     }

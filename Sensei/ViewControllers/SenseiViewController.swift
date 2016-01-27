@@ -20,8 +20,8 @@ class SenseiViewController: BaseViewController {
     private struct Constants {
         static let MinOpacity = CGFloat(0.2)
         static let DefaultCellHeight = CGFloat(30.0)
-        static let DefaultBottomSpace = CGFloat(66.0)
-        static let CollectionContentInset = UIEdgeInsets(top: 0, left: 11, bottom: 0, right: 76)
+        static let DefaultBottomSpace = CGFloat(36.0)
+//        static let CollectionContentInset = UIEdgeInsets(top: 0, left: 11, bottom: 0, right: 76)
         static let ToAffirmationsSegue = "Go To Affirmations"
         static let ToVisualisationsSegue = "Go To Visualisations"
     }
@@ -53,13 +53,31 @@ class SenseiViewController: BaseViewController {
         NSBundle.mainBundle().loadNibNamed(RightSpeechBubbleCollectionViewCellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
     }()
     
-    private var maxContentOffset: CGPoint {
-        let y = collectionView.contentSize.height - CGRectGetHeight(collectionView.frame) + collectionView.contentInset.bottom
-        return CGPoint(x: -Constants.CollectionContentInset.left, y: max(y, -collectionView.contentInset.top))
+    private var bottomContentInset: CGFloat {
+        return senseiImageView.frame.size.height/128.0*100
     }
     
-    private var bottomContentInset: CGFloat {
-        return 100
+    private var collectionViewContentInset: UIEdgeInsets {
+        let screenHeight = UIScreen.mainScreen().bounds.size.height
+
+        var rightInset: CGFloat = 0
+        
+        switch (screenHeight) {
+            case 568: rightInset = 70.0
+            case 667: rightInset = 80.0
+            case 736: rightInset = 90.0
+            default: rightInset = 60.0
+        }
+        
+//this hardcoded values were caused by the different sensei size for every iPhone resolution.. 
+//Apple God blessed me for this shit
+        
+//iphone 4s == 60
+//iphone 5s == 70
+//iphone 6s == 80
+//iphone 6sPlus == 90
+        
+        return UIEdgeInsets(top: 0, left: 11.0, bottom: 0, right: rightInset)
     }
     
     private var topContentInset: CGFloat {
@@ -116,7 +134,6 @@ class SenseiViewController: BaseViewController {
         (view as? AnswerableView)?.delegate = self
         collectionView.registerNib(UINib(nibName: RightSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: RightSpeechBubbleCollectionViewCellIdentifier)
         collectionView.registerNib(UINib(nibName: LeftSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: LeftSpeechBubbleCollectionViewCellIdentifier)
-        collectionView.contentInset = Constants.CollectionContentInset
 		fadingImageView.layer.mask = transparrencyGradientLayer
         
         if TutorialManager.sharedInstance.upgradeCompleted {
@@ -126,6 +143,7 @@ class SenseiViewController: BaseViewController {
         }
         
         addApplicationObservers()
+        addSenseiGesture()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialDidHideNotification:"), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishUpgradeNotificatin:"), name: TutorialManager.Notifications.DidFinishUpgrade, object: nil)
@@ -149,7 +167,6 @@ class SenseiViewController: BaseViewController {
                 }
             } else {
                 senseiImageView.image = UIImage(named: "VigoSensei")
-                print("Stand")
             }
         }
     }
@@ -157,6 +174,7 @@ class SenseiViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         tutorialViewController?.tutorialHidden = true
+        collectionView.contentInset = collectionViewContentInset
         collectionView.contentInset.bottom = collectionViewBottomContentInset
 
         if APIManager.sharedInstance.logined && TutorialManager.sharedInstance.upgradeCompleted {
@@ -261,17 +279,20 @@ class SenseiViewController: BaseViewController {
             indexPathes.append(NSIndexPath(forItem: index, inSection: 0))
         }
         dataSource += messages
-        
+        if messages.count == 0 {
+            return
+        }
+        self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
+        self.collectionView.contentInset.top = self.topContentInset
         collectionView.performBatchUpdates({ [unowned self] () -> Void in
+//            self.collectionView.reloadSections(NSIndexSet(index: 0))
             self.collectionView.insertItemsAtIndexPaths(indexPathes)
         }, completion: { [unowned self] (finished) -> Void in
-            self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
             if scroll {
                 self.scrollToLastNotUsersItemAnimated(true)
             }
             if let completion = completion {
                 self.configureBubles()
-                self.collectionView.contentInset.top = self.topContentInset
                 completion()
             }
         })
@@ -304,7 +325,7 @@ class SenseiViewController: BaseViewController {
         let shouldReload = collectionView.contentOffset.y == -collectionView.contentInset.top
         self.collectionView.contentInset.top = self.topContentInset
         if shouldReload {
-            collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: -collectionView.contentInset.top), animated: true)
+            collectionView.setContentOffset(CGPoint(x: 0.0/*collectionView.contentOffset.x*/, y: -collectionView.contentInset.top), animated: true)
         }
         configureBubles()
     }
@@ -382,7 +403,7 @@ class SenseiViewController: BaseViewController {
             let offs = CGRectGetMaxY(attributes.frame) - collectionViewHeightWithoutBottomInset
             collectionView.contentInset.top = topContentInset
             collectionView.performBatchUpdates({ [unowned self]() -> Void in
-                self.collectionView.setContentOffset(CGPoint(x: -Constants.CollectionContentInset.left, y: offs), animated: animated)
+                self.collectionView.setContentOffset(CGPoint(x: self.collectionView.contentOffset.x, y: offs), animated: animated)
             }, completion: { [unowned self] finished in
                 self.configureBubles()
             })
@@ -414,7 +435,7 @@ class SenseiViewController: BaseViewController {
     }
 
 	private func caluclateSizeForItemAtIndexPath(indexPath: NSIndexPath) -> CGSize {
-		let fullWidth = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
+		let fullWidth = collectionView.frame.size.width - collectionViewContentInset.left - collectionViewContentInset.right
 		let message = dataSource[indexPath.item]
 		sizingCell.text = (message is UserMessage) ? (message as! UserMessage).fullMessage() : message.text
 		sizingCell.frame = CGRect(x: 0.0, y: 0.0, width: fullWidth, height: Constants.DefaultCellHeight)
@@ -429,6 +450,21 @@ class SenseiViewController: BaseViewController {
 			return CGSize(width: min(size.width, textSize.width), height: size.height)
 		}
 	}
+
+    // MARK: Sensei Gesture
+    
+    func addSenseiGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: "senseiTapped:")
+        tapGesture.numberOfTapsRequired = 1
+        senseiImageView.addGestureRecognizer(tapGesture)
+    }
+    
+    func senseiTapped(recognizer: UITapGestureRecognizer) {
+        if !senseiImageView.layerAnimating() && TutorialManager.sharedInstance.completed {
+            senseiImageView.animateAnimatableImage(AnimationManager.sharedManager.bowsAnimatableImage()!, completion: nil)
+        }
+    }
+
 
     // MARK: Push Handling
     
@@ -576,7 +612,7 @@ class SenseiViewController: BaseViewController {
 			let startPoiint = CGPoint(x: 0.0, y: (size.height - Constants.DefaultBottomSpace) / CGRectGetHeight(fadingImageView.frame))
             UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [unowned self] () -> Void in
                 self.senseiBottomSpaceConstraint.constant = size.height
-                self.collectionView.contentOffset = CGPointMake(self.collectionView.contentOffset.x,  self.collectionView.contentSize.height - (CGRectGetHeight(self.collectionView.frame) - size.height) + self.collectionView.contentInset.bottom)
+                self.collectionView.contentOffset = CGPointMake(0.0/*self.collectionView.contentOffset.x*/,  self.collectionView.contentSize.height - (CGRectGetHeight(self.collectionView.frame) - size.height) + self.collectionView.contentInset.bottom)
 				self.transparrencyGradientLayer.startPoint = startPoiint
                 self.view.layoutIfNeeded()
             }, completion: { [unowned self] finished in
@@ -602,13 +638,19 @@ class SenseiViewController: BaseViewController {
     }
 
     func didFinishTutorialNotificatin(notification: NSNotification) {
-//        removeAllExeptLessons()
-        enableControls(nil)
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            self.affirmationsButton.userInteractionEnabled = true
+            self.visualisationsButton.userInteractionEnabled = true
+            if TutorialManager.sharedInstance.completed {
+                (UIApplication.sharedApplication().delegate as! AppDelegate).registerForNotifications()
+            }
+        }
     }
     
     func didFinishUpgradeNotificatin(notification: NSNotification) {
         fetchLessons()
-        enableControls(nil)
+        affirmationsButton.userInteractionEnabled = true
+        visualisationsButton.userInteractionEnabled = true
     }
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
@@ -657,9 +699,12 @@ class SenseiViewController: BaseViewController {
     }
     
     override func enableControls(controlNames: [String]?) {
-        if controlNames?.count == 0 {
-            affirmationsButton.userInteractionEnabled = true
-            visualisationsButton.userInteractionEnabled = true
+        if TutorialManager.sharedInstance.completed {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                self.affirmationsButton.userInteractionEnabled = true
+                self.visualisationsButton.userInteractionEnabled = true
+            }
+            return
         }
         affirmationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.AffirmationsButton) ?? true
         visualisationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.VisualisationsButton) ?? true
@@ -710,11 +755,10 @@ extension SenseiViewController: UICollectionViewDataSource {
         
         mesageBody.addAttribute(NSFontAttributeName, value: UIFont.speechBubbleTextFont, range: NSMakeRange(0, mesageBody.length))
         cell.attributedText = mesageBody
-
         cell.showCloseButton(message is Lesson)
 		let size = caluclateSizeForItemAtIndexPath(indexPath)
-		let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
-		cell.speachBubleOffset = width - size.width
+		let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, collectionViewContentInset))
+        cell.speachBubleOffset = width - size.width
         configureTipForCell(cell)
         return cell
     }
@@ -738,6 +782,7 @@ extension SenseiViewController: UIScrollViewDelegate {
         let frameToIntersect = CGRectMake(0, CGRectGetMinY(senseiImageView.frame) - 22.0, CGRectGetWidth(view.frame), CGRectGetHeight(senseiImageView.frame)/4)
         let cellFrameInView = collectionView.convertRect(cell.frame, toView: view)
         cell.speechBubbleView.showBubbleTip = CGRectIntersectsRect(cellFrameInView, frameToIntersect)
+        print(cellFrameInView)
     }
 }
 
@@ -746,7 +791,7 @@ extension SenseiViewController: UIScrollViewDelegate {
 extension SenseiViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-		let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, Constants.CollectionContentInset))
+		let width = collectionView.frame.size.width - collectionViewContentInset.left - collectionViewContentInset.right
 		let height = caluclateSizeForItemAtIndexPath(indexPath).height
 		return CGSize(width: width, height: height)
     }
@@ -764,6 +809,7 @@ extension SenseiViewController: AnswerableViewDelegate {
                 switch question.questionSubject {
                     case .Name:
                         Settings.sharedSettings.name = "\(answerMessage)"
+                        CoreDataManager.sharedInstance.saveContext()
                     case .Gender:
                         if let gender = Gender(rawValue: answerMessage.text) {
                             Settings.sharedSettings.gender = gender

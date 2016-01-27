@@ -3,7 +3,9 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Sensei Tab Controller-->
@@ -1262,10 +1264,10 @@ Please tap here to create a new affirmation</string>
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UUv-h4-auF">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="534"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="564"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="18" minimumInteritemSpacing="0.0" id="WAd-fB-dFP">
-                                    <size key="itemSize" width="300" height="142"/>
+                                    <size key="itemSize" width="200" height="142"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -1277,7 +1279,7 @@ Please tap here to create a new affirmation</string>
                                 </connections>
                             </collectionView>
                             <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bda-1S-RJp">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="550"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Knudsendojo" translatesAutoresizingMaskIntoConstraints="NO" id="1w7-5X-fM9">
@@ -1314,10 +1316,9 @@ Please tap here to create a new affirmation</string>
                                 </connections>
                             </button>
                             <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="Rut-uN-STO" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
-                                <rect key="frame" x="460" y="406" width="124" height="128"/>
+                                <rect key="frame" x="439" y="414" width="145" height="150"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="124" id="fNb-I9-faI"/>
-                                    <constraint firstAttribute="height" constant="128" id="ghW-BD-O05"/>
+                                    <constraint firstAttribute="width" secondItem="Rut-uN-STO" secondAttribute="height" multiplier="124:128" id="tEJ-Ra-Lf5"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -1326,14 +1327,14 @@ Please tap here to create a new affirmation</string>
                             <constraint firstItem="LDJ-Py-bdg" firstAttribute="width" secondItem="Xlf-Nb-mFF" secondAttribute="width" id="0y6-qT-fnR"/>
                             <constraint firstItem="Rut-uN-STO" firstAttribute="bottom" secondItem="Bda-1S-RJp" secondAttribute="bottom" constant="14" id="2WB-kX-A5d"/>
                             <constraint firstItem="UUv-h4-auF" firstAttribute="top" secondItem="wKE-qF-yki" secondAttribute="bottom" id="5zW-Ew-Pqo"/>
-                            <constraint firstItem="ADr-Be-Y3Z" firstAttribute="bottom" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="66" id="9U4-cH-Vn7"/>
+                            <constraint firstItem="ADr-Be-Y3Z" firstAttribute="bottom" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="36" id="9U4-cH-Vn7"/>
                             <constraint firstAttribute="trailing" secondItem="Rut-uN-STO" secondAttribute="trailing" constant="16" id="AbI-Jg-HOS"/>
-                            <constraint firstItem="KZy-uO-hs9" firstAttribute="top" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="66" id="EJU-34-GbJ"/>
+                            <constraint firstItem="KZy-uO-hs9" firstAttribute="top" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="36" id="EJU-34-GbJ"/>
                             <constraint firstItem="Bda-1S-RJp" firstAttribute="top" secondItem="wKE-qF-yki" secondAttribute="bottom" id="ESZ-gN-IRk"/>
                             <constraint firstItem="Bda-1S-RJp" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="H6U-VW-6xA"/>
                             <constraint firstAttribute="trailing" secondItem="LDJ-Py-bdg" secondAttribute="trailing" constant="23" id="MCT-3t-tay"/>
                             <constraint firstAttribute="trailing" secondItem="1w7-5X-fM9" secondAttribute="trailing" id="MUm-p1-5L1"/>
-                            <constraint firstItem="1w7-5X-fM9" firstAttribute="bottom" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="66" id="MXI-Kc-hQN"/>
+                            <constraint firstItem="1w7-5X-fM9" firstAttribute="bottom" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="36" id="MXI-Kc-hQN"/>
                             <constraint firstAttribute="trailing" secondItem="ADr-Be-Y3Z" secondAttribute="trailing" id="OsI-6e-0XS"/>
                             <constraint firstItem="ADr-Be-Y3Z" firstAttribute="height" secondItem="lQE-Fo-0Gf" secondAttribute="height" id="R1Q-NJ-ww8"/>
                             <constraint firstItem="Xlf-Nb-mFF" firstAttribute="top" secondItem="LDJ-Py-bdg" secondAttribute="top" id="af4-BE-N4f"/>
@@ -1343,6 +1344,7 @@ Please tap here to create a new affirmation</string>
                             <constraint firstAttribute="trailing" secondItem="Bda-1S-RJp" secondAttribute="trailing" id="hel-uP-jet"/>
                             <constraint firstItem="1w7-5X-fM9" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="ise-lj-5TO"/>
                             <constraint firstAttribute="trailing" secondItem="UUv-h4-auF" secondAttribute="trailing" id="rN7-DY-Cqt"/>
+                            <constraint firstItem="Rut-uN-STO" firstAttribute="height" secondItem="ADr-Be-Y3Z" secondAttribute="height" multiplier="1:4" id="suy-sF-KO8"/>
                             <constraint firstItem="KZy-uO-hs9" firstAttribute="top" secondItem="Xlf-Nb-mFF" secondAttribute="bottom" constant="12" id="vRM-ND-eeD"/>
                             <constraint firstItem="ADr-Be-Y3Z" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="vxJ-8m-lvN"/>
                             <constraint firstItem="Xlf-Nb-mFF" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" constant="23" id="xy5-fV-T97"/>

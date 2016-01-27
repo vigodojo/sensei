@@ -79,14 +79,11 @@ class APIManager: NSObject {
     // MARK: Lessons
     
     func lessonsHistoryCompletion(handler: ErrorHandlerClosure?) {
-        if Settings.sharedSettings.isProVersion?.boolValue == true {
-            return
-        }
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
             builder.path = APIPath.LessonsHistory
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
-            if response.error == nil {
+            if response.error == nil && Settings.sharedSettings.isProVersion?.boolValue == true {
                 CoreDataManager.sharedInstance.mergeJSONs(response.object as? [JSONObject], entityMapping: Lesson.entityMapping)
             }
             if let handler = handler {

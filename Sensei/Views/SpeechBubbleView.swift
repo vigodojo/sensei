@@ -70,9 +70,9 @@ class SpeechBubbleView: UIView {
             case .BottomRight: bodyPath = bezierPathForBottomRight()
         }
         bodyPath.lineWidth = lineWidth
-        strokeColor.setStroke()
+//        strokeColor.setStroke()
         fillColor.setFill()
-        bodyPath.stroke()
+//        bodyPath.stroke()
         bodyPath.fill()
     }
 
@@ -91,7 +91,7 @@ class SpeechBubbleView: UIView {
         let angle = RadiangsFromDegrees(55)
         let pointerOffset = cornerRadius - PoinOnCircleWithRadius(cornerRadius, angle: angle).x
         let rightEdgeOffset = cornerRadius + aPointerSize.width - pointerOffset + offset
-        
+
         var point = CGPoint(x: cornerRadius + offset, y: cornerRadius + offset)
         beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(M_PI), endAngle: CGFloat(-M_PI_2), clockwise: true)
         point = beziePath.currentPoint

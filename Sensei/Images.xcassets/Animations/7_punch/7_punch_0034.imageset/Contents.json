@@ -2,11 +2,6 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "7_punch_0034.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
       "filename" : "7_punch_0034@2x.png",
       "scale" : "2x"
     },

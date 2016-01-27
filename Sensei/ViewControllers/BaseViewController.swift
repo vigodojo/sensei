@@ -77,7 +77,9 @@ class BaseViewController: UIViewController {
     }
     
     func didMoveToNextTutorial(tutorialStep: TutorialStep) {
-        enableControls(tutorialStep.enabledContols)
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(tutorialStep.delayBefore) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            self.enableControls(tutorialStep.enabledContols)
+        }
     }
     
     func enableControls(controlNames: [String]?) {

@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var shouldSit: Bool = false
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
-        application.registerUserNotificationSettings(notificationSettings)
+        NSUserDefaults.standardUserDefaults().setObject(NSNumber(int: 20), forKey: "TutorialManagerLastCompletedStepNumber")
+        NSUserDefaults.standardUserDefaults().synchronize()
         pushNotification = extractPushFromLaunchOptions(launchOptions)
         Fabric.with([Crashlytics()])
         TutorialManager.sharedInstance
@@ -30,6 +30,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSUserDefaults.standardUserDefaults().synchronize()
         }
         return true
+    }
+    
+    func registerForNotifications() {
+        let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
     }
     
     func postSitSenseiNotification() {
@@ -47,15 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let lastActivityDate = NSCalendar.currentCalendar().dateFromComponents(activityComponents)
         let sleeptimeEndDate = NSCalendar.currentCalendar().dateFromComponents(sleepEndComponents)
-        
-        print("====")
-        print("sleepEnds: \(sleepTime.end)")
-        print("lastActivity: \(lastActivity)")
-        print("====")
-        print("sleepEndsDate: \(sleeptimeEndDate)")
-        print("lastActivityDate: \(lastActivityDate)")
-        print("====")
-        print("now: \(NSDate())")
+
         let lastActivityBeforeSleep = lastActivityDate!.compare(sleeptimeEndDate!) == NSComparisonResult.OrderedAscending
         let nowAfterSleep = sleeptimeEndDate!.compare(NSDate()) == NSComparisonResult.OrderedAscending
 

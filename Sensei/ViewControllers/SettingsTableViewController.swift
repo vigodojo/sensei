@@ -385,7 +385,11 @@ class SettingsTableViewController: UITableViewController {
     
     private func saveProfile() {
         Settings.sharedSettings.dayOfBirth = DataFormatter.dateFromString(dateOfBirthTF.text!)
-        Settings.sharedSettings.gender = maleButton.selected ? .Male: .Female
+        if !maleButton.selected && !femaleButton.selected {
+            Settings.sharedSettings.gender = .SheMale
+        } else {
+            Settings.sharedSettings.gender = maleButton.selected ? .Male: .Female
+        }
         Settings.sharedSettings.height = heightCm > 0 ? NSNumber(double: heightCm): nil
         Settings.sharedSettings.weight = weightKg > 0 ? NSNumber(double: weightKg): nil
     }
@@ -438,7 +442,9 @@ class SettingsTableViewController: UITableViewController {
         switch Settings.sharedSettings.gender {
             case .Male : configureGenderSelection(maleButton)
             case .Female: configureGenderSelection(femaleButton)
-            case .SheMale: configureGenderSelection(UIButton())
+            case .SheMale:
+                self.maleButton.selected = false
+                self.femaleButton.selected = false
         }
     }
     
@@ -569,18 +575,27 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func shareOnFaebook() {
+        if !TutorialManager.sharedInstance.completed {
+            return
+        }
         SocialPostingService.postToSocialNetworksWithType(.Facebook, fromController: self) { (composeResult) -> Void in
             
         }
     }
     
     @IBAction func tweet() {
+        if !TutorialManager.sharedInstance.completed {
+            return
+        }
         SocialPostingService.postToSocialNetworksWithType(.Twitter, fromController: self) { (composeResult) -> Void in
             
         }
     }
     
     @IBAction func rateInAppStore() {
+        if !TutorialManager.sharedInstance.completed {
+            return
+        }
         openAppStoreURL()
     }
     
@@ -590,6 +605,9 @@ class SettingsTableViewController: UITableViewController {
      subject - 'Note from a user'
      */
     @IBAction func giveFeedback() {
+        if !TutorialManager.sharedInstance.completed {
+            return
+        }
         if MFMailComposeViewController.canSendMail() {
             
             let mailComposeController = MFMailComposeViewController()

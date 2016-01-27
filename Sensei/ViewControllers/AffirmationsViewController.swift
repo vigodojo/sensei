@@ -30,8 +30,8 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Affirmation?")
 
-    private func ReceiveTimeConfirmationQuestion(receiveTime: ReceiveTime) -> ConfirmationQuestion {
-        return ConfirmationQuestion(text: "There can be only one affirmation set for \(receiveTime.description.lowercaseString).")
+    private func ReceiveTimeConfirmationQuestion(receiveTime: ReceiveTime) -> PlainMessage {
+        return PlainMessage(text: "There can be only one affirmation set for \(receiveTime.description.lowercaseString).")
     }
     
     override weak var navigationView: NavigationView! {
@@ -153,26 +153,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         super.enableControls(controlNames)
         textView.userInteractionEnabled = controlNames?.contains(ControlNames.TextView) ?? true
         messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.TextView) ?? true
-    }
-    
-    override func handleYesAnswerNotification(notification: NSNotification) {
-        if itemToDelete != nil {
-            textView.resignFirstResponder()
-            deleteAffirmation()
-        } else {
-            if (messageSwitchView.receiveTime != ReceiveTime.AnyTime) {
-                let aff = affirmationsWithReceiveTime(messageSwitchView.receiveTime)?.first
-                aff?.receiveTime = ReceiveTime.AnyTime
-                CoreDataManager.sharedInstance.saveContext()
-            }
-            saveChanges()
-        }
-    }
-    
-    override func handleNoAnswerNotification(notification: NSNotification) {
-        if itemToDelete == nil && selectedAffirmation != nil{
-            fillAffirmationWithNumber((selectedAffirmation?.number)!)
-        }
     }
 
     // MARK: - Private
@@ -341,7 +321,8 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
                     affirmations.removeAtIndex(affirmations.indexOf(selectedAffirmation!)!)
                 }
                 if affirmations.count > 0 {
-                    tutorialViewController?.askConfirmationQuestion(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime))
+                    tutorialViewController?.showMessage(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime), upgrade: false)
+                    fillAffirmationWithNumber((selectedAffirmation?.number)!)
                 } else {
                     saveChanges()
                 }

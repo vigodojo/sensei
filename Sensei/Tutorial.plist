@@ -78,9 +78,9 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-        <integer>0</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -97,8 +97,8 @@
 		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>1</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>AnimatableImage</key>
@@ -181,8 +181,8 @@
 		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>2</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>Answers</key>
@@ -274,8 +274,8 @@
 		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>3</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -286,8 +286,8 @@
 		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>4</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -298,8 +298,8 @@
 		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>5</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -314,8 +314,8 @@
 		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>6</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -326,8 +326,8 @@
 		<string>AffirmationScreen</string>
 		<key>Number</key>
 		<integer>7</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -338,8 +338,8 @@
 		<string>AffirmationScreen</string>
 		<key>Number</key>
 		<integer>8</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -350,8 +350,8 @@
 		<string>AffirmationScreen</string>
 		<key>Number</key>
 		<integer>9</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -366,8 +366,8 @@
 		<string>AffirmationScreen</string>
 		<key>Number</key>
 		<integer>10</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -382,8 +382,8 @@
 		<string>AffirmationScreen</string>
 		<key>Number</key>
 		<integer>11</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>AnimatableImage</key>
@@ -466,8 +466,8 @@
 		<string>AffirmationScreen</string>
 		<key>Number</key>
 		<integer>12</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -482,8 +482,8 @@
 		<string>AffirmationScreen</string>
 		<key>Number</key>
 		<integer>13</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -498,8 +498,8 @@
 		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>14</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -510,8 +510,8 @@
 		<string>VisualisationScreen</string>
 		<key>Number</key>
 		<integer>15</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -522,8 +522,8 @@
 		<string>VisualisationScreen</string>
 		<key>Number</key>
 		<integer>16</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -538,8 +538,8 @@
 		<string>VisualisationScreen</string>
 		<key>Number</key>
 		<integer>17</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>AnimatableImage</key>
@@ -622,8 +622,8 @@
 		<string>VisualisationScreen</string>
 		<key>Number</key>
 		<integer>18</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -638,8 +638,8 @@
 		<string>VisualisationScreen</string>
 		<key>Number</key>
 		<integer>19</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -650,8 +650,8 @@
 		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>20</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -666,8 +666,8 @@
 		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>21</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>AllowedActionName</key>
@@ -680,8 +680,8 @@
 		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>22</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -692,8 +692,8 @@
 		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>23</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -704,8 +704,8 @@
 		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>24</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -716,8 +716,8 @@
 		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>25</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>AllowedActionName</key>
@@ -730,8 +730,8 @@
 		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>26</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -742,8 +742,8 @@
 		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>27</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -754,8 +754,8 @@
 		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>28</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -766,8 +766,8 @@
 		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>29</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -778,8 +778,8 @@
 		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>30</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>EnabledContols</key>
@@ -794,8 +794,8 @@
 		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>31</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>Message</key>
@@ -806,10 +806,17 @@
 		<integer>32</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
+		<key>EnabledContols</key>
+		<array>
+			<string>AffirmationsButton</string>
+			<string>VisualisationsButton</string>
+			<string>MoreTab</string>
+			<string>SenseiTab</string>
+		</array>
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
@@ -890,8 +897,8 @@
 		<integer>33</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>AnimatableImage</key>
@@ -968,12 +975,12 @@
 		</dict>
 		<key>RequiresActionToProceed</key>
 		<false/>
-        <key>ScreenName</key>
-        <string>SenseiScreen</string>
-        <key>Number</key>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
 		<integer>34</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>Upgraded</key>
@@ -984,8 +991,8 @@
 		<false/>
 		<key>Number</key>
 		<integer>35</integer>
-        <key>DelayBefore</key>
-        <integer>0</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -1070,8 +1077,8 @@
 		<false/>
 		<key>Number</key>
 		<integer>36</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -1084,8 +1091,8 @@
 		<false/>
 		<key>Number</key>
 		<integer>37</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -1098,8 +1105,8 @@
 		<false/>
 		<key>Number</key>
 		<integer>38</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -1112,8 +1119,8 @@
 		<false/>
 		<key>Number</key>
 		<integer>39</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -1196,8 +1203,8 @@
 		</dict>
 		<key>Number</key>
 		<integer>40</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>

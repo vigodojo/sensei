@@ -51,12 +51,7 @@ extension UITextView {
 
         if !self.text.isEmpty {
             self.text.appendContentsOf("\n\n")
-            if textSize.height <= 32 {
-                self.text.appendContentsOf("\n")
-            }
         }
-        
-
         var bottomOffset = CGRectGetHeight(frame) - textSize.height
         if bottomOffset < 0 {
             bottomOffset = 0

@@ -27,8 +27,8 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Visualisation?")
     
-    private func ReceiveTimeConfirmationQuestion(receiveTime: ReceiveTime) -> ConfirmationQuestion {
-        return ConfirmationQuestion(text: "There can be only one visualization set for \(receiveTime.description.lowercaseString).")
+    private func ReceiveTimeConfirmationQuestion(receiveTime: ReceiveTime) -> PlainMessage {
+        return PlainMessage(text: "There can be only one visualization set for \(receiveTime.description.lowercaseString).")
     }
     
     override weak var navigationView: NavigationView! {
@@ -171,26 +171,6 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
                 self?.scrollView.contentOffset = CGPoint(x: 0, y: bottomOffset)
                 self?.view.layoutIfNeeded()
             }, completion: nil)
-        }
-    }
-    
-    override func handleYesAnswerNotification(notification: NSNotification) {
-        if itemToDelete != nil {
-            deleteVisualization()
-            visualisationView?.mode = .Default
-        } else {
-            if (messageSwitchView.receiveTime != ReceiveTime.AnyTime) {
-                let vis = visualizationsWithReceiveTime(messageSwitchView.receiveTime)?.first
-                vis?.receiveTime = ReceiveTime.AnyTime
-                CoreDataManager.sharedInstance.saveContext()
-            }
-            saveVisualization()
-        }
-    }
-    
-    override func handleNoAnswerNotification(notification: NSNotification) {
-        if itemToDelete == nil && selectedVisualization != nil{
-            fillVisualisationWithNumber((selectedVisualization?.number)!)
         }
     }
     
@@ -383,7 +363,8 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
                     visualizations.removeAtIndex(visualizations.indexOf(selectedVisualization!)!)
                 }
                 if visualizations.count > 0 {
-                    tutorialViewController?.askConfirmationQuestion(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime))
+                    tutorialViewController?.showMessage(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime), upgrade: false)
+                    fillVisualisationWithNumber((selectedVisualization?.number)!)
                 } else {
                     saveChanges()
                 }

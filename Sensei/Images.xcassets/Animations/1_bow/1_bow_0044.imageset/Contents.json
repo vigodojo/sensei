@@ -2,11 +2,6 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "1_bow_0044.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
       "filename" : "1_bow_0044@2x.png",
       "scale" : "2x"
     },
