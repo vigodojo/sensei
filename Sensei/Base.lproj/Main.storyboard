@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="goE-cF-bxi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="goE-cF-bxi">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -1264,7 +1264,7 @@ Please tap here to create a new affirmation</string>
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UUv-h4-auF">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="564"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="529"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="18" minimumInteritemSpacing="0.0" id="WAd-fB-dFP">
                                     <size key="itemSize" width="200" height="142"/>
@@ -1339,7 +1339,7 @@ Please tap here to create a new affirmation</string>
                             <constraint firstItem="ADr-Be-Y3Z" firstAttribute="height" secondItem="lQE-Fo-0Gf" secondAttribute="height" id="R1Q-NJ-ww8"/>
                             <constraint firstItem="Xlf-Nb-mFF" firstAttribute="top" secondItem="LDJ-Py-bdg" secondAttribute="top" id="af4-BE-N4f"/>
                             <constraint firstItem="LDJ-Py-bdg" firstAttribute="leading" secondItem="Xlf-Nb-mFF" secondAttribute="trailing" constant="23" id="cb0-CH-d7N"/>
-                            <constraint firstItem="Rut-uN-STO" firstAttribute="bottom" secondItem="UUv-h4-auF" secondAttribute="bottom" id="fds-Gg-XXD"/>
+                            <constraint firstItem="Rut-uN-STO" firstAttribute="bottom" secondItem="UUv-h4-auF" secondAttribute="bottom" constant="35" id="fds-Gg-XXD"/>
                             <constraint firstItem="UUv-h4-auF" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="gOQ-zc-YCz"/>
                             <constraint firstAttribute="trailing" secondItem="Bda-1S-RJp" secondAttribute="trailing" id="hel-uP-jet"/>
                             <constraint firstItem="1w7-5X-fM9" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="ise-lj-5TO"/>

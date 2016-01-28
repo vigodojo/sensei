@@ -72,6 +72,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
         warningTextView.hidden = false
         warningTextView.text = message
         warningTextView.contentOffset = CGPointZero
+        
         warningTextView.contentInset = UIEdgeInsetsZero
         warningTextView.textContainerInset = UIEdgeInsetsZero
         warningTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)

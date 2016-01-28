@@ -174,6 +174,19 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         }
     }
     
+    override func handleYesAnswerNotification(notification: NSNotification) {
+        if itemToDelete != nil {
+            deleteVisualization()
+            visualisationView?.mode = .Default
+        }
+    }
+    
+    override func handleNoAnswerNotification(notification: NSNotification) {
+//        if itemToDelete == nil && selectedVisualization != nil {
+//            fillVisualisationWithNumber((selectedVisualization?.number)!)
+//        }
+    }
+    
     // MARK: - Private
     
     private func hasVisualizationBeenChanged(visualization: Visualization, newText: String, newReceiveTime: ReceiveTime) -> Bool {

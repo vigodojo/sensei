@@ -201,12 +201,7 @@ class TutorialViewController: BaseViewController {
         }
         var show = true;
         if let cell = self.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? TutorialBubbleCollectionViewCell {
-            let textView = UITextView(frame: cell.textView.bounds)
-            textView.font = cell.textView.font
-            textView.text = cell.textView.text.componentsSeparatedByString("\n\n").last?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            textView.layoutIfNeeded()
-            
-            show = textView.contentSize.height <= CGRectGetMaxY(cell.textView.bounds) || cell.textView.frame.size.height >= cell.textView.contentSize.height - cell.textView.contentOffset.y
+            show = cell.textView.frame.size.height >= cell.textView.contentSize.height - cell.textView.contentOffset.y
         }
         
         if canLoadNextStep && self.nextTimer == nil && show && TutorialManager.sharedInstance.currentStep?.screen != .Sensei {

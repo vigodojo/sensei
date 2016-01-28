@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -22,10 +22,10 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
-                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Some Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5x3-O3-QGF">
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Some Text" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5x3-O3-QGF">
                                 <rect key="frame" x="8" y="8" width="301" height="76"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dlp-tt-5pB">
@@ -105,19 +105,19 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Dlp-tt-5pB" firstAttribute="trailing" secondItem="5x3-O3-QGF" secondAttribute="trailing" constant="5" id="8Mk-x6-csg"/>
+                            <constraint firstAttribute="trailing" secondItem="5x3-O3-QGF" secondAttribute="trailing" constant="11" id="7Pc-HC-Laq"/>
                             <constraint firstAttribute="bottom" secondItem="CLG-c6-VXc" secondAttribute="bottom" constant="3" id="8rC-34-T2q"/>
-                            <constraint firstItem="5x3-O3-QGF" firstAttribute="top" secondItem="2aE-fa-BUm" secondAttribute="top" id="Ej2-dV-W4U"/>
-                            <constraint firstItem="5x3-O3-QGF" firstAttribute="leading" secondItem="2aE-fa-BUm" secondAttribute="leading" id="HrH-6S-UM3"/>
+                            <constraint firstItem="5x3-O3-QGF" firstAttribute="leading" secondItem="ytY-bT-7Kp" secondAttribute="leading" constant="8" id="D3u-xp-4Lg"/>
                             <constraint firstItem="2aE-fa-BUm" firstAttribute="leading" secondItem="ytY-bT-7Kp" secondAttribute="leading" constant="8" id="Hx1-j5-2no"/>
                             <constraint firstAttribute="trailing" secondItem="2aE-fa-BUm" secondAttribute="trailing" constant="18" id="PsO-Uj-b6B"/>
                             <constraint firstAttribute="bottom" secondItem="Dlp-tt-5pB" secondAttribute="bottom" id="Vya-fF-ZB9"/>
                             <constraint firstAttribute="trailing" secondItem="CLG-c6-VXc" secondAttribute="trailing" constant="19" id="Xbl-Ni-M0G"/>
+                            <constraint firstAttribute="bottom" secondItem="5x3-O3-QGF" secondAttribute="bottom" constant="8" id="a2J-NE-ld0"/>
                             <constraint firstItem="CLG-c6-VXc" firstAttribute="leading" secondItem="ytY-bT-7Kp" secondAttribute="leading" constant="8" id="adH-o5-rPA"/>
                             <constraint firstAttribute="trailing" secondItem="Dlp-tt-5pB" secondAttribute="trailing" constant="6" id="i0j-OU-m1F"/>
                             <constraint firstAttribute="bottom" secondItem="2aE-fa-BUm" secondAttribute="bottom" constant="8" id="kdA-Mk-8QQ"/>
                             <constraint firstItem="2aE-fa-BUm" firstAttribute="top" secondItem="ytY-bT-7Kp" secondAttribute="top" constant="8" id="qOt-EN-lSq"/>
-                            <constraint firstItem="5x3-O3-QGF" firstAttribute="bottom" secondItem="2aE-fa-BUm" secondAttribute="bottom" id="wmg-pD-638"/>
+                            <constraint firstItem="5x3-O3-QGF" firstAttribute="top" secondItem="ytY-bT-7Kp" secondAttribute="top" constant="8" id="vMF-fF-jhR"/>
                         </constraints>
                     </view>
                 </subviews>

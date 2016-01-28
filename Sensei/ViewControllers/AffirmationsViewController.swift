@@ -154,6 +154,19 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         textView.userInteractionEnabled = controlNames?.contains(ControlNames.TextView) ?? true
         messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.TextView) ?? true
     }
+    
+    override func handleYesAnswerNotification(notification: NSNotification) {
+        if itemToDelete != nil {
+            textView.resignFirstResponder()
+            deleteAffirmation()
+        }
+    }
+    
+    override func handleNoAnswerNotification(notification: NSNotification) {
+//        if itemToDelete == nil && selectedAffirmation != nil{
+//            fillAffirmationWithNumber((selectedAffirmation?.number)!)
+//        }
+    }
 
     // MARK: - Private
     
@@ -370,11 +383,20 @@ extension AffirmationsViewController: UITextViewDelegate {
         }
         
         if length >= Affirmation.MaxTextLength {
-            if (tutorialViewController?.tutorialHidden)! {
-                tutorialViewController?.showTutorialAnimated(true)
+            if !TutorialManager.sharedInstance.completed {
+//                if tutorialViewController?.tutorialHidden == true {
+//                    tutorialViewController?.showTutorialAnimated(true)
+//                }
+                let cell = tutorialViewController!.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
+                cell.showWarningMessage("You can only use 130 characters for each affirmation. Please modify accordingly.", disappear: true)
+                
+            } else {
+                tutorialViewController?.showMessage(PlainMessage(text: "You can only use 130 characters for each affirmation. Please modify accordingly."), upgrade: false)
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(2) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                    self.tutorialViewController?.hideTutorialAnimated(true)
+                }
+
             }
-            let cell = tutorialViewController!.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
-            cell.showWarningMessage("You can only use 130 characters for each affirmation. Please modify accordingly.", disappear: true)
 
             return false
         }
