@@ -96,6 +96,36 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     
     private var itemToDelete: Int?;
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+//        let swipeNextActionGesture = UISwipeGestureRecognizer(target: self, action: "showNextSlot:")
+//        swipeNextActionGesture.direction = .Right
+//        self.view.addGestureRecognizer(swipeNextActionGesture)
+//        
+//        let swipePrevActionGesture = UISwipeGestureRecognizer(target: self, action: "showPrevSlot:")
+//        swipePrevActionGesture.direction = .Left
+//        self.view.addGestureRecognizer(swipePrevActionGesture)
+    }
+    
+//    func showNextSlot(notification: NSNotification) {
+//        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot!+1, inSection: 0)
+//        if indexPath.item >= Constants.NumberOfAffirmations {
+//            return
+//        }
+//        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
+//        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
+//    }
+//
+//    func showPrevSlot(notification: NSNotification) {
+//        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot!-1, inSection: 0)
+//        if indexPath.item < 0 {
+//            return
+//        }
+//        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
+//        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
+//    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didUpgradeToPro:"), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
