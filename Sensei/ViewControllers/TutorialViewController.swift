@@ -25,6 +25,7 @@ class TutorialViewController: BaseViewController {
     @IBOutlet weak var tutorialContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var senseiImageView: AnimatableImageView!
+    @IBOutlet weak var senseiTapView: UIView!
     
     private var nextTimer: NSTimer?
     

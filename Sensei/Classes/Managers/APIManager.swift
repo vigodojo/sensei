@@ -17,7 +17,7 @@ class APIManager: NSObject {
     
     static let sharedInstance = APIManager()
 
-//	static let BaseURL = NSURL(string: "http://192.168.88.213:8831")!
+//	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")!
     static let BaseURL = NSURL(string: "http://projects.thinkmobiles.com:8831")!
 
     struct APIPath {
@@ -83,7 +83,7 @@ class APIManager: NSObject {
             builder.path = APIPath.LessonsHistory
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
-            if response.error == nil && Settings.sharedSettings.isProVersion?.boolValue == true {
+            if response.error == nil && UpgradeManager.sharedInstance.isProVersion() {
                 CoreDataManager.sharedInstance.mergeJSONs(response.object as? [JSONObject], entityMapping: Lesson.entityMapping)
             }
             if let handler = handler {

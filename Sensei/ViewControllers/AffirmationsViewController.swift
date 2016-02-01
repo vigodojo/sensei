@@ -96,38 +96,48 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     
     private var itemToDelete: Int?;
     
+    private var swipeNextGesture: UISwipeGestureRecognizer?
+    private var swipePrevGesture: UISwipeGestureRecognizer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let swipeNextActionGesture = UISwipeGestureRecognizer(target: self, action: "showNextSlot:")
-//        swipeNextActionGesture.direction = .Right
-//        self.view.addGestureRecognizer(swipeNextActionGesture)
-//        
-//        let swipePrevActionGesture = UISwipeGestureRecognizer(target: self, action: "showPrevSlot:")
-//        swipePrevActionGesture.direction = .Left
-//        self.view.addGestureRecognizer(swipePrevActionGesture)
+                
+        swipeNextGesture = UISwipeGestureRecognizer(target: self, action: "showNextSlot:")
+        swipeNextGesture!.direction = .Left
+        self.view.addGestureRecognizer(swipeNextGesture!)
+
+        swipePrevGesture = UISwipeGestureRecognizer(target: self, action: "showPrevSlot:")
+        swipePrevGesture!.direction = .Right
+        self.view.addGestureRecognizer(swipePrevGesture!)
     }
     
-//    func showNextSlot(notification: NSNotification) {
-//        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot!+1, inSection: 0)
-//        if indexPath.item >= Constants.NumberOfAffirmations {
-//            return
-//        }
-//        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
-//        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
-//    }
-//
-//    func showPrevSlot(notification: NSNotification) {
-//        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot!-1, inSection: 0)
-//        if indexPath.item < 0 {
-//            return
-//        }
-//        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
-//        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
-//    }
+    func showNextSlot(notification: NSNotification) {
+        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot! + 1, inSection: 0)
+        if !UpgradeManager.sharedInstance.isProVersion() && indexPath.item >= Constants.NumberOfFreeAffirmations {
+            if TutorialManager.sharedInstance.completed {
+                showUpgradeAppMessage()
+            }
+            return
+        }
+        if indexPath.item >= Constants.NumberOfAffirmations {
+            return
+        }
+        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
+        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
+    }
+
+    func showPrevSlot(notification: NSNotification) {
+        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot!-1, inSection: 0)
+        if indexPath.item < 0 {
+            return
+        }
+        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
+        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didUpgradeToPro:"), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
     }
     
@@ -140,6 +150,19 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         CoreDataManager.sharedInstance.saveContext()
         
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    // MARK: - Keyboard
+    
+    override func keyboardWillHideWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        super.keyboardWillHideWithSize(size, animationDuration: animationDuration, animationOptions: animationOptions)
+        swipeNextGesture?.enabled = true
+        swipePrevGesture?.enabled = true
+    }
+    
+    override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        swipeNextGesture?.enabled = false
+        swipePrevGesture?.enabled = false
     }
     
     // MARK: - UserMessageViewController
@@ -183,6 +206,8 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         super.enableControls(controlNames)
         textView.userInteractionEnabled = controlNames?.contains(ControlNames.TextView) ?? true
         messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.TextView) ?? true
+        swipeNextGesture?.enabled = messageSwitchView.slotsCollectionView.userInteractionEnabled
+        swipePrevGesture?.enabled = messageSwitchView.slotsCollectionView.userInteractionEnabled
     }
     
     override func handleYesAnswerNotification(notification: NSNotification) {
@@ -190,12 +215,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
             textView.resignFirstResponder()
             deleteAffirmation()
         }
-    }
-    
-    override func handleNoAnswerNotification(notification: NSNotification) {
-//        if itemToDelete == nil && selectedAffirmation != nil{
-//            fillAffirmationWithNumber((selectedAffirmation?.number)!)
-//        }
     }
 
     // MARK: - Private
@@ -300,7 +319,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
 		if let affirmation = anObject as? Affirmation {
 			switch type {
 			case .Insert:
-				//messageSwitchView.selectedSlot = affirmation.number.integerValue
 				selectedAffirmation = affirmation
 				if TutorialManager.sharedInstance.completed {
 					APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
@@ -312,7 +330,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
 				}
 			case .Delete:
 				messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
-//				messageSwitchView.selectedSlot = affirmation.number.integerValue
 				APIManager.sharedInstance.deleteAffirmation(affirmation, handler: nil)
 			default:
 				break
@@ -341,7 +358,7 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) { }
     
     func messageSwitchView(view: MessageSwitchView, shouldSelectSlotAtIndex index: Int) -> Bool {
-        if Settings.sharedSettings.isProVersion?.boolValue == true {
+        if UpgradeManager.sharedInstance.isProVersion() {
             return true
         }
         if index < Constants.NumberOfFreeAffirmations {
@@ -360,12 +377,12 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView) {
         if messageSwitchView.receiveTime != ReceiveTime.AnyTime {
             if var affirmations = affirmationsWithReceiveTime(messageSwitchView.receiveTime) {
-                if selectedAffirmation != nil && affirmations.contains(selectedAffirmation!) {
-                    affirmations.removeAtIndex(affirmations.indexOf(selectedAffirmation!)!)
+                if let selectedAfi = selectedAffirmation where affirmations.contains(selectedAfi) {
+                    affirmations.removeAtIndex(affirmations.indexOf(selectedAfi)!)
                 }
                 if affirmations.count > 0 {
-                    tutorialViewController?.showMessage(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime), upgrade: false)
-                    fillAffirmationWithNumber((selectedAffirmation?.number)!)
+                    showReceiveTimeDuplicationWarning()
+                    resetSelectedSlot()
                 } else {
                     saveChanges()
                 }
@@ -373,7 +390,26 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
         } else {
             saveChanges()
         }
-        TutorialManager.sharedInstance.nextStep()
+        if !TutorialManager.sharedInstance.completed {
+            TutorialManager.sharedInstance.nextStep()
+        }
+    }
+    
+    func showReceiveTimeDuplicationWarning() {
+        tutorialViewController?.showMessage(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime), upgrade: false)
+        if TutorialManager.sharedInstance.completed {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(Affirmation.TextLimitShowDuration) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                self.tutorialViewController?.hideTutorialAnimated(true)
+            }
+        }
+    }
+    
+    func resetSelectedSlot() {
+        if selectedAffirmation != nil {
+            fillAffirmationWithNumber((selectedAffirmation?.number)!)
+        } else {
+            messageSwitchView.receiveTime = .AnyTime
+        }
     }
     
     private func saveChanges() {
@@ -414,23 +450,16 @@ extension AffirmationsViewController: UITextViewDelegate {
         
         if length >= Affirmation.MaxTextLength {
             if !TutorialManager.sharedInstance.completed {
-//                if tutorialViewController?.tutorialHidden == true {
-//                    tutorialViewController?.showTutorialAnimated(true)
-//                }
                 let cell = tutorialViewController!.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
-                cell.showWarningMessage("You can only use 130 characters for each affirmation. Please modify accordingly.", disappear: true)
-                
+                cell.showWarningMessage("You can only use \(Affirmation.MaxTextLength) characters for each affirmation. Please modify accordingly.", disappear: true)
             } else {
-                tutorialViewController?.showMessage(PlainMessage(text: "You can only use 130 characters for each affirmation. Please modify accordingly."), upgrade: false)
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(2) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                tutorialViewController?.showMessage(PlainMessage(text: "You can only use \(Affirmation.MaxTextLength) characters for each affirmation. Please modify accordingly."), upgrade: false)
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(Affirmation.TextLimitShowDuration) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
                     self.tutorialViewController?.hideTutorialAnimated(true)
                 }
-
             }
-
             return false
         }
-
         return true
     }
     

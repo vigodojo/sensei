@@ -33,7 +33,10 @@ class SenseiViewController: BaseViewController {
     @IBOutlet weak var affirmationsButton: UIButton!
     @IBOutlet weak var visualisationsButton: UIButton!
 	@IBOutlet weak var fadingImageView: UIImageView!
-
+    @IBOutlet weak var senseiTapView: UIView!
+    
+    private var standUpTimer: NSTimer?
+    
 	private lazy var transparrencyGradientLayer: CAGradientLayer = {
 		let gradientLayer = CAGradientLayer()
 		gradientLayer.colors = [UIColor(white: 0.0, alpha: 1.0).CGColor, UIColor(white: 0.0, alpha: 0.0).CGColor]
@@ -69,13 +72,13 @@ class SenseiViewController: BaseViewController {
             default: rightInset = 60.0
         }
         
-//this hardcoded values were caused by the different sensei size for every iPhone resolution.. 
-//Apple God blessed me for this shit
-        
-//iphone 4s == 60
-//iphone 5s == 70
-//iphone 6s == 80
-//iphone 6sPlus == 90
+        //this hardcoded values were caused by the different sensei size for every iPhone resolution..
+        //Apple God blessed me for this shit
+                
+        //iphone 4s == 60
+        //iphone 5s == 70
+        //iphone 6s == 80
+        //iphone 6sPlus == 90
         
         return UIEdgeInsets(top: 0, left: 11.0, bottom: 0, right: rightInset)
     }
@@ -154,21 +157,41 @@ class SenseiViewController: BaseViewController {
     }
     
     func showSitSenseiAnimation() {
-        if !TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.lastStepNumber() < 1 {
-            senseiImageView.image = UIImage(named: "1_bow_0064")
-        } else {
-            if (UIApplication.sharedApplication().delegate as! AppDelegate).shouldSit {
-                (UIApplication.sharedApplication().delegate as! AppDelegate).shouldSit = false
-                senseiImageView.image = UIImage(named: "1_bow_0064")
+        if SenseiManager.sharedManager.senseiSitting {
+            senseiImageView.image = SenseiManager.sharedManager.sittingImage()
+            
+            if SenseiManager.sharedManager.showSenseiSitAnimation {
+                SenseiManager.sharedManager.showSenseiSitAnimation = false
+                
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                    self.senseiImageView.animateAnimatableImage(AnimationManager.sharedManager.sitsBowAnimatableImage()!, completion: { (finished) -> Void in
-                        self.senseiImageView.animateAnimatableImage(AnimationManager.sharedManager.sitStandAnimatableImage()!, completion: nil)
+                    SenseiManager.sharedManager.animateSenseiBowsInImageView(self.senseiImageView, completion: { (finished) -> Void in
+                        self.standUpSensei()
                     })
                 }
-            } else {
-                senseiImageView.image = UIImage(named: "VigoSensei")
+            } else if TutorialManager.sharedInstance.completed {
+                let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
+                let timeComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.end)
+                let nextDate = NSCalendar.currentCalendar().nextDateAfterDate(NSDate(), matchingComponents: timeComponents, options: NSCalendarOptions.MatchNextTime)
+                
+                if standUpTimer == nil {
+                    standUpTimer = NSTimer(fireDate: nextDate!, interval: 0, target: self, selector: "standSenseiUpTimerAction:", userInfo: nil, repeats: false)
+                    NSRunLoop.currentRunLoop().addTimer(standUpTimer!, forMode: NSRunLoopCommonModes)
+                }
             }
+        } else {
+            senseiImageView.image = SenseiManager.sharedManager.standingImage()
         }
+    }
+    
+    func standSenseiUpTimerAction(timer: NSTimer) {
+        standUpTimer = nil
+        SenseiManager.sharedManager.saveLastActiveTime()
+        senseiImageView.stopAnimatableImageAnimation()
+        standUpSensei()
+    }
+    
+    func standUpSensei() {
+        SenseiManager.sharedManager.animateSenseiSittingInImageView(self.senseiImageView, completion: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -191,7 +214,7 @@ class SenseiViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         showLastReceivedVisualisation()
-        let isPro = Settings.sharedSettings.isProVersion?.boolValue == true
+        let isPro = UpgradeManager.sharedInstance.isProVersion()
         let isProCompleted = TutorialManager.sharedInstance.upgradeCompleted
         
         if !TutorialManager.sharedInstance.completed {
@@ -370,19 +393,6 @@ class SenseiViewController: BaseViewController {
         }
     }
     
-    private func askQuestion(question: QuestionProtocol) {
-        lastQuestion = question
-        let delay = self.dataSource.count > 0 ? (question as! QuestionTutorialStep).delayBefore : 0
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(delay) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-            if let _ = (question as! QuestionTutorialStep).animatableImage {
-                self.animateQuestionAnimation(question)
-            } else {
-                self.addMessages([question], scroll: false) {
-                    (self.view as? AnswerableView)?.askQuestion(question)
-                }
-            }
-        }
-    }
     
     func animateQuestionAnimation(question: QuestionProtocol) {
         if let animatableimage = (question as! QuestionTutorialStep).animatableImage {
@@ -445,8 +455,6 @@ class SenseiViewController: BaseViewController {
 		} else  {
 			let size = sizingCell.systemLayoutSizeFittingSize(CGSize(width: fullWidth, height: Constants.DefaultCellHeight), withHorizontalFittingPriority: 1000, verticalFittingPriority: 50)
 			let textSize = SpeechBubbleCollectionViewCell.sizeForText(sizingCell.text, maxWidth: fullWidth, type: message is AnswerMessage ? .Me : .Sensei)
-			print("Size \(size)")
-			print("text size \(textSize)")
 			return CGSize(width: min(size.width, textSize.width), height: size.height)
 		}
 	}
@@ -456,12 +464,17 @@ class SenseiViewController: BaseViewController {
     func addSenseiGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: "senseiTapped:")
         tapGesture.numberOfTapsRequired = 1
-        senseiImageView.addGestureRecognizer(tapGesture)
+        senseiTapView
+            .addGestureRecognizer(tapGesture)
     }
     
     func senseiTapped(recognizer: UITapGestureRecognizer) {
         if !senseiImageView.layerAnimating() && TutorialManager.sharedInstance.completed {
-            senseiImageView.animateAnimatableImage(AnimationManager.sharedManager.bowsAnimatableImage()!, completion: nil)
+            if SenseiManager.sharedManager.senseiSitting {
+                SenseiManager.sharedManager.animateSenseiBowsInImageView(senseiImageView, completion: nil)
+            } else {
+                SenseiManager.sharedManager.animateSenseiStandsBowsInImageView(senseiImageView, completion: nil)
+            }
         }
     }
 
@@ -638,12 +651,10 @@ class SenseiViewController: BaseViewController {
     }
 
     func didFinishTutorialNotificatin(notification: NSNotification) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-            self.affirmationsButton.userInteractionEnabled = true
-            self.visualisationsButton.userInteractionEnabled = true
-            if TutorialManager.sharedInstance.completed {
-                (UIApplication.sharedApplication().delegate as! AppDelegate).registerForNotifications()
-            }
+        self.affirmationsButton.userInteractionEnabled = true
+        self.visualisationsButton.userInteractionEnabled = true
+        if TutorialManager.sharedInstance.completed {
+            (UIApplication.sharedApplication().delegate as! AppDelegate).registerForNotifications()
         }
     }
     
@@ -655,7 +666,7 @@ class SenseiViewController: BaseViewController {
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         super.didMoveToNextTutorial(tutorialStep)
-        if tutorialStep.screen != .Sensei {
+        if !self.isTopViewController || tutorialStep.screen != .Sensei {
             return
         }
         if tutorialStep is QuestionTutorialStep {
@@ -669,8 +680,52 @@ class SenseiViewController: BaseViewController {
         askQuestion(questionTutorialStep)
     }
     
+    private func askQuestion(question: QuestionProtocol) {
+        lastQuestion = question
+        
+        let tutorialStep = (question as! QuestionTutorialStep)
+        var delay = delayForCurrentStep()
+        delay = self.dataSource.count > 0 ? delay : 0
+        
+        print("step: \(tutorialStep.number); \ndelay: \(delay)")
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(delay) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            if let _ = (question as! QuestionTutorialStep).animatableImage {
+                self.animateQuestionAnimation(question)
+            } else {
+                self.addMessages([question], scroll: false) {
+                    (self.view as? AnswerableView)?.askQuestion(question)
+                }
+            }
+        }
+    }
+
+    func delayForCurrentStep() -> Double {
+        if !TutorialManager.sharedInstance.completed {
+            if let currentStep = TutorialManager.sharedInstance.currentStep {
+                if let prevStep = TutorialManager.sharedInstance.prevTutorialStep {
+                    let delayBefore = (prevStep.text.characters.count == 0 || currentStep.delayBefore == 0) ? currentStep.delayBefore : Double(prevStep.text.characters.count) * 0.03
+                    return self.dataSource.count > 0 ? delayBefore : 0
+                }
+                return currentStep.delayBefore
+            }
+        } else {
+            if let currentStep = TutorialManager.sharedInstance.currentUpgradedStep {
+                if let prevStep = TutorialManager.sharedInstance.prevUpgradedStep {
+                    let delayBefore = (prevStep.text.characters.count == 0 || currentStep.delayBefore == 0) ? currentStep.delayBefore : Double(prevStep.text.characters.count) * 0.03
+                    return self.dataSource.count > 0 ? delayBefore : 0
+                }
+                return currentStep.delayBefore
+            }
+        }
+        return 0
+
+    }
+    
     private func handleTutorialStep(tutorialStep: TutorialStep) {
-        let delay = tutorialStep.delayBefore
+        let delay = delayForCurrentStep()
+        print("step: \(tutorialStep.number); \ndelay: \(delay)")
+        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(delay) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
             if let animatableimage = tutorialStep.animatableImage {
                 self.senseiImageView.animateAnimatableImage(animatableimage) { (finished) -> Void in
@@ -699,13 +754,7 @@ class SenseiViewController: BaseViewController {
     }
     
     override func enableControls(controlNames: [String]?) {
-        if TutorialManager.sharedInstance.completed {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                self.affirmationsButton.userInteractionEnabled = true
-                self.visualisationsButton.userInteractionEnabled = true
-            }
-            return
-        }
+        print("SenseiViewController->enableControler: \(controlNames)")
         affirmationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.AffirmationsButton) ?? true
         visualisationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.VisualisationsButton) ?? true
     }
@@ -782,7 +831,6 @@ extension SenseiViewController: UIScrollViewDelegate {
         let frameToIntersect = CGRectMake(0, CGRectGetMinY(senseiImageView.frame) - 22.0, CGRectGetWidth(view.frame), CGRectGetHeight(senseiImageView.frame)/4)
         let cellFrameInView = collectionView.convertRect(cell.frame, toView: view)
         cell.speechBubbleView.showBubbleTip = CGRectIntersectsRect(cellFrameInView, frameToIntersect)
-        print(cellFrameInView)
     }
 }
 

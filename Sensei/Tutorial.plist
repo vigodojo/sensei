@@ -80,7 +80,7 @@
 		<key>Number</key>
 		<integer>0</integer>
 		<key>DelayBefore</key>
-		<integer>0</integer>
+		<integer>1</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -645,7 +645,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>You have now learned how to use the main tools of this application. I hope you will have fun with it and get creative with your use of affirmations and visuali-zations. I think you will find it will improve your outlook, boost your energy and even make you a more powerful person.</string>
+		<string>You have now learned how to use the main tools of this application. I hope you will have fun with it and get creative with your use of affirmations and visualizations. I think you will find it will improve your outlook, boost your energy and even make you a more powerful person.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
@@ -810,13 +810,6 @@
 		<integer>0</integer>
 	</dict>
 	<dict>
-		<key>EnabledContols</key>
-		<array>
-			<string>AffirmationsButton</string>
-			<string>VisualisationsButton</string>
-			<string>MoreTab</string>
-			<string>SenseiTab</string>
-		</array>
 		<key>AnimatableImage</key>
 		<dict>
 			<key>AnimationDuration</key>
@@ -973,6 +966,13 @@
 				<string>3_standbow_0064</string>
 			</array>
 		</dict>
+		<key>EnabledContols</key>
+		<array>
+			<string>AffirmationsButton</string>
+			<string>VisualisationsButton</string>
+			<string>MoreTab</string>
+			<string>SenseiTab</string>
+		</array>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>ScreenName</key>
@@ -985,6 +985,8 @@
 	<dict>
 		<key>Upgraded</key>
 		<true/>
+		<key>EnabledContols</key>
+		<array/>
 		<key>Message</key>
 		<string>Thank you for upgrading the app.</string>
 		<key>RequiresActionToProceed</key>
@@ -1072,7 +1074,7 @@
 			</array>
 		</dict>
 		<key>Message</key>
-		<string>Now you can use six affirmation and five visualization slots create the perfect mix of messages. Play around with it and have fun.</string>
+		<string>Now you can use six affirmation and five visualization slots to create the perfect mix of messages. Play around with it and have fun.</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>

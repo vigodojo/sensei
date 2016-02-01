@@ -106,7 +106,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1253" y="63"/>
+            <point key="canvasLocation" x="1256" y="478"/>
         </scene>
         <!--Tutorial View Controller-->
         <scene sceneID="lKx-cg-qx6">
@@ -141,25 +141,34 @@
                                             <outlet property="delegate" destination="goE-cF-bxi" id="b21-1N-IXe"/>
                                         </connections>
                                     </collectionView>
-                                    <imageView contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="PHS-Xl-anD" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
-                                        <rect key="frame" x="518" y="3" width="69" height="128"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="PHS-Xl-anD" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
+                                        <rect key="frame" x="463" y="3" width="124" height="128"/>
                                         <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="69" id="9MR-68-dK1"/>
-                                            <constraint firstAttribute="height" constant="128" id="GJF-Oy-lxP"/>
+                                            <constraint firstAttribute="width" constant="124" id="3WX-39-FlK"/>
+                                            <constraint firstAttribute="height" constant="128" id="g1W-yB-DjF"/>
                                         </constraints>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="Af5-mw-p56" appends="YES" id="RxP-ra-aF4"/>
-                                        </connections>
                                     </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iXt-Kz-JPk">
+                                        <rect key="frame" x="525" y="3" width="62" height="128"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="Af5-mw-p56" appends="YES" id="JXD-g5-aw1"/>
+                                        </connections>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="PHS-Xl-anD" firstAttribute="bottom" secondItem="iXt-Kz-JPk" secondAttribute="bottom" id="0fq-DG-kim"/>
                                     <constraint firstAttribute="bottom" secondItem="ImO-8t-8FL" secondAttribute="bottom" id="3u4-EL-SdC"/>
                                     <constraint firstItem="PHS-Xl-anD" firstAttribute="top" secondItem="ihU-65-WZz" secondAttribute="top" constant="3" id="Coz-9A-KW0"/>
                                     <constraint firstItem="ImO-8t-8FL" firstAttribute="top" secondItem="ihU-65-WZz" secondAttribute="top" constant="8" id="JFy-nv-zdn"/>
+                                    <constraint firstItem="PHS-Xl-anD" firstAttribute="width" secondItem="iXt-Kz-JPk" secondAttribute="width" multiplier="2:1" id="KcX-bn-AyE"/>
                                     <constraint firstAttribute="trailing" secondItem="ImO-8t-8FL" secondAttribute="trailing" constant="79" id="NYB-QJ-j8F"/>
+                                    <constraint firstItem="PHS-Xl-anD" firstAttribute="top" secondItem="iXt-Kz-JPk" secondAttribute="top" id="Xwh-oH-mgh"/>
                                     <constraint firstAttribute="height" constant="100" id="aY1-1g-pE7"/>
+                                    <constraint firstItem="PHS-Xl-anD" firstAttribute="trailing" secondItem="iXt-Kz-JPk" secondAttribute="trailing" id="bgB-bG-f8q"/>
                                     <constraint firstAttribute="trailing" secondItem="PHS-Xl-anD" secondAttribute="trailing" constant="13" id="gR5-Pw-JZy"/>
                                     <constraint firstItem="ImO-8t-8FL" firstAttribute="leading" secondItem="ihU-65-WZz" secondAttribute="leading" constant="13" id="iIa-d3-lJ1"/>
                                     <constraint firstItem="Nia-Fs-uzF" firstAttribute="leading" secondItem="ihU-65-WZz" secondAttribute="leading" id="nBp-Jn-zmK"/>
@@ -190,6 +199,7 @@
                     <connections>
                         <outlet property="collectionView" destination="ImO-8t-8FL" id="G9p-dz-e1B"/>
                         <outlet property="senseiImageView" destination="PHS-Xl-anD" id="rWi-Ow-FTT"/>
+                        <outlet property="senseiTapView" destination="iXt-Kz-JPk" id="6Vy-2z-eE4"/>
                         <outlet property="tutorialContainerViewHeightConstraint" destination="aY1-1g-pE7" id="Z2y-bw-sd2"/>
                         <outlet property="tutorialContainerViewTopConstraint" destination="e8Y-fp-qbv" id="2kS-Pl-jHv"/>
                     </connections>
@@ -201,7 +211,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-196" y="317"/>
+            <point key="canvasLocation" x="-232" y="478"/>
         </scene>
         <!--Settings Table View Controller-->
         <scene sceneID="vfL-eB-9Af">
@@ -875,7 +885,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FGT-YO-sa5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1834" y="1059"/>
+            <point key="canvasLocation" x="2006" y="864"/>
         </scene>
         <!--Affirmations View Controller-->
         <scene sceneID="9vc-NN-4I7">
@@ -984,7 +994,7 @@ Please tap here to create a new affirmation</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V0Z-jt-1kT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2761" y="-223"/>
+            <point key="canvasLocation" x="2837" y="-242"/>
         </scene>
         <!--Visualizations View Controller-->
         <scene sceneID="9VB-pU-TUn">
@@ -1047,7 +1057,7 @@ Please tap here to create a new affirmation</string>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slot is empty, click the camera icon to create a new visualization" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MoN-mz-owe">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slot is empty, tap the camera icon to create a new visualization" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MoN-mz-owe">
                                                                 <rect key="frame" x="8" y="59" width="276" height="34"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1186,7 +1196,7 @@ Please tap here to create a new affirmation</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2761" y="509"/>
+            <point key="canvasLocation" x="2837" y="478"/>
         </scene>
         <!--Text Image Preview Controller-->
         <scene sceneID="sID-cq-Uho">
@@ -1228,7 +1238,7 @@ Please tap here to create a new affirmation</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3458" y="-223"/>
+            <point key="canvasLocation" x="3534" y="-242"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="e9q-89-8nh">
@@ -1246,7 +1256,7 @@ Please tap here to create a new affirmation</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OrN-2C-ssC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="518" y="317"/>
+            <point key="canvasLocation" x="532" y="478"/>
         </scene>
         <!--Sensei View Controller-->
         <scene sceneID="xyG-zV-Srx">
@@ -1321,14 +1331,21 @@ Please tap here to create a new affirmation</string>
                                     <constraint firstAttribute="width" secondItem="Rut-uN-STO" secondAttribute="height" multiplier="124:128" id="tEJ-Ra-Lf5"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MM4-jN-QCH">
+                                <rect key="frame" x="512" y="414" width="72" height="150"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="LDJ-Py-bdg" firstAttribute="width" secondItem="Xlf-Nb-mFF" secondAttribute="width" id="0y6-qT-fnR"/>
                             <constraint firstItem="Rut-uN-STO" firstAttribute="bottom" secondItem="Bda-1S-RJp" secondAttribute="bottom" constant="14" id="2WB-kX-A5d"/>
                             <constraint firstItem="UUv-h4-auF" firstAttribute="top" secondItem="wKE-qF-yki" secondAttribute="bottom" id="5zW-Ew-Pqo"/>
+                            <constraint firstItem="Rut-uN-STO" firstAttribute="bottom" secondItem="MM4-jN-QCH" secondAttribute="bottom" id="7Ge-gt-74g"/>
                             <constraint firstItem="ADr-Be-Y3Z" firstAttribute="bottom" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="36" id="9U4-cH-Vn7"/>
                             <constraint firstAttribute="trailing" secondItem="Rut-uN-STO" secondAttribute="trailing" constant="16" id="AbI-Jg-HOS"/>
+                            <constraint firstItem="Rut-uN-STO" firstAttribute="top" secondItem="MM4-jN-QCH" secondAttribute="top" id="EAy-Fz-UGQ"/>
+                            <constraint firstItem="Rut-uN-STO" firstAttribute="trailing" secondItem="MM4-jN-QCH" secondAttribute="trailing" id="EGv-wC-OdO"/>
                             <constraint firstItem="KZy-uO-hs9" firstAttribute="top" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="36" id="EJU-34-GbJ"/>
                             <constraint firstItem="Bda-1S-RJp" firstAttribute="top" secondItem="wKE-qF-yki" secondAttribute="bottom" id="ESZ-gN-IRk"/>
                             <constraint firstItem="Bda-1S-RJp" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="H6U-VW-6xA"/>
@@ -1345,6 +1362,7 @@ Please tap here to create a new affirmation</string>
                             <constraint firstItem="1w7-5X-fM9" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="ise-lj-5TO"/>
                             <constraint firstAttribute="trailing" secondItem="UUv-h4-auF" secondAttribute="trailing" id="rN7-DY-Cqt"/>
                             <constraint firstItem="Rut-uN-STO" firstAttribute="height" secondItem="ADr-Be-Y3Z" secondAttribute="height" multiplier="1:4" id="suy-sF-KO8"/>
+                            <constraint firstItem="Rut-uN-STO" firstAttribute="width" secondItem="MM4-jN-QCH" secondAttribute="width" multiplier="2:1" id="uda-HI-wxF"/>
                             <constraint firstItem="KZy-uO-hs9" firstAttribute="top" secondItem="Xlf-Nb-mFF" secondAttribute="bottom" constant="12" id="vRM-ND-eeD"/>
                             <constraint firstItem="ADr-Be-Y3Z" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="vxJ-8m-lvN"/>
                             <constraint firstItem="Xlf-Nb-mFF" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" constant="23" id="xy5-fV-T97"/>
@@ -1358,12 +1376,13 @@ Please tap here to create a new affirmation</string>
                         <outlet property="fadingImageView" destination="1w7-5X-fM9" id="oMo-8A-kpI"/>
                         <outlet property="senseiBottomSpaceConstraint" destination="EJU-34-GbJ" id="l9f-Zc-pYG"/>
                         <outlet property="senseiImageView" destination="Rut-uN-STO" id="lWa-ty-F9Y"/>
+                        <outlet property="senseiTapView" destination="MM4-jN-QCH" id="unp-Dk-jfV"/>
                         <outlet property="visualisationsButton" destination="LDJ-Py-bdg" id="t0j-Qg-z0H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IGf-04-Ja2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2006" y="113"/>
+            <point key="canvasLocation" x="2006" y="124"/>
         </scene>
     </scenes>
     <resources>

@@ -55,9 +55,9 @@ class TutorialManager {
     }
     
     var currentUpgradedStep: TutorialStep? {
-        if Settings.sharedSettings.isProVersion?.boolValue == true {
-            return nil
-        }
+//        if UpgradeManager.sharedInstance.isProVersion() {
+//            return nil
+//        }
         if upgradedStepCounter < upgradedSteps.count {
             return upgradedSteps[upgradedStepCounter]
         }
@@ -68,8 +68,15 @@ class TutorialManager {
         if completed {
             return nil
         }
-        if stepCounter - 1 > 0 && stepCounter < steps.count{
+        if stepCounter - 1 >= 0 && stepCounter < steps.count{
             return steps[stepCounter - 1]
+        }
+        return nil
+    }
+    
+    var prevUpgradedStep: TutorialStep? {
+        if upgradedStepCounter - 1 >= 0 && upgradedStepCounter < upgradedSteps.count{
+            return upgradedSteps[upgradedStepCounter - 1]
         }
         return nil
     }
@@ -110,7 +117,7 @@ class TutorialManager {
     }
     
     func nextUpgradedStep() {
-        if Settings.sharedSettings.isProVersion?.boolValue == false || upgradeCompleted {
+        if !UpgradeManager.sharedInstance.isProVersion() || upgradeCompleted {
             return
         }
         upgradedStepCounter++
@@ -148,7 +155,9 @@ class TutorialManager {
         if stepCounter >= (34) {
             completed = true
             NSUserDefaults.standardUserDefaults().setBool(completed, forKey: UserDefaultsKeys.Completed)
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishTutorial, object: nil)
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(5) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishTutorial, object: nil)
+            }
             saveToServerCreatedData()
         }
     }
@@ -157,7 +166,9 @@ class TutorialManager {
         if  upgradedStepCounter >= upgradedSteps.count {
             upgradeCompleted = true
             NSUserDefaults.standardUserDefaults().setBool(upgradeCompleted, forKey: UserDefaultsKeys.UpgradeCompleted)
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishUpgrade, object: nil)
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(5) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishUpgrade, object: nil)
+            }
             saveToServerCreatedData()
         }
     }

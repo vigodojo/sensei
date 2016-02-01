@@ -82,6 +82,44 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     
     private var itemToDelete: Int?;
 
+    private var swipeNextGesture: UISwipeGestureRecognizer?
+    private var swipePrevGesture: UISwipeGestureRecognizer?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        swipeNextGesture = UISwipeGestureRecognizer(target: self, action: "showNextSlot:")
+        swipeNextGesture!.direction = .Left
+        self.view.addGestureRecognizer(swipeNextGesture!)
+        
+        swipePrevGesture = UISwipeGestureRecognizer(target: self, action: "showPrevSlot:")
+        swipePrevGesture!.direction = .Right
+        self.view.addGestureRecognizer(swipePrevGesture!)
+    }
+    
+    func showNextSlot(notification: NSNotification) {
+        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot! + 1, inSection: 0)
+        if !UpgradeManager.sharedInstance.isProVersion() && indexPath.item >= Constants.NumberOfFreeVisualizations {
+            if TutorialManager.sharedInstance.completed {
+                showUpgradeAppMessage()
+            }
+            return
+        }
+        if indexPath.item >= Constants.NumberOfVisualizations {
+            return
+        }
+        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
+        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
+    }
+    
+    func showPrevSlot(notification: NSNotification) {
+        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot!-1, inSection: 0)
+        if indexPath.item < 0 {
+            return
+        }
+        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
+        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -123,6 +161,9 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     // MARK: - Keyboard
     
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        swipeNextGesture?.enabled = false
+        swipePrevGesture?.enabled = false
+
         if messageSwitchView.receiveTimeTextView.isFirstResponder() {
             return;
         }
@@ -139,6 +180,9 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     }
     
     override func keyboardWillHideWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        swipeNextGesture?.enabled = true
+        swipePrevGesture?.enabled = true
+
         view.layoutIfNeeded()
         UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: { [weak self] in
             self?.messageSwitchViewHeightConstraint.constant = Constants.VisualizationMessageSwitchViewHeight
@@ -155,6 +199,8 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         visualisationView.cameraButton.userInteractionEnabled = controlNames?.contains(ControlNames.CameraButton) ?? true
         visualisationView.editButton.userInteractionEnabled = controlNames?.contains(ControlNames.EditButton) ?? true
         messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.EditButton) ?? true
+        swipeNextGesture?.enabled = messageSwitchView.slotsCollectionView.userInteractionEnabled
+        swipePrevGesture?.enabled = messageSwitchView.slotsCollectionView.userInteractionEnabled
     }
     
     // MARK: - Tutorial View
@@ -354,7 +400,7 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
     func messageSwitchView(view: MessageSwitchView, didSelectReceiveTime receiveTime: ReceiveTime) { }
     
     func messageSwitchView(view: MessageSwitchView, shouldSelectSlotAtIndex index: Int) -> Bool {
-        if Settings.sharedSettings.isProVersion?.boolValue == true {
+        if UpgradeManager.sharedInstance.isProVersion() {
             return true
         }
         if index < Constants.NumberOfFreeVisualizations  {
@@ -372,18 +418,36 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
     func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView) {
         if messageSwitchView.receiveTime != ReceiveTime.AnyTime {
             if var visualizations = visualizationsWithReceiveTime(messageSwitchView.receiveTime) {
-                if selectedVisualization != nil && visualizations.contains(selectedVisualization!) {
+                if let selectedVis = selectedVisualization where visualizations.contains(selectedVis) {
                     visualizations.removeAtIndex(visualizations.indexOf(selectedVisualization!)!)
                 }
+
                 if visualizations.count > 0 {
-                    tutorialViewController?.showMessage(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime), upgrade: false)
-                    fillVisualisationWithNumber((selectedVisualization?.number)!)
+                    showReceiveTimeDuplicationWarning()
+                    resetSelectedSlot()
                 } else {
                     saveChanges()
                 }
             }
         } else {
             saveChanges()
+        }
+    }
+    
+    func showReceiveTimeDuplicationWarning() {
+        tutorialViewController?.showMessage(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime), upgrade: false)
+        if TutorialManager.sharedInstance.completed {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(Affirmation.TextLimitShowDuration) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                self.tutorialViewController?.hideTutorialAnimated(true)
+            }
+        }
+    }
+    
+    func resetSelectedSlot() {
+        if let selectedVis = selectedVisualization {
+            fillVisualisationWithNumber(selectedVis.number)
+        } else {
+            messageSwitchView.receiveTime = .AnyTime
         }
     }
 

@@ -24,9 +24,9 @@ class UpgradeManager:NSObject {
         alert.show()
     }
     
-//    func isProVersion() -> Bool {
-//        return NSUserDefaults.standardUserDefaults().boolForKey(UpgradeKey.IsProVersion)
-//    }
+    func isProVersion() -> Bool {
+        return Settings.sharedSettings.isProVersion?.boolValue == true
+    }
 }
 
 extension UpgradeManager: UIAlertViewDelegate{

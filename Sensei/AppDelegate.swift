@@ -20,12 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var shouldSit: Bool = false
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-//        NSUserDefaults.standardUserDefaults().setObject(NSNumber(int: 20), forKey: "TutorialManagerLastCompletedStepNumber")
-//        NSUserDefaults.standardUserDefaults().synchronize()
+        NSUserDefaults.standardUserDefaults().setObject(NSNumber(int: 33), forKey: "TutorialManagerLastCompletedStepNumber")
+        NSUserDefaults.standardUserDefaults().synchronize()
+
         pushNotification = extractPushFromLaunchOptions(launchOptions)
         Fabric.with([Crashlytics()])
         TutorialManager.sharedInstance
-        if Settings.sharedSettings.isProVersion?.boolValue == false {
+        if !UpgradeManager.sharedInstance.isProVersion() {
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "TutorialUpgradeCompleted")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
@@ -36,39 +37,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
     }
-    
-    func postSitSenseiNotification() {
-        if TutorialManager.sharedInstance.completed {
-            NSNotificationCenter.defaultCenter().postNotificationName("SitSenseiNotification", object: nil)
-        }
-    }
-    
-    func shouldSenseiSit() -> Bool {
-        let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
-        let lastActivity = NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") == nil ? NSDate() : NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") as! NSDate
 
-        let activityComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: lastActivity)
-        let sleepEndComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.end)
-        
-        let lastActivityDate = NSCalendar.currentCalendar().dateFromComponents(activityComponents)
-        let sleeptimeEndDate = NSCalendar.currentCalendar().dateFromComponents(sleepEndComponents)
-
-        let lastActivityBeforeSleep = lastActivityDate!.compare(sleeptimeEndDate!) == NSComparisonResult.OrderedAscending
-        let nowAfterSleep = sleeptimeEndDate!.compare(NSDate()) == NSComparisonResult.OrderedAscending
-
-        return lastActivityBeforeSleep && nowAfterSleep
-    }
-    
     func applicationDidBecomeActive(application: UIApplication) {
-        shouldSit = shouldSenseiSit()
-        if shouldSit {
-            postSitSenseiNotification()
+        SenseiManager.sharedManager = SenseiManager()
+        
+        if SenseiManager.sharedManager.showSenseiSitAnimation {
+            SenseiManager.sharedManager.postSitSenseiNotification()
         }
-        NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "LastActiveTime")
-        NSUserDefaults.standardUserDefaults().synchronize()
+        SenseiManager.sharedManager.saveLastActiveTime()
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
+        SenseiManager.sharedManager.saveLastActiveTime()
         CoreDataManager.sharedInstance.saveContext()
     }
     

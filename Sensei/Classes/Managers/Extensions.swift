@@ -8,6 +8,21 @@
 
 import UIKit
 
+
+// MARK: - NSDate
+
+extension NSDate {
+    
+    func dateLessDate() -> NSDate {
+        let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: self)
+        return NSCalendar.currentCalendar().dateFromComponents(components)!
+    }
+    
+    func dateBetweenDates(firstDate: NSDate, lastDate: NSDate) -> Bool {
+        return self.compare(firstDate) == .OrderedDescending && self.compare(lastDate) == .OrderedAscending
+    }
+}
+
 // MARK: - UIView
 
 extension UIView {

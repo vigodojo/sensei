@@ -29,7 +29,6 @@ class SocialPostingService {
     }
     
     static func postToSocialNetworksWithType(socialPostingType: SocialPostingType, fromController: UIViewController, completion: SLComposeViewControllerCompletionHandler) {
-
         if SLComposeViewController.isAvailableForServiceType(socialPostingType.chosenService) {
             let socialController = SLComposeViewController(forServiceType: socialPostingType.chosenService)
             

@@ -65,7 +65,7 @@ class SettingsTableViewController: UITableViewController {
     private let SaveConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to save this changes?")
     
     func confirmationTextWithPropertyName(property: FieldName) -> ConfirmationQuestion {
-        return ConfirmationQuestion(text: "Are you sure you want to change \(property)?")
+        return ConfirmationQuestion(text: "Are you sure you want to change \(property.rawValue)?")
     }
     
     private var sleepTimeSettings: SleepTimeSettings?
@@ -306,9 +306,9 @@ class SettingsTableViewController: UITableViewController {
     
     
     func refreshUpgradState() {
-        upgradeButton.enabled = Settings.sharedSettings.isProVersion?.boolValue == false
-        upgradeViewHeightConstraint.constant = Settings.sharedSettings.isProVersion?.boolValue == true ? 0.0 : 46.0
-        upgradeSeparatorView.hidden = Settings.sharedSettings.isProVersion?.boolValue == false
+        upgradeButton.enabled = !UpgradeManager.sharedInstance.isProVersion()
+        upgradeViewHeightConstraint.constant = UpgradeManager.sharedInstance.isProVersion() ? 0.0 : 46.0
+        upgradeSeparatorView.hidden = !UpgradeManager.sharedInstance.isProVersion()
         tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 2, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None)
     }
     
@@ -649,7 +649,7 @@ extension SettingsTableViewController {
         switch (indexPath.row) {
             case 0: return CellHeight.TeachingIntencityHeight.rawValue
             case 1: return CellHeight.InstructionSwitchHeight.rawValue
-            case 2: return Settings.sharedSettings.isProVersion?.boolValue == true ? CellHeight.ShareUpgradeSleepTimeHeightPro.rawValue : CellHeight.ShareUpgradeSleepTimeHeightReg.rawValue
+            case 2: return UpgradeManager.sharedInstance.isProVersion() ? CellHeight.ShareUpgradeSleepTimeHeightPro.rawValue : CellHeight.ShareUpgradeSleepTimeHeightReg.rawValue
             case 3: return CellHeight.DateFormatHeight.rawValue;
             case 4: return CellHeight.PersonalProfileHeight.rawValue
             default: return 0
