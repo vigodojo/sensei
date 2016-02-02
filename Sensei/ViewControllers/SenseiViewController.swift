@@ -138,7 +138,8 @@ class SenseiViewController: BaseViewController {
         collectionView.registerNib(UINib(nibName: RightSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: RightSpeechBubbleCollectionViewCellIdentifier)
         collectionView.registerNib(UINib(nibName: LeftSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: LeftSpeechBubbleCollectionViewCellIdentifier)
 		fadingImageView.layer.mask = transparrencyGradientLayer
-        
+        collectionView.contentInset = collectionViewContentInset
+
         if TutorialManager.sharedInstance.upgradeCompleted {
             fetchLessons()
         } else {
@@ -197,7 +198,6 @@ class SenseiViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         tutorialViewController?.tutorialHidden = true
-        collectionView.contentInset = collectionViewContentInset
         collectionView.contentInset.bottom = collectionViewBottomContentInset
 
         if APIManager.sharedInstance.logined && TutorialManager.sharedInstance.upgradeCompleted {

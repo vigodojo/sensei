@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var shouldSit: Bool = false
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        NSUserDefaults.standardUserDefaults().setObject(NSNumber(int: 33), forKey: "TutorialManagerLastCompletedStepNumber")
-        NSUserDefaults.standardUserDefaults().synchronize()
+//        NSUserDefaults.standardUserDefaults().setObject(NSNumber(int: 33), forKey: "TutorialManagerLastCompletedStepNumber")
+//        NSUserDefaults.standardUserDefaults().synchronize()
 
         pushNotification = extractPushFromLaunchOptions(launchOptions)
         Fabric.with([Crashlytics()])

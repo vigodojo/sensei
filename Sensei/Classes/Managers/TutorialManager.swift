@@ -155,7 +155,7 @@ class TutorialManager {
         if stepCounter >= (34) {
             completed = true
             NSUserDefaults.standardUserDefaults().setBool(completed, forKey: UserDefaultsKeys.Completed)
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(5) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(4) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
                 NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishTutorial, object: nil)
             }
             saveToServerCreatedData()
@@ -166,7 +166,7 @@ class TutorialManager {
         if  upgradedStepCounter >= upgradedSteps.count {
             upgradeCompleted = true
             NSUserDefaults.standardUserDefaults().setBool(upgradeCompleted, forKey: UserDefaultsKeys.UpgradeCompleted)
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(5) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(4) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
                 NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFinishUpgrade, object: nil)
             }
             saveToServerCreatedData()

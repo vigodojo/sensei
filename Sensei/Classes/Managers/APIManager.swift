@@ -17,8 +17,8 @@ class APIManager: NSObject {
     
     static let sharedInstance = APIManager()
 
-//	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")!
-    static let BaseURL = NSURL(string: "http://projects.thinkmobiles.com:8831")!
+	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")!
+//    static let BaseURL = NSURL(string: "http://projects.thinkmobiles.com:8831")!
 
     struct APIPath {
         static let Login = "/user/signIn"
