@@ -60,6 +60,8 @@ class SenseiViewController: BaseViewController {
         return senseiImageView.frame.size.height/128.0*100
     }
     
+    private var notificationReceived: Bool = false
+    
     private var collectionViewContentInset: UIEdgeInsets {
         let screenHeight = UIScreen.mainScreen().bounds.size.height
 
@@ -134,6 +136,7 @@ class SenseiViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("ViewDidLoad")
         (view as? AnswerableView)?.delegate = self
         collectionView.registerNib(UINib(nibName: RightSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: RightSpeechBubbleCollectionViewCellIdentifier)
         collectionView.registerNib(UINib(nibName: LeftSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: LeftSpeechBubbleCollectionViewCellIdentifier)
@@ -154,12 +157,16 @@ class SenseiViewController: BaseViewController {
     }
     
     func setSitSensei(notification: NSNotification) {
-        showSitSenseiAnimation()
+        print("Sensei Sit Notification")
     }
     
     func showSitSenseiAnimation() {
+        if !TutorialManager.sharedInstance.completed {
+            return
+        }
         if SenseiManager.sharedManager.senseiSitting {
             senseiImageView.image = SenseiManager.sharedManager.sittingImage()
+            senseiImageView.hidden = false
             
             if SenseiManager.sharedManager.showSenseiSitAnimation {
                 SenseiManager.sharedManager.showSenseiSitAnimation = false
@@ -181,6 +188,8 @@ class SenseiViewController: BaseViewController {
             }
         } else {
             senseiImageView.image = SenseiManager.sharedManager.standingImage()
+            
+            senseiImageView.hidden = false
         }
     }
     
@@ -197,6 +206,7 @@ class SenseiViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        print("ViewWillAppear")
         tutorialViewController?.tutorialHidden = true
         collectionView.contentInset.bottom = collectionViewBottomContentInset
 
@@ -204,7 +214,15 @@ class SenseiViewController: BaseViewController {
             APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         }
         
-        showSitSenseiAnimation()
+        if self.notificationReceived {
+            self.notificationReceived = false
+            if SenseiManager.sharedManager.senseiSitting {
+                senseiImageView.image = SenseiManager.sharedManager.sittingImage()
+            } else {
+                senseiImageView.image = SenseiManager.sharedManager.standingImage()
+            }
+            senseiImageView.hidden = false
+        }
         
         addKeyboardObservers()
         addTutorialObservers()
@@ -488,10 +506,36 @@ class SenseiViewController: BaseViewController {
             self.lastVisualisation = nil
         }
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
+            print("\(NSDate()): UIApplicationDidBecomeActiveNotification")
             self.previousApplicationState = UIApplicationState.Active
+            
+            if !self.notificationReceived {
+                self.showSitSenseiAnimation()
+            }
         }
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: nil) { [unowned self]notification in
+            print("\(NSDate()): UIApplicationDidBecomeActiveNotification")
+            SenseiManager.sharedManager = SenseiManager()
+            if SenseiManager.sharedManager.senseiSitting {
+                self.senseiImageView.image = SenseiManager.sharedManager.sittingImage()
+            } else {
+                self.senseiImageView.image = SenseiManager.sharedManager.standingImage()
+            }
+            self.senseiImageView.hidden = false
+            SenseiManager.sharedManager.saveLastActiveTime()
+        }
+
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [unowned self]notification in
+            self.senseiImageView.hidden = true
+        }
+        
         NSNotificationCenter.defaultCenter().addObserverForName(ApplicationDidReceiveRemotePushNotification, object: nil, queue: nil) { [unowned self] notification in
+            print("\(NSDate()): ApplicationDidReceiveRemotePushNotification")
             if let userInfo = notification.userInfo, push = PushNotification(userInfo: userInfo) {
+                if push.type == .Visualisation {
+                    print("Visualisation")
+                    self.notificationReceived = true
+                }
                 print("Push Info = \(userInfo)")
                 if UIApplication.sharedApplication().applicationState == .Inactive && self.previousApplicationState == .Background {
                     if !self.isTopViewController {
@@ -613,6 +657,7 @@ class SenseiViewController: BaseViewController {
             let attributedText = NSAttributedString(string: visualisation.text, attributes: Visualization.outlinedTextAttributesWithFontSize(scaledFontSize))
             let imagePreviewController = TextImagePreviewController.imagePreviewControllerWithImage(image)
             imagePreviewController.attributedText = attributedText
+            imagePreviewController.delegate = self
             (UIApplication.sharedApplication().delegate as? AppDelegate)?.window?.rootViewController?.presentViewController(imagePreviewController, animated: true, completion: nil)
         }
     }
@@ -856,6 +901,8 @@ extension SenseiViewController: AnswerableViewDelegate {
             if let question = self?.lastQuestion {
                 switch question.questionSubject {
                     case .Name:
+                        NSUserDefaults.standardUserDefaults().setObject("\(answerMessage)", forKey: "name_preference")
+                        NSUserDefaults.standardUserDefaults().synchronize()
                         Settings.sharedSettings.name = "\(answerMessage)"
                         CoreDataManager.sharedInstance.saveContext()
                     case .Gender:
@@ -877,6 +924,15 @@ extension SenseiViewController: AnswerableViewDelegate {
         }
         TutorialManager.sharedInstance.nextStep()
         print("\(self) canceled question")
+    }
+}
+
+extension SenseiViewController: TextImagePreviewControllerDelegate {
+    func textImagePreviewControllerWillDismiss() {
+        if self.notificationReceived == true {
+            self.notificationReceived = false
+            showSitSenseiAnimation()
+        }
     }
 }
 
@@ -906,7 +962,6 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
                         }
                         return true
                     }
-//                    collectionView.contentInset.top = topContentInset
                     shouldReload = false
                     print("Deleted \(lesson.date)")
                 case .Insert:

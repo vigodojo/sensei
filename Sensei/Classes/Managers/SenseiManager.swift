@@ -99,8 +99,7 @@ class SenseiManager: NSObject {
         if timeIntervalSinceNow < 0 {
             timeIntervalSinceNow *= -1
         }
-
-        let lastActivityMoreThenAnHourAgo = timeIntervalSinceNow > 60*1
+        let lastActivityMoreThenAnHourAgo = timeIntervalSinceNow > Double(60*1)
         
         return lastActivityBeforeSleep && nowAfterSleep || lastActivityMoreThenAnHourAgo
     }

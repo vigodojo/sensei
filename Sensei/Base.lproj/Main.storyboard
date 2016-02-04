@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="goE-cF-bxi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="goE-cF-bxi">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -17,14 +17,14 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="500"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="636"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qtC-qY-aIy">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="31"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="31"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fAF-j8-A82">
-                                        <rect key="frame" x="0.0" y="0.0" width="515" height="31"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="329" height="31"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="t6a-8Z-rcm"/>
@@ -46,7 +46,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uWU-1H-GLQ">
-                                        <rect key="frame" x="515" y="0.0" width="85" height="31"/>
+                                        <rect key="frame" x="329" y="0.0" width="85" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="EVk-MF-Ewf"/>
                                             <constraint firstAttribute="width" constant="85" id="fqZ-3e-bs4"/>
@@ -78,7 +78,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9og-ON-adB" userLabel="Container View">
-                                <rect key="frame" x="0.0" y="31" width="600" height="469"/>
+                                <rect key="frame" x="0.0" y="31" width="414" height="605"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -117,17 +117,20 @@
                         <viewControllerLayoutGuide type="bottom" id="Zgf-80-Xwy"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1It-y6-uMM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ihU-65-WZz">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Knudsendojo" translatesAutoresizingMaskIntoConstraints="NO" id="Nia-Fs-uzF">
-                                        <rect key="frame" x="0.0" y="-374" width="600" height="569"/>
+                                        <rect key="frame" x="1" y="-349" width="412" height="512"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="412" id="uly-qP-fC6"/>
+                                        </constraints>
                                     </imageView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ImO-8t-8FL">
-                                        <rect key="frame" x="13" y="8" width="508" height="92"/>
+                                        <rect key="frame" x="13" y="8" width="322" height="92"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RAU-We-t4y">
                                             <size key="itemSize" width="50" height="50"/>
@@ -142,7 +145,7 @@
                                         </connections>
                                     </collectionView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="PHS-Xl-anD" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
-                                        <rect key="frame" x="463" y="3" width="124" height="128"/>
+                                        <rect key="frame" x="277" y="3" width="124" height="128"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="124" id="3WX-39-FlK"/>
@@ -150,7 +153,7 @@
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iXt-Kz-JPk">
-                                        <rect key="frame" x="525" y="3" width="62" height="128"/>
+                                        <rect key="frame" x="339" y="3" width="62" height="128"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
                                         <connections>
@@ -163,21 +166,33 @@
                                     <constraint firstItem="PHS-Xl-anD" firstAttribute="bottom" secondItem="iXt-Kz-JPk" secondAttribute="bottom" id="0fq-DG-kim"/>
                                     <constraint firstAttribute="bottom" secondItem="ImO-8t-8FL" secondAttribute="bottom" id="3u4-EL-SdC"/>
                                     <constraint firstItem="PHS-Xl-anD" firstAttribute="top" secondItem="ihU-65-WZz" secondAttribute="top" constant="3" id="Coz-9A-KW0"/>
+                                    <constraint firstItem="Nia-Fs-uzF" firstAttribute="centerY" secondItem="iXt-Kz-JPk" secondAttribute="centerY" constant="-160" id="G5a-Dd-Loc"/>
                                     <constraint firstItem="ImO-8t-8FL" firstAttribute="top" secondItem="ihU-65-WZz" secondAttribute="top" constant="8" id="JFy-nv-zdn"/>
                                     <constraint firstItem="PHS-Xl-anD" firstAttribute="width" secondItem="iXt-Kz-JPk" secondAttribute="width" multiplier="2:1" id="KcX-bn-AyE"/>
                                     <constraint firstAttribute="trailing" secondItem="ImO-8t-8FL" secondAttribute="trailing" constant="79" id="NYB-QJ-j8F"/>
+                                    <constraint firstItem="Nia-Fs-uzF" firstAttribute="centerX" secondItem="ihU-65-WZz" secondAttribute="centerX" id="WIG-dV-clU"/>
                                     <constraint firstItem="PHS-Xl-anD" firstAttribute="top" secondItem="iXt-Kz-JPk" secondAttribute="top" id="Xwh-oH-mgh"/>
                                     <constraint firstAttribute="height" constant="100" id="aY1-1g-pE7"/>
+                                    <constraint firstItem="PHS-Xl-anD" firstAttribute="height" secondItem="Nia-Fs-uzF" secondAttribute="height" multiplier="1:4" id="bZn-Oi-bkT"/>
                                     <constraint firstItem="PHS-Xl-anD" firstAttribute="trailing" secondItem="iXt-Kz-JPk" secondAttribute="trailing" id="bgB-bG-f8q"/>
+                                    <constraint firstItem="Nia-Fs-uzF" firstAttribute="centerX" secondItem="PHS-Xl-anD" secondAttribute="centerX" constant="-132" id="f5S-mc-L1Z"/>
                                     <constraint firstAttribute="trailing" secondItem="PHS-Xl-anD" secondAttribute="trailing" constant="13" id="gR5-Pw-JZy"/>
                                     <constraint firstItem="ImO-8t-8FL" firstAttribute="leading" secondItem="ihU-65-WZz" secondAttribute="leading" constant="13" id="iIa-d3-lJ1"/>
                                     <constraint firstItem="Nia-Fs-uzF" firstAttribute="leading" secondItem="ihU-65-WZz" secondAttribute="leading" id="nBp-Jn-zmK"/>
                                     <constraint firstAttribute="bottom" secondItem="Nia-Fs-uzF" secondAttribute="bottom" constant="-95" id="pEU-LL-eHX"/>
                                     <constraint firstAttribute="trailing" secondItem="Nia-Fs-uzF" secondAttribute="trailing" id="uj9-LJ-ZpP"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="WIG-dV-clU"/>
+                                        <exclude reference="nBp-Jn-zmK"/>
+                                        <exclude reference="pEU-LL-eHX"/>
+                                        <exclude reference="uj9-LJ-ZpP"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QvE-3W-cZW">
-                                <rect key="frame" x="0.0" y="100" width="600" height="500"/>
+                                <rect key="frame" x="0.0" y="100" width="414" height="636"/>
                                 <connections>
                                     <segue destination="Xez-Ze-1AV" kind="embed" id="jAF-jc-kc6"/>
                                 </connections>
@@ -194,8 +209,14 @@
                             <constraint firstItem="Zgf-80-Xwy" firstAttribute="top" secondItem="QvE-3W-cZW" secondAttribute="bottom" id="khq-Fb-EF9"/>
                             <constraint firstItem="ihU-65-WZz" firstAttribute="leading" secondItem="1It-y6-uMM" secondAttribute="leading" id="mmV-dZ-H7i"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="IPz-FU-v5C"/>
+                            </mask>
+                        </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="collectionView" destination="ImO-8t-8FL" id="G9p-dz-e1B"/>
                         <outlet property="senseiImageView" destination="PHS-Xl-anD" id="rWi-Ow-FTT"/>
@@ -211,7 +232,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-232" y="478"/>
+            <point key="canvasLocation" x="-128" y="478"/>
         </scene>
         <!--Settings Table View Controller-->
         <scene sceneID="vfL-eB-9Af">
@@ -1058,7 +1079,7 @@ Please tap here to create a new affirmation</string>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slot is empty, tap the camera icon to create a new visualization" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MoN-mz-owe">
-                                                                <rect key="frame" x="8" y="59" width="276" height="34"/>
+                                                                <rect key="frame" x="15" y="59" width="262" height="34"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -1070,7 +1091,7 @@ Please tap here to create a new affirmation</string>
                                                             <constraint firstItem="uOe-r0-tiJ" firstAttribute="top" secondItem="1Mp-G7-7Xx" secondAttribute="top" id="4d4-K1-Zqv"/>
                                                             <constraint firstItem="fCr-xg-Sb3" firstAttribute="top" secondItem="1Mp-G7-7Xx" secondAttribute="top" id="Dqs-IS-zoM"/>
                                                             <constraint firstAttribute="bottom" secondItem="fCr-xg-Sb3" secondAttribute="bottom" id="Iqu-5S-ULI"/>
-                                                            <constraint firstAttribute="trailing" secondItem="MoN-mz-owe" secondAttribute="trailing" constant="8" id="Ivc-Hk-N73"/>
+                                                            <constraint firstAttribute="trailing" secondItem="MoN-mz-owe" secondAttribute="trailing" constant="15" id="Ivc-Hk-N73"/>
                                                             <constraint firstAttribute="trailing" secondItem="uOe-r0-tiJ" secondAttribute="trailing" id="Li9-gf-SAm"/>
                                                             <constraint firstAttribute="height" constant="152" id="R9v-4C-EWs"/>
                                                             <constraint firstAttribute="bottom" secondItem="ZdW-GY-mzO" secondAttribute="bottom" constant="8" id="Rfv-M6-9pt"/>
@@ -1080,7 +1101,7 @@ Please tap here to create a new affirmation</string>
                                                             <constraint firstAttribute="trailing" secondItem="fCr-xg-Sb3" secondAttribute="trailing" id="cnH-KO-B6A"/>
                                                             <constraint firstItem="ZdW-GY-mzO" firstAttribute="leading" secondItem="1Mp-G7-7Xx" secondAttribute="leading" id="gFJ-Kz-2oe"/>
                                                             <constraint firstAttribute="width" constant="292" id="hwz-xX-aFw"/>
-                                                            <constraint firstItem="MoN-mz-owe" firstAttribute="leading" secondItem="1Mp-G7-7Xx" secondAttribute="leading" constant="8" id="nZ5-5w-WSI"/>
+                                                            <constraint firstItem="MoN-mz-owe" firstAttribute="leading" secondItem="1Mp-G7-7Xx" secondAttribute="leading" constant="15" id="nZ5-5w-WSI"/>
                                                             <constraint firstItem="fCr-xg-Sb3" firstAttribute="leading" secondItem="1Mp-G7-7Xx" secondAttribute="leading" id="oRU-yb-p45"/>
                                                             <constraint firstAttribute="bottom" secondItem="uOe-r0-tiJ" secondAttribute="bottom" id="tlm-sf-NcH"/>
                                                         </constraints>
@@ -1325,7 +1346,7 @@ Please tap here to create a new affirmation</string>
                                     <segue destination="nak-G7-NDS" kind="show" identifier="Go To Visualisations" id="pdC-Mp-anF"/>
                                 </connections>
                             </button>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="Rut-uN-STO" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="Rut-uN-STO" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
                                 <rect key="frame" x="439" y="414" width="145" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Rut-uN-STO" secondAttribute="height" multiplier="124:128" id="tEJ-Ra-Lf5"/>

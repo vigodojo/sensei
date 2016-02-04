@@ -628,6 +628,23 @@
 	<dict>
 		<key>EnabledContols</key>
 		<array>
+			<string>MessageSwitchViewLongPress</string>
+		</array>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Message</key>
+		<string>To delete a Visualization or an Affirmation, press and hold the slot number</string>
+		<key>ScreenName</key>
+		<string>VisualisationScreen</string>
+		<key>Number</key>
+		<integer>19</integer>
+		<key>DelayBefore</key>
+		<integer>0</integer>
+	</dict>
+	<dict>
+		<key>EnabledContols</key>
+		<array>
+            <string>MessageSwitchViewLongPress</string>
 			<string>BackButton</string>
 		</array>
 		<key>RequiresActionToProceed</key>
@@ -637,7 +654,7 @@
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
-		<integer>19</integer>
+		<integer>20</integer>
 		<key>DelayBefore</key>
 		<integer>0</integer>
 	</dict>
@@ -649,7 +666,7 @@
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
-		<integer>20</integer>
+		<integer>21</integer>
 		<key>DelayBefore</key>
 		<integer>0</integer>
 	</dict>
@@ -665,7 +682,7 @@
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
-		<integer>21</integer>
+		<integer>22</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 	</dict>
@@ -679,7 +696,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>22</integer>
+		<integer>23</integer>
 		<key>DelayBefore</key>
 		<integer>0</integer>
 	</dict>
@@ -691,7 +708,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>23</integer>
+		<integer>24</integer>
 		<key>DelayBefore</key>
 		<integer>0</integer>
 	</dict>
@@ -703,7 +720,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>24</integer>
+		<integer>25</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 	</dict>
@@ -715,7 +732,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>25</integer>
+		<integer>26</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 	</dict>
@@ -729,7 +746,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>26</integer>
+		<integer>27</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 	</dict>
@@ -741,7 +758,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>27</integer>
+		<integer>28</integer>
 		<key>DelayBefore</key>
 		<integer>0</integer>
 	</dict>
@@ -753,7 +770,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>28</integer>
+		<integer>29</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 	</dict>
@@ -765,7 +782,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>29</integer>
+		<integer>30</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 	</dict>
@@ -777,7 +794,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>30</integer>
+		<integer>31</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 	</dict>
@@ -793,7 +810,7 @@
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
-		<integer>31</integer>
+		<integer>32</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 	</dict>
@@ -803,7 +820,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>32</integer>
+		<integer>33</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>DelayBefore</key>
@@ -887,7 +904,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>33</integer>
+		<integer>34</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>DelayBefore</key>
@@ -978,7 +995,7 @@
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
-		<integer>34</integer>
+		<integer>35</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 	</dict>
@@ -992,7 +1009,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>35</integer>
+		<integer>36</integer>
 		<key>DelayBefore</key>
 		<integer>0</integer>
 		<key>ScreenName</key>
@@ -1078,7 +1095,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>36</integer>
+		<integer>37</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 		<key>ScreenName</key>
@@ -1092,7 +1109,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>37</integer>
+		<integer>38</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 		<key>ScreenName</key>
@@ -1106,7 +1123,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>38</integer>
+		<integer>39</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 		<key>ScreenName</key>
@@ -1120,7 +1137,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>39</integer>
+		<integer>40</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 		<key>ScreenName</key>
@@ -1204,7 +1221,7 @@
 			</array>
 		</dict>
 		<key>Number</key>
-		<integer>40</integer>
+		<integer>41</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 		<key>ScreenName</key>

@@ -23,6 +23,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     private struct ControlNames {
         static let CameraButton = "CameraButton"
         static let EditButton = "EditButton"
+        static let MessageSwitchViewLongPress = "MessageSwitchViewLongPress"
     }
 
     private let DeleteConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to delete this Visualisation?")
@@ -198,7 +199,10 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         super.enableControls(controlNames)
         visualisationView.cameraButton.userInteractionEnabled = controlNames?.contains(ControlNames.CameraButton) ?? true
         visualisationView.editButton.userInteractionEnabled = controlNames?.contains(ControlNames.EditButton) ?? true
-        messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.EditButton) ?? true
+        
+        messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.EditButton) == true || controlNames?.contains(ControlNames.MessageSwitchViewLongPress) == true ?? true
+        messageSwitchView.slotsCollectionView.userInteractionEnabled = messageSwitchView.longPressGesture.enabled
+        
         swipeNextGesture?.enabled = messageSwitchView.slotsCollectionView.userInteractionEnabled
         swipePrevGesture?.enabled = messageSwitchView.slotsCollectionView.userInteractionEnabled
     }
@@ -243,7 +247,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         didChangeImage = false
         if let visualisation = visualizationWithNumber(number) {
             messageSwitchView.receiveTime = visualisation.receiveTime
-            visualisationView.configureWithText(visualisation.text, image: visualisation.picture)
+            visualisationView.configureWithText(visualisation.text, image: visualisation.picture, number: NSNumber(integer: number.integerValue + 1))
             selectedVisualization = visualisation
         } else {
             resetVisualizationCell()
@@ -334,7 +338,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 
     private func resetVisualizationCell() {
         messageSwitchView.receiveTime = .AnyTime
-        visualisationView.configureWithText("", image: nil)
+        visualisationView.configureWithText("", image: nil, number: NSNumber(integer: messageSwitchView.selectedSlot! + 1))
         selectedVisualization = nil
     }
     
@@ -523,7 +527,7 @@ extension VisualizationsViewController: UIImagePickerControllerDelegate {
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            visualisationView.configureWithText(selectedVisualization?.text ?? "", image: image.upOrientedImage.fullScreenImage)
+            visualisationView.configureWithText(selectedVisualization?.text ?? "", image: image.upOrientedImage.fullScreenImage, number: NSNumber(integer: messageSwitchView.selectedSlot! + 1))
             didChangeImage = true
             tutorialViewController?.dismissViewControllerAnimated(true) { [weak self] in
                 self?.visualisationView.mode = VisualizationViewMode.Editing

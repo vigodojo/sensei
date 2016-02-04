@@ -67,6 +67,7 @@ extension UITextView {
         if !self.text.isEmpty {
             self.text.appendContentsOf("\n\n")
         }
+
         var bottomOffset = CGRectGetHeight(frame) - textSize.height
         if bottomOffset < 0 {
             bottomOffset = 0
@@ -82,6 +83,29 @@ extension UITextView {
         if autoscroll == true {
             setContentOffset(CGPointMake(0, contentOffset), animated: true)
         }
+    }
+
+    func visibleText() -> String {
+        self.selectable = true
+
+        let bounds = self.bounds
+        let origin = CGPoint(x: contentInset.left, y: contentInset.top + self.contentOffset.y+5)
+
+        let startCharacterRange = self.closestPositionToPoint(origin)
+        if startCharacterRange == nil {
+            return ""
+        }
+        
+        let endCharacterRange = self.closestPositionToPoint(CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds)))
+        if endCharacterRange == nil {
+            return ""
+        }
+
+        let startIndex = self.offsetFromPosition(self.beginningOfDocument, toPosition: startCharacterRange!)
+        let endIndex = self.offsetFromPosition(startCharacterRange!, toPosition: endCharacterRange!)
+        self.selectable = false
+
+        return (self.text as NSString).substringWithRange(NSMakeRange(startIndex, endIndex)) as String
     }
 }
 

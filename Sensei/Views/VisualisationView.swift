@@ -155,9 +155,10 @@ class VisualisationView: UIView {
         updateTextViewInsetsForContentSize(textView.contentSize)
     }
     
-    func configureWithText(text: String, image: UIImage?) {
+    func configureWithText(text: String, image: UIImage?, number: NSNumber) {
         editButtonHidden = image == nil
         self.image = image
+        noImageSelectedLabel.text = "Slot \(number) is empty.\nPlease tap the camera icon to create a new visualization"
         if text.isEmpty {
             self.currentFontSize = maxFontSize
             self.text = text

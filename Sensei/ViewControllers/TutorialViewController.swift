@@ -161,7 +161,13 @@ class TutorialViewController: BaseViewController {
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         if self.nextTimer == nil || self.nextTimer?.valid == false {
-            self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(tutorialStep.delayBefore, target: self, selector: "didMoveToNextTutorialStepAction:", userInfo: tutorialStep, repeats: false)
+            if let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? TutorialBubbleCollectionViewCell {
+                let visibleText = cell.textView.visibleText()
+                let delay = tutorialStep.delayBefore == 0 ? tutorialStep.delayBefore : Double(visibleText.characters.count) * 0.03
+                self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: "didMoveToNextTutorialStepAction:", userInfo: tutorialStep, repeats: false)
+            } else {
+                self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(tutorialStep.delayBefore, target: self, selector: "didMoveToNextTutorialStepAction:", userInfo: tutorialStep, repeats: false)
+            }
         }
     }
     

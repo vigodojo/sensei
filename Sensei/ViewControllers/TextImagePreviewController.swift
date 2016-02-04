@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TextImagePreviewControllerDelegate : class {
+    func textImagePreviewControllerWillDismiss()
+}
+
 class TextImagePreviewController: UIViewController {
     
     private struct Constants {
@@ -20,6 +24,7 @@ class TextImagePreviewController: UIViewController {
     
     var image: UIImage?
     var attributedText: NSAttributedString?
+    weak var delegate: TextImagePreviewControllerDelegate?
     
     // MARK: - Lifecycle
     
@@ -91,6 +96,7 @@ class TextImagePreviewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func tap(sender: UITapGestureRecognizer) {
+        delegate?.textImagePreviewControllerWillDismiss()
         presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }
