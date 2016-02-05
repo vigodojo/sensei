@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D3590C11C64B15B00FEE37B /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3590C01C64B15B00FEE37B /* TextViewCell.swift */; };
+		3D3590C31C64B16200FEE37B /* TutorialPrototypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3590C21C64B16200FEE37B /* TutorialPrototypeViewController.swift */; };
 		3D4501971C5A432D00ABB756 /* SenseiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4501961C5A432D00ABB756 /* SenseiManager.swift */; };
 		3D5533121C564B6F0093E5D6 /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5533111C564B6F0093E5D6 /* AnimationManager.swift */; };
 		3DA8D7D71C1ADCEF0075ADA5 /* UpgradeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */; };
@@ -84,6 +86,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D3590C01C64B15B00FEE37B /* TextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewCell.swift; sourceTree = "<group>"; };
+		3D3590C21C64B16200FEE37B /* TutorialPrototypeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPrototypeViewController.swift; sourceTree = "<group>"; };
 		3D4501961C5A432D00ABB756 /* SenseiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiManager.swift; sourceTree = "<group>"; };
 		3D5533111C564B6F0093E5D6 /* AnimationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV1.xcdatamodel; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 		4016F32F1B04EC7E00728202 /* CollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				3D3590C01C64B15B00FEE37B /* TextViewCell.swift */,
 				400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */,
 				400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */,
 				4016F3301B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift */,
@@ -222,6 +227,7 @@
 		402C32B01B0392180045BAD7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				3D3590C21C64B16200FEE37B /* TutorialPrototypeViewController.swift */,
 				40EC078F1B0B86D8009A2000 /* BaseViewController.swift */,
 				40A026501B428A2B00E18958 /* TutorialViewController.swift */,
 				402C32B11B0392180045BAD7 /* SenseiTabController.swift */,
@@ -543,6 +549,7 @@
 				401FBF931B20A221001DC2D0 /* SenseiModel.xcdatamodeld in Sources */,
 				402F14571B0A0A24000C4261 /* TabSegue.swift in Sources */,
 				40EC078C1B0B7DCC009A2000 /* PickerInputAccessoryView.swift in Sources */,
+				3D3590C31C64B16200FEE37B /* TutorialPrototypeViewController.swift in Sources */,
 				404E0C9D1B5647CB00FE2F3F /* SleepTime.swift in Sources */,
 				40EB50F61B4A9DD0003D5833 /* MessageSwitchView.swift in Sources */,
 				404E0CA11B564B3900FE2F3F /* AnimatableImage.swift in Sources */,
@@ -557,6 +564,7 @@
 				40AA2D9F1B3AE2C500606E4E /* WeightPickerDelegate.swift in Sources */,
 				404E0CA51B56677300FE2F3F /* TutorialManager.swift in Sources */,
 				404E0CA71B566E8400FE2F3F /* QuestionTutorialStep.swift in Sources */,
+				3D3590C11C64B15B00FEE37B /* TextViewCell.swift in Sources */,
 				4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */,
 				404E0C951B5647CB00FE2F3F /* Affirmation.swift in Sources */,
 				40CBAEFE1B4BDE6000443FAA /* VisualisationView.swift in Sources */,

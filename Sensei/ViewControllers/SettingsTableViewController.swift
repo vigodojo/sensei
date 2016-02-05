@@ -18,6 +18,7 @@ enum FieldName: String {
 }
 
 enum CellHeight: CGFloat {
+    case TutorialPrototype = 44.0
     case TeachingIntencityHeight = 94.0
     case InstructionSwitchHeight = 65.0
     case ShareUpgradeSleepTimeHeightPro = 370.0
@@ -647,11 +648,12 @@ class SettingsTableViewController: UITableViewController {
 extension SettingsTableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch (indexPath.row) {
-            case 0: return CellHeight.TeachingIntencityHeight.rawValue
-            case 1: return CellHeight.InstructionSwitchHeight.rawValue
-            case 2: return UpgradeManager.sharedInstance.isProVersion() ? CellHeight.ShareUpgradeSleepTimeHeightPro.rawValue : CellHeight.ShareUpgradeSleepTimeHeightReg.rawValue
-            case 3: return CellHeight.DateFormatHeight.rawValue;
-            case 4: return CellHeight.PersonalProfileHeight.rawValue
+            case 0: return CellHeight.TutorialPrototype.rawValue
+            case 1: return CellHeight.TeachingIntencityHeight.rawValue
+            case 2: return CellHeight.InstructionSwitchHeight.rawValue
+            case 3: return UpgradeManager.sharedInstance.isProVersion() ? CellHeight.ShareUpgradeSleepTimeHeightPro.rawValue : CellHeight.ShareUpgradeSleepTimeHeightReg.rawValue
+            case 4: return CellHeight.DateFormatHeight.rawValue;
+            case 5: return CellHeight.PersonalProfileHeight.rawValue
             default: return 0
         }
     }
