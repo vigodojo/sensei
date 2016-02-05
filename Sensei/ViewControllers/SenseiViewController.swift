@@ -168,28 +168,35 @@ class SenseiViewController: BaseViewController {
             senseiImageView.image = SenseiManager.sharedManager.sittingImage()
             senseiImageView.hidden = false
             
-            if SenseiManager.sharedManager.showSenseiSitAnimation {
-                SenseiManager.sharedManager.showSenseiSitAnimation = false
+            if SenseiManager.sharedManager.showSenseiStandAnimation || SenseiManager.sharedManager.shouldBowAfterLastActivity() {
+                SenseiManager.sharedManager.showSenseiStandAnimation = false
                 
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
                     SenseiManager.sharedManager.animateSenseiBowsInImageView(self.senseiImageView, completion: { (finished) -> Void in
                         self.standUpSensei()
                     })
                 }
-            } else if TutorialManager.sharedInstance.completed {
+            } else if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
                 let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
                 let timeComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.end)
                 let nextDate = NSCalendar.currentCalendar().nextDateAfterDate(NSDate(), matchingComponents: timeComponents, options: NSCalendarOptions.MatchNextTime)
                 
-                if standUpTimer == nil {
-                    standUpTimer = NSTimer(fireDate: nextDate!, interval: 0, target: self, selector: "standSenseiUpTimerAction:", userInfo: nil, repeats: false)
-                    NSRunLoop.currentRunLoop().addTimer(standUpTimer!, forMode: NSRunLoopCommonModes)
+                
+                if standUpTimer != nil {
+                    standUpTimer?.invalidate()
+                    standUpTimer = nil
                 }
+                standUpTimer = NSTimer(fireDate: nextDate!, interval: 0, target: self, selector: "standSenseiUpTimerAction:", userInfo: nil, repeats: false)
+                NSRunLoop.currentRunLoop().addTimer(standUpTimer!, forMode: NSRunLoopCommonModes)
+                
             }
         } else {
             senseiImageView.image = SenseiManager.sharedManager.standingImage()
-            
             senseiImageView.hidden = false
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                SenseiManager.sharedManager.animateSenseiStandsBowsInImageView(self.senseiImageView, completion: nil)
+            }
         }
     }
     
@@ -222,6 +229,8 @@ class SenseiViewController: BaseViewController {
                 senseiImageView.image = SenseiManager.sharedManager.standingImage()
             }
             senseiImageView.hidden = false
+        } else {
+            showSitSenseiAnimation()
         }
         
         addKeyboardObservers()

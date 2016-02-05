@@ -22,10 +22,10 @@ class SenseiManager: NSObject {
         }
     }
     
-    var showSenseiSitAnimation: Bool = false
+    var showSenseiStandAnimation: Bool = false
     override init() {
         super.init()
-        showSenseiSitAnimation = shouldShowSenseiAnimation()
+        showSenseiStandAnimation = isFirstTimeAfterSleep()
     }
     
     func sittingImage() -> UIImage? {
@@ -71,36 +71,72 @@ class SenseiManager: NSObject {
         }
     }
     
-    private func shouldSenseiSit() -> Bool {
-        return !TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.lastStepNumber() < 1 || showSenseiSitAnimation || isSleepTime()
+    func shouldSenseiSit() -> Bool {
+        return isBeginOfTutorial() || isFirstTimeAfterSleep() || isSleepTime() || shouldBowAfterLastActivity()
     }
 
-    private func isSleepTime() -> Bool {
+    func isSleepTime() -> Bool {
         let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
+        let now = NSDate()
         
-        let sleepStart = sleepTime.start.dateLessDate()
-        let sleepEnd = sleepTime.end.dateLessDate()
-        let now = NSDate().dateLessDate()
+        let startComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.start)
+        let sleepStartAfterNow = NSCalendar.currentCalendar().nextDateAfterDate(now, matchingComponents: startComponents, options: .MatchNextTime)!
+        let sleepStartBeforeNow = sleepStartAfterNow.dateByAddingTimeInterval((60*60*24)*(-1))
         
-        return now.dateBetweenDates(sleepStart, lastDate: sleepEnd)
+        let endComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.end)
+        let sleepEnd = NSCalendar.currentCalendar().nextDateAfterDate(sleepStartBeforeNow, matchingComponents: endComponents, options: .MatchNextTime)!
+
+        let isStartBeforeNow = now.compare(sleepStartBeforeNow) == NSComparisonResult.OrderedDescending
+        let isEndAfterNow = now.compare(sleepEnd) == NSComparisonResult.OrderedAscending
+        
+        print("******* isSleepTime *******")
+        print("start: \(sleepStartBeforeNow)\nnow: \(now)\nend: \(sleepEnd)")
+        print("isSleepTime: \(isStartBeforeNow && isEndAfterNow ? "true" : "false")")
+        print("**************")
+        
+        return isStartBeforeNow && isEndAfterNow
     }
     
-    private func shouldShowSenseiAnimation() -> Bool {
+    private func isBeginOfTutorial() -> Bool {
+        return !TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.lastStepNumber() < 1
+    }
+    
+    func isFirstTimeAfterSleep() -> Bool {
         let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
         let lastActivity = NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") == nil ? NSDate() : NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") as! NSDate
+
+        let startComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.start)
+        let sleepStartAfterActivity = NSCalendar.currentCalendar().nextDateAfterDate(lastActivity, matchingComponents: startComponents, options: .MatchNextTime)!
         
-        let lastActivityDate = lastActivity.dateLessDate()
-        let sleeptimeEndDate = sleepTime.end.dateLessDate()
+        let sleepStartBeforeActivity = sleepStartAfterActivity.dateByAddingTimeInterval((60*60*24)*(-1))
         
-        let lastActivityBeforeSleep = lastActivityDate.compare(sleeptimeEndDate) == NSComparisonResult.OrderedAscending
-        let nowAfterSleep = sleeptimeEndDate.compare(NSDate()) == NSComparisonResult.OrderedAscending
+        let endComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.end)
+        let sleepEndAfterActivity = NSCalendar.currentCalendar().nextDateAfterDate(sleepStartBeforeActivity, matchingComponents: endComponents, options: .MatchNextTime)!
         
+        let lastActivityBeforeSleepEnd = lastActivity.compare(sleepEndAfterActivity) == NSComparisonResult.OrderedAscending
+        let now = NSDate()
+        let nowAfterSleep = now.compare(sleepEndAfterActivity) == NSComparisonResult.OrderedDescending
+        
+        print("******* isFirstTimeAfterSleep *******")
+        print("lastActivity: \(lastActivity)\nend: \(sleepEndAfterActivity)\nnow: \(now)")
+        print("isFirstTimeAfterSleep: \(lastActivityBeforeSleepEnd && nowAfterSleep)")
+        print("**************")
+        
+        return lastActivityBeforeSleepEnd && nowAfterSleep
+    }
+    
+    func shouldBowAfterLastActivity() -> Bool {
+        let lastActivity = NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") == nil ? NSDate() : NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") as! NSDate
+
         var timeIntervalSinceNow = lastActivity.timeIntervalSinceNow
         if timeIntervalSinceNow < 0 {
             timeIntervalSinceNow *= -1
         }
-        let lastActivityMoreThenAnHourAgo = timeIntervalSinceNow > Double(60*1)
         
-        return lastActivityBeforeSleep && nowAfterSleep || lastActivityMoreThenAnHourAgo
+        print("******* shouldBowAfterLastActivity *******")
+        print("shouldBowAfterLastActivity: \(timeIntervalSinceNow > 50.0)")
+        print("**************")
+        
+        return timeIntervalSinceNow > 50.0
     }
 }
