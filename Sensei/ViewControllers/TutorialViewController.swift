@@ -163,7 +163,7 @@ class TutorialViewController: BaseViewController {
         if self.nextTimer == nil || self.nextTimer?.valid == false {
             if let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? TutorialBubbleCollectionViewCell {
                 let visibleText = cell.textView.visibleText()
-                let delay = tutorialStep.delayBefore == 0 ? tutorialStep.delayBefore : Double(visibleText.characters.count) * 0.03
+                let delay = tutorialStep.delayBefore == 0 ? tutorialStep.delayBefore : ceil(Double(visibleText.characters.count) * 0.03)
                 self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: "didMoveToNextTutorialStepAction:", userInfo: tutorialStep, repeats: false)
             } else {
                 self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(tutorialStep.delayBefore, target: self, selector: "didMoveToNextTutorialStepAction:", userInfo: tutorialStep, repeats: false)
@@ -175,7 +175,8 @@ class TutorialViewController: BaseViewController {
         if let tutorialStep = timer.userInfo as? TutorialStep {
             if let animatableimage = tutorialStep.animatableImage {
                 self.senseiImageView.stopAnimatableImageAnimation()
-                if tutorialStep.number == 12 || tutorialStep.number == 18 {
+                
+                if isAnimationAfterTutorialStep(tutorialStep) {
                     self.showMessage(tutorialStep, upgrade: false)
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(2) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
                         self.senseiImageView.animateAnimatableImage(animatableimage, completion: { [unowned self] (finished) -> Void in
@@ -192,6 +193,10 @@ class TutorialViewController: BaseViewController {
                 self.showTutorialStep(tutorialStep)
             }
         }
+    }
+    
+    func isAnimationAfterTutorialStep(tutorialStep: TutorialStep) -> Bool {
+        return tutorialStep.number == 12 || tutorialStep.number == 18
     }
     
     func showTutorialStep(tutorialStep: TutorialStep) {

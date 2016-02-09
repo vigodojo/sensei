@@ -23,8 +23,10 @@ class SenseiManager: NSObject {
     }
     
     var showSenseiStandAnimation: Bool = false
+    var shouldSitBowAfterOpening: Bool = false
     override init() {
         super.init()
+        shouldSitBowAfterOpening = shouldBowAfterLastActivity()
         showSenseiStandAnimation = isFirstTimeAfterSleep()
     }
     
@@ -72,7 +74,7 @@ class SenseiManager: NSObject {
     }
     
     func shouldSenseiSit() -> Bool {
-        return isBeginOfTutorial() || isFirstTimeAfterSleep() || isSleepTime() || shouldBowAfterLastActivity()
+        return isBeginOfTutorial() || showSenseiStandAnimation || isSleepTime() || shouldSitBowAfterOpening
     }
 
     func isSleepTime() -> Bool {
@@ -134,9 +136,9 @@ class SenseiManager: NSObject {
         }
         
         print("******* shouldBowAfterLastActivity *******")
-        print("shouldBowAfterLastActivity: \(timeIntervalSinceNow > 50.0)")
+        print("shouldBowAfterLastActivity: \(timeIntervalSinceNow > 60*60)")
         print("**************")
         
-        return timeIntervalSinceNow > 50.0
+        return timeIntervalSinceNow > 60*60
     }
 }

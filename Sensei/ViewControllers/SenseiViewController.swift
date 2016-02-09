@@ -68,19 +68,11 @@ class SenseiViewController: BaseViewController {
         var rightInset: CGFloat = 0
         
         switch (screenHeight) {
-            case 568: rightInset = 70.0
-            case 667: rightInset = 80.0
-            case 736: rightInset = 90.0
-            default: rightInset = 60.0
+            case 568: rightInset = 70.0 //iphone 5s
+            case 667: rightInset = 80.0 //iphone 6s
+            case 736: rightInset = 90.0 //iphone 6sPlus
+            default: rightInset = 60.0 //iphone 4s
         }
-        
-        //this hardcoded values were caused by the different sensei size for every iPhone resolution..
-        //Apple God blessed me for this shit
-                
-        //iphone 4s == 60
-        //iphone 5s == 70
-        //iphone 6s == 80
-        //iphone 6sPlus == 90
         
         return UIEdgeInsets(top: 0, left: 11.0, bottom: 0, right: rightInset)
     }
@@ -136,7 +128,7 @@ class SenseiViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ViewDidLoad")
+
         (view as? AnswerableView)?.delegate = self
         collectionView.registerNib(UINib(nibName: RightSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: RightSpeechBubbleCollectionViewCellIdentifier)
         collectionView.registerNib(UINib(nibName: LeftSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: LeftSpeechBubbleCollectionViewCellIdentifier)
@@ -151,15 +143,13 @@ class SenseiViewController: BaseViewController {
         
         addApplicationObservers()
         addSenseiGesture()
+        showSitSenseiAnimation()
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialDidHideNotification:"), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishUpgradeNotificatin:"), name: TutorialManager.Notifications.DidFinishUpgrade, object: nil)
     }
-    
-    func setSitSensei(notification: NSNotification) {
-        print("Sensei Sit Notification")
-    }
-    
+
     func showSitSenseiAnimation() {
         if !TutorialManager.sharedInstance.completed {
             return
@@ -168,36 +158,46 @@ class SenseiViewController: BaseViewController {
             senseiImageView.image = SenseiManager.sharedManager.sittingImage()
             senseiImageView.hidden = false
             
-            if SenseiManager.sharedManager.showSenseiStandAnimation || SenseiManager.sharedManager.shouldBowAfterLastActivity() {
-                SenseiManager.sharedManager.showSenseiStandAnimation = false
-                
+            if (SenseiManager.sharedManager.showSenseiStandAnimation || SenseiManager.sharedManager.shouldSitBowAfterOpening) && !SenseiManager.sharedManager.isSleepTime() {
+                if SenseiManager.sharedManager.showSenseiStandAnimation {
+                    SenseiManager.sharedManager.showSenseiStandAnimation = false
+                }
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
                     SenseiManager.sharedManager.animateSenseiBowsInImageView(self.senseiImageView, completion: { (finished) -> Void in
                         self.standUpSensei()
                     })
                 }
             } else if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
-                let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
-                let timeComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.end)
-                let nextDate = NSCalendar.currentCalendar().nextDateAfterDate(NSDate(), matchingComponents: timeComponents, options: NSCalendarOptions.MatchNextTime)
-                
-                
-                if standUpTimer != nil {
-                    standUpTimer?.invalidate()
-                    standUpTimer = nil
-                }
-                standUpTimer = NSTimer(fireDate: nextDate!, interval: 0, target: self, selector: "standSenseiUpTimerAction:", userInfo: nil, repeats: false)
-                NSRunLoop.currentRunLoop().addTimer(standUpTimer!, forMode: NSRunLoopCommonModes)
-                
+                setupAwakeAnimationTimer()
             }
         } else {
             senseiImageView.image = SenseiManager.sharedManager.standingImage()
             senseiImageView.hidden = false
             
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                SenseiManager.sharedManager.animateSenseiStandsBowsInImageView(self.senseiImageView, completion: nil)
+            if standUpTimer != nil {
+                standUpTimer?.invalidate()
+                standUpTimer = nil
             }
+            standUpTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "standBowSensei:", userInfo: nil, repeats: false)
         }
+    }
+    
+    func setupAwakeAnimationTimer() {
+        let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
+        let timeComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.end)
+        let nextDate = NSCalendar.currentCalendar().nextDateAfterDate(NSDate(), matchingComponents: timeComponents, options: NSCalendarOptions.MatchNextTime)
+        
+        
+        if standUpTimer != nil {
+            standUpTimer?.invalidate()
+            standUpTimer = nil
+        }
+        standUpTimer = NSTimer(fireDate: nextDate!, interval: 0, target: self, selector: "standSenseiUpTimerAction:", userInfo: nil, repeats: false)
+        NSRunLoop.currentRunLoop().addTimer(standUpTimer!, forMode: NSRunLoopCommonModes)
+    }
+    
+    func standBowSensei(timer: NSTimer) {
+        SenseiManager.sharedManager.animateSenseiStandsBowsInImageView(self.senseiImageView, completion: nil)
     }
     
     func standSenseiUpTimerAction(timer: NSTimer) {
@@ -213,7 +213,6 @@ class SenseiViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        print("ViewWillAppear")
         tutorialViewController?.tutorialHidden = true
         collectionView.contentInset.bottom = collectionViewBottomContentInset
 
@@ -221,21 +220,21 @@ class SenseiViewController: BaseViewController {
             APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         }
         
-        if self.notificationReceived {
-            self.notificationReceived = false
-            if SenseiManager.sharedManager.senseiSitting {
-                senseiImageView.image = SenseiManager.sharedManager.sittingImage()
-            } else {
-                senseiImageView.image = SenseiManager.sharedManager.standingImage()
-            }
-            senseiImageView.hidden = false
+        if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
+            SenseiManager.sharedManager.shouldSitBowAfterOpening = false
+            senseiImageView.image = SenseiManager.sharedManager.sittingImage()
         } else {
-            showSitSenseiAnimation()
+            senseiImageView.image = SenseiManager.sharedManager.standingImage()
         }
+        senseiImageView.hidden = false
+
         
+        if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
+            setupAwakeAnimationTimer()
+        }
+
         addKeyboardObservers()
         addTutorialObservers()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("setSitSensei:"), name: "SitSenseiNotification", object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -264,9 +263,7 @@ class SenseiViewController: BaseViewController {
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-//        if TutorialManager.sharedInstance.completed {
-            removeAllExeptLessons()
-//        }
+        removeAllExeptLessons()
     }
     
     override func viewDidLayoutSubviews() {
@@ -335,7 +332,6 @@ class SenseiViewController: BaseViewController {
         self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
         self.collectionView.contentInset.top = self.topContentInset
         collectionView.performBatchUpdates({ [unowned self] () -> Void in
-//            self.collectionView.reloadSections(NSIndexSet(index: 0))
             self.collectionView.insertItemsAtIndexPaths(indexPathes)
         }, completion: { [unowned self] (finished) -> Void in
             if scroll {
@@ -382,10 +378,7 @@ class SenseiViewController: BaseViewController {
     // MARK: API Requests
     
     private func login() {
-        // TODO: - DELETE HARDCODED IDFA
-    #if DEBUG
-//		let idfa = "5666C71D-7FE6-42B9-962C-16B977B3C08F"
-//		let idfa = "8161C71D-7FE6-42B9-912C-16B977B3C08F" // meine
+
         if NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") == nil {
             NSUserDefaults.standardUserDefaults().setObject(NSUUID().UUIDString, forKey: "AutoUUID")
             NSUserDefaults.standardUserDefaults().synchronize()
@@ -393,15 +386,6 @@ class SenseiViewController: BaseViewController {
         let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
 //		let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
         
-    #else
-        if NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") == nil {
-            NSUserDefaults.standardUserDefaults().setObject(NSUUID().UUIDString, forKey: "AutoUUID")
-            NSUserDefaults.standardUserDefaults().synchronize()
-        }
-        let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
-
-//		let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-    #endif
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
         print("IDFA = \(idfa)")
         print("timezone = \(currentTimeZone)")
@@ -419,7 +403,6 @@ class SenseiViewController: BaseViewController {
             }
         }
     }
-    
     
     func animateQuestionAnimation(question: QuestionProtocol) {
         if let animatableimage = (question as! QuestionTutorialStep).animatableImage {
@@ -515,17 +498,19 @@ class SenseiViewController: BaseViewController {
             self.lastVisualisation = nil
         }
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
-            print("\(NSDate()): UIApplicationDidBecomeActiveNotification")
             self.previousApplicationState = UIApplicationState.Active
             
             if !self.notificationReceived {
                 self.showSitSenseiAnimation()
             }
+            if !TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.currentStep is QuestionTutorialStep {
+                (self.view as? AnswerableView)?.askQuestion(TutorialManager.sharedInstance.currentStep as! QuestionTutorialStep)
+            }
         }
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: nil) { [unowned self]notification in
-            print("\(NSDate()): UIApplicationDidBecomeActiveNotification")
             SenseiManager.sharedManager = SenseiManager()
-            if SenseiManager.sharedManager.senseiSitting {
+            
+            if SenseiManager.sharedManager.senseiSitting || TutorialManager.sharedInstance.currentStep?.number < 3 {
                 self.senseiImageView.image = SenseiManager.sharedManager.sittingImage()
             } else {
                 self.senseiImageView.image = SenseiManager.sharedManager.standingImage()
@@ -535,14 +520,19 @@ class SenseiViewController: BaseViewController {
         }
 
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [unowned self]notification in
-            self.senseiImageView.hidden = true
+            if TutorialManager.sharedInstance.completed {
+                self.senseiImageView.hidden = true
+            }
+            self.senseiBottomSpaceConstraint.constant = Constants.DefaultBottomSpace
+            self.transparrencyGradientLayer.startPoint = CGPointZero
+            self.view.layoutIfNeeded()
+            (self.view as? AnswerableView)?.resignFirstResponder()
+            self.view.endEditing(true)
         }
         
         NSNotificationCenter.defaultCenter().addObserverForName(ApplicationDidReceiveRemotePushNotification, object: nil, queue: nil) { [unowned self] notification in
-            print("\(NSDate()): ApplicationDidReceiveRemotePushNotification")
             if let userInfo = notification.userInfo, push = PushNotification(userInfo: userInfo) {
                 if push.type == .Visualisation {
-                    print("Visualisation")
                     self.notificationReceived = true
                 }
                 print("Push Info = \(userInfo)")
@@ -736,12 +726,9 @@ class SenseiViewController: BaseViewController {
     
     private func askQuestion(question: QuestionProtocol) {
         lastQuestion = question
-        
-        let tutorialStep = (question as! QuestionTutorialStep)
+
         var delay = delayForCurrentStep()
         delay = self.dataSource.count > 0 ? delay : 0
-        
-        print("step: \(tutorialStep.number); \ndelay: \(delay)")
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(delay) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
             if let _ = (question as! QuestionTutorialStep).animatableImage {
@@ -808,7 +795,6 @@ class SenseiViewController: BaseViewController {
     }
     
     override func enableControls(controlNames: [String]?) {
-        print("SenseiViewController->enableControler: \(controlNames)")
         affirmationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.AffirmationsButton) ?? true
         visualisationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.VisualisationsButton) ?? true
     }

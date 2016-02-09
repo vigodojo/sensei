@@ -58,7 +58,23 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
         }
         set {
             textView.text = newValue
-            textView.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
+            textView.font = UIFont.speechBubbleTextFont
+            textView.layoutIfNeeded()
+
+            var numberOfLines = Int(ceil(textView.contentSize.height/(textView.bounds.size.height/4)))
+
+            if numberOfLines > 4 {
+                numberOfLines-=4
+            }
+            numberOfLines = 4-numberOfLines
+            
+            if numberOfLines > 0 {
+                for _ in 0...Int(numberOfLines-1) {
+                    textView.text.appendContentsOf("\n")
+                }
+            }
+            textView.font = UIFont.speechBubbleTextFont
+            layoutIfNeeded()
             textView.contentOffset = CGPointZero
             setArrowButtonVisibleIfNeeded(textView.contentSize.height <= CGRectGetMaxY(textView.bounds))
         }
@@ -140,7 +156,6 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
         if let hideNeeded = hidden {
             nextButton.hidden = hideNeeded
         } else {
-//            let height = textView.contentSize.height
             let size = textView.sizeThatFits(CGSize(width: textView.bounds.size.width, height: CGFloat(MAXFLOAT)))
             nextButton.hidden = CGRectGetMaxY(textView.bounds) > size.height
         }

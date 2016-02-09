@@ -16,7 +16,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ytY-bT-7Kp" customClass="SpeechBubbleView" customModule="Sensei" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="92"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2aE-fa-BUm">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2aE-fa-BUm">
                                 <rect key="frame" x="8" y="8" width="294" height="74"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -138,7 +138,7 @@
                 <outlet property="textView" destination="2aE-fa-BUm" id="RPj-e3-9bg"/>
                 <outlet property="warningTextView" destination="5x3-O3-QGF" id="8GP-Ot-DQg"/>
             </connections>
-            <point key="canvasLocation" x="-483" y="414"/>
+            <point key="canvasLocation" x="-672" y="442"/>
         </collectionViewCell>
     </objects>
     <resources>

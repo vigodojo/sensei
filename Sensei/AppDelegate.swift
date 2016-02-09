@@ -20,12 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var shouldSit: Bool = false
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-//        NSUserDefaults.standardUserDefaults().setObject(NSNumber(int: 30), forKey: "TutorialManagerLastCompletedStepNumber")
-//        NSUserDefaults.standardUserDefaults().synchronize()
+//        startFromTutorialStep(22)
         
         pushNotification = extractPushFromLaunchOptions(launchOptions)
+
         Fabric.with([Crashlytics()])
-        TutorialManager.sharedInstance
+        if TutorialManager.sharedInstance.completed {
+           self.registerForNotifications()
+        }
+        
         if !UpgradeManager.sharedInstance.isProVersion() {
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "TutorialUpgradeCompleted")
             NSUserDefaults.standardUserDefaults().synchronize()
@@ -33,17 +36,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func startFromTutorialStep(stepNumber: Int32) {
+        NSUserDefaults.standardUserDefaults().setObject(NSNumber(int: stepNumber), forKey: "TutorialManagerLastCompletedStepNumber")
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
     func registerForNotifications() {
         let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
-    }
-
-    func applicationDidBecomeActive(application: UIApplication) {
-        
-    }
-    
-    func applicationWillEnterForeground(application: UIApplication) {
-        
     }
 
     func applicationDidEnterBackground(application: UIApplication) {

@@ -98,30 +98,6 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         self.view.addGestureRecognizer(swipePrevGesture!)
     }
     
-    func showNextSlot(notification: NSNotification) {
-        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot! + 1, inSection: 0)
-        if !UpgradeManager.sharedInstance.isProVersion() && indexPath.item >= Constants.NumberOfFreeVisualizations {
-            if TutorialManager.sharedInstance.completed {
-                showUpgradeAppMessage()
-            }
-            return
-        }
-        if indexPath.item >= Constants.NumberOfVisualizations {
-            return
-        }
-        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
-        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
-    }
-    
-    func showPrevSlot(notification: NSNotification) {
-        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot!-1, inSection: 0)
-        if indexPath.item < 0 {
-            return
-        }
-        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
-        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
-    }
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didUpgradeToPro:"), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
@@ -138,6 +114,32 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
+    // MARK: SwipeGestureRecognizer
+    
+    func showNextSlot(recognizer: UISwipeGestureRecognizer) {
+        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot! + 1, inSection: 0)
+        if !UpgradeManager.sharedInstance.isProVersion() && indexPath.item >= Constants.NumberOfFreeVisualizations {
+            if TutorialManager.sharedInstance.completed {
+                showUpgradeAppMessage()
+            }
+            return
+        }
+        if indexPath.item >= Constants.NumberOfVisualizations {
+            return
+        }
+        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
+        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
+    }
+    
+    func showPrevSlot(recognizer: UISwipeGestureRecognizer) {
+        let indexPath = NSIndexPath(forItem: messageSwitchView.selectedSlot!-1, inSection: 0)
+        if indexPath.item < 0 {
+            return
+        }
+        messageSwitchView.slotsCollectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
+        messageSwitchView.collectionView(messageSwitchView.slotsCollectionView, didSelectItemAtIndexPath: indexPath)
+    }
+    
     // MARK: - UserMessageViewController
     
     override func fetchUserMessages() {

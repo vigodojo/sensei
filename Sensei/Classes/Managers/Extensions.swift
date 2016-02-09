@@ -63,25 +63,41 @@ extension UITextView {
         layoutIfNeeded()
         let textSize = self.contentSize
         self.text = prevText
+        layoutIfNeeded()
 
-        if !self.text.isEmpty {
-            self.text.appendContentsOf("\n\n")
+        if self.contentSize.height % 64 > 0 {
+            let mult = ceil(self.contentSize.height / 64)
+            self.contentSize = CGSize(width: self.contentSize.width, height: 64*mult)
         }
-
-        var bottomOffset = CGRectGetHeight(frame) - textSize.height
-        if bottomOffset < 0 {
-            bottomOffset = 0
+        
+        let offset = self.contentSize.height
+        if !self.text.isEmpty {
+            self.text.appendContentsOf("\n")
         }
         self.text.appendContentsOf(textToAppend)
 
         self.font = UIFont.speechBubbleTextFont
         layoutIfNeeded()
-        let finalSize = self.contentSize
-        let contentOffset = finalSize.height - textSize.height
 
-        textContainerInset = UIEdgeInsetsMake(0, 0, bottomOffset, 0)
+        var numberOfLines = Int(ceil(textSize.height/(self.frame.size.height/4)))
+        
+        if numberOfLines > 4 {
+            numberOfLines-=4
+        }
+        numberOfLines = 4-numberOfLines
+        
+        if numberOfLines > 0 {
+            for _ in 0...(numberOfLines-1) {
+                self.text.appendContentsOf("\n")
+            }
+        }
+
+        self.font = UIFont.speechBubbleTextFont
+        layoutIfNeeded()
         if autoscroll == true {
-            setContentOffset(CGPointMake(0, contentOffset), animated: true)
+            let finalSize = self.contentSize
+            let contentOffset = finalSize.height - offset
+            setContentOffset(CGPointMake(0, offset), animated: true)
         }
     }
 

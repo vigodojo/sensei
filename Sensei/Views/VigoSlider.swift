@@ -189,7 +189,6 @@ class VigoSlider: UIControl {
             updateThumbViewCenterAnimated(true)
         }
     }
-
 }
 
 class VigoSliderThumbView: UIView {
