@@ -15,18 +15,32 @@ class TutorialViewController: BaseViewController {
         static let TutorialDidShow = "TutorialViewControllerNotificationsTutorialDidShow"
         static let TutorialWillHide = "TutorialViewControllerNotificationsTutorialWillHide"
         static let TutorialDidHide = "TutorialViewControllerNotificationsTutorialDidHide"
+        static let NoAnswer = "TutorialBubbleCollectionViewCellNotificationsNoAnswer"
+        static let YesAnswer = "TutorialBubbleCollectionViewCellNotificationsYesAnswer"
     }
     
     private struct Constants {
         static let SpeechBubbleHeight: CGFloat = 82.0
     }
+    
+    enum MessageType {
+        case Sensei
+        case Me
+        case Confirmation
+    }
 
     @IBOutlet weak var tutorialContainerViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var tutorialContainerViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var tutorialCollectionView: UICollectionView!
     @IBOutlet weak var senseiImageView: AnimatableImageView!
     @IBOutlet weak var senseiTapView: UIView!
     
+    @IBOutlet weak var warningTextView: UITextView!
+    @IBOutlet weak var arrowMoreButton: UIButton!
+    @IBOutlet weak var buttonsView: UIView!
+    @IBOutlet weak var yesButton: UIButton!
+    @IBOutlet weak var noButton: UIButton!
+
     private var nextTimer: NSTimer?
     
     var tutorialContainerHeight: CGFloat {
@@ -47,6 +61,22 @@ class TutorialViewController: BaseViewController {
         }
     }
     
+    var type = MessageType.Sensei {
+        didSet {
+            switch type {
+            case .Sensei:
+                buttonsView.hidden = true
+                arrowMoreButton.hidden = false
+                setArrowButtonVisibleIfNeeded(nil)
+            case .Confirmation:
+                buttonsView.hidden = false
+                arrowMoreButton.hidden = true
+            default:
+                break
+            }
+        }
+    }
+    
     var messages = [Message]()
 
     var canLoadNextStep: Bool {
@@ -62,8 +92,6 @@ class TutorialViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nib = UINib(nibName: TutorialBubbleCollectionViewCell.ReuseIdentifier, bundle: nil)
-        collectionView.registerNib(nib, forCellWithReuseIdentifier: TutorialBubbleCollectionViewCell.ReuseIdentifier)
         tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
         addTutorialObservers()
     }
@@ -123,6 +151,34 @@ class TutorialViewController: BaseViewController {
         }
     }
     
+    func showWarningMessage(message: String, disappear: Bool) {
+        if !warningTextView.hidden {
+            return
+        }
+        warningTextView.alpha = 0.0
+        warningTextView.hidden = false
+        warningTextView.text = message
+        warningTextView.contentOffset = CGPointZero
+        
+        warningTextView.contentInset = UIEdgeInsetsZero
+        warningTextView.textContainerInset = UIEdgeInsetsZero
+        warningTextView.font = UIFont.speechBubbleTextFont
+        warningTextView.layoutIfNeeded()
+        
+        UIView.animateWithDuration(0.3, animations: { [unowned self] () -> Void in
+            self.warningTextView.alpha = 1.0
+            }) { (finished) -> Void in
+                if !disappear {
+                    return
+                }
+                UIView.animateWithDuration(0.4, delay: 2.0, options: .CurveEaseOut, animations:{ [unowned self] () -> Void in
+                    self.warningTextView.alpha = 0.0
+                    }) { (finished) -> Void in
+                        self.hideWarning()
+                }
+        }
+    }
+
     func askConfirmationQuestion(question: ConfirmationQuestion) {
         showBlockingWindow()
         ask(question)
@@ -132,39 +188,66 @@ class TutorialViewController: BaseViewController {
         
         if tutorialHidden || TutorialManager.sharedInstance.completed {
             messages = [question]
-
-            collectionView.reloadData()
+            tutorialCollectionView.reloadData()
             showTutorialAnimated(true)
         } else {
-            let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
-            
-            cell.showWarningMessage(question.text, disappear: false)
-            cell.type = .Confirmation
+            showWarningMessage(question.text, disappear: false)
         }
+        type = .Confirmation
+        setArrowButtonVisibleIfNeeded(self.tutorialCollectionView.scrollViewDidScrollToBottom())
     }
     
     func showMessage(message: Message, upgrade: Bool) {
-        messages = [message]
-
-        if tutorialHidden || TutorialManager.sharedInstance.completed {
-            collectionView.reloadData()
-            showTutorialAnimated(true)
-        } else {
-            let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
-            
-            cell.append(message.text, autoscroll: (TutorialManager.sharedInstance.prevTutorialStep?.requiresActionToProceed)!)
-            cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
-        }
+        showMessage(message, upgrade: upgrade, completion: nil)
     }
+    
+    func showMessage(message: Message, upgrade: Bool, completion: (()-> Void)?) {
+        if messages.count == 0 {
+            messages = [message]
+        } else {
+            messages.append(message)
+        }
+        
+        if tutorialHidden || TutorialManager.sharedInstance.completed {
+            tutorialCollectionView.reloadData()
+            showTutorialAnimated(true)
+            setArrowButtonVisibleIfNeeded(self.tutorialCollectionView.scrollViewDidScrollToBottom())
+            if let completion = completion {
+                completion()
+            }
+        } else {
+            let animated = TutorialManager.sharedInstance.prevTutorialStep?.requiresActionToProceed == true
+            let lastIndexPath = NSIndexPath(forItem: self.messages.count-1, inSection: 0)
+            tutorialCollectionView.performBatchUpdates({ [unowned self]() -> Void in
+                self.tutorialCollectionView.insertItemsAtIndexPaths([lastIndexPath])
+            
+                }, completion: { [unowned self](finished) -> Void in
+                    if animated {
+                        self.tutorialCollectionView.scrollToItemAtIndexPath(lastIndexPath, atScrollPosition: .Top, animated: true)
+                    }
+                    self.setArrowButtonVisibleIfNeeded(self.tutorialCollectionView.scrollViewDidScrollToBottom())
+
+                    if let completion = completion {
+                        completion()
+                    }
+                })
+        }
+        type = message is ConfirmationQuestion ? .Confirmation: .Sensei
+    }
+    
     
     // MARK: - Tutorial
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         if self.nextTimer == nil || self.nextTimer?.valid == false {
-            if let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? TutorialBubbleCollectionViewCell {
-                let visibleText = cell.textView.visibleText()
-                let delay = tutorialStep.delayBefore == 0 ? tutorialStep.delayBefore : ceil(Double(visibleText.characters.count) * 0.03)
-                self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: "didMoveToNextTutorialStepAction:", userInfo: tutorialStep, repeats: false)
+            let visibleCells = tutorialCollectionView.indexPathsForVisibleItems()
+            if visibleCells.count > 0 {
+                if let cell = tutorialCollectionView.cellForItemAtIndexPath(visibleCells.first! as NSIndexPath) as? TutorialTextViewCell {
+                    let visibleText = cell.textView.textInFrame(self.view.convertRect(tutorialCollectionView.frame, toView: cell.textView))
+                    print("visibleText: \(visibleText)")
+                    let delay = tutorialStep.delayBefore == 0 ? tutorialStep.delayBefore : ceil(Double((visibleText.characters.count)) * 0.03)
+                    self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: "didMoveToNextTutorialStepAction:", userInfo: tutorialStep, repeats: false)
+                }
             } else {
                 self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(tutorialStep.delayBefore, target: self, selector: "didMoveToNextTutorialStepAction:", userInfo: tutorialStep, repeats: false)
             }
@@ -176,7 +259,7 @@ class TutorialViewController: BaseViewController {
             if let animatableimage = tutorialStep.animatableImage {
                 self.senseiImageView.stopAnimatableImageAnimation()
                 
-                if isAnimationAfterTutorialStep(tutorialStep) {
+                if shouldShowAnimationAfterTutorialStep(tutorialStep) {
                     self.showMessage(tutorialStep, upgrade: false)
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(2) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
                         self.senseiImageView.animateAnimatableImage(animatableimage, completion: { [unowned self] (finished) -> Void in
@@ -195,15 +278,16 @@ class TutorialViewController: BaseViewController {
         }
     }
     
-    func isAnimationAfterTutorialStep(tutorialStep: TutorialStep) -> Bool {
+    func shouldShowAnimationAfterTutorialStep(tutorialStep: TutorialStep) -> Bool {
         return tutorialStep.number == 12 || tutorialStep.number == 18
     }
     
     func showTutorialStep(tutorialStep: TutorialStep) {
         if tutorialStep.screen != .Sensei {
-            self.showMessage(tutorialStep, upgrade: false)
-            self.nextTimer = nil
-            self.autoShowNext()
+            self.showMessage(tutorialStep, upgrade: false, completion: { () -> Void in
+                self.nextTimer = nil
+                self.autoShowNext()
+            })
         }
     }
     
@@ -211,10 +295,7 @@ class TutorialViewController: BaseViewController {
         if self.senseiImageView.layerAnimating() {
             return
         }
-        var show = true;
-        if let cell = self.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? TutorialBubbleCollectionViewCell {
-            show = cell.textView.frame.size.height >= cell.textView.contentSize.height - cell.textView.contentOffset.y
-        }
+        let show = tutorialCollectionView.frame.size.height >= tutorialCollectionView.contentSize.height - tutorialCollectionView.contentOffset.y
         
         if canLoadNextStep && self.nextTimer == nil && show && TutorialManager.sharedInstance.currentStep?.screen != .Sensei {
             TutorialManager.sharedInstance.nextStep()
@@ -225,7 +306,7 @@ class TutorialViewController: BaseViewController {
     
     private func clear() {
         messages = []
-        collectionView.reloadData()
+        tutorialCollectionView.reloadData()
     }
     
     private func showBlockingWindow() {
@@ -244,15 +325,50 @@ class TutorialViewController: BaseViewController {
         BlockingWindow.hideWithStartFrame(blockingWindowStartFrame, endFrame: UIScreen.mainScreen().bounds)
     }
     
+    private func setArrowButtonVisibleIfNeeded(hidden: Bool?) {
+        if let hideNeeded = hidden {
+            arrowMoreButton.hidden = hideNeeded
+        } else {
+            arrowMoreButton.hidden = tutorialCollectionView.frame.size.height >= tutorialCollectionView.contentSize.height - tutorialCollectionView.contentOffset.y
+        }
+    }
+    
+    private func performConfirmationSelectedAction() {
+        hideWarning()
+        if !BlockingWindow.shardeInstance.hidden {
+            hideBlockingWindow()
+        }
+        type = .Sensei
+        if TutorialManager.sharedInstance.completed {
+            hideTutorialAnimated(true)
+        }
+    }
+    
+    private func hideWarning() {
+        self.warningTextView.alpha = 0.0
+        self.buttonsView.hidden = true
+        self.warningTextView.hidden = true
+    }
+    
     // MARK: - IBActions
+    
+    @IBAction func yesAction(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.YesAnswer, object: nil)
+        performConfirmationSelectedAction()
+    }
+    
+    @IBAction func noAction(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.NoAnswer, object: nil)
+        performConfirmationSelectedAction()
+    }
     
     @IBAction func touchOnSensei(senser: UITapGestureRecognizer) {
         if TutorialManager.sharedInstance.completed {
             hideTutorialAnimated(true)
+            type = .Sensei
         } else if TutorialManager.sharedInstance.currentStep?.number >= 29 {
             if let animatableImage = AnimationManager.sharedManager.bowsAnimatableImage() {
-                let cell = self.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
-                cell.showWarningMessage("Not yet, we need to complete the tutorial first please.", disappear:  true)
+                showWarningMessage("Not yet, we need to complete the tutorial first please.", disappear:  true)
                 senseiImageView.animateAnimatableImage(animatableImage, completion: nil)
             }
         }
@@ -266,19 +382,20 @@ extension TutorialViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count;
     }
-    
+
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TutorialBubbleCollectionViewCell.ReuseIdentifier, forIndexPath: indexPath) as! TutorialBubbleCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TutorialTextViewCell.ReuseIdentifier, forIndexPath: indexPath) as! TutorialTextViewCell
         let message = messages[indexPath.item]
-        cell.type = message is ConfirmationQuestion ? .Confirmation: .Sensei
-        
+
         if let attributedText = message.attributedText {
-            cell.setAttributedString(attributedText)
+            cell.textView.attributedText = attributedText
         } else {
-            cell.text = message.text
+            cell.textView.text = message.text
+            cell.textView.font = UIFont.speechBubbleTextFont
         }
-        cell.delegate = self
-        return cell;
+        cell.textView.contentInset = UIEdgeInsetsZero
+        cell.textView.textContainerInset = UIEdgeInsetsZero
+        return cell
     }
 }
 
@@ -287,39 +404,32 @@ extension TutorialViewController: UICollectionViewDataSource {
 extension TutorialViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSize(width: CGRectGetWidth(collectionView.bounds), height: Constants.SpeechBubbleHeight)
+        let message = messages[indexPath.item]
+        
+        let textView = UITextView(frame: collectionView.bounds)
+        textView.font = UIFont.speechBubbleTextFont
+        textView.contentInset = UIEdgeInsetsZero
+        textView.textContainerInset = UIEdgeInsetsZero
+        textView.text = message.text
+        textView.layoutIfNeeded()
+        
+        let height = ceil(textView.contentSize.height/collectionView.bounds.size.height) * collectionView.bounds.size.height
+        return CGSize(width: CGRectGetWidth(collectionView.bounds), height: height)
     }
 }
 
 // MARK: - TutorialBubbleCollectionViewCellDelegate
 
-extension TutorialViewController: TutorialBubbleCollectionViewCellDelegate {
+extension TutorialViewController: UIScrollViewDelegate {
     
-    func performConfirmationSelectedAction(cell: TutorialBubbleCollectionViewCell) {
-        cell.hideWarning()
-        if !BlockingWindow.shardeInstance.hidden {
-            hideBlockingWindow()
-        }
-        cell.type = .Sensei
-        if TutorialManager.sharedInstance.completed {
-            hideTutorialAnimated(true)
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        if scrollView.scrollViewDidScrollToBottom() {
+            autoShowNext()
         }
     }
-    
-    func tutorialBubbleCollectionViewCellDidYes(cell: TutorialBubbleCollectionViewCell) {
-        performConfirmationSelectedAction(cell)
-    }
-    
-    func tutorialBubbleCollectionViewCellDidNo(cell: TutorialBubbleCollectionViewCell) {
-        performConfirmationSelectedAction(cell)
-    }
-    
-    func tutorialBubbleCollectionViewCellDidNext(cell: TutorialBubbleCollectionViewCell) {
-        autoShowNext()
-    }
-    
-    func tutorialBubbleCollectionViewCellCanShowMoreMessages(cell: TutorialBubbleCollectionViewCell) -> Bool {
-        return canLoadNextStep
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        setArrowButtonVisibleIfNeeded(scrollView.scrollViewDidScrollToBottom())
     }
 }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D4350831C6A37E0006CC43A /* TutorialTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4350821C6A37E0006CC43A /* TutorialTextViewCell.swift */; };
 		3D4501971C5A432D00ABB756 /* SenseiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4501961C5A432D00ABB756 /* SenseiManager.swift */; };
 		3D5533121C564B6F0093E5D6 /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5533111C564B6F0093E5D6 /* AnimationManager.swift */; };
 		3DA8D7D71C1ADCEF0075ADA5 /* UpgradeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */; };
@@ -84,6 +85,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D4350821C6A37E0006CC43A /* TutorialTextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialTextViewCell.swift; sourceTree = "<group>"; };
 		3D4501961C5A432D00ABB756 /* SenseiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiManager.swift; sourceTree = "<group>"; };
 		3D5533111C564B6F0093E5D6 /* AnimationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV1.xcdatamodel; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				40EA4DA21B624FBB0011EF1A /* LeftSpeechBubbleCollectionViewCell.xib */,
 				40A139A81B0DC68D0010176D /* SlotCollectionViewCell.swift */,
 				40A674191B21AF6C001408C3 /* SlotCollectionViewCell.xib */,
+				3D4350821C6A37E0006CC43A /* TutorialTextViewCell.swift */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -571,6 +574,7 @@
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,
 				404E0C981B5647CB00FE2F3F /* Lesson.swift in Sources */,
 				40A7B6C01B12F7A00097852F /* CoreDataManager.swift in Sources */,
+				3D4350831C6A37E0006CC43A /* TutorialTextViewCell.swift in Sources */,
 				404E0C961B5647CB00FE2F3F /* AnswerMessage.swift in Sources */,
 				40A139A51B0DB72C0010176D /* UserMessageViewController.swift in Sources */,
 				404E0C9C1B5647CB00FE2F3F /* Settings.swift in Sources */,

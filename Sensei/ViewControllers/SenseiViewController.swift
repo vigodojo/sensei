@@ -397,7 +397,7 @@ class SenseiViewController: BaseViewController {
                 if let push = (UIApplication.sharedApplication().delegate as? AppDelegate)?.pushNotification {
                     self.handleLaunchViaPush(push)
                     (UIApplication.sharedApplication().delegate as? AppDelegate)?.pushNotification = nil
-                } else {
+                } else if UpgradeManager.sharedInstance.isProVersion() {
                     APIManager.sharedInstance.lessonsHistoryCompletion(nil)
                 }
             }
@@ -510,13 +510,14 @@ class SenseiViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: nil) { [unowned self]notification in
             SenseiManager.sharedManager = SenseiManager()
             
-            if SenseiManager.sharedManager.senseiSitting || TutorialManager.sharedInstance.currentStep?.number < 3 {
+            if SenseiManager.sharedManager.senseiSitting || (!TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.currentStep?.number < 3) {
                 self.senseiImageView.image = SenseiManager.sharedManager.sittingImage()
             } else {
                 self.senseiImageView.image = SenseiManager.sharedManager.standingImage()
             }
             self.senseiImageView.hidden = false
             SenseiManager.sharedManager.saveLastActiveTime()
+            UIApplication.sharedApplication().delegate?.window!?.subviews.last!.removeFromSuperview()
         }
 
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [unowned self]notification in
@@ -527,6 +528,9 @@ class SenseiViewController: BaseViewController {
             self.transparrencyGradientLayer.startPoint = CGPointZero
             self.view.layoutIfNeeded()
             (self.view as? AnswerableView)?.resignFirstResponder()
+            let blackView = UIView(frame: UIScreen.mainScreen().bounds)
+            blackView.backgroundColor = UIColor.blackColor()
+            UIApplication.sharedApplication().delegate?.window!?.addSubview(blackView)
             self.view.endEditing(true)
         }
         

@@ -19,7 +19,7 @@ protocol TutorialBubbleCollectionViewCellDelegate: class {
 class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     
     static let ReuseIdentifier = "TutorialBubbleCollectionViewCell"
-    
+
     struct Notifications {
         static let NoAnswer = "TutorialBubbleCollectionViewCellNotificationsNoAnswer"
         static let YesAnswer = "TutorialBubbleCollectionViewCellNotificationsYesAnswer"

@@ -264,7 +264,9 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateSettings()
+        if TutorialManager.sharedInstance.completed {
+            updateSettings()
+        }
         setup()
         addObservers()
     }

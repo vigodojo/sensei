@@ -95,24 +95,21 @@ extension UITextView {
         self.font = UIFont.speechBubbleTextFont
         layoutIfNeeded()
         if autoscroll == true {
-            let finalSize = self.contentSize
-            let contentOffset = finalSize.height - offset
             setContentOffset(CGPointMake(0, offset), animated: true)
         }
     }
 
-    func visibleText() -> String {
+    func textInFrame(var receivedFrame: CGRect) -> String {
         self.selectable = true
 
-        let bounds = self.bounds
-        let origin = CGPoint(x: contentInset.left, y: contentInset.top + self.contentOffset.y+5)
+        receivedFrame.origin = CGPoint(x: contentInset.left, y: CGRectGetHeight(self.frame) - CGRectGetHeight(receivedFrame))
 
-        let startCharacterRange = self.closestPositionToPoint(origin)
+        let startCharacterRange = self.closestPositionToPoint(receivedFrame.origin)
         if startCharacterRange == nil {
             return ""
         }
         
-        let endCharacterRange = self.closestPositionToPoint(CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds)))
+        let endCharacterRange = self.closestPositionToPoint(CGPointMake(CGRectGetWidth(receivedFrame), CGRectGetMaxY(receivedFrame)))
         if endCharacterRange == nil {
             return ""
         }

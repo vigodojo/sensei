@@ -451,8 +451,8 @@ extension AffirmationsViewController: UITextViewDelegate {
         if length >= Affirmation.MaxTextLength {
             let warningMessage = "You can only use \(Affirmation.MaxTextLength) characters for each affirmation. Please modify accordingly."
             if !TutorialManager.sharedInstance.completed {
-                let cell = tutorialViewController!.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
-                cell.showWarningMessage(warningMessage, disappear: true)
+//                let cell = tutorialViewController!.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
+                tutorialViewController!.showWarningMessage(warningMessage, disappear: true)
             } else {
                 tutorialViewController?.showMessage(PlainMessage(text: warningMessage), upgrade: false)
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(Affirmation.TextLimitShowDuration) * NSEC_PER_SEC)), dispatch_get_main_queue()) {

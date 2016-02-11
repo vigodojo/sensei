@@ -74,6 +74,10 @@ class SenseiManager: NSObject {
     }
     
     func shouldSenseiSit() -> Bool {
+        print("isBeginOfTutorial:\(isBeginOfTutorial())")
+        print("showSenseiStandAnimation:\(showSenseiStandAnimation)")
+        print("isSleepTime:\(isSleepTime())")
+        print("shouldSitBowAfterOpening:\(shouldSitBowAfterOpening)")
         return isBeginOfTutorial() || showSenseiStandAnimation || isSleepTime() || shouldSitBowAfterOpening
     }
 
