@@ -230,6 +230,7 @@ class SettingsTableViewController: UITableViewController {
         }
 
         let genderEqual = (Settings.sharedSettings.gender == (maleButton.selected ? .Male: .Female)) || (!maleButton.selected && !femaleButton.selected)
+        
         var heightEqual = false
         if let height = Settings.sharedSettings.height {
             heightEqual = height.doubleValue == heightCm
@@ -273,6 +274,9 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        if TutorialManager.sharedInstance.completed {
+            updateSettings()
+        }
         CoreDataManager.sharedInstance.saveContext()
         refreshUpgradState()
         fillFromSettings()
@@ -387,10 +391,16 @@ class SettingsTableViewController: UITableViewController {
     
     private func saveProfile() {
         Settings.sharedSettings.dayOfBirth = DataFormatter.dateFromString(dateOfBirthTF.text!)
+
         if !maleButton.selected && !femaleButton.selected {
             Settings.sharedSettings.gender = .SheMale
         } else {
-            Settings.sharedSettings.gender = maleButton.selected ? .Male: .Female
+            if maleButton.selected {
+                Settings.sharedSettings.gender = .Male
+            }
+            if femaleButton.selected {
+                Settings.sharedSettings.gender = .Female
+            }
         }
         Settings.sharedSettings.height = heightCm > 0 ? NSNumber(double: heightCm): nil
         Settings.sharedSettings.weight = weightKg > 0 ? NSNumber(double: weightKg): nil
@@ -560,15 +570,24 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func selectGender(sender: UIButton) {
+
         if !((maleButton.selected && maleButton == sender) || (femaleButton.selected && femaleButton == sender)) {
-            fieldToChange = .Sex
+            configureGenderSelection(sender)
+
             if Settings.sharedSettings.gender != .SheMale {
+                fieldToChange = .Sex
                 showConfirmation(confirmationTextWithPropertyName(fieldToChange!))
             } else {
-                Settings.sharedSettings.gender = maleButton.selected ? .Male : .Female
+                if maleButton.selected {
+                    Settings.sharedSettings.gender = .Male
+                }
+                if femaleButton.selected {
+                    Settings.sharedSettings.gender = .Female
+                }
             }
         }
-        configureGenderSelection(sender)
+//        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+
     }
     
     func configureGenderSelection(sender: UIButton) {

@@ -57,7 +57,7 @@ class SenseiViewController: BaseViewController {
     }()
     
     private var bottomContentInset: CGFloat {
-        return senseiImageView.frame.size.height/128.0*100
+        return senseiImageView.frame.size.height/128.0*80//100
     }
     
     private var notificationReceived: Bool = false
@@ -872,7 +872,7 @@ extension SenseiViewController: UIScrollViewDelegate {
     }
     
     func configureTipForCell(cell: SpeechBubbleCollectionViewCell) {
-        let frameToIntersect = CGRectMake(0, CGRectGetMinY(senseiImageView.frame) - 22.0, CGRectGetWidth(view.frame), CGRectGetHeight(senseiImageView.frame)/4)
+        let frameToIntersect = CGRectMake(0, CGRectGetMinY(senseiImageView.frame) - 10.0, CGRectGetWidth(view.frame), CGRectGetHeight(senseiImageView.frame)/4)
         let cellFrameInView = collectionView.convertRect(cell.frame, toView: view)
         cell.speechBubbleView.showBubbleTip = CGRectIntersectsRect(cellFrameInView, frameToIntersect)
     }

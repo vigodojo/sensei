@@ -17,6 +17,8 @@ class TutorialViewController: BaseViewController {
         static let TutorialDidHide = "TutorialViewControllerNotificationsTutorialDidHide"
         static let NoAnswer = "TutorialBubbleCollectionViewCellNotificationsNoAnswer"
         static let YesAnswer = "TutorialBubbleCollectionViewCellNotificationsYesAnswer"
+        static let AfirmationTap = "TutorialBubbleCollectionViewCellNotificationsAffirmatinTap"
+        static let VisualizationTap = "TutorialBubbleCollectionViewCellNotificationsVisualizationTap"
     }
     
     private struct Constants {
@@ -430,6 +432,23 @@ extension TutorialViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         setArrowButtonVisibleIfNeeded(scrollView.scrollViewDidScrollToBottom())
+    }
+}
+
+extension TutorialViewController: UITextViewDelegate {
+    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+        if URL == LinkToAppOnAppStore {
+            UpgradeManager.sharedInstance.askForUpgrade()
+            return false
+        } else if URL == LinkToAffirmation {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.AfirmationTap, object: nil)
+            return false
+        } else if URL == LinkToVisualization {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.VisualizationTap, object: nil)
+            return false
+        }
+        
+        return true;
     }
 }
 

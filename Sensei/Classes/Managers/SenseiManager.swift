@@ -74,10 +74,10 @@ class SenseiManager: NSObject {
     }
     
     func shouldSenseiSit() -> Bool {
-        print("isBeginOfTutorial:\(isBeginOfTutorial())")
-        print("showSenseiStandAnimation:\(showSenseiStandAnimation)")
-        print("isSleepTime:\(isSleepTime())")
-        print("shouldSitBowAfterOpening:\(shouldSitBowAfterOpening)")
+//        print("isBeginOfTutorial:\(isBeginOfTutorial())")
+//        print("showSenseiStandAnimation:\(showSenseiStandAnimation)")
+//        print("isSleepTime:\(isSleepTime())")
+//        print("shouldSitBowAfterOpening:\(shouldSitBowAfterOpening)")
         return isBeginOfTutorial() || showSenseiStandAnimation || isSleepTime() || shouldSitBowAfterOpening
     }
 
@@ -95,10 +95,10 @@ class SenseiManager: NSObject {
         let isStartBeforeNow = now.compare(sleepStartBeforeNow) == NSComparisonResult.OrderedDescending
         let isEndAfterNow = now.compare(sleepEnd) == NSComparisonResult.OrderedAscending
         
-        print("******* isSleepTime *******")
-        print("start: \(sleepStartBeforeNow)\nnow: \(now)\nend: \(sleepEnd)")
-        print("isSleepTime: \(isStartBeforeNow && isEndAfterNow ? "true" : "false")")
-        print("**************")
+//        print("******* isSleepTime *******")
+//        print("start: \(sleepStartBeforeNow)\nnow: \(now)\nend: \(sleepEnd)")
+//        print("isSleepTime: \(isStartBeforeNow && isEndAfterNow ? "true" : "false")")
+//        print("**************")
         
         return isStartBeforeNow && isEndAfterNow
     }
@@ -123,10 +123,10 @@ class SenseiManager: NSObject {
         let now = NSDate()
         let nowAfterSleep = now.compare(sleepEndAfterActivity) == NSComparisonResult.OrderedDescending
         
-        print("******* isFirstTimeAfterSleep *******")
-        print("lastActivity: \(lastActivity)\nend: \(sleepEndAfterActivity)\nnow: \(now)")
-        print("isFirstTimeAfterSleep: \(lastActivityBeforeSleepEnd && nowAfterSleep)")
-        print("**************")
+//        print("******* isFirstTimeAfterSleep *******")
+//        print("lastActivity: \(lastActivity)\nend: \(sleepEndAfterActivity)\nnow: \(now)")
+//        print("isFirstTimeAfterSleep: \(lastActivityBeforeSleepEnd && nowAfterSleep)")
+//        print("**************")
         
         return lastActivityBeforeSleepEnd && nowAfterSleep
     }
@@ -139,9 +139,9 @@ class SenseiManager: NSObject {
             timeIntervalSinceNow *= -1
         }
         
-        print("******* shouldBowAfterLastActivity *******")
-        print("shouldBowAfterLastActivity: \(timeIntervalSinceNow > 60*60)")
-        print("**************")
+//        print("******* shouldBowAfterLastActivity *******")
+//        print("shouldBowAfterLastActivity: \(timeIntervalSinceNow > 60*60)")
+//        print("**************")
         
         return timeIntervalSinceNow > 60*60
     }
