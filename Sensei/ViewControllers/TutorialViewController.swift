@@ -153,6 +153,21 @@ class TutorialViewController: BaseViewController {
         }
     }
     
+    func showNextAffInstruction() {
+        showInstruction(TutorialManager.sharedInstance.nextAffInstruction())
+    }
+    
+    func showNextVisInstruction() {
+        showInstruction(TutorialManager.sharedInstance.nextVisInstruction())
+    }
+    
+    func showInstruction(instruction: String) {
+        if !Settings.sharedSettings.tutorialOn.boolValue {
+            return
+        }
+        showMessage(PlainMessage(text: instruction), upgrade: false)
+    }
+    
     func showWarningMessage(message: String, disappear: Bool) {
         if !warningTextView.hidden {
             return
@@ -166,7 +181,7 @@ class TutorialViewController: BaseViewController {
         warningTextView.textContainerInset = UIEdgeInsetsZero
         warningTextView.font = UIFont.speechBubbleTextFont
         warningTextView.layoutIfNeeded()
-        
+        arrowMoreButton.hidden = true
         UIView.animateWithDuration(0.3, animations: { [unowned self] () -> Void in
             self.warningTextView.alpha = 1.0
             }) { (finished) -> Void in
@@ -189,14 +204,18 @@ class TutorialViewController: BaseViewController {
     func ask(question: ConfirmationQuestion) {
         
         if tutorialHidden || TutorialManager.sharedInstance.completed {
-            messages = [question]
-            tutorialCollectionView.reloadData()
+            if TutorialManager.sharedInstance.completed {
+                messages = [question]
+                tutorialCollectionView.reloadData()
+            } else {
+                showWarningMessage(question.text, disappear: false)
+            }
             showTutorialAnimated(true)
+            setArrowButtonVisibleIfNeeded(self.tutorialCollectionView.scrollViewDidScrollToBottom())
         } else {
             showWarningMessage(question.text, disappear: false)
         }
         type = .Confirmation
-        setArrowButtonVisibleIfNeeded(self.tutorialCollectionView.scrollViewDidScrollToBottom())
     }
     
     func showMessage(message: Message, upgrade: Bool) {
@@ -204,7 +223,8 @@ class TutorialViewController: BaseViewController {
     }
     
     func showMessage(message: Message, upgrade: Bool, completion: (()-> Void)?) {
-        if messages.count == 0 {
+        
+        if messages.count == 0 || TutorialManager.sharedInstance.completed {
             messages = [message]
         } else {
             messages.append(message)
@@ -347,6 +367,7 @@ class TutorialViewController: BaseViewController {
     }
     
     private func hideWarning() {
+        setArrowButtonVisibleIfNeeded(tutorialCollectionView.scrollViewDidScrollToBottom())
         self.warningTextView.alpha = 0.0
         self.buttonsView.hidden = true
         self.warningTextView.hidden = true

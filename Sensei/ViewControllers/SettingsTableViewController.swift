@@ -86,9 +86,9 @@ class SettingsTableViewController: UITableViewController {
         picker.addTarget(self, action: Selector("datePickerDidChangeValue:"), forControlEvents: UIControlEvents.ValueChanged)
 		picker.backgroundColor = UIColor.whiteColor()
         
-        let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
-        components.year -= 100
-        picker.minimumDate = NSCalendar.currentCalendar().dateFromComponents(components)
+        let minComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
+        minComponents.year -= 100
+        picker.minimumDate = NSCalendar.currentCalendar().dateFromComponents(minComponents)
         
         let maxComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
         maxComponents.year -= 10
@@ -125,11 +125,12 @@ class SettingsTableViewController: UITableViewController {
                 }
                 
                 print("\(Settings.sharedSettings.weight?.doubleValue) | \(self?.weightKg)")
-                let weightChanged = Settings.sharedSettings.weight?.doubleValue != self?.weightKg && Settings.sharedSettings.weight?.doubleValue > 0 && self?.weightKg > 0
-                let heightChanged = Settings.sharedSettings.height?.doubleValue != self?.heightCm && Settings.sharedSettings.height?.doubleValue > 0 && self?.heightCm > 0
-                let dobChanged = Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date)!) != NSComparisonResult.OrderedSame && Settings.sharedSettings.dayOfBirth != nil
                 
-                if (dobChanged || weightChanged || heightChanged) {
+                
+                if (Settings.sharedSettings.weight?.doubleValue != self?.weightKg && Settings.sharedSettings.weight?.doubleValue > 0 && self?.weightKg > 0 ||
+                    Settings.sharedSettings.height?.doubleValue != self?.heightCm && Settings.sharedSettings.height?.doubleValue > 0 && self?.heightCm > 0 ||
+                    Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date)!) != NSComparisonResult.OrderedSame && Settings.sharedSettings.dayOfBirth != nil) {
+                        
                     self?.showConfirmation(self!.confirmationTextWithPropertyName(fieldName))
                 } else {
                     self?.performYesAnswerAction()
@@ -320,6 +321,10 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        if hasProfileBeenChanged || hasSettingsBeenChanged {
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+        }
+
         (parentViewController as? SenseiTabController)?.delegate = nil
         NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
     }
@@ -369,9 +374,9 @@ class SettingsTableViewController: UITableViewController {
     
     func didUpgradeToPro(notification: NSNotification) {
         if parentViewController is SenseiTabController {
+            
             Settings.sharedSettings.isProVersion = NSNumber(bool: true)
             CoreDataManager.sharedInstance.saveContext()
-            saveSettings()
             APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
             let parent = parentViewController as! SenseiTabController
             parent.showSenseiViewController()
@@ -404,6 +409,7 @@ class SettingsTableViewController: UITableViewController {
         }
         Settings.sharedSettings.height = heightCm > 0 ? NSNumber(double: heightCm): nil
         Settings.sharedSettings.weight = weightKg > 0 ? NSNumber(double: weightKg): nil
+        CoreDataManager.sharedInstance.saveContext()
     }
     
     private func updateSettings() {
@@ -530,11 +536,14 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func performYesAnswerAction() {
-        if hasSettingsBeenChanged {
-            saveSettings()
-        }
-        saveProfile()
-        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+//        if hasSettingsBeenChanged {
+//            saveSettings()
+//        }
+//        saveProfile()
+//        print("before save \(Settings.sharedSettings)")
+//        APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) -> Void in
+//            print("after save \(Settings.sharedSettings)")
+//        }
     }
     
     // MARK: - IBActions
@@ -570,7 +579,6 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func selectGender(sender: UIButton) {
-
         if !((maleButton.selected && maleButton == sender) || (femaleButton.selected && femaleButton == sender)) {
             configureGenderSelection(sender)
 
@@ -586,11 +594,9 @@ class SettingsTableViewController: UITableViewController {
                 }
             }
         }
-//        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
-
     }
     
-    func configureGenderSelection(sender: UIButton) {
+    private func configureGenderSelection(sender: UIButton) {
         maleButton.selected = (sender == maleButton)
         femaleButton.selected = (sender == femaleButton)
     }
@@ -645,7 +651,7 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func upgrade() {
         if !TutorialManager.sharedInstance.completed {
-            let alert = UIAlertView(title: "Alert", message: "You need to finish the tutorial first", delegate: nil, cancelButtonTitle: "Cancel", otherButtonTitles: "OK")
+            let alert = UIAlertView(title: "Alert", message: "You need to finish the tutorial first", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "OK")
             alert.show()
             return
         }
@@ -713,15 +719,14 @@ extension SettingsTableViewController: SenseiTabControllerDelegate {
         if !TutorialManager.sharedInstance.completed {
             saveSettings()
             saveProfile()
-            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
-            return true;
+            return true
         }
-        if hasProfileBeenChanged {
-            showConfirmation(SaveConfirmationQuestion)
-            return false
-        } else if hasSettingsBeenChanged {
+        if hasSettingsBeenChanged {
             saveSettings()
-            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+            print("before save \(Settings.sharedSettings)")
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) -> Void in
+                print("after save \(Settings.sharedSettings)")
+            }
         }
         return true
     }

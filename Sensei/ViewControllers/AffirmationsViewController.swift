@@ -137,8 +137,15 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didUpgradeToPro:"), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if TutorialManager.sharedInstance.completed {
+            tutorialViewController!.showNextAffInstruction()
+        }
     }
     
     func didUpgradeToPro(notification: NSNotification) {

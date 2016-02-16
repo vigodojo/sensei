@@ -116,8 +116,7 @@ extension UITextView {
 
         let startIndex = self.offsetFromPosition(self.beginningOfDocument, toPosition: startCharacterRange!)
         let endIndex = self.offsetFromPosition(startCharacterRange!, toPosition: endCharacterRange!)
-        self.selectable = false
-
+            
         return (self.text as NSString).substringWithRange(NSMakeRange(startIndex, endIndex)) as String
     }
 }

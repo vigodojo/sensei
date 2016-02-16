@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D08C51E1C6DCE7400451FE6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3D08C51D1C6DCE7400451FE6 /* Settings.bundle */; };
 		3D4350831C6A37E0006CC43A /* TutorialTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4350821C6A37E0006CC43A /* TutorialTextViewCell.swift */; };
 		3D4501971C5A432D00ABB756 /* SenseiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4501961C5A432D00ABB756 /* SenseiManager.swift */; };
 		3D5533121C564B6F0093E5D6 /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5533111C564B6F0093E5D6 /* AnimationManager.swift */; };
 		3DA8D7D71C1ADCEF0075ADA5 /* UpgradeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */; };
 		3DB7C3DE1C480C4B00A234F8 /* Animations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB7C3DD1C480C4B00A234F8 /* Animations.plist */; };
+		3DC0CA451C731E4B0062AC3E /* AffInstructions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DC0CA441C731E4B0062AC3E /* AffInstructions.plist */; };
+		3DC0CA471C731E590062AC3E /* VisInstructions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DC0CA461C731E590062AC3E /* VisInstructions.plist */; };
 		400CA4A01B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */; };
 		400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */; };
 		4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */; };
@@ -85,12 +88,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D08C51D1C6DCE7400451FE6 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		3D4350821C6A37E0006CC43A /* TutorialTextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialTextViewCell.swift; sourceTree = "<group>"; };
 		3D4501961C5A432D00ABB756 /* SenseiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiManager.swift; sourceTree = "<group>"; };
 		3D5533111C564B6F0093E5D6 /* AnimationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV1.xcdatamodel; sourceTree = "<group>"; };
 		3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeManager.swift; sourceTree = "<group>"; };
 		3DB7C3DD1C480C4B00A234F8 /* Animations.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animations.plist; sourceTree = "<group>"; };
+		3DC0CA441C731E4B0062AC3E /* AffInstructions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AffInstructions.plist; sourceTree = "<group>"; };
+		3DC0CA461C731E590062AC3E /* VisInstructions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = VisInstructions.plist; sourceTree = "<group>"; };
 		400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleView.swift; sourceTree = "<group>"; };
@@ -324,6 +330,7 @@
 		4084CFCD1AFA611B000F8D47 = {
 			isa = PBXGroup;
 			children = (
+				3D08C51D1C6DCE7400451FE6 /* Settings.bundle */,
 				7FC56FE81BD0C50D002F8105 /* Social.framework */,
 				4084CFD81AFA611B000F8D47 /* Sensei */,
 				4084CFEE1AFA611B000F8D47 /* SenseiTests */,
@@ -364,6 +371,8 @@
 				4084CFDA1AFA611B000F8D47 /* Info.plist */,
 				404E0CA21B56527F00FE2F3F /* Tutorial.plist */,
 				3DB7C3DD1C480C4B00A234F8 /* Animations.plist */,
+				3DC0CA441C731E4B0062AC3E /* AffInstructions.plist */,
+				3DC0CA461C731E590062AC3E /* VisInstructions.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -487,12 +496,15 @@
 				40A1BD7A1B063E9C004ECD23 /* RightSpeechBubbleCollectionViewCell.xib in Resources */,
 				404E0CA31B56527F00FE2F3F /* Tutorial.plist in Resources */,
 				408B320E1B0B7645001BB455 /* KeyboardInputAccessoryView.xib in Resources */,
+				3DC0CA471C731E590062AC3E /* VisInstructions.plist in Resources */,
+				3D08C51E1C6DCE7400451FE6 /* Settings.bundle in Resources */,
 				3DB7C3DE1C480C4B00A234F8 /* Animations.plist in Resources */,
 				40EB50F91B4A9DD0003D5833 /* NavigationView.xib in Resources */,
 				400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */,
 				40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */,
 				4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */,
 				40EB50F71B4A9DD0003D5833 /* MessageSwitchView.xib in Resources */,
+				3DC0CA451C731E4B0062AC3E /* AffInstructions.plist in Resources */,
 				40EA4DA31B624FBB0011EF1A /* LeftSpeechBubbleCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

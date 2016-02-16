@@ -74,10 +74,10 @@ class SenseiManager: NSObject {
     }
     
     func shouldSenseiSit() -> Bool {
-//        print("isBeginOfTutorial:\(isBeginOfTutorial())")
-//        print("showSenseiStandAnimation:\(showSenseiStandAnimation)")
-//        print("isSleepTime:\(isSleepTime())")
-//        print("shouldSitBowAfterOpening:\(shouldSitBowAfterOpening)")
+        print("isBeginOfTutorial:\(isBeginOfTutorial())")
+        print("showSenseiStandAnimation:\(showSenseiStandAnimation)")
+        print("isSleepTime:\(isSleepTime())")
+        print("shouldSitBowAfterOpening:\(shouldSitBowAfterOpening)")
         return isBeginOfTutorial() || showSenseiStandAnimation || isSleepTime() || shouldSitBowAfterOpening
     }
 
@@ -104,7 +104,7 @@ class SenseiManager: NSObject {
     }
     
     private func isBeginOfTutorial() -> Bool {
-        return !TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.lastStepNumber() < 1
+        return !TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.lastStepNumber() < 3
     }
     
     func isFirstTimeAfterSleep() -> Bool {
@@ -132,6 +132,9 @@ class SenseiManager: NSObject {
     }
     
     func shouldBowAfterLastActivity() -> Bool {
+        if !TutorialManager.sharedInstance.completed {
+            return false
+        }
         let lastActivity = NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") == nil ? NSDate() : NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") as! NSDate
 
         var timeIntervalSinceNow = lastActivity.timeIntervalSinceNow

@@ -103,6 +103,14 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didUpgradeToPro:"), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if TutorialManager.sharedInstance.completed {
+            tutorialViewController!.showNextVisInstruction()
+        }
+    }
+    
     func didUpgradeToPro(notification: NSNotification) {
         navigationController?.popViewControllerAnimated(true)
     }
@@ -412,7 +420,9 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
         if index < Constants.NumberOfFreeVisualizations  {
             return true
         } else {
-            showUpgradeAppMessage()
+            if TutorialManager.sharedInstance.completed {
+                showUpgradeAppMessage()
+            }
             return false
         }
     }
@@ -481,7 +491,19 @@ extension VisualizationsViewController: VisualizationViewDelegate {
     func visualizationViewDidTakePhoto(cell: VisualisationView) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         alert.addAction(UIAlertAction(title: "Take Photo", style: UIAlertActionStyle.Default, handler: { [weak self] (action) -> Void in
-            self?.presentImagePickerControllerWithSourceType(UIImagePickerControllerSourceType.Camera)
+            let authStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+            if authStatus == .Authorized {
+                self?.presentImagePickerControllerWithSourceType(UIImagePickerControllerSourceType.Camera)
+            } else {
+                let alert = UIAlertController(title: nil, message: "Please go to Settings and allow Vigo Sensei app to use your device's camera. Or select an image from your gallery.", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: {(action) -> Void in
+                    if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.sharedApplication().openURL(settingsURL)
+                    }
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+                self?.presentViewController(alert, animated: true, completion: nil)
+            }
         }))
         alert.addAction(UIAlertAction(title: "Select Picture", style: UIAlertActionStyle.Default, handler: { [weak self] (action) -> Void in
             self?.presentImagePickerControllerWithSourceType(UIImagePickerControllerSourceType.PhotoLibrary)

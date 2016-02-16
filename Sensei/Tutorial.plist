@@ -182,7 +182,7 @@
 		<key>Number</key>
 		<integer>2</integer>
 		<key>DelayBefore</key>
-		<integer>2</integer>
+		<integer>0</integer>
 	</dict>
 	<dict>
 		<key>Answers</key>
@@ -281,7 +281,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>Thank you &lt;#PersonalTitle&gt;</string>
+		<string>Thank you &lt;#PersonalTitle&gt;.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
@@ -644,7 +644,7 @@
 	<dict>
 		<key>EnabledContols</key>
 		<array>
-            <string>MessageSwitchViewLongPress</string>
+			<string>MessageSwitchViewLongPress</string>
 			<string>BackButton</string>
 		</array>
 		<key>RequiresActionToProceed</key>

@@ -57,7 +57,10 @@ class SenseiViewController: BaseViewController {
     }()
     
     private var bottomContentInset: CGFloat {
-        return senseiImageView.frame.size.height/128.0*80//100
+        let bottomCollectionViewOffset: CGFloat = 35.0
+        
+        let calcHeight = CGRectGetHeight(senseiImageView.frame)-bottomCollectionViewOffset
+        return calcHeight*0.8
     }
     
     private var notificationReceived: Bool = false
@@ -74,7 +77,7 @@ class SenseiViewController: BaseViewController {
             default: rightInset = 60.0 //iphone 4s
         }
         
-        return UIEdgeInsets(top: 0, left: 11.0, bottom: 0, right: rightInset)
+        return UIEdgeInsets(top: 0, left: 11.0, bottom: bottomContentInset, right: rightInset)
     }
     
     private var topContentInset: CGFloat {
@@ -119,7 +122,6 @@ class SenseiViewController: BaseViewController {
     private var lastAffirmation: Affirmation?
     private var lastVisualisation: Visualization?
     
-    
     func isLastAffirmation() -> Bool {
         return lastAffirmation != nil
     }
@@ -151,13 +153,14 @@ class SenseiViewController: BaseViewController {
     }
 
     func showSitSenseiAnimation() {
-        if !TutorialManager.sharedInstance.completed {
-            return
-        }
         if SenseiManager.sharedManager.senseiSitting {
             senseiImageView.image = SenseiManager.sharedManager.sittingImage()
             senseiImageView.hidden = false
             
+            if !TutorialManager.sharedInstance.completed {
+                return
+            }
+
             if (SenseiManager.sharedManager.showSenseiStandAnimation || SenseiManager.sharedManager.shouldSitBowAfterOpening) && !SenseiManager.sharedManager.isSleepTime() {
                 if SenseiManager.sharedManager.showSenseiStandAnimation {
                     SenseiManager.sharedManager.showSenseiStandAnimation = false
@@ -174,6 +177,10 @@ class SenseiViewController: BaseViewController {
             senseiImageView.image = SenseiManager.sharedManager.standingImage()
             senseiImageView.hidden = false
             
+            if !TutorialManager.sharedInstance.completed {
+                return
+            }
+
             if standUpTimer != nil {
                 standUpTimer?.invalidate()
                 standUpTimer = nil
@@ -215,8 +222,10 @@ class SenseiViewController: BaseViewController {
         super.viewWillAppear(animated)
         tutorialViewController?.tutorialHidden = true
         collectionView.contentInset.bottom = collectionViewBottomContentInset
-
-        if APIManager.sharedInstance.logined && TutorialManager.sharedInstance.upgradeCompleted {
+        
+        if !APIManager.sharedInstance.logined {
+            login()
+        } else if TutorialManager.sharedInstance.upgradeCompleted {
             APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         }
         
@@ -236,7 +245,7 @@ class SenseiViewController: BaseViewController {
         addKeyboardObservers()
         addTutorialObservers()
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         showLastReceivedVisualisation()
@@ -270,6 +279,7 @@ class SenseiViewController: BaseViewController {
         super.viewDidLayoutSubviews()
 		transparrencyGradientLayer.frame = fadingImageView.bounds
         collectionView.contentInset.top = topContentInset
+        collectionView.contentInset.bottom = bottomContentInset
     }
     
     // MARK: - Private
@@ -329,7 +339,6 @@ class SenseiViewController: BaseViewController {
         if messages.count == 0 {
             return
         }
-        self.collectionView.contentInset.bottom = self.collectionViewBottomContentInset
         self.collectionView.contentInset.top = self.topContentInset
         collectionView.performBatchUpdates({ [unowned self] () -> Void in
             self.collectionView.insertItemsAtIndexPaths(indexPathes)

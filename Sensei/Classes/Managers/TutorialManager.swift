@@ -26,6 +26,8 @@ class TutorialManager {
         static let Completed = "TutorialManagerCompleted"
         static let UpgradeCompleted = "TutorialUpgradeCompleted"
         static let LastCompletedStepNumber = "TutorialManagerLastCompletedStepNumber"
+        static let LastAffirmationInstrucitonNumebr = "LastAffirmationInstrucitonNumebr"
+        static let LastVisualizationInstructionNumber = "LastVisualizationInstructionNumber"
     }
     
     static let sharedInstance = TutorialManager()
@@ -39,6 +41,12 @@ class TutorialManager {
     private(set) var lastCompletedStepNumber: Int?
     private(set) var completed = false
     private(set) var upgradeCompleted = false
+    
+    private var lastAffirmationInstrucitonNumber: Int
+    private var lastVisualizationInstructionNumber: Int
+    
+    private var affirmationInstructions = [String]()
+    private var visualizationInstructions = [String]()
     
     var notFinishedTutorialScreenName: ScreenName? {
         return ((stepCounter + 1) < steps.count) ? steps[stepCounter + 1].screen: nil
@@ -55,9 +63,6 @@ class TutorialManager {
     }
     
     var currentUpgradedStep: TutorialStep? {
-//        if UpgradeManager.sharedInstance.isProVersion() {
-//            return nil
-//        }
         if upgradedStepCounter < upgradedSteps.count {
             return upgradedSteps[upgradedStepCounter]
         }
@@ -89,13 +94,64 @@ class TutorialManager {
         upgradeCompleted = userDefaults.boolForKey(UserDefaultsKeys.UpgradeCompleted)
 
         lastCompletedStepNumber = (userDefaults.objectForKey(UserDefaultsKeys.LastCompletedStepNumber) as? NSNumber)?.integerValue
+        if lastCompletedStepNumber == nil {
+            if let stringStepNumber = userDefaults.objectForKey(UserDefaultsKeys.LastCompletedStepNumber) as? String {
+                lastCompletedStepNumber = NSNumber(integer: Int(stringStepNumber)!).integerValue
+            }
+        }
         if let lastCompletedStepNumber = lastCompletedStepNumber {
             stepCounter = lastCompletedStepNumber
         }
+        
+        lastAffirmationInstrucitonNumber = (userDefaults.objectForKey(UserDefaultsKeys.LastAffirmationInstrucitonNumebr) as? NSNumber)?.integerValue ?? 0
+        lastVisualizationInstructionNumber = (userDefaults.objectForKey(UserDefaultsKeys.LastVisualizationInstructionNumber) as? NSNumber)?.integerValue ?? 0
+        
         if !completed {
             loadStepsFromPlist()
         }
-        loadUpgradedStepsFromPlist()
+        if !upgradeCompleted {
+            loadUpgradedStepsFromPlist()
+        }
+        loadInstructions()
+    }
+    
+    func nextAffInstruction() -> String {
+        lastAffirmationInstrucitonNumber += 1
+        
+        if lastAffirmationInstrucitonNumber > affirmationInstructions.count - 1 {
+            lastAffirmationInstrucitonNumber = 0
+        }
+        NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastAffirmationInstrucitonNumber), forKey: UserDefaultsKeys.LastAffirmationInstrucitonNumebr)
+        NSUserDefaults.standardUserDefaults().synchronize()
+        return affirmationInstructions[lastAffirmationInstrucitonNumber]
+    }
+    
+    func nextVisInstruction() -> String {
+        lastVisualizationInstructionNumber += 1
+
+        if lastVisualizationInstructionNumber > visualizationInstructions.count - 1 {
+            lastVisualizationInstructionNumber = 0
+        }
+        NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastVisualizationInstructionNumber), forKey: UserDefaultsKeys.LastVisualizationInstructionNumber)
+        NSUserDefaults.standardUserDefaults().synchronize()
+        return visualizationInstructions[lastVisualizationInstructionNumber]
+    }
+    
+    private func loadInstructions() {
+        if let affPlistURL = NSBundle.mainBundle().URLForResource("AffInstructions", withExtension: "plist") {
+            if let affsArray = NSArray(contentsOfURL: affPlistURL) as? [String] {
+                for affInstuction in affsArray {
+                    affirmationInstructions.append(affInstuction)
+                }
+            }
+        }
+        if let visPlistURL = NSBundle.mainBundle().URLForResource("VisInstructions", withExtension: "plist") {
+            if let vissArray = NSArray(contentsOfURL: visPlistURL) as? [String] {
+                for visInstuction in vissArray {
+                    visualizationInstructions.append(visInstuction)
+                }
+            }
+        }
     }
     
     // MARK: - Public
@@ -179,7 +235,6 @@ class TutorialManager {
                 for stepDictionary in stepDictionariesArray {
                     let step = tutorialStepFromDictionary(stepDictionary)
                     steps.append(step)
-                    print("Step: \(step)")
                 }
             }
         }
@@ -192,7 +247,6 @@ class TutorialManager {
                     if stepDictionary["Upgraded"]?.boolValue == true {
                         let step = tutorialStepFromDictionary(stepDictionary)
                         upgradedSteps.append(step)
-                        print("UpgradedStep: \(step)")
                     }
                 }
             }
