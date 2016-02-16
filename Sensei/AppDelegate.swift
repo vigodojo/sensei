@@ -20,8 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var shouldSit: Bool = false
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-//        startFromTutorialStep(29)
-
         pushNotification = extractPushFromLaunchOptions(launchOptions)
 
         Fabric.with([Crashlytics()])

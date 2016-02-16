@@ -311,10 +311,20 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
                         visualisation.picture = image
                         visualisation.receiveTime = receiveTime
                         visualisation.scaledFontSize = Visualization.scaledFontSizeForFontSize(fontSize, imageSize: image.size, insideRect: insideRect)
+                        if !APIManager.sharedInstance.reachability.isReachable() {
+                            visualisation.updatedOffline = NSNumber(bool: true)
+                        } else {
+                            APIManager.sharedInstance.saveVisualization(visualisation, handler: nil)
+                        }
                     }
                 } else {
                     let visualisation = Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
                     visualisation.scaledFontSize = Visualization.scaledFontSizeForFontSize(fontSize, imageSize: image.size, insideRect: insideRect)
+                    if !APIManager.sharedInstance.reachability.isReachable() {
+                        visualisation.updatedOffline = NSNumber(bool: true)
+                    } else {
+                        APIManager.sharedInstance.saveVisualization(visualisation, handler: nil)
+                    }
                     if !TutorialManager.sharedInstance.completed {
                         dispatch_async(dispatch_get_main_queue()) {
                             TutorialManager.sharedInstance.nextStep()
@@ -329,6 +339,9 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         if let itemToDelete = itemToDelete {
             deleteVisualization(atIndex: itemToDelete);
         } else if let visualisation = selectedVisualization {
+            if !APIManager.sharedInstance.reachability.isReachable() {
+                OfflineManager.sharedManager.visualizationDeleted(visualisation.number)
+            }
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(visualisation)
         }
         resetVisualizationCell()
@@ -338,6 +351,9 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     private func deleteVisualization(atIndex index:Int) {
         if let visualization = Visualization.visualizationWithNumber(index) {
             itemToDelete = nil
+            if !APIManager.sharedInstance.reachability.isReachable() {
+                OfflineManager.sharedManager.visualizationDeleted(visualization.number)
+            }
             CoreDataManager.sharedInstance.managedObjectContext?.deleteObject(visualization)
             if visualization == selectedVisualization {
                 resetVisualizationCell()

@@ -37,6 +37,19 @@ class APIManager: NSObject {
     var logined = false
     var deviceToken: String?
     
+    lazy var reachability: Reachability = { [unowned self] in
+        return try! Reachability.reachabilityForInternetConnection()
+    }()
+    
+    override init() {
+        super.init()
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("could not start notifier")
+        }
+    }
+    
     lazy var sessionManager: RCSessionManager = { [unowned self] in
         let manager = RCSessionManager(baseURL: APIManager.BaseURL)
         manager.delegate = self
@@ -55,6 +68,9 @@ class APIManager: NSObject {
             requestBuilder.object = ["deviceId": deveiceId, "timeZone": NSNumber(integer: timeZone)]
         }, completion: { (response) -> Void in
             self.logined = response.successful
+            if self.logined {
+                OfflineManager.sharedManager.synchronizeWithServer()
+            }
             if let token = self.deviceToken {
                 self.sendDeviceToken(token)
             }
@@ -134,7 +150,7 @@ class APIManager: NSObject {
     
     func saveAffirmation(affirmation: Affirmation, handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
-            builder.path = APIPath.Affirmation + "\(affirmation.number.integerValue)"
+            builder.path = APIPath.Affirmation + "\(affirmation.number)"
             builder.requestMethod = RCRequestMethod.POST
             builder.object = affirmation
         }, completion: { (response) -> Void in
@@ -147,7 +163,19 @@ class APIManager: NSObject {
     
     func deleteAffirmation(affirmation: Affirmation, handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
-            builder.path = APIPath.Affirmation + "\(affirmation.number.integerValue)"
+            builder.path = APIPath.Affirmation + "\(affirmation.number)"
+            builder.requestMethod = RCRequestMethod.DELETE
+        }, completion: { (response) -> Void in
+            print("\(response)")
+            if let handler = handler {
+                handler(error: response.error)
+            }
+        })
+    }
+    
+    func deleteAffirmationWithNumber(affirmationNumber: NSNumber, handler: ErrorHandlerClosure?) {
+        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
+            builder.path = APIPath.Affirmation + "\(affirmationNumber)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
             print("\(response)")
@@ -161,7 +189,7 @@ class APIManager: NSObject {
     
     func saveVisualization(visualization: Visualization, handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
-            builder.path = APIPath.Visualization + "\(visualization.number.integerValue)"
+            builder.path = APIPath.Visualization + "\(visualization.number)"
             builder.requestMethod = RCRequestMethod.POST
             builder.object = visualization
         }, completion: { (response) -> Void in
@@ -175,6 +203,18 @@ class APIManager: NSObject {
     func deleteVisualization(visualization: Visualization, handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
             builder.path = APIPath.Visualization + "\(visualization.number)"
+            builder.requestMethod = RCRequestMethod.DELETE
+        }, completion: { (response) -> Void in
+            print("\(response)")
+            if let handler = handler {
+                handler(error: response.error)
+            }
+        })
+    }
+    
+    func deleteVisualizationWithNumber(visualizationNumber: NSNumber, handler: ErrorHandlerClosure?) {
+        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
+            builder.path = APIPath.Visualization + "\(visualizationNumber)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
             print("\(response)")

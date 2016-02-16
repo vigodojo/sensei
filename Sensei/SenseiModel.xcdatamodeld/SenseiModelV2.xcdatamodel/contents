@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Xcode 4.3">
+    <entity name="Affirmation" representedClassName="Sensei.Affirmation" parentEntity="UserMessage" syncable="YES"/>
+    <entity name="Lesson" representedClassName="Sensei.Lesson" syncable="YES">
+        <attribute name="date" attributeType="Date" syncable="YES"/>
+        <attribute name="lessonId" attributeType="String" syncable="YES"/>
+        <attribute name="text" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Settings" representedClassName="Sensei.Settings" syncable="YES">
+        <attribute name="dataFormatString" attributeType="String" defaultValueString="US" syncable="YES"/>
+        <attribute name="dayOfBirth" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="genderString" attributeType="String" defaultValueString="M" syncable="YES"/>
+        <attribute name="height" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
+        <attribute name="isProVersion" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="numberOfLessons" attributeType="Integer 32" defaultValueString="3" syncable="YES"/>
+        <attribute name="tutorialOn" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
+        <relationship name="sleepTimeWeekdays" maxCount="1" deletionRule="Cascade" destinationEntity="SleepTime" inverseName="settingsForWeekdays" inverseEntity="SleepTime" syncable="YES"/>
+        <relationship name="sleepTimeWeekends" maxCount="1" deletionRule="Cascade" destinationEntity="SleepTime" inverseName="settingsForWeekend" inverseEntity="SleepTime" syncable="YES"/>
+    </entity>
+    <entity name="SleepTime" representedClassName="Sensei.SleepTime" syncable="YES">
+        <attribute name="end" attributeType="Date" defaultDateTimeInterval="456354000" syncable="YES"/>
+        <attribute name="start" optional="YES" attributeType="Date" defaultDateTimeInterval="456303600" syncable="YES"/>
+        <relationship name="settingsForWeekdays" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Settings" inverseName="sleepTimeWeekdays" inverseEntity="Settings" syncable="YES"/>
+        <relationship name="settingsForWeekend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Settings" inverseName="sleepTimeWeekends" inverseEntity="Settings" syncable="YES"/>
+    </entity>
+    <entity name="UserMessage" representedClassName="Sensei.UserMessage" isAbstract="YES" syncable="YES">
+        <attribute name="number" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="receiveTimeString" attributeType="String" defaultValueString="ANY TIME" syncable="YES"/>
+        <attribute name="savedOnServer" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="text" attributeType="String" syncable="YES"/>
+        <attribute name="updatedOffline" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+    </entity>
+    <entity name="Visualization" representedClassName="Sensei.Visualization" parentEntity="UserMessage" syncable="YES">
+        <attribute name="pictureData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="scaledFontSize" attributeType="Integer 32" defaultValueString="13" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Affirmation" positionX="133" positionY="117" width="128" height="45"/>
+        <element name="Lesson" positionX="-378" positionY="-18" width="128" height="90"/>
+        <element name="Settings" positionX="-171" positionY="54" width="128" height="210"/>
+        <element name="SleepTime" positionX="-162" positionY="81" width="128" height="105"/>
+        <element name="UserMessage" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="Visualization" positionX="-234" positionY="108" width="128" height="75"/>
+    </elements>
+</model>

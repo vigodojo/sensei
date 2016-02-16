@@ -38,6 +38,7 @@ class UserMessage: NSManagedObject, Message {
     @NSManaged var number: NSNumber
     @NSManaged var text: String
     @NSManaged var savedOnServer: NSNumber
+    @NSManaged var updatedOffline: NSNumber
     @NSManaged private var receiveTimeString: String
     
     var id: String { return "\(number)"}

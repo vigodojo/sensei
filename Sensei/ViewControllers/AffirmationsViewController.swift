@@ -271,10 +271,22 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
             } else if affirmation.text != text || affirmation.receiveTime != receiveTime {
                 affirmation.text = text
                 affirmation.receiveTime = receiveTime
+                if !APIManager.sharedInstance.reachability.isReachable() {
+                    affirmation.updatedOffline = NSNumber(bool: true)
+                } else {
+                    APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
+                }
+                CoreDataManager.sharedInstance.saveContext()
             }
         } else if !text.isEmpty {
             if let index = messageSwitchView.selectedSlot {
-                Affirmation.createAffirmationNumber(index, text: text, receiveTime: receiveTime)
+                let affirmation = Affirmation.createAffirmationNumber(index, text: text, receiveTime: receiveTime)
+                if !APIManager.sharedInstance.reachability.isReachable() {
+                    affirmation.updatedOffline = NSNumber(bool: true)
+                } else {
+                    APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
+                }
+                CoreDataManager.sharedInstance.saveContext()
                 TutorialManager.sharedInstance.nextStep()
             }
         }
@@ -282,6 +294,9 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     
     private func deleteAffirmation() {
         if let aff = Affirmation.affirmationWithNumber(itemToDelete!) {
+            if !APIManager.sharedInstance.reachability.isReachable() {
+                OfflineManager.sharedManager.affirmationDeleted(aff.number)
+            }
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(aff)
             CoreDataManager.sharedInstance.saveContext()
             itemToDelete = nil
@@ -289,6 +304,9 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
                 resetInfo()
             }
         } else if let affirmation = selectedAffirmation {
+            if !APIManager.sharedInstance.reachability.isReachable() {
+                OfflineManager.sharedManager.affirmationDeleted(affirmation.number)
+            }
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(affirmation)
             CoreDataManager.sharedInstance.saveContext()
             resetInfo()
@@ -458,7 +476,6 @@ extension AffirmationsViewController: UITextViewDelegate {
         if length >= Affirmation.MaxTextLength {
             let warningMessage = "You can only use \(Affirmation.MaxTextLength) characters for each affirmation. Please modify accordingly."
             if !TutorialManager.sharedInstance.completed {
-//                let cell = tutorialViewController!.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialBubbleCollectionViewCell
                 tutorialViewController!.showWarningMessage(warningMessage, disappear: true)
             } else {
                 tutorialViewController?.showMessage(PlainMessage(text: warningMessage), upgrade: false)

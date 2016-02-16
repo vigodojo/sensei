@@ -41,8 +41,56 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
         UIApplication.sharedApplication().statusBarHidden = true
         performSegueWithIdentifier(Constants.SenseiViewControllerSegueIdentifier, sender: self)
         performSegueWithIdentifier(Constants.MoreViewControllerSegueIdentifier, sender: self)
+        
         showSenseiViewController()
         addTutorialObservers()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("reachabilityChanged:"), name: ReachabilityChangedNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: nil) { [unowned self] notification in
+            if SenseiManager.sharedManager.shouldShowSenseiScreen() {
+                if self.navigationController?.viewControllers.last != self {
+                    self.navigationController?.popToRootViewControllerAnimated(false)
+                }
+                if self.currentViewController != self.viewControllers.first {
+                    self.showSenseiViewController()
+                }
+            }
+            (self.viewControllers.first as? SenseiViewController)?.didBecomeActive()
+            SenseiManager.sharedManager.saveLastActiveTime()
+            UIApplication.sharedApplication().delegate?.window!?.subviews.last!.removeFromSuperview()
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [unowned self]notification in
+            (self.viewControllers.first as? SenseiViewController)?.didEnterBackground()
+
+            let blackView = UIView(frame: UIScreen.mainScreen().bounds)
+            blackView.backgroundColor = UIColor.blackColor()
+            UIApplication.sharedApplication().delegate?.window!?.addSubview(blackView)
+        }
+    }
+    
+    func reachabilityChanged(notifiication: NSNotification) {
+        let reachability = notifiication.object as! Reachability
+        
+        var message = ""
+        if reachability.isReachable() {
+            if reachability.isReachableViaWiFi() {
+                message = "Wi Fi"
+            } else {
+                message = "Cellular"
+            }
+
+            let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
+            let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
+            APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone, handler: nil)
+        } else {
+            message = "Not Reachable"
+        }
+        
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+        alertController.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     deinit {

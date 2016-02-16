@@ -90,7 +90,18 @@ class Visualization: UserMessage {
         newVisualization.text = text
         newVisualization.receiveTime = receiveTime
         newVisualization.picture = picture
+        OfflineManager.sharedManager.deleteVisualizationFromDeleted(number)
         return newVisualization
+    }
+    
+    class func offlineVisualizations() -> [Visualization] {
+        let sortDescriptors = [NSSortDescriptor(key: "number", ascending: true)]
+        let predicate = NSPredicate(format: "updatedOffline == %@", NSNumber(bool: true))
+        if let result = CoreDataManager.sharedInstance.fetchObjectsWithEntityName(Visualization.EntityName, sortDescriptors: sortDescriptors, predicate: predicate) as? [Visualization] {
+            return result
+        } else {
+            return [Visualization]()
+        }
     }
     
     class func visualizationWithNumber(number: NSNumber) -> Visualization? {

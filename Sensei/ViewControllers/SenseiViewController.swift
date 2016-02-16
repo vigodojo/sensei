@@ -151,7 +151,7 @@ class SenseiViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishUpgradeNotificatin:"), name: TutorialManager.Notifications.DidFinishUpgrade, object: nil)
     }
-
+    
     func showSitSenseiAnimation() {
         if SenseiManager.sharedManager.senseiSitting {
             senseiImageView.image = SenseiManager.sharedManager.sittingImage()
@@ -237,7 +237,6 @@ class SenseiViewController: BaseViewController {
         }
         senseiImageView.hidden = false
 
-        
         if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
             setupAwakeAnimationTimer()
         }
@@ -483,8 +482,7 @@ class SenseiViewController: BaseViewController {
     func addSenseiGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: "senseiTapped:")
         tapGesture.numberOfTapsRequired = 1
-        senseiTapView
-            .addGestureRecognizer(tapGesture)
+        senseiTapView.addGestureRecognizer(tapGesture)
     }
     
     func senseiTapped(recognizer: UITapGestureRecognizer) {
@@ -496,7 +494,6 @@ class SenseiViewController: BaseViewController {
             }
         }
     }
-
 
     // MARK: Push Handling
     
@@ -516,32 +513,6 @@ class SenseiViewController: BaseViewController {
                 (self.view as? AnswerableView)?.askQuestion(TutorialManager.sharedInstance.currentStep as! QuestionTutorialStep)
             }
         }
-        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: nil) { [unowned self]notification in
-            SenseiManager.sharedManager = SenseiManager()
-            
-            if SenseiManager.sharedManager.senseiSitting || (!TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.currentStep?.number < 3) {
-                self.senseiImageView.image = SenseiManager.sharedManager.sittingImage()
-            } else {
-                self.senseiImageView.image = SenseiManager.sharedManager.standingImage()
-            }
-            self.senseiImageView.hidden = false
-            SenseiManager.sharedManager.saveLastActiveTime()
-            UIApplication.sharedApplication().delegate?.window!?.subviews.last!.removeFromSuperview()
-        }
-
-        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [unowned self]notification in
-            if TutorialManager.sharedInstance.completed {
-                self.senseiImageView.hidden = true
-            }
-            self.senseiBottomSpaceConstraint.constant = Constants.DefaultBottomSpace
-            self.transparrencyGradientLayer.startPoint = CGPointZero
-            self.view.layoutIfNeeded()
-            (self.view as? AnswerableView)?.resignFirstResponder()
-            let blackView = UIView(frame: UIScreen.mainScreen().bounds)
-            blackView.backgroundColor = UIColor.blackColor()
-            UIApplication.sharedApplication().delegate?.window!?.addSubview(blackView)
-            self.view.endEditing(true)
-        }
         
         NSNotificationCenter.defaultCenter().addObserverForName(ApplicationDidReceiveRemotePushNotification, object: nil, queue: nil) { [unowned self] notification in
             if let userInfo = notification.userInfo, push = PushNotification(userInfo: userInfo) {
@@ -560,6 +531,28 @@ class SenseiViewController: BaseViewController {
                 }
             }
         }
+    }
+    
+    func didEnterBackground() {
+        if TutorialManager.sharedInstance.completed {
+            self.senseiImageView.hidden = true
+        }
+        self.senseiBottomSpaceConstraint.constant = Constants.DefaultBottomSpace
+        self.transparrencyGradientLayer.startPoint = CGPointZero
+        self.view.layoutIfNeeded()
+        (self.view as? AnswerableView)?.resignFirstResponder()
+        self.view.endEditing(true)
+    }
+    
+    func didBecomeActive() {
+        SenseiManager.sharedManager = SenseiManager()
+        
+        if SenseiManager.sharedManager.senseiSitting || (!TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.currentStep?.number < 3) {
+            self.senseiImageView.image = SenseiManager.sharedManager.sittingImage()
+        } else {
+            self.senseiImageView.image = SenseiManager.sharedManager.standingImage()
+        }
+        self.senseiImageView.hidden = false
     }
     
     private func handleReceivedPushNotification(push: PushNotification) {
@@ -599,7 +592,7 @@ class SenseiViewController: BaseViewController {
                     self.insertMessage(lastVisualisation!, scroll: self.isTopViewController)
                     self.refreshVisualizations()
                 }
-            }
+        }
     }
     
     func refreshVisualizations() {

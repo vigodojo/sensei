@@ -15,7 +15,6 @@ class TutorialManager {
         static let DidMoveToNextStep = "TutorialManagerNotificationsDidMoveToNextStep"
         static let DidFinishTutorial = "TutorialManagerNotificationsDidFinishTutorial"
         static let DidFinishUpgrade = "TutorialManagerNotificationsDidFinishUpgrade"
-
     }
     
     struct UserInfoKeys {
@@ -116,25 +115,27 @@ class TutorialManager {
     }
     
     func nextAffInstruction() -> String {
+        let instruction = affirmationInstructions[lastAffirmationInstrucitonNumber]
+
         lastAffirmationInstrucitonNumber += 1
-        
         if lastAffirmationInstrucitonNumber > affirmationInstructions.count - 1 {
             lastAffirmationInstrucitonNumber = 0
         }
         NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastAffirmationInstrucitonNumber), forKey: UserDefaultsKeys.LastAffirmationInstrucitonNumebr)
         NSUserDefaults.standardUserDefaults().synchronize()
-        return affirmationInstructions[lastAffirmationInstrucitonNumber]
+        return instruction
     }
-    
-    func nextVisInstruction() -> String {
-        lastVisualizationInstructionNumber += 1
 
+    func nextVisInstruction() -> String {
+        let instruction = visualizationInstructions[lastVisualizationInstructionNumber]
+        
+        lastVisualizationInstructionNumber += 1
         if lastVisualizationInstructionNumber > visualizationInstructions.count - 1 {
             lastVisualizationInstructionNumber = 0
         }
         NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastVisualizationInstructionNumber), forKey: UserDefaultsKeys.LastVisualizationInstructionNumber)
         NSUserDefaults.standardUserDefaults().synchronize()
-        return visualizationInstructions[lastVisualizationInstructionNumber]
+        return instruction
     }
     
     private func loadInstructions() {

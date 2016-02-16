@@ -21,6 +21,7 @@ class Affirmation: UserMessage {
         newAffirmation.number = number
         newAffirmation.text = text
         newAffirmation.receiveTime = receiveTime
+        OfflineManager.sharedManager.deleteAffirmationFromDeleted(number)
         return newAffirmation
     }
     
@@ -37,6 +38,16 @@ class Affirmation: UserMessage {
             affirmaton.receiveTime = receiveTime
         } else {
             Affirmation.createAffirmationNumber(number, text: text, receiveTime: receiveTime)
+        }
+    }
+    
+    class func offlineAffirmations() -> [Affirmation] {
+        let sortDescriptors = [NSSortDescriptor(key: "number", ascending: true)]
+        let predicate = NSPredicate(format: "updatedOffline == %@", NSNumber(bool: true))
+        if let result = CoreDataManager.sharedInstance.fetchObjectsWithEntityName(Affirmation.EntityName, sortDescriptors: sortDescriptors, predicate: predicate) as? [Affirmation] {
+            return result
+        } else {
+            return [Affirmation]()
         }
     }
     

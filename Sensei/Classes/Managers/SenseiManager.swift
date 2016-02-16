@@ -12,7 +12,7 @@ struct Notifications {
     static let SitSenseiNotification = "SitSenseiNotification"
 }
 
-class SenseiManager: NSObject {
+class SenseiManager {
 
     static var sharedManager = SenseiManager()
     
@@ -24,8 +24,7 @@ class SenseiManager: NSObject {
     
     var showSenseiStandAnimation: Bool = false
     var shouldSitBowAfterOpening: Bool = false
-    override init() {
-        super.init()
+    init() {
         shouldSitBowAfterOpening = shouldBowAfterLastActivity()
         showSenseiStandAnimation = isFirstTimeAfterSleep()
     }
@@ -65,6 +64,20 @@ class SenseiManager: NSObject {
     func saveLastActiveTime() {
         NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "LastActiveTime")
         NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    func shouldShowSenseiScreen() -> Bool {
+        let date = SenseiManager.sharedManager.lastActivityTime()
+        return abs(date.timeIntervalSinceNow) >= 10*60
+    }
+    
+    func lastActivityTime() -> NSDate {
+        if let lastActivity = NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") as? NSDate {
+            return lastActivity
+        } else {
+            saveLastActiveTime()
+            return lastActivityTime()
+        }
     }
     
     func postSitSenseiNotification() {
@@ -109,7 +122,7 @@ class SenseiManager: NSObject {
     
     func isFirstTimeAfterSleep() -> Bool {
         let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
-        let lastActivity = NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") == nil ? NSDate() : NSUserDefaults.standardUserDefaults().objectForKey("LastActiveTime") as! NSDate
+        let lastActivity = lastActivityTime()
 
         let startComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.start)
         let sleepStartAfterActivity = NSCalendar.currentCalendar().nextDateAfterDate(lastActivity, matchingComponents: startComponents, options: .MatchNextTime)!
