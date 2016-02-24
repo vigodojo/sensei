@@ -27,6 +27,12 @@ class UpgradeManager:NSObject {
     func isProVersion() -> Bool {
         return Settings.sharedSettings.isProVersion?.boolValue == true
     }
+    
+    func openAppStoreURL() {
+        if UIApplication.sharedApplication().canOpenURL(LinkToAppOnAppStore) {
+            UIApplication.sharedApplication().openURL(LinkToAppOnAppStore)
+        }
+    }
 }
 
 extension UpgradeManager: UIAlertViewDelegate{

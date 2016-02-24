@@ -43,7 +43,12 @@ class TutorialViewController: BaseViewController {
     @IBOutlet weak var yesButton: UIButton!
     @IBOutlet weak var noButton: UIButton!
 
+    @IBOutlet weak var logTextView: UITextView!
     private var nextTimer: NSTimer?
+    
+    @IBAction func toggleLog(sender: AnyObject) {
+        logTextView.hidden = !logTextView.hidden
+    }
     
     var tutorialContainerHeight: CGFloat {
         return tutorialContainerViewHeightConstraint.constant
@@ -266,7 +271,6 @@ class TutorialViewController: BaseViewController {
             if visibleCells.count > 0 {
                 if let cell = tutorialCollectionView.cellForItemAtIndexPath(visibleCells.first! as NSIndexPath) as? TutorialTextViewCell {
                     let visibleText = cell.textView.textInFrame(self.view.convertRect(tutorialCollectionView.frame, toView: cell.textView))
-                    print("visibleText: \(visibleText)")
                     let delay = tutorialStep.delayBefore == 0 ? tutorialStep.delayBefore : ceil(Double((visibleText.characters.count)) * 0.03)
                     self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: "didMoveToNextTutorialStepAction:", userInfo: tutorialStep, repeats: false)
                 }

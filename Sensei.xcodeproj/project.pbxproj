@@ -11,12 +11,14 @@
 		3D4350831C6A37E0006CC43A /* TutorialTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4350821C6A37E0006CC43A /* TutorialTextViewCell.swift */; };
 		3D4501971C5A432D00ABB756 /* SenseiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4501961C5A432D00ABB756 /* SenseiManager.swift */; };
 		3D5533121C564B6F0093E5D6 /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5533111C564B6F0093E5D6 /* AnimationManager.swift */; };
+		3D8CF4F31C747C16005ED08E /* AlertsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CF4F21C747C16005ED08E /* AlertsController.swift */; };
 		3DA8D7D71C1ADCEF0075ADA5 /* UpgradeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */; };
 		3DB7C3DE1C480C4B00A234F8 /* Animations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB7C3DD1C480C4B00A234F8 /* Animations.plist */; };
 		3DC0CA451C731E4B0062AC3E /* AffInstructions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DC0CA441C731E4B0062AC3E /* AffInstructions.plist */; };
 		3DC0CA471C731E590062AC3E /* VisInstructions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DC0CA461C731E590062AC3E /* VisInstructions.plist */; };
 		3DC0CA491C7347630062AC3E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0CA481C7347630062AC3E /* Reachability.swift */; };
 		3DC0CA4C1C7364A50062AC3E /* OfflineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0CA4B1C7364A50062AC3E /* OfflineManager.swift */; };
+		3DE3BF2C1C74D09C00F38052 /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */; };
 		400CA4A01B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */; };
 		400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */; };
 		4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */; };
@@ -95,6 +97,7 @@
 		3D4501961C5A432D00ABB756 /* SenseiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiManager.swift; sourceTree = "<group>"; };
 		3D5533111C564B6F0093E5D6 /* AnimationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV1.xcdatamodel; sourceTree = "<group>"; };
+		3D8CF4F21C747C16005ED08E /* AlertsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertsController.swift; sourceTree = "<group>"; };
 		3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeManager.swift; sourceTree = "<group>"; };
 		3DB7C3DD1C480C4B00A234F8 /* Animations.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animations.plist; sourceTree = "<group>"; };
 		3DC0CA441C731E4B0062AC3E /* AffInstructions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AffInstructions.plist; sourceTree = "<group>"; };
@@ -102,6 +105,7 @@
 		3DC0CA481C7347630062AC3E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		3DC0CA4A1C735A960062AC3E /* SenseiModelV2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV2.xcdatamodel; sourceTree = "<group>"; };
 		3DC0CA4B1C7364A50062AC3E /* OfflineManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineManager.swift; sourceTree = "<group>"; };
+		3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleView.swift; sourceTree = "<group>"; };
@@ -246,6 +250,7 @@
 				40A6741D1B21B1A4001408C3 /* AffirmationsViewController.swift */,
 				40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */,
 				40B960121B25A04600D36938 /* TextImagePreviewController.swift */,
+				3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -298,6 +303,7 @@
 				3D5533111C564B6F0093E5D6 /* AnimationManager.swift */,
 				3D4501961C5A432D00ABB756 /* SenseiManager.swift */,
 				3DC0CA4B1C7364A50062AC3E /* OfflineManager.swift */,
+				3D8CF4F21C747C16005ED08E /* AlertsController.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -577,9 +583,11 @@
 				40A026531B42DB6A00E18958 /* Constants.swift in Sources */,
 				405C1E631B43CE1D00400234 /* BlockingWindow.swift in Sources */,
 				40675C0A1B2F0A0200E8A9D4 /* VigoSlider.swift in Sources */,
+				3DE3BF2C1C74D09C00F38052 /* DisclaimerViewController.swift in Sources */,
 				C76E77721B189FE000986B6F /* SettingsTableViewController.swift in Sources */,
 				40AA2D9F1B3AE2C500606E4E /* WeightPickerDelegate.swift in Sources */,
 				404E0CA51B56677300FE2F3F /* TutorialManager.swift in Sources */,
+				3D8CF4F31C747C16005ED08E /* AlertsController.swift in Sources */,
 				404E0CA71B566E8400FE2F3F /* QuestionTutorialStep.swift in Sources */,
 				4016F3311B04ECD300728202 /* SpeechBubbleCollectionViewCell.swift in Sources */,
 				404E0C951B5647CB00FE2F3F /* Affirmation.swift in Sources */,

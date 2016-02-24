@@ -11,9 +11,11 @@ import CoreData
 import RestClient
 
 enum Gender: String, CustomStringConvertible {
+    //Changed to work with LA server
+    //After update need to be changed to capitalized
     case Male = "male"
     case Female = "female"
-    case SheMale = "shemale"
+    case SheMale = ""
     
     var description: String {
         return self.rawValue
@@ -89,7 +91,7 @@ class Settings: NSManagedObject {
     // MARK: Mapping
     
     private static let propertyMapping = ["isProVersion":"isUpgraded", "dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight"]
-
+    
     private static let entityPropertyMapping = propertyMapping + ["sleepTimeWeekdays.start": "sleepTime.start", "sleepTimeWeekdays.end": "sleepTime.end", "sleepTimeWeekends.start": "sleepTimeWeekEnd.start", "sleepTimeWeekends.end": "sleepTimeWeekEnd.end"]
 
     private static let transformers: [String: JSONValueTransformerProtocol] = ["dayOfBirth": LessonDateTransformer(), "sleepTimeWeekdays.start": SleepTimeEntityTransformer(), "sleepTimeWeekdays.end": SleepTimeEntityTransformer(), "sleepTimeWeekends.start": SleepTimeEntityTransformer(), "sleepTimeWeekends.end": SleepTimeEntityTransformer()]

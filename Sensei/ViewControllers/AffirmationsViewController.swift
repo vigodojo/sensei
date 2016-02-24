@@ -273,8 +273,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
                 affirmation.receiveTime = receiveTime
                 if !APIManager.sharedInstance.reachability.isReachable() {
                     affirmation.updatedOffline = NSNumber(bool: true)
-                } else {
-                    APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
                 }
                 CoreDataManager.sharedInstance.saveContext()
             }
@@ -283,8 +281,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
                 let affirmation = Affirmation.createAffirmationNumber(index, text: text, receiveTime: receiveTime)
                 if !APIManager.sharedInstance.reachability.isReachable() {
                     affirmation.updatedOffline = NSNumber(bool: true)
-                } else {
-                    APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
                 }
                 CoreDataManager.sharedInstance.saveContext()
                 TutorialManager.sharedInstance.nextStep()
@@ -458,12 +454,6 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
 
 extension AffirmationsViewController: UITextViewDelegate {
     
-    func textViewDidChange(textView: UITextView) {
-        /*if textView.contentSize.height != textViewHeightConstraint.constant {
-            textViewHeightConstraint.constant = textViewHeight
-        }*/
-    }
-    
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         let length = textView.text.characters.count + text.characters.count
         
@@ -487,5 +477,4 @@ extension AffirmationsViewController: UITextViewDelegate {
         }
         return true
     }
-    
 }

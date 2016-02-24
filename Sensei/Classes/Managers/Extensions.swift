@@ -18,8 +18,20 @@ extension NSDate {
         return NSCalendar.currentCalendar().dateFromComponents(components)!
     }
     
+    func timeless() -> NSDate {
+        let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Era, NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day], fromDate: self)
+        return NSCalendar.currentCalendar().dateFromComponents(components)!
+    }
+    
     func dateBetweenDates(firstDate: NSDate, lastDate: NSDate) -> Bool {
         return self.compare(firstDate) == .OrderedDescending && self.compare(lastDate) == .OrderedAscending
+    }
+    
+    func fullDaysSinceNow() -> Int {
+        let interval = self.timeIntervalSinceNow
+        print(self)
+        
+        return Int(floor(abs(interval)/60.0))//*60.0*24.0))
     }
 }
 

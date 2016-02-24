@@ -332,17 +332,50 @@
                                     <segue destination="Xez-Ze-1AV" kind="embed" id="jAF-jc-kc6"/>
                                 </connections>
                             </containerView>
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dmX-qJ-hao">
+                                <rect key="frame" x="0.0" y="131" width="414" height="256"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.79655827702702697" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="256" id="8IH-IC-CEx"/>
+                                    <constraint firstAttribute="height" constant="256" id="J29-Ut-Nps"/>
+                                </constraints>
+                                <color key="textColor" red="0.0" green="0.69914165296052633" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="J29-Ut-Nps"/>
+                                    </mask>
+                                </variation>
+                            </textView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A8k-xh-X9B">
+                                <rect key="frame" x="334" y="131" width="80" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Puv-0L-iit"/>
+                                    <constraint firstAttribute="width" constant="80" id="dIz-47-Kac"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="Logs"/>
+                                <connections>
+                                    <action selector="toggleLog:" destination="goE-cF-bxi" eventType="touchUpInside" id="5LM-Mf-tx0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Nia-Fs-uzF" firstAttribute="height" secondItem="1It-y6-uMM" secondAttribute="height" constant="-31" id="IPz-FU-v5C"/>
                             <constraint firstAttribute="trailing" secondItem="QvE-3W-cZW" secondAttribute="trailing" id="S9I-FW-4T8"/>
+                            <constraint firstItem="A8k-xh-X9B" firstAttribute="top" secondItem="ihU-65-WZz" secondAttribute="bottom" constant="31" id="Z09-94-7ob"/>
                             <constraint firstItem="QvE-3W-cZW" firstAttribute="top" secondItem="ihU-65-WZz" secondAttribute="bottom" id="Zr7-iQ-8Gn"/>
+                            <constraint firstAttribute="trailing" secondItem="dmX-qJ-hao" secondAttribute="trailing" id="bkg-Cl-cxU"/>
+                            <constraint firstItem="dmX-qJ-hao" firstAttribute="top" secondItem="ihU-65-WZz" secondAttribute="bottom" constant="31" id="dJL-Gz-nN8"/>
                             <constraint firstItem="ihU-65-WZz" firstAttribute="top" secondItem="1It-y6-uMM" secondAttribute="top" id="e8Y-fp-qbv"/>
                             <constraint firstAttribute="trailing" secondItem="ihU-65-WZz" secondAttribute="trailing" id="eOY-1B-TKQ"/>
                             <constraint firstItem="QvE-3W-cZW" firstAttribute="leading" secondItem="1It-y6-uMM" secondAttribute="leading" id="fhC-tv-PEP"/>
                             <constraint firstItem="Zgf-80-Xwy" firstAttribute="top" secondItem="QvE-3W-cZW" secondAttribute="bottom" id="khq-Fb-EF9"/>
                             <constraint firstItem="ihU-65-WZz" firstAttribute="leading" secondItem="1It-y6-uMM" secondAttribute="leading" id="mmV-dZ-H7i"/>
+                            <constraint firstItem="dmX-qJ-hao" firstAttribute="leading" secondItem="1It-y6-uMM" secondAttribute="leading" id="rhJ-rd-Ioi"/>
+                            <constraint firstAttribute="trailing" secondItem="A8k-xh-X9B" secondAttribute="trailing" id="x4w-yI-QYu"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -355,6 +388,7 @@
                     <connections>
                         <outlet property="arrowMoreButton" destination="naz-03-TUP" id="N7b-rM-xOp"/>
                         <outlet property="buttonsView" destination="wY8-ok-0Yc" id="Hc1-s9-Ivt"/>
+                        <outlet property="logTextView" destination="dmX-qJ-hao" id="CiI-oB-1rL"/>
                         <outlet property="noButton" destination="S11-Fn-JWQ" id="b0K-Hg-UWG"/>
                         <outlet property="senseiImageView" destination="PHS-Xl-anD" id="rWi-Ow-FTT"/>
                         <outlet property="senseiTapView" destination="iXt-Kz-JPk" id="6Vy-2z-eE4"/>
@@ -1155,7 +1189,7 @@ Please tap here to create a new affirmation</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V0Z-jt-1kT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2837" y="-242"/>
+            <point key="canvasLocation" x="2837" y="-197"/>
         </scene>
         <!--Visualizations View Controller-->
         <scene sceneID="9VB-pU-TUn">
@@ -1419,10 +1453,99 @@ Please tap here to create a new affirmation</string>
             </objects>
             <point key="canvasLocation" x="532" y="478"/>
         </scene>
+        <!--Disclaimer View Controller-->
+        <scene sceneID="Egq-xj-ufs">
+            <objects>
+                <viewController storyboardIdentifier="DisclaimerViewController" modalPresentationStyle="overCurrentContext" id="AGe-87-33E" customClass="DisclaimerViewController" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="u4X-4h-Gqp"/>
+                        <viewControllerLayoutGuide type="bottom" id="BDK-5d-v7d"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DO5-Pk-tCE">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1I8-Iy-cQc" customClass="SpeechBubbleView" customModule="Sensei" customModuleProvider="target">
+                                <rect key="frame" x="20" y="51" width="314" height="515"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V2B-Px-Z40">
+                                        <rect key="frame" x="8" y="8" width="291" height="467"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <string key="text">Please read the following statement:  This application provides content for informational purposes only on an “as is” basis. It is based on the author’s research and own experience; however you and you alone are responsible for what you do with it. By using this application you agree that the authors are not responsible for any injury or harm caused by any practice of their advice.
+
+This application is intended to be used as a general guide, and is not a substitute for professional help, nor does the information presume to deal with any mental disorders of any type. If you believe that you might suffer from any type of mental disorder, please seek the services of a professional.
+
+All information is as accurate as the author can make it, but the author cannot guarantee that it is free of errors.
+
+The author or authors will assume no liability or responsibility to any person or entity with respect to any loss or damage related directly or indirectly to the information on this website. The author disclaims all representations and warranties, express or implied.
+
+The author will provide no remedy for any damage of any kind, including (without limitation) compensatory, direct, indirect, consequential, punitive or incidental damages arising from this site, including such from negligence, strict liability, or breach of warranty or contract, even after notice of the possibility of such damages.</string>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2V-AK-R9W">
+                                        <rect key="frame" x="253" y="480" width="49" height="27"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="49" id="4v2-xL-BoR"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                        <state key="normal" title="DONE">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.19215686269999999" green="0.36470588240000001" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                <real key="value" value="1.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="doneAction:" destination="AGe-87-33E" eventType="touchUpInside" id="lXB-zZ-Vav"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="V2B-Px-Z40" secondAttribute="trailing" constant="15" id="EcV-7V-rr3"/>
+                                    <constraint firstItem="Y2V-AK-R9W" firstAttribute="top" secondItem="V2B-Px-Z40" secondAttribute="bottom" constant="5" id="KdQ-g6-3ag"/>
+                                    <constraint firstItem="V2B-Px-Z40" firstAttribute="leading" secondItem="1I8-Iy-cQc" secondAttribute="leading" constant="8" id="TZ4-f6-u2h"/>
+                                    <constraint firstAttribute="trailing" secondItem="Y2V-AK-R9W" secondAttribute="trailing" constant="12" id="hbg-6R-1Zs"/>
+                                    <constraint firstAttribute="bottom" secondItem="Y2V-AK-R9W" secondAttribute="bottom" constant="8" id="pbs-Wh-e0C"/>
+                                    <constraint firstItem="V2B-Px-Z40" firstAttribute="top" secondItem="1I8-Iy-cQc" secondAttribute="top" constant="8" id="zPM-nv-0r5"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="pointerPositionNumber">
+                                        <integer key="value" value="-1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.60406989020270274" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="BDK-5d-v7d" firstAttribute="top" secondItem="1I8-Iy-cQc" secondAttribute="bottom" constant="170" id="J8h-0r-8FT"/>
+                            <constraint firstItem="1I8-Iy-cQc" firstAttribute="top" secondItem="u4X-4h-Gqp" secondAttribute="bottom" constant="51" id="cQw-vz-FKm"/>
+                            <constraint firstAttribute="trailing" secondItem="1I8-Iy-cQc" secondAttribute="trailing" constant="80" id="taA-Ls-EZc"/>
+                            <constraint firstItem="1I8-Iy-cQc" firstAttribute="leading" secondItem="DO5-Pk-tCE" secondAttribute="leading" constant="20" id="tmF-cQ-Pos"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="bottomSpeechBubbleConstraint" destination="J8h-0r-8FT" id="DPE-19-Hvf"/>
+                        <outlet property="rightSpeechBubbleConstraint" destination="taA-Ls-EZc" id="Voo-ND-X6g"/>
+                        <outlet property="speechBubbleView" destination="1I8-Iy-cQc" id="c2B-8R-YFw"/>
+                        <outlet property="textView" destination="V2B-Px-Z40" id="c1j-ew-0hL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cZy-TF-ZM6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2744" y="-957"/>
+        </scene>
         <!--Sensei View Controller-->
         <scene sceneID="xyG-zV-Srx">
             <objects>
-                <viewController id="BII-m9-5jJ" customClass="SenseiViewController" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="currentContext" id="BII-m9-5jJ" customClass="SenseiViewController" customModule="Sensei" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wKE-qF-yki"/>
                         <viewControllerLayoutGuide type="bottom" id="KZy-uO-hs9"/>
@@ -1539,11 +1662,12 @@ Please tap here to create a new affirmation</string>
                         <outlet property="senseiImageView" destination="Rut-uN-STO" id="lWa-ty-F9Y"/>
                         <outlet property="senseiTapView" destination="MM4-jN-QCH" id="unp-Dk-jfV"/>
                         <outlet property="visualisationsButton" destination="LDJ-Py-bdg" id="t0j-Qg-z0H"/>
+                        <segue destination="AGe-87-33E" kind="presentation" identifier="ShowDisclaimer" id="ceJ-Fy-ldi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IGf-04-Ja2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2006" y="124"/>
+            <point key="canvasLocation" x="2006" y="-72"/>
         </scene>
     </scenes>
     <resources>

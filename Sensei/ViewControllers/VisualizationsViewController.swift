@@ -96,6 +96,10 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         swipePrevGesture = UISwipeGestureRecognizer(target: self, action: "showPrevSlot:")
         swipePrevGesture!.direction = .Right
         self.view.addGestureRecognizer(swipePrevGesture!)
+        
+        if TutorialManager.sharedInstance.completed {
+            self.tutorialViewController!.showNextVisInstruction()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -106,9 +110,6 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if TutorialManager.sharedInstance.completed {
-            tutorialViewController!.showNextVisInstruction()
-        }
     }
     
     func didUpgradeToPro(notification: NSNotification) {
@@ -313,8 +314,6 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
                         visualisation.scaledFontSize = Visualization.scaledFontSizeForFontSize(fontSize, imageSize: image.size, insideRect: insideRect)
                         if !APIManager.sharedInstance.reachability.isReachable() {
                             visualisation.updatedOffline = NSNumber(bool: true)
-                        } else {
-                            APIManager.sharedInstance.saveVisualization(visualisation, handler: nil)
                         }
                     }
                 } else {
@@ -322,8 +321,6 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
                     visualisation.scaledFontSize = Visualization.scaledFontSizeForFontSize(fontSize, imageSize: image.size, insideRect: insideRect)
                     if !APIManager.sharedInstance.reachability.isReachable() {
                         visualisation.updatedOffline = NSNumber(bool: true)
-                    } else {
-                        APIManager.sharedInstance.saveVisualization(visualisation, handler: nil)
                     }
                     if !TutorialManager.sharedInstance.completed {
                         dispatch_async(dispatch_get_main_queue()) {
@@ -511,14 +508,7 @@ extension VisualizationsViewController: VisualizationViewDelegate {
             if authStatus == .Authorized {
                 self?.presentImagePickerControllerWithSourceType(UIImagePickerControllerSourceType.Camera)
             } else {
-                let alert = UIAlertController(title: nil, message: "Please go to Settings and allow Vigo Sensei app to use your device's camera. Or select an image from your gallery.", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: {(action) -> Void in
-                    if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
-                        UIApplication.sharedApplication().openURL(settingsURL)
-                    }
-                }))
-                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
-                self?.presentViewController(alert, animated: true, completion: nil)
+                self?.presentViewController(AlertsController.cameraSettingsAlertController(), animated: true, completion: nil)
             }
         }))
         alert.addAction(UIAlertAction(title: "Select Picture", style: UIAlertActionStyle.Default, handler: { [weak self] (action) -> Void in
@@ -545,7 +535,7 @@ extension VisualizationsViewController: VisualizationViewDelegate {
     func deleteVisualizationAtindex(index: Int) {
         itemToDelete = index
         if let visual = Visualization.visualizationWithNumber(index) {
-            if (/*visual.text.characters.count != 0 && */visual.picture != nil) {
+            if (visual.picture != nil) {
                 tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
             }
         }

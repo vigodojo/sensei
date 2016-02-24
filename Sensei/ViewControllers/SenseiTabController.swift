@@ -68,29 +68,26 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
             blackView.backgroundColor = UIColor.blackColor()
             UIApplication.sharedApplication().delegate?.window!?.addSubview(blackView)
         }
-    }
-    
-    func reachabilityChanged(notifiication: NSNotification) {
-        let reachability = notifiication.object as! Reachability
         
-        var message = ""
-        if reachability.isReachable() {
-            if reachability.isReachableViaWiFi() {
-                message = "Wi Fi"
-            } else {
-                message = "Cellular"
-            }
+        if AlertsController.sharedController.shouldShowRateUsAlert() && self.navigationController?.presentedViewController == nil {
+            self.navigationController?.presentViewController(AlertsController.rateUsAlertController(), animated: true, completion: nil)
+        }
+        if AlertsController.sharedController.shouldShowUpgradeAlert() && self.navigationController?.presentedViewController == nil {
+            self.navigationController?.presentViewController(AlertsController.upgradeAlertController(), animated: true, completion: nil)
+        }
+        if AlertsController.sharedController.shouldShowShareAlert() && self.navigationController?.presentedViewController == nil {
+            self.navigationController?.presentViewController(AlertsController.shareMessageAlertController(), animated: true, completion: nil)
+        }
+    }
 
+    func reachabilityChanged(notifiication: NSNotification) {
+        
+        let reachability = notifiication.object as! Reachability
+        if reachability.isReachable() && !APIManager.sharedInstance.logined {
             let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
             let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
             APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone, handler: nil)
-        } else {
-            message = "Not Reachable"
         }
-        
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
-        presentViewController(alertController, animated: true, completion: nil)
     }
     
     deinit {

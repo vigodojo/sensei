@@ -127,54 +127,79 @@ class OfflineManager {
     }
     
     private func synchVisualizations() {
-        for visualization in Visualization.offlineVisualizations() {
-            visualization.updatedOffline = NSNumber(bool: false)
-            CoreDataManager.sharedInstance.saveContext()
-            print("updating Vis with number \(visualization.number)")
-            APIManager.sharedInstance.saveVisualization(visualization, handler: { (error) -> Void in
-                if error == nil {
-                    print("Vis number \(visualization.number) was updated")
-                } else {
-                    print("a problem occured while updated Vis number \(visualization.number)")
-                }
+        let visualizations = Visualization.offlineVisualizations()
+        updateVisualization(visualizations, counter: 0) { [unowned self] () -> Void in
+            self.deleteVisualization(OfflineManager.sharedManager.deletedVisualizations(), counter: 0, completion: { () -> Void in
+                OfflineManager.sharedManager.resetDeletedVisualizations()
             })
         }
-        for number in OfflineManager.sharedManager.deletedVisualizations() {
-            print("deleting Vis with number \(number)")
-            APIManager.sharedInstance.deleteVisualizationWithNumber(number, handler: { (error) -> Void in
-                if error == nil {
-                    print("Vis number \(number) was deleted")
-                } else {
-                    print("a problem occured while deleting Vis number \(number)")
-                }
-            })
+    }
+
+    private func deleteVisualization(visualizations: Array<NSNumber>, var counter: Int,  completion:(() -> Void)?) {
+        if counter >= visualizations.count {
+            completion
+            return
         }
-        OfflineManager.sharedManager.resetDeletedVisualizations()
+        APIManager.sharedInstance.deleteVisualizationWithNumber(visualizations[counter]) { [unowned self] (error) -> Void in
+            if error == nil {
+                counter++
+            }
+            self.deleteVisualization(visualizations, counter: counter, completion: completion)
+        }
+    }
+    
+    private func updateVisualization(visualizations: Array<Visualization>, var counter: Int,  completion:(() -> Void)?) {
+        if counter >= visualizations.count {
+            completion
+            return
+        }
+        visualizations[counter].updatedOffline = NSNumber(bool: false)
+        CoreDataManager.sharedInstance.saveContext()
+        
+        APIManager.sharedInstance.saveVisualization(visualizations[counter], handler: { [unowned self] (error) -> Void in
+            if error == nil {
+                counter++
+            }
+            self.updateVisualization(visualizations, counter: counter, completion: completion)
+        })
     }
     
     private func synchAffirmations() {
-        for affirmation in Affirmation.offlineAffirmations() {
-            affirmation.updatedOffline = NSNumber(bool: false)
-            CoreDataManager.sharedInstance.saveContext()
-            print("updating Aff with number \(affirmation.number)")
-            APIManager.sharedInstance.saveAffirmation(affirmation, handler: { (error) -> Void in
-                if error == nil {
-                    print("Aff number \(affirmation.number) was updated")
-                } else {
-                    print("a problem occured while updated Aff number \(affirmation.number)")
-                }
+        let affirmations = Affirmation.offlineAffirmations()
+        
+        updateAffirmation(affirmations, counter: 0) { [unowned self] () -> Void in
+            self.deleteVisualization(OfflineManager.sharedManager.deletedVisualizations(), counter: 0, completion: { () -> Void in
+                OfflineManager.sharedManager.resetDeletedAffirmations()
             })
         }
-        for number in OfflineManager.sharedManager.deletedAffirmations() {
-            print("deleting Aff with number \(number)")
-            APIManager.sharedInstance.deleteAffirmationWithNumber(number, handler: { (error) -> Void in
-                if error == nil {
-                    print("Aff number \(number) was deleted")
-                } else {
-                    print("a problem occured while deleting Aff number \(number)")
-                }
-            })
+    }
+    
+    private func deleteAffirmation(affirmations: Array<NSNumber>, var counter: Int,  completion:(() -> Void)?) {
+        if counter >= affirmations.count {
+            completion
+            return
         }
-        OfflineManager.sharedManager.resetDeletedAffirmations()
+        APIManager.sharedInstance.deleteAffirmationWithNumber(affirmations[counter]) { [unowned self] (error) -> Void in
+            if error == nil {
+                counter++
+            }
+            self.deleteAffirmation(affirmations, counter: counter, completion: completion)
+        }
+    }
+    
+    private func updateAffirmation(affirmations: Array<Affirmation>, var counter: Int,  completion:(() -> Void)?) {
+        if counter >= affirmations.count {
+            completion
+            return
+        }
+        affirmations[counter].updatedOffline = NSNumber(bool: false)
+        CoreDataManager.sharedInstance.saveContext()
+        
+        APIManager.sharedInstance.saveAffirmation(affirmations[counter], handler: { [unowned self] (error) -> Void in
+            if error == nil {
+                counter++
+            }
+            self.updateAffirmation(affirmations, counter: counter, completion: completion)
+        })
     }
 }

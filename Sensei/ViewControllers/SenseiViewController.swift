@@ -21,7 +21,6 @@ class SenseiViewController: BaseViewController {
         static let MinOpacity = CGFloat(0.2)
         static let DefaultCellHeight = CGFloat(30.0)
         static let DefaultBottomSpace = CGFloat(36.0)
-//        static let CollectionContentInset = UIEdgeInsets(top: 0, left: 11, bottom: 0, right: 76)
         static let ToAffirmationsSegue = "Go To Affirmations"
         static let ToVisualisationsSegue = "Go To Visualisations"
     }
@@ -308,9 +307,8 @@ class SenseiViewController: BaseViewController {
         if dataSource.count > 1 {
             dataSource.append(message)
             dataSource = dataSource.sort({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending})
-            let id = message.id
             for index in 0..<(dataSource.count) {
-                if dataSource[index].id == id {
+                if dataSource[index].date.compare(message.date) == .OrderedSame {
                     inserIndex = index
                 }
             }
@@ -319,11 +317,11 @@ class SenseiViewController: BaseViewController {
             let indexPath = NSIndexPath(forItem: inserIndex, inSection: 0)
             collectionView.performBatchUpdates({ [unowned self] () -> Void in
                 self.collectionView.reloadSections(NSIndexSet(index: 0))
-                }, completion: { [unowned self] (finished) -> Void in
-                    if scroll {
-                        self.scrollToItemAtIndexPath(indexPath, animated: true)
-                    }
-                })
+            }, completion: { [unowned self] (finished) -> Void in
+                if scroll {
+                    self.scrollToItemAtIndexPath(indexPath, animated: true)
+                }
+            })
         } else {
             addMessages([message], scroll: true, completion: nil)
         }
@@ -576,6 +574,7 @@ class SenseiViewController: BaseViewController {
                         tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: false)
 
                     } else if self.isTopViewController {
+                        
                         self.insertMessage(affirmation, scroll: self.isTopViewController)
                     }
                 }
@@ -703,8 +702,10 @@ class SenseiViewController: BaseViewController {
     func didFinishTutorialNotificatin(notification: NSNotification) {
         self.affirmationsButton.userInteractionEnabled = true
         self.visualisationsButton.userInteractionEnabled = true
-        if TutorialManager.sharedInstance.completed {
-            (UIApplication.sharedApplication().delegate as! AppDelegate).registerForNotifications()
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(2) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            if TutorialManager.sharedInstance.completed {
+                (UIApplication.sharedApplication().delegate as! AppDelegate).registerForNotifications()
+            }
         }
     }
     
@@ -716,6 +717,17 @@ class SenseiViewController: BaseViewController {
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         super.didMoveToNextTutorial(tutorialStep)
+        
+        
+        if tutorialStep.number == 40 {
+            let delay = delayForCurrentStep()
+
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(delay) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                self.performSegueWithIdentifier("ShowDisclaimer", sender: self)
+            }
+            return
+        }
+        
         if !self.isTopViewController || tutorialStep.screen != .Sensei {
             return
         }
@@ -958,10 +970,11 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
             switch type {
                 case .Delete:
                     dataSource = dataSource.filter() {
-                        if $0 is Lesson {
-                            return ($0 as! Lesson).date != lesson.date
-                        }
-                        return true
+                        return $0.date != lesson.date
+//                        if $0 is Lesson {
+//                            return ($0 as! Lesson).date != lesson.date
+//                        }
+//                        return true
                     }
                     shouldReload = false
                     print("Deleted \(lesson.date)")

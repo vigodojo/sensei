@@ -125,8 +125,8 @@ class SettingsTableViewController: UITableViewController {
                 }
                 
                 print("\(Settings.sharedSettings.weight?.doubleValue) | \(self?.weightKg)")
-                
-                
+                print("\(Settings.sharedSettings.height?.doubleValue) | \(self?.heightCm)")
+
                 if (Settings.sharedSettings.weight?.doubleValue != self?.weightKg && Settings.sharedSettings.weight?.doubleValue > 0 && self?.weightKg > 0 ||
                     Settings.sharedSettings.height?.doubleValue != self?.heightCm && Settings.sharedSettings.height?.doubleValue > 0 && self?.heightCm > 0 ||
                     Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date)!) != NSComparisonResult.OrderedSame && Settings.sharedSettings.dayOfBirth != nil) {
@@ -536,14 +536,14 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func performYesAnswerAction() {
-//        if hasSettingsBeenChanged {
-//            saveSettings()
-//        }
-//        saveProfile()
-//        print("before save \(Settings.sharedSettings)")
-//        APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) -> Void in
-//            print("after save \(Settings.sharedSettings)")
-//        }
+        if hasSettingsBeenChanged {
+            saveSettings()
+        }
+        saveProfile()
+        print("before save \(Settings.sharedSettings)")
+        APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) -> Void in
+            print("after save \(Settings.sharedSettings)")
+        }
     }
     
     // MARK: - IBActions
@@ -605,8 +605,8 @@ class SettingsTableViewController: UITableViewController {
         if !TutorialManager.sharedInstance.completed {
             return
         }
-        SocialPostingService.postToSocialNetworksWithType(.Facebook, fromController: self) { (composeResult) -> Void in
-            
+        SocialPostingService.postToSocialNetworksWithType(.Facebook, fromController: self) { [unowned self] (composeResult) -> Void in
+            self.sharedWithResult(composeResult)
         }
     }
     
@@ -614,8 +614,14 @@ class SettingsTableViewController: UITableViewController {
         if !TutorialManager.sharedInstance.completed {
             return
         }
-        SocialPostingService.postToSocialNetworksWithType(.Twitter, fromController: self) { (composeResult) -> Void in
-            
+        SocialPostingService.postToSocialNetworksWithType(.Twitter, fromController: self) { [unowned self] (composeResult) -> Void in
+            self.sharedWithResult(composeResult)
+        }
+    }
+    
+    func sharedWithResult(result: SLComposeViewControllerResult) {
+        if result == .Done {
+            AlertsController.sharedController.setShareAlertDisplayed()
         }
     }
     
@@ -623,7 +629,7 @@ class SettingsTableViewController: UITableViewController {
         if !TutorialManager.sharedInstance.completed {
             return
         }
-        openAppStoreURL()
+        UpgradeManager.sharedInstance.openAppStoreURL()
     }
     
     /**
@@ -656,16 +662,7 @@ class SettingsTableViewController: UITableViewController {
             return
         }
         UpgradeManager.sharedInstance.askForUpgrade()
-//        openAppStoreURL()
-    }
-    
-    /**
-     If application can open LinkToAppOnAppStore - let it be
-     */
-    private func openAppStoreURL() {
-        if UIApplication.sharedApplication().canOpenURL(LinkToAppOnAppStore) {
-            UIApplication.sharedApplication().openURL(LinkToAppOnAppStore)
-        }
+//UpgradeManager.sharedInstance.openAppStoreURL 
     }
 }
 
@@ -688,6 +685,9 @@ extension SettingsTableViewController {
 extension SettingsTableViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(textField: UITextField) {
+        if textField.inputView == timePicker {
+            print("ok")
+        }
         firstResponder = textField
         fieldToChange = nil
         if textField == dateOfBirthTF {

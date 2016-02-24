@@ -210,6 +210,11 @@ class TutorialManager {
     
     private func checkCompletion() {
         if stepCounter >= (35) {
+            let firstInstallTime = NSUserDefaults.standardUserDefaults().objectForKey("AppInstalationDateTime") as? NSDate
+            if firstInstallTime == nil {
+                NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "AppInstalationDateTime")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
             completed = true
             NSUserDefaults.standardUserDefaults().setBool(completed, forKey: UserDefaultsKeys.Completed)
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(4) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
