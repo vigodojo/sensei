@@ -18,7 +18,9 @@ class APIManager: NSObject {
     
     static let sharedInstance = APIManager()
 
-	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
+//	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
+	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
+
 //    static let BaseURL = NSURL(string: "http://192.168.88.128:8831")! //!LA
 //    static let BaseURL = NSURL(string: "http://projects.thinkmobiles.com:8831")! //ThinkMobiles
     
@@ -37,6 +39,7 @@ class APIManager: NSObject {
     }
     
     var logined = false
+    var loggingIn = false
     var deviceToken: String?
     
     lazy var reachability: Reachability = { [unowned self] in
@@ -64,11 +67,13 @@ class APIManager: NSObject {
     // MARK: - Login
     
     func loginWithDeviceId(deveiceId: String, timeZone: Int, handler: ErrorHandlerClosure?) {
-        sessionManager.performRequestWithBuilderBlock({ (requestBuilder) -> Void in
+        sessionManager.performRequestWithBuilderBlock({ [unowned self] (requestBuilder) -> Void in
+            self.loggingIn = true
             requestBuilder.path = APIPath.Login
             requestBuilder.requestMethod = RCRequestMethod.POST
             requestBuilder.object = ["deviceId": deveiceId, "timeZone": NSNumber(integer: timeZone)]
-        }, completion: { (response) -> Void in
+        }, completion: { [unowned self] (response) -> Void in
+            self.loggingIn = false
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Login) \(response.statusCode)")
             
             self.logined = response.successful
@@ -90,9 +95,10 @@ class APIManager: NSObject {
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
             builder.path = APIPath.DeviceToken
             builder.requestMethod = RCRequestMethod.POST
-//            let deviceId = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
-            builder.object = ["provider": "APPLE", "deviceURL": token]//, "deviceId": deviceId]
+            let deviceId = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
+            builder.object = ["provider": "APPLE", "deviceURL": token, "deviceId": deviceId]
         }, completion: { (response) -> Void in
+            print(String(data: response.request.HTTPBody!, encoding: NSUTF8StringEncoding))
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.DeviceToken) \(response.statusCode)")
             print("\(response)")
         })
@@ -106,59 +112,12 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
             self.addToLog("GET \(APIManager.BaseURL)\(APIPath.LessonsHistory) \(response.statusCode)")
-            if response.error == nil && UpgradeManager.sharedInstance.isProVersion() {
+            if response.error == nil && TutorialManager.sharedInstance.completed {
                 print(response.object)
                 CoreDataManager.sharedInstance.mergeJSONs(response.object as? [JSONObject], entityMapping: Lesson.entityMapping)
             }
             if let handler = handler {
                 handler(error: response.error)
-            }
-        })
-    }
-    
-    func pushHistoryCompletion(handler: ResultHandlerClosure?) {
-        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
-            builder.path = APIPath.LessonsHistory
-            builder.requestMethod = RCRequestMethod.GET
-        }, completion: { (response) -> Void in
-            self.addToLog("GET \(APIManager.BaseURL)\(APIPath.LessonsHistory) \(response.statusCode)")
-
-            if response.error == nil && UpgradeManager.sharedInstance.isProVersion() {
-                print(response.object)
-                if let jsonObject = response.object as? [JSONObject] {
-                    var result = [UserMessage]()
-                    for object in jsonObject {
-                        let pushType = PushType(rawValue: (object["msgType"] as! String))!
-                        switch(pushType) {
-                            case .Affirmation:
-                                if let aff = Affirmation.affirmationWithNumber(NSNumber(integer: (object["msgId"] as! NSString).integerValue)) {
-                                    aff.preMessage = object["text"] as? String
-                                    aff.date = NSDate(timeIntervalSince1970: (object["sendDate"] as! Double)/1000)
-                                    result.append(aff)
-                                    print("\(aff.fullMessage())")
-                                }
-                                
-                            case .Visualisation:
-                                if let vis = Visualization.visualizationWithNumber(NSNumber(integer: (object["msgId"] as! NSString).integerValue)) {
-                                    vis.preMessage = object["text"] as? String
-                                    vis.date = NSDate(timeIntervalSince1970: (object["sendDate"] as! Double)/1000)
-                                    result.append(vis)
-                                    print("\(object["text"])")
-                                }
-                                
-                            default: return
-                        }
-                        print("sendDate: \(object["sendDate"]!)")
-                        print("msgId: \(object["msgId"]!)")
-                        print("text: \(object["text"]!)")
-                        print("msgType: \(object["msgType"]!)")
-                    }
-                    if let handler = handler {
-                        handler(error: response.error, result: result)
-                    }
-                }
-            } else if let handler = handler {
-                handler(error: response.error, result: nil)
             }
         })
     }
@@ -210,7 +169,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = affirmation
         }, completion: { (response) -> Void in
-//            print("\(response)")
+            print("\(response.request.HTTPBody)")
             print("POST \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
             if let handler = handler {
@@ -270,6 +229,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
 //            print("\(response)")
+            
             print("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
             if let handler = handler {
@@ -322,11 +282,13 @@ class APIManager: NSObject {
     }
     
     func saveSettings(settings: Settings, handler: ErrorHandlerClosure?) {
+//        settings.gender = .SheMale
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
             builder.path = APIPath.Settings
             builder.requestMethod = RCRequestMethod.POST
             builder.object = settings
         }, completion: { (response) -> Void in
+            print(String(data: response.request.HTTPBody!, encoding: NSUTF8StringEncoding))
             print("POST \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
             print("Request Corpse = \(NSString(data: response.request.HTTPBody!, encoding: 4))")

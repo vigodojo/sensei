@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         pushNotification = extractPushFromLaunchOptions(launchOptions)
-        
         Fabric.with([Crashlytics()])
         if TutorialManager.sharedInstance.completed {
            self.registerForNotifications()
@@ -46,12 +45,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidEnterBackground(application: UIApplication) {
         SenseiManager.sharedManager.saveLastActiveTime()
-        
         CoreDataManager.sharedInstance.saveContext()
     }
     
     func applicationWillTerminate(application: UIApplication) {
         CoreDataManager.sharedInstance.saveContext()
+    }
+    
+    func applicationDidBecomeActive(application: UIApplication) {
+
+    }
+    
+    func applicationWillEnterForeground(application: UIApplication) {
+        if APIManager.sharedInstance.reachability.isReachable() && TutorialManager.sharedInstance.completed && !APIManager.sharedInstance.logined && !APIManager.sharedInstance.loggingIn {
+            if let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as? String {
+                let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
+                APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone, handler: nil)
+            }
+        }
     }
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {

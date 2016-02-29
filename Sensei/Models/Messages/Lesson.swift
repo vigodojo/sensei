@@ -20,19 +20,33 @@ class Lesson: NSManagedObject, Message {
 
     static let EntityName = "Lesson"
     
-    @NSManaged var lessonId: String
+    @NSManaged var itemId: String
+    @NSManaged var preText: String
     @NSManaged var text: String
     @NSManaged var date: NSDate
+    @NSManaged var type: String
     
-    var id: String { return lessonId }
+    var id: String { return itemId }
     var attributedText: NSAttributedString?
     
     override var description: String {
         return "id = \(id); text = \(text); date = \(date)"
     }
     
+    private func typeEquals(receivedType: String) -> Bool {
+        return type.lowercaseString == receivedType.lowercaseString
+    }
+    
+    func isTypeLesson() -> Bool {
+        return typeEquals("L")
+    }
+
+    func isTypeVisualization() -> Bool {
+        return typeEquals("V")
+    }
+    
     class var entityMapping: EntityMapping {
-        let propertyMapping = ["lessonId": "lessonId", "text": "text", "date": "date"]
+        let propertyMapping = ["itemId": "itemId", "text": "text", "date": "date", "preText": "preMessage", "type" : "msgType"]
         return EntityMapping(entityName: "Lesson", propertyMapping: propertyMapping, primaryProperty: "date", valueTransformers: ["date": LessonDateTransformer()])
     }
 }

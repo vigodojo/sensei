@@ -85,7 +85,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 
     private var swipeNextGesture: UISwipeGestureRecognizer?
     private var swipePrevGesture: UISwipeGestureRecognizer?
-
+    private var shouldShowInstruction: Bool = true
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -97,9 +97,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         swipePrevGesture!.direction = .Right
         self.view.addGestureRecognizer(swipePrevGesture!)
         
-        if TutorialManager.sharedInstance.completed {
-            self.tutorialViewController!.showNextVisInstruction()
-        }
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -110,6 +108,10 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        if TutorialManager.sharedInstance.completed && shouldShowInstruction {
+            shouldShowInstruction = false
+            self.tutorialViewController!.showNextVisInstruction()
+        }
     }
     
     func didUpgradeToPro(notification: NSNotification) {
@@ -305,7 +307,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
             let wasImageChanged = didChangeImage
             let currentVisualisation = selectedVisualization
 
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+            dispatch_async(dispatch_get_main_queue()) {
                 if let visualisation = currentVisualisation {
                     if visualisation.text != text || visualisation.receiveTime != receiveTime || wasImageChanged {
                         visualisation.text = text
@@ -400,7 +402,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 			case .Delete:
 				messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
 				messageSwitchView.selectedSlot = visualization.number.integerValue
-				APIManager.sharedInstance.deleteVisualization(visualization, handler: nil)
+                APIManager.sharedInstance.deleteVisualizationWithNumber(visualization.number, handler: nil)
 			default:
 				break
 			}
@@ -505,7 +507,7 @@ extension VisualizationsViewController: VisualizationViewDelegate {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         alert.addAction(UIAlertAction(title: "Take Photo", style: UIAlertActionStyle.Default, handler: { [weak self] (action) -> Void in
             let authStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
-            if authStatus == .Authorized {
+            if authStatus == .Authorized || authStatus == .NotDetermined {
                 self?.presentImagePickerControllerWithSourceType(UIImagePickerControllerSourceType.Camera)
             } else {
                 self?.presentViewController(AlertsController.cameraSettingsAlertController(), animated: true, completion: nil)

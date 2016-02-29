@@ -34,6 +34,8 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var warningTextView: UITextView!
     
     var bouncedTop: Bool = false
+    var visualization: Visualization?
+
     weak var delegate: TutorialBubbleCollectionViewCellDelegate?
         
     var type = BubbleCollectionViewCellType.Sensei {
@@ -206,7 +208,7 @@ extension TutorialBubbleCollectionViewCell: UITextViewDelegate {
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.AfirmationTap, object: nil)
             return false
         } else if URL == LinkToVisualization {
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.VisualizationTap, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.VisualizationTap, object: visualization)
             return false
         }
         

@@ -1,4 +1,4 @@
-//
+ //
 //  TutorialManager.swift
 //  Sensei
 //
@@ -112,6 +112,27 @@ class TutorialManager {
             loadUpgradedStepsFromPlist()
         }
         loadInstructions()
+    }
+    
+    func delayForCurrentStep() -> Double {
+        if !TutorialManager.sharedInstance.completed {
+            if let currentStep = TutorialManager.sharedInstance.currentStep {
+                if let prevStep = TutorialManager.sharedInstance.prevTutorialStep {
+                    let delayBefore = (prevStep.text.characters.count == 0 || currentStep.delayBefore == 0) ? currentStep.delayBefore : Double(prevStep.text.characters.count) * 0.03
+                    return  delayBefore
+                }
+                return currentStep.delayBefore
+            }
+        } else {
+            if let currentStep = TutorialManager.sharedInstance.currentUpgradedStep {
+                if let prevStep = TutorialManager.sharedInstance.prevUpgradedStep {
+                    let delayBefore = (prevStep.text.characters.count == 0 || currentStep.delayBefore == 0) ? currentStep.delayBefore : Double(prevStep.text.characters.count) * 0.03
+                    return delayBefore
+                }
+                return currentStep.delayBefore
+            }
+        }
+        return 0
     }
     
     func nextAffInstruction() -> String {

@@ -229,12 +229,18 @@ class TutorialViewController: BaseViewController {
     
     func showMessage(message: Message, upgrade: Bool, completion: (()-> Void)?) {
         
+        if !TutorialManager.sharedInstance.completed && (self.childViewControllers.first as! UINavigationController).viewControllers.count == 1 {
+            if ((self.childViewControllers.first as! UINavigationController).viewControllers.first as! SenseiTabController).currentViewController is SenseiViewController  {
+                return
+            }
+        }
+        
         if messages.count == 0 || TutorialManager.sharedInstance.completed {
             messages = [message]
         } else {
             messages.append(message)
         }
-        
+
         if tutorialHidden || TutorialManager.sharedInstance.completed {
             tutorialCollectionView.reloadData()
             showTutorialAnimated(true)
@@ -259,7 +265,9 @@ class TutorialViewController: BaseViewController {
                     }
                 })
         }
-        type = message is ConfirmationQuestion ? .Confirmation: .Sensei
+        if warningTextView.hidden {
+            type = message is ConfirmationQuestion ? .Confirmation: .Sensei
+        }
     }
     
     
@@ -469,7 +477,11 @@ extension TutorialViewController: UITextViewDelegate {
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.AfirmationTap, object: nil)
             return false
         } else if URL == LinkToVisualization {
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.VisualizationTap, object: nil)
+            var vis: Visualization? = nil
+            if let cell = tutorialCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? SpeechBubbleCollectionViewCell {
+                vis = cell.visualization
+            }
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.VisualizationTap, object: vis)
             return false
         }
         

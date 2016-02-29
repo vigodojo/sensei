@@ -351,7 +351,8 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
 				}
 			case .Delete:
 				messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
-				APIManager.sharedInstance.deleteAffirmation(affirmation, handler: nil)
+//				APIManager.sharedInstance.deleteAffirmation(affirmation, handler: nil)
+                APIManager.sharedInstance.deleteAffirmationWithNumber(affirmation.number, handler: nil)
 			default:
 				break
 			}

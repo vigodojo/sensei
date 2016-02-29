@@ -321,9 +321,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        if hasProfileBeenChanged || hasSettingsBeenChanged {
-            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
-        }
+        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
 
         (parentViewController as? SenseiTabController)?.delegate = nil
         NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
@@ -413,10 +411,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func updateSettings() {
-        APIManager.sharedInstance.updateSettingsWithCompletion({ [weak self] (settings, error) -> Void in
-            self?.fillFromSettings()
-            print("After \(Settings.sharedSettings)")
-        })
+        fillFromSettings()
     }
     
     private func showConfirmation(question: ConfirmationQuestion) {
@@ -429,7 +424,9 @@ class SettingsTableViewController: UITableViewController {
         numberOfLessonsSlider.setCurrentValue(Settings.sharedSettings.numberOfLessons.integerValue, animated: false)
         tutorialSwitch.on = Settings.sharedSettings.tutorialOn.boolValue
         sleepTimeSettings = SleepTimeSettings(weekdaysStart: Settings.sharedSettings.sleepTimeWeekdays.start, weekdaysEnd: Settings.sharedSettings.sleepTimeWeekdays.end, weekendsStart: Settings.sharedSettings.sleepTimeWeekends.start, weekendsEnd: Settings.sharedSettings.sleepTimeWeekends.end)
+        
         updateSleepTimeSettingTextFields()
+        configureTimeFieldsBorder()
         
         if let date = Settings.sharedSettings.dayOfBirth {
             dateOfBirthTF.text = DataFormatter.stringFromDate(date)
@@ -540,10 +537,6 @@ class SettingsTableViewController: UITableViewController {
             saveSettings()
         }
         saveProfile()
-        print("before save \(Settings.sharedSettings)")
-        APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) -> Void in
-            print("after save \(Settings.sharedSettings)")
-        }
     }
     
     // MARK: - IBActions
@@ -564,7 +557,65 @@ class SettingsTableViewController: UITableViewController {
             } else if textField == weekEndsEndTF {
                 sleepTimeSettings?.weekendsEnd = sender.date
             }
+            
+            configureTimeFieldsBorder()
         }
+    }
+    
+    func configureTimeFieldsBorder() {
+        
+//        let weekSleepStart = sleepTimeSettings?.weekdaysStart
+//        let weekSleepEnd = sleepTimeSettings?.weekdaysEnd
+//        let weekendSleepStart = sleepTimeSettings?.weekendsStart
+//        let weekendSleepEnd = sleepTimeSettings?.weekendsEnd
+//        
+//        let weekComponents = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: weekSleepEnd!)
+//        let nextWeekSleepEnd = NSCalendar.currentCalendar().nextDateAfterDate(weekSleepStart!, matchingComponents: weekComponents, options: NSCalendarOptions.MatchNextTime)!
+//        
+//        let weekendComponents = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: weekendSleepEnd!)
+//        let nextWeekendSleepEnd = NSCalendar.currentCalendar().nextDateAfterDate(weekendSleepStart!, matchingComponents: weekendComponents, options: NSCalendarOptions.MatchNextTime)!
+//        
+//        let weekSleepTimeInterval = nextWeekSleepEnd.timeIntervalSinceDate(weekSleepStart!)
+//        let weekendSleepTimeInterval = nextWeekendSleepEnd.timeIntervalSinceDate(weekendSleepStart!)
+
+        
+        let thirtyMinIntervalInPast: Double = -30*60
+        let twelveHoursInterval: Double = 0.5*60*60
+        
+        if (sleepTimeSettings?.weekdaysEnd)!.dateByAddingTimeInterval(thirtyMinIntervalInPast).compare((sleepTimeSettings?.weekdaysStart)!) != .OrderedAscending ||
+            (sleepTimeSettings?.weekdaysEnd)!.dateByAddingTimeInterval(twelveHoursInterval).compare((sleepTimeSettings?.weekdaysStart)!) != .OrderedDescending {
+                setSenseiBorder(weekDaysStartTF)
+        } else {
+            setRedBorder(weekDaysStartTF)
+        }
+        if (sleepTimeSettings?.weekdaysEnd)!.dateByAddingTimeInterval(thirtyMinIntervalInPast).compare((sleepTimeSettings?.weekdaysStart)!) != .OrderedAscending ||
+            (sleepTimeSettings?.weekdaysEnd)!.dateByAddingTimeInterval(twelveHoursInterval).compare((sleepTimeSettings?.weekdaysStart)!) != .OrderedDescending {
+                setSenseiBorder(weekDaysEndTF)
+        } else {
+            setRedBorder(weekDaysEndTF)
+        }
+        if (sleepTimeSettings?.weekendsEnd)!.dateByAddingTimeInterval(thirtyMinIntervalInPast).compare((sleepTimeSettings?.weekendsStart)!) != .OrderedAscending ||
+            (sleepTimeSettings?.weekendsEnd)!.dateByAddingTimeInterval(twelveHoursInterval).compare((sleepTimeSettings?.weekendsStart)!) != .OrderedDescending {
+                setSenseiBorder(weekEndsStartTF)
+        } else {
+            setRedBorder(weekEndsStartTF)
+        }
+        if (sleepTimeSettings?.weekendsEnd)!.dateByAddingTimeInterval(thirtyMinIntervalInPast).compare((sleepTimeSettings?.weekendsStart)!) != .OrderedAscending ||
+            (sleepTimeSettings?.weekendsEnd)!.dateByAddingTimeInterval(twelveHoursInterval).compare((sleepTimeSettings?.weekendsStart)!) != .OrderedDescending {
+                setSenseiBorder(weekEndsEndTF)
+        } else {
+            setRedBorder(weekEndsEndTF)
+        }
+    }
+    
+    func setSenseiBorder(view: UIView) {
+        view.layer.borderColor = UIColor(red: 49/255.0, green: 93/255.0, blue: 127/255.0, alpha: 1.0).CGColor
+        view.layer.borderWidth = 0.5
+    }
+    
+    func setRedBorder(view: UIView) {
+        view.layer.borderColor = UIColor.redColor().CGColor
+        view.layer.borderWidth = 1
     }
     
     @IBAction func datePickerDidChangeValue(sender: UIDatePicker) {
@@ -685,9 +736,6 @@ extension SettingsTableViewController {
 extension SettingsTableViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(textField: UITextField) {
-        if textField.inputView == timePicker {
-            print("ok")
-        }
         firstResponder = textField
         fieldToChange = nil
         if textField == dateOfBirthTF {
@@ -724,9 +772,9 @@ extension SettingsTableViewController: SenseiTabControllerDelegate {
         if hasSettingsBeenChanged {
             saveSettings()
             print("before save \(Settings.sharedSettings)")
-            APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) -> Void in
-                print("after save \(Settings.sharedSettings)")
-            }
+//            APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) -> Void in
+//                print("after save \(Settings.sharedSettings)")
+//            }
         }
         return true
     }

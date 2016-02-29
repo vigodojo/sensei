@@ -11,8 +11,6 @@ import CoreData
 import RestClient
 
 enum Gender: String, CustomStringConvertible {
-    //Changed to work with LA server
-    //After update need to be changed to capitalized
     case Male = "male"
     case Female = "female"
     case SheMale = ""

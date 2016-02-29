@@ -81,12 +81,15 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     }
 
     func reachabilityChanged(notifiication: NSNotification) {
-        
         let reachability = notifiication.object as! Reachability
-        if reachability.isReachable() && !APIManager.sharedInstance.logined {
-            let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
-            let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
-            APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone, handler: nil)
+        if reachability.isReachable() {
+            if !APIManager.sharedInstance.logined {
+                let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
+                let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
+                APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone, handler: nil)
+            } else {
+                OfflineManager.sharedManager.synchronizeWithServer()
+            }
         }
     }
     
@@ -166,8 +169,12 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     }
     
     override func enableControls(controlNames: [String]?) {
-        senseiTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.SenseiTab) ?? true
-        moreTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.MoreTab) ?? true
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(2) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            if !TutorialManager.sharedInstance.upgradeCompleted {
+                self.senseiTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.SenseiTab) ?? true
+                self.moreTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.MoreTab) ?? true
+            }
+        }
     }
     
     // MARK: - IBAction

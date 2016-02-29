@@ -103,7 +103,7 @@ class CoreDataManager {
             let sortDescriptor = [NSSortDescriptor(key: entityMapping.primaryProperty, ascending: true)]
             
             if let fetchedObjects = fetchObjectsWithEntityName(entityMapping.entityName, sortDescriptors: sortDescriptor) {
-                
+                print(fetchedObjects)
                 for managedObject in fetchedObjects {
                     if !(newPrimaryValues as NSArray).containsObject(managedObject.valueForKey(entityMapping.primaryProperty)!) {
                         self.managedObjectContext!.deleteObject(managedObject)
@@ -124,6 +124,8 @@ class CoreDataManager {
                         }
                     }
                 }
+            } else {
+                print("nothin")
             }
         }
     }
@@ -133,6 +135,7 @@ class CoreDataManager {
         for (objectKey, _) in entityMapping.propertyMapping {
             object.setValue(entityMapping.valueForProperty(objectKey, json: json), forKey: objectKey)
         }
+        CoreDataManager.sharedInstance.saveContext()
         return object
     }
     

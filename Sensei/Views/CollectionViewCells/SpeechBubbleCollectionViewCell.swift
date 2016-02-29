@@ -72,6 +72,8 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    var visualization: Visualization?
+    
     var closeButtonHidden: Bool {
         get {
             return closeButton.hidden
@@ -128,7 +130,7 @@ extension SpeechBubbleCollectionViewCell: UITextViewDelegate {
     
     func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
         if URL == LinkToVisualization {
-            NSNotificationCenter.defaultCenter().postNotificationName(TutorialBubbleCollectionViewCell.Notifications.VisualizationTap, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(TutorialBubbleCollectionViewCell.Notifications.VisualizationTap, object: visualization)
             return false
         }
         return true

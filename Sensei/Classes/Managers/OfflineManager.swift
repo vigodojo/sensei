@@ -121,9 +121,11 @@ class OfflineManager {
     //MARK: Synch 
     
     func synchronizeWithServer() {
-        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
-        synchAffirmations()
-        synchVisualizations()
+        if TutorialManager.sharedInstance.completed {
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+            synchAffirmations()
+            synchVisualizations()
+        }
     }
     
     private func synchVisualizations() {

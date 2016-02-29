@@ -99,6 +99,7 @@
 		3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV1.xcdatamodel; sourceTree = "<group>"; };
 		3D8CF4F21C747C16005ED08E /* AlertsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertsController.swift; sourceTree = "<group>"; };
 		3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeManager.swift; sourceTree = "<group>"; };
+		3DB4F0541C7DE4B30006F939 /* SenseiModelV3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV3.xcdatamodel; sourceTree = "<group>"; };
 		3DB7C3DD1C480C4B00A234F8 /* Animations.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animations.plist; sourceTree = "<group>"; };
 		3DC0CA441C731E4B0062AC3E /* AffInstructions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AffInstructions.plist; sourceTree = "<group>"; };
 		3DC0CA461C731E590062AC3E /* VisInstructions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = VisInstructions.plist; sourceTree = "<group>"; };
@@ -298,8 +299,8 @@
 			children = (
 				402F14581B0A0A42000C4261 /* APIManager.swift */,
 				40A7B6BF1B12F7A00097852F /* CoreDataManager.swift */,
-				404E0CA41B56677300FE2F3F /* TutorialManager.swift */,
 				3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */,
+				404E0CA41B56677300FE2F3F /* TutorialManager.swift */,
 				3D5533111C564B6F0093E5D6 /* AnimationManager.swift */,
 				3D4501961C5A432D00ABB756 /* SenseiManager.swift */,
 				3DC0CA4B1C7364A50062AC3E /* OfflineManager.swift */,
@@ -789,11 +790,12 @@
 		401FBF911B20A221001DC2D0 /* SenseiModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3DB4F0541C7DE4B30006F939 /* SenseiModelV3.xcdatamodel */,
 				3DC0CA4A1C735A960062AC3E /* SenseiModelV2.xcdatamodel */,
 				3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */,
 				401FBF921B20A221001DC2D0 /* SenseiModel.xcdatamodel */,
 			);
-			currentVersion = 3DC0CA4A1C735A960062AC3E /* SenseiModelV2.xcdatamodel */;
+			currentVersion = 3DB4F0541C7DE4B30006F939 /* SenseiModelV3.xcdatamodel */;
 			path = SenseiModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

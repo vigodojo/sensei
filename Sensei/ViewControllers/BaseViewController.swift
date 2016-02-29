@@ -65,6 +65,7 @@ class BaseViewController: UIViewController {
     }
     
     func affirmationTapped(notification: NSNotification) {
+        
     }
   
     func visualizationTapped(notification: NSNotification) {
@@ -77,7 +78,13 @@ class BaseViewController: UIViewController {
     }
     
     func didMoveToNextTutorial(tutorialStep: TutorialStep) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(tutorialStep.delayBefore) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+        var delay: Double = 0
+        if tutorialStep.enabledContols.contains("BackButton") ||
+           tutorialStep.enabledContols.contains("MoreTab") {
+
+           delay = TutorialManager.sharedInstance.delayForCurrentStep()
+        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(delay) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
             self.enableControls(tutorialStep.enabledContols)
         }
     }

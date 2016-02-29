@@ -176,7 +176,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>Nice to meet you &lt;#Name&gt; I look forward to working with you.</string>
+		<string>Nice to meet you &lt;#Name&gt;, I look forward to working with you.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
@@ -321,7 +321,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>This is the Affirmation screen. Let me briefly explain what an affirmation is. It is a statement you write down and say out loud every day. It should be present tense, positive, personal and specific.</string>
+		<string>This is the Affirmation screen. Let me briefly explain what an affirmation is. It is a statement you write down and say out loud every day. It should be present tense, positive and personal.</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
@@ -377,7 +377,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Now set the message timing by tapping the message timing field and choosing from one of the three possible values. [start of day] will send the message right after you wake up, [any time] will send the message twice during the day or evening, [end of day] will send the message shortly before bedtime.</string>
+		<string>Now set the message timing by tapping the message timing field and choosing from one of the three possible values. [start of day] will send the message right after you wake up, [any time] will send the message during the day or evening, [end of day] will send the message shortly before bedtime.</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
 		<key>Number</key>
@@ -656,7 +656,7 @@
 		<key>Number</key>
 		<integer>20</integer>
 		<key>DelayBefore</key>
-		<integer>0</integer>
+		<integer>2</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -678,7 +678,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Let’s look at the additional functions on the ‘more’ page. Please tap the link in the top right corner.</string>
+		<string>Let’s look at the additional functions on the ‘more’ screen. Please tap the link in the top right corner.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
@@ -910,95 +910,95 @@
 		<key>DelayBefore</key>
 		<integer>2</integer>
 	</dict>
-    <dict>
-        <key>AnimatableImage</key>
-        <dict>
-            <key>AnimationDuration</key>
-            <integer>2</integer>
-            <key>ImageNames</key>
-            <array>
-                <string>3_standbow_0001</string>
-                <string>3_standbow_0002</string>
-                <string>3_standbow_0003</string>
-                <string>3_standbow_0004</string>
-                <string>3_standbow_0005</string>
-                <string>3_standbow_0006</string>
-                <string>3_standbow_0007</string>
-                <string>3_standbow_0008</string>
-                <string>3_standbow_0009</string>
-                <string>3_standbow_0010</string>
-                <string>3_standbow_0011</string>
-                <string>3_standbow_0012</string>
-                <string>3_standbow_0013</string>
-                <string>3_standbow_0014</string>
-                <string>3_standbow_0015</string>
-                <string>3_standbow_0016</string>
-                <string>3_standbow_0017</string>
-                <string>3_standbow_0018</string>
-                <string>3_standbow_0019</string>
-                <string>3_standbow_0020</string>
-                <string>3_standbow_0021</string>
-                <string>3_standbow_0022</string>
-                <string>3_standbow_0023</string>
-                <string>3_standbow_0024</string>
-                <string>3_standbow_0025</string>
-                <string>3_standbow_0026</string>
-                <string>3_standbow_0027</string>
-                <string>3_standbow_0028</string>
-                <string>3_standbow_0029</string>
-                <string>3_standbow_0030</string>
-                <string>3_standbow_0031</string>
-                <string>3_standbow_0032</string>
-                <string>3_standbow_0033</string>
-                <string>3_standbow_0034</string>
-                <string>3_standbow_0035</string>
-                <string>3_standbow_0036</string>
-                <string>3_standbow_0037</string>
-                <string>3_standbow_0038</string>
-                <string>3_standbow_0039</string>
-                <string>3_standbow_0040</string>
-                <string>3_standbow_0041</string>
-                <string>3_standbow_0042</string>
-                <string>3_standbow_0043</string>
-                <string>3_standbow_0044</string>
-                <string>3_standbow_0045</string>
-                <string>3_standbow_0046</string>
-                <string>3_standbow_0047</string>
-                <string>3_standbow_0048</string>
-                <string>3_standbow_0049</string>
-                <string>3_standbow_0050</string>
-                <string>3_standbow_0051</string>
-                <string>3_standbow_0052</string>
-                <string>3_standbow_0053</string>
-                <string>3_standbow_0054</string>
-                <string>3_standbow_0055</string>
-                <string>3_standbow_0056</string>
-                <string>3_standbow_0057</string>
-                <string>3_standbow_0058</string>
-                <string>3_standbow_0059</string>
-                <string>3_standbow_0060</string>
-                <string>3_standbow_0061</string>
-                <string>3_standbow_0062</string>
-                <string>3_standbow_0063</string>
-                <string>3_standbow_0064</string>
-            </array>
-        </dict>
-        <key>EnabledContols</key>
-        <array>
-            <string>AffirmationsButton</string>
-            <string>VisualisationsButton</string>
-            <string>MoreTab</string>
-            <string>SenseiTab</string>
-        </array>
-        <key>RequiresActionToProceed</key>
-        <false/>
-        <key>ScreenName</key>
-        <string>SenseiScreen</string>
-        <key>Number</key>
-        <integer>35</integer>
-        <key>DelayBefore</key>
-        <integer>2</integer>
-    </dict>
+	<dict>
+		<key>AnimatableImage</key>
+		<dict>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
+			<key>ImageNames</key>
+			<array>
+				<string>3_standbow_0001</string>
+				<string>3_standbow_0002</string>
+				<string>3_standbow_0003</string>
+				<string>3_standbow_0004</string>
+				<string>3_standbow_0005</string>
+				<string>3_standbow_0006</string>
+				<string>3_standbow_0007</string>
+				<string>3_standbow_0008</string>
+				<string>3_standbow_0009</string>
+				<string>3_standbow_0010</string>
+				<string>3_standbow_0011</string>
+				<string>3_standbow_0012</string>
+				<string>3_standbow_0013</string>
+				<string>3_standbow_0014</string>
+				<string>3_standbow_0015</string>
+				<string>3_standbow_0016</string>
+				<string>3_standbow_0017</string>
+				<string>3_standbow_0018</string>
+				<string>3_standbow_0019</string>
+				<string>3_standbow_0020</string>
+				<string>3_standbow_0021</string>
+				<string>3_standbow_0022</string>
+				<string>3_standbow_0023</string>
+				<string>3_standbow_0024</string>
+				<string>3_standbow_0025</string>
+				<string>3_standbow_0026</string>
+				<string>3_standbow_0027</string>
+				<string>3_standbow_0028</string>
+				<string>3_standbow_0029</string>
+				<string>3_standbow_0030</string>
+				<string>3_standbow_0031</string>
+				<string>3_standbow_0032</string>
+				<string>3_standbow_0033</string>
+				<string>3_standbow_0034</string>
+				<string>3_standbow_0035</string>
+				<string>3_standbow_0036</string>
+				<string>3_standbow_0037</string>
+				<string>3_standbow_0038</string>
+				<string>3_standbow_0039</string>
+				<string>3_standbow_0040</string>
+				<string>3_standbow_0041</string>
+				<string>3_standbow_0042</string>
+				<string>3_standbow_0043</string>
+				<string>3_standbow_0044</string>
+				<string>3_standbow_0045</string>
+				<string>3_standbow_0046</string>
+				<string>3_standbow_0047</string>
+				<string>3_standbow_0048</string>
+				<string>3_standbow_0049</string>
+				<string>3_standbow_0050</string>
+				<string>3_standbow_0051</string>
+				<string>3_standbow_0052</string>
+				<string>3_standbow_0053</string>
+				<string>3_standbow_0054</string>
+				<string>3_standbow_0055</string>
+				<string>3_standbow_0056</string>
+				<string>3_standbow_0057</string>
+				<string>3_standbow_0058</string>
+				<string>3_standbow_0059</string>
+				<string>3_standbow_0060</string>
+				<string>3_standbow_0061</string>
+				<string>3_standbow_0062</string>
+				<string>3_standbow_0063</string>
+				<string>3_standbow_0064</string>
+			</array>
+		</dict>
+		<key>EnabledContols</key>
+		<array>
+			<string>AffirmationsButton</string>
+			<string>VisualisationsButton</string>
+			<string>MoreTab</string>
+			<string>SenseiTab</string>
+		</array>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
+		<integer>35</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+	</dict>
 	<dict>
 		<key>Upgraded</key>
 		<true/>
@@ -1129,20 +1129,20 @@
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
-    <dict>
-        <key>Upgraded</key>
-        <true/>
-        <key>Message</key>
-        <string></string>
-        <key>RequiresActionToProceed</key>
-        <false/>
-        <key>Number</key>
-        <integer>40</integer>
-        <key>ScreenName</key>
-        <string>SenseiScreen</string>
-        <key>DelayBefore</key>
-        <integer>2</integer>
-    </dict>
+	<dict>
+		<key>Upgraded</key>
+		<true/>
+		<key>Message</key>
+		<string></string>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>Number</key>
+		<integer>40</integer>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+	</dict>
 	<dict>
 		<key>Upgraded</key>
 		<true/>
