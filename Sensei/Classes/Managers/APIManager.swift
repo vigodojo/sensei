@@ -20,9 +20,7 @@ class APIManager: NSObject {
 
 //	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
 	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
-
-//    static let BaseURL = NSURL(string: "http://192.168.88.128:8831")! //!LA
-//    static let BaseURL = NSURL(string: "http://projects.thinkmobiles.com:8831")! //ThinkMobiles
+//    static let BaseURL = NSURL(string: "http://192.168.89.172:8831")! //!LA
     
     struct APIPath {
         static let Login = "/user/signIn"
@@ -100,7 +98,6 @@ class APIManager: NSObject {
         }, completion: { (response) -> Void in
             print(String(data: response.request.HTTPBody!, encoding: NSUTF8StringEncoding))
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.DeviceToken) \(response.statusCode)")
-            print("\(response)")
         })
     }
     
@@ -113,7 +110,6 @@ class APIManager: NSObject {
         }, completion: { (response) -> Void in
             self.addToLog("GET \(APIManager.BaseURL)\(APIPath.LessonsHistory) \(response.statusCode)")
             if response.error == nil && TutorialManager.sharedInstance.completed {
-                print(response.object)
                 CoreDataManager.sharedInstance.mergeJSONs(response.object as? [JSONObject], entityMapping: Lesson.entityMapping)
             }
             if let handler = handler {

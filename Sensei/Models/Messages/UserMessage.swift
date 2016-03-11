@@ -58,7 +58,7 @@ class UserMessage: NSManagedObject, Message {
     func fullMessage() -> String {
         if  let prefix = self.preMessage {
             if self is Affirmation {
-                return "\(prefix) \(text)"
+                return "\(prefix): \(text)"
             }
             
             if self is Visualization {

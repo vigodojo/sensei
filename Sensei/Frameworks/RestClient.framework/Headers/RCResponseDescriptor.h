@@ -23,4 +23,3 @@ typedef void(^RCResponseDescriptorConfigurationBlock)(RCResponseDescriptor *resp
 - (id)mappedObjectWithData:(NSData *)data;
 
 @end
-

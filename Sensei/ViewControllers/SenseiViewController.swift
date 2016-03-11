@@ -35,40 +35,30 @@ class SenseiViewController: BaseViewController {
     @IBOutlet weak var senseiTapView: UIView!
     
     private var standUpTimer: NSTimer?
-    
+    private lazy var shouldReload: Bool = false
+    private var notificationReceived: Bool = false
+    private var previousApplicationState = UIApplicationState.Background
+    private var dataSource = [Message]()
+    private var lastQuestion: QuestionProtocol?
+    private var lastAffirmation: Affirmation?
+    private var lastVisualisation: Visualization?
+
 	private lazy var transparrencyGradientLayer: CAGradientLayer = {
 		let gradientLayer = CAGradientLayer()
 		gradientLayer.colors = [UIColor(white: 0.0, alpha: 1.0).CGColor, UIColor(white: 0.0, alpha: 0.0).CGColor]
-        /*
-        Changed relative to https://trello.com/c/CSYHKBXF/28-sensei-screen-please-move-transparent-gradient-start-up-3h, was - gradientLayer.locations = [CGFloat(0.0), CGFloat(1.0)]
-        */
 		gradientLayer.locations = [CGFloat(0.0), CGFloat(0.5)]
-        
 		gradientLayer.startPoint = CGPointZero
 		gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.6)
 		return gradientLayer
 	}()
     
-    private lazy var shouldReload: Bool = false
-    
     private lazy var sizingCell: SpeechBubbleCollectionViewCell = {
         NSBundle.mainBundle().loadNibNamed(RightSpeechBubbleCollectionViewCellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
     }()
     
-    private var bottomContentInset: CGFloat {
-        let bottomCollectionViewOffset: CGFloat = 35.0
-        
-        let calcHeight = CGRectGetHeight(senseiImageView.frame)-bottomCollectionViewOffset
-        return calcHeight*0.8
-    }
-    
-    private var notificationReceived: Bool = false
-    
     private var collectionViewContentInset: UIEdgeInsets {
         let screenHeight = UIScreen.mainScreen().bounds.size.height
-
         var rightInset: CGFloat = 0
-        
         switch (screenHeight) {
             case 568: rightInset = 70.0 //iphone 5s
             case 667: rightInset = 80.0 //iphone 6s
@@ -88,25 +78,19 @@ class SenseiViewController: BaseViewController {
         return top
     }
     
-    private var collectionViewBottomContentInset: CGFloat {
-        return max(0, bottomContentInset)
+    private var bottomContentInset: CGFloat {
+        let bottomCollectionViewOffset: CGFloat = 35.0
+        let calcHeight = CGRectGetHeight(senseiImageView.frame) - bottomCollectionViewOffset
+        return max(0, calcHeight * 0.8)
     }
     
     private lazy var lessonsFetchedResultController: NSFetchedResultsController = { [unowned self] in
         let fetchRequest = NSFetchRequest(entityName: Lesson.EntityName)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Lesson.entityMapping.primaryProperty, ascending: true)]
         let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.sharedInstance.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultController.delegate = self
         return fetchedResultController
     }()
-    
-    private var lastNotUserItemIndex: Int? {
-        var index = dataSource.count - 1
-        while index > -1 && dataSource[index] is AnswerMessage {
-            index--
-        }
-        return index > -1 ? index: nil
-    }
     
     private var isTopViewController: Bool {
         if let navigationController = navigationController, senseiTabController = parentViewController as? SenseiTabController {
@@ -114,12 +98,6 @@ class SenseiViewController: BaseViewController {
         }
         return false
     }
-    
-    private var previousApplicationState = UIApplicationState.Background
-    private var dataSource = [Message]()
-    private var lastQuestion: QuestionProtocol?
-    private var lastAffirmation: Affirmation?
-    private var lastVisualisation: Visualization?
     
     func isLastAffirmation() -> Bool {
         return lastAffirmation != nil
@@ -144,7 +122,7 @@ class SenseiViewController: BaseViewController {
         
         addApplicationObservers()
         addSenseiGesture()
-        showSitSenseiAnimation()
+//        showSitSenseiAnimation()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialDidHideNotification:"), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
@@ -155,6 +133,7 @@ class SenseiViewController: BaseViewController {
         if SenseiManager.sharedManager.senseiSitting {
             senseiImageView.image = SenseiManager.sharedManager.sittingImage()
             senseiImageView.hidden = false
+            print("Sensei Sit L:136")
             
             if !TutorialManager.sharedInstance.completed {
                 return
@@ -165,6 +144,8 @@ class SenseiViewController: BaseViewController {
                     SenseiManager.sharedManager.showSenseiStandAnimation = false
                 }
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                    print("Sensei Bows L:147")
+
                     SenseiManager.sharedManager.animateSenseiBowsInImageView(self.senseiImageView, completion: { (finished) -> Void in
                         self.standUpSensei()
                     })
@@ -175,6 +156,7 @@ class SenseiViewController: BaseViewController {
         } else {
             senseiImageView.image = SenseiManager.sharedManager.standingImage()
             senseiImageView.hidden = false
+            print("Sensei Stand L:157")
             
             if !TutorialManager.sharedInstance.completed {
                 return
@@ -185,14 +167,14 @@ class SenseiViewController: BaseViewController {
                 standUpTimer = nil
             }
             standUpTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "standBowSensei:", userInfo: nil, repeats: false)
+            print("Sensei Timer To Stand Bow L:168")
         }
     }
     
     func setupAwakeAnimationTimer() {
         let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
-        let timeComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: sleepTime.end)
+        let timeComponents = sleepTime.end.timeComponents()
         let nextDate = NSCalendar.currentCalendar().nextDateAfterDate(NSDate(), matchingComponents: timeComponents, options: NSCalendarOptions.MatchNextTime)
-        
         
         if standUpTimer != nil {
             standUpTimer?.invalidate()
@@ -200,6 +182,7 @@ class SenseiViewController: BaseViewController {
         }
         standUpTimer = NSTimer(fireDate: nextDate!, interval: 0, target: self, selector: "standSenseiUpTimerAction:", userInfo: nil, repeats: false)
         NSRunLoop.currentRunLoop().addTimer(standUpTimer!, forMode: NSRunLoopCommonModes)
+        print("Sensei Timer To Stand Up L:168")
     }
     
     func standBowSensei(timer: NSTimer) {
@@ -214,13 +197,15 @@ class SenseiViewController: BaseViewController {
     }
     
     func standUpSensei() {
+        print("Sensei Stands Up L:147")
         SenseiManager.sharedManager.animateSenseiSittingInImageView(self.senseiImageView, completion: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         tutorialViewController?.hideTutorialAnimated(false)
-        collectionView.contentInset.bottom = collectionViewBottomContentInset
+        collectionView.contentInset.bottom = bottomContentInset
         
         if !APIManager.sharedInstance.loggingIn {
             if !APIManager.sharedInstance.logined {
@@ -233,24 +218,30 @@ class SenseiViewController: BaseViewController {
         if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
             SenseiManager.sharedManager.shouldSitBowAfterOpening = false
             senseiImageView.image = SenseiManager.sharedManager.sittingImage()
+            print("Sensei Sit L:221")
+            
         } else {
             senseiImageView.image = SenseiManager.sharedManager.standingImage()
+            print("Sensei Sit L:225")
         }
+        
         senseiImageView.hidden = false
 
         if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
             setupAwakeAnimationTimer()
         }
-
+        if dataSource.count > 0 {
+            collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: dataSource.count-1, inSection: 0), atScrollPosition: .Top, animated: false)
+        }
         addKeyboardObservers()
         addTutorialObservers()
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-//        showLastReceivedVisualisation()
-        let isPro = UpgradeManager.sharedInstance.isProVersion()
-        let isProCompleted = TutorialManager.sharedInstance.upgradeCompleted
+
+        let upgraded = UpgradeManager.sharedInstance.isProVersion()
+        let upgradeCompleted = TutorialManager.sharedInstance.upgradeCompleted
         
         if !TutorialManager.sharedInstance.completed {
             if let _ = TutorialManager.sharedInstance.lastCompletedStepNumber {
@@ -258,7 +249,7 @@ class SenseiViewController: BaseViewController {
             } else {
                 TutorialManager.sharedInstance.nextStep()
             }
-        } else if isPro && !isProCompleted {
+        } else if upgraded && !upgradeCompleted {
             TutorialManager.sharedInstance.nextUpgradedStep()
         }
     }
@@ -286,7 +277,6 @@ class SenseiViewController: BaseViewController {
     // MARK: Data Source Operations
     
     private func fetchLessons() {
-        
         var error: NSError? = nil
         do {
             try self.lessonsFetchedResultController.performFetch()
@@ -297,10 +287,12 @@ class SenseiViewController: BaseViewController {
             return
         }
 
+        print("START: \(NSDate())")
         if let lessons = self.lessonsFetchedResultController.fetchedObjects as? [Lesson] {
-            self.dataSource += lessons.map { $0 as Message }
-            self.reloadSectionAnimated(true)
+            self.dataSource = lessons.map { $0 as Message }
+            self.reloadSectionAnimated(false)
         }
+        print("END: \(NSDate())")
         self.login()
     }
     
@@ -309,6 +301,7 @@ class SenseiViewController: BaseViewController {
         if dataSource.count > 1 {
             dataSource.append(message)
             dataSource = dataSource.sort({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending})
+
             for index in 0..<(dataSource.count) {
                 if dataSource[index].date.compare(message.date) == .OrderedSame {
                     inserIndex = index
@@ -318,7 +311,7 @@ class SenseiViewController: BaseViewController {
         if let inserIndex = inserIndex {
             let indexPath = NSIndexPath(forItem: inserIndex, inSection: 0)
             collectionView.performBatchUpdates({ [unowned self] () -> Void in
-                self.collectionView.reloadSections(NSIndexSet(index: 0))
+                self.collectionView.insertItemsAtIndexPaths([indexPath])
             }, completion: { [unowned self] (finished) -> Void in
                 if scroll {
                     self.scrollToItemAtIndexPath(indexPath, animated: true)
@@ -344,7 +337,7 @@ class SenseiViewController: BaseViewController {
                 self.collectionView.insertItemsAtIndexPaths(indexPathes)
             }, completion: { [unowned self] (finished) -> Void in
                 if scroll {
-                    self.scrollToLastNotUsersItemAnimated(true)
+                    self.scrollToLastItemAnimated(true)
                 }
                 if let completion = completion {
                     self.configureBubles()
@@ -390,7 +383,9 @@ class SenseiViewController: BaseViewController {
     // MARK: API Requests
     
     private func login() {
-
+        if APIManager.sharedInstance.logined {
+            return
+        }
         if NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") == nil {
             NSUserDefaults.standardUserDefaults().setObject(NSUUID().UUIDString, forKey: "AutoUUID")
             NSUserDefaults.standardUserDefaults().synchronize()
@@ -431,7 +426,7 @@ class SenseiViewController: BaseViewController {
     
     private func scrollToItemAtIndexPath(indexPath: NSIndexPath, animated: Bool) {
         if let attributes = self.collectionView.collectionViewLayout.layoutAttributesForItemAtIndexPath(indexPath) {
-            let collectionViewHeightWithoutBottomInset = CGRectGetHeight(collectionView.frame) - collectionViewBottomContentInset
+            let collectionViewHeightWithoutBottomInset = CGRectGetHeight(collectionView.frame) - bottomContentInset
             let offs = CGRectGetMaxY(attributes.frame) - collectionViewHeightWithoutBottomInset
             collectionView.contentInset.top = topContentInset
             collectionView.performBatchUpdates({ [unowned self]() -> Void in
@@ -442,14 +437,15 @@ class SenseiViewController: BaseViewController {
         }
     }
     
-    private func scrollToLastNotUsersItemAnimated(animated: Bool) {
-        if let index = lastNotUserItemIndex {
-            self.scrollToItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: animated)
+    private func scrollToLastItemAnimated(animated: Bool) {
+        if dataSource.count > 0 {
+            self.scrollToItemAtIndexPath(NSIndexPath(forItem: dataSource.count-1, inSection: 0), animated: animated)
         }
     }
     
     private func reloadSectionAnimated(animated: Bool) {
         if dataSource.count == 0 {
+            collectionView.reloadData()
             return;
         }
         if animated {
@@ -457,12 +453,12 @@ class SenseiViewController: BaseViewController {
                 self.collectionView.reloadSections(NSIndexSet(index: 0))
             }, completion: { [unowned self] finished in
                 self.collectionView.contentInset.top = self.topContentInset
-                self.scrollToLastNotUsersItemAnimated(true)
+                self.scrollToLastItemAnimated(true)
             })
         } else {
-            collectionView.reloadData()
+            self.collectionView.reloadSections(NSIndexSet(index: 0))
             collectionView.contentInset.top = topContentInset
-            scrollToLastNotUsersItemAnimated(false)
+            scrollToLastItemAnimated(false)
         }
     }
 
@@ -470,10 +466,9 @@ class SenseiViewController: BaseViewController {
 		let fullWidth = collectionView.frame.size.width - collectionViewContentInset.left - collectionViewContentInset.right
 		let message = dataSource[indexPath.item]
         sizingCell.attributedText = attributedCellTextAtIndexPath(indexPath)
-
-//		sizingCell.text = (message is UserMessage) ? (message as! UserMessage).fullMessage() : message.text
 		sizingCell.frame = CGRect(x: 0.0, y: 0.0, width: fullWidth, height: Constants.DefaultCellHeight)
 		sizingCell.textView.layoutIfNeeded()
+        
 		if #available(iOS 9, *) {
 			return sizingCell.systemLayoutSizeFittingSize(CGSize(width: fullWidth, height: Constants.DefaultCellHeight))
 		} else  {
@@ -564,7 +559,33 @@ class SenseiViewController: BaseViewController {
         self.senseiImageView.hidden = false
     }
     
+    func addLessonFromPush(push: PushNotification) {
+        if push.date == nil {
+            return
+        }
+        if abs((push.date?.timeIntervalSinceNow)!) < 60*60 {
+            if let _ = CoreDataManager.sharedInstance.fetchObjectsWithEntityName("Lesson", sortDescriptors: [], predicate: NSPredicate(format: "date == %@", push.date!))?.first {
+                return
+            }
+            
+            let lesson = CoreDataManager.sharedInstance.createObjectForEntityWithName("Lesson") as! Lesson
+            lesson.itemId = push.id
+            var items = push.alert.componentsSeparatedByString(":")
+            
+            lesson.preText = items.first!
+            items.removeAtIndex(0)
+            lesson.text = ""
+            if items.count > 0 {
+                lesson.text = items.joinWithSeparator(":")
+            }
+            lesson.type = push.type.rawValue
+            lesson.date = push.date!
+            CoreDataManager.sharedInstance.saveContext()
+        }
+    }
+    
     private func handleReceivedPushNotification(push: PushNotification) {
+        addLessonFromPush(push)
         APIManager.sharedInstance.lessonsHistoryCompletion { [unowned self] (error) -> Void in
             switch push.type {
                 case .Lesson:
@@ -577,6 +598,9 @@ class SenseiViewController: BaseViewController {
                         if let date = push.date {
                             affirmation.date = date
                         }
+                        let items = push.alert.componentsSeparatedByString(":")
+                        affirmation.preMessage = items.first!
+
                         self.lastAffirmation = affirmation
 
                         if !(self.navigationController?.topViewController is SenseiTabController) || ((self.parentViewController as? SenseiTabController)?.currentViewController is SettingsTableViewController) {
@@ -591,7 +615,7 @@ class SenseiViewController: BaseViewController {
                     if !(self.navigationController?.topViewController is SenseiTabController) || ((self.parentViewController as? SenseiTabController)?.currentViewController is SettingsTableViewController) {
                         let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
                         messageText.addAttribute(NSLinkAttributeName, value: LinkToVisualization, range: NSMakeRange(0, messageText.length))
-                        self.tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
+                        self.tutorialViewController?.showVisualizationMessage(PlainMessage(attributedText: messageText), visualization: self.lastVisualisation)
                     }
             }
         }
@@ -611,6 +635,7 @@ class SenseiViewController: BaseViewController {
     }
     
     private func handleLaunchViaPush(push: PushNotification) {
+        addLessonFromPush(push)
         APIManager.sharedInstance.lessonsHistoryCompletion { [unowned self] error in
             switch push.type {
                 case .Lesson:
@@ -631,6 +656,7 @@ class SenseiViewController: BaseViewController {
                             affirmation.date = date
                         }
                     }
+                
                 case .Visualisation:
                     if let visualisation = Visualization.visualizationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
                         self.showVisualisation(visualisation)
@@ -643,7 +669,6 @@ class SenseiViewController: BaseViewController {
         if let visualisation = lastVisualisation {
             showVisualisation(visualisation)
             self.lastVisualisation = nil
-//            self.refreshVisualizations()
         }
     }
     
@@ -661,6 +686,9 @@ class SenseiViewController: BaseViewController {
     // MARK: Keyboard
     
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
+        if TutorialManager.sharedInstance.completed {
+            return
+        }
         if size.height > senseiBottomSpaceConstraint.constant {
             view.layoutIfNeeded()
 			let startPoiint = CGPoint(x: 0.0, y: (size.height - Constants.DefaultBottomSpace) / CGRectGetHeight(fadingImageView.frame))
@@ -694,6 +722,7 @@ class SenseiViewController: BaseViewController {
     func didFinishTutorialNotificatin(notification: NSNotification) {
         self.affirmationsButton.userInteractionEnabled = true
         self.visualisationsButton.userInteractionEnabled = true
+        fetchLessons()
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(2) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
             if TutorialManager.sharedInstance.completed {
                 (UIApplication.sharedApplication().delegate as! AppDelegate).registerForNotifications()
@@ -702,22 +731,15 @@ class SenseiViewController: BaseViewController {
     }
     
     func didFinishUpgradeNotificatin(notification: NSNotification) {
-        fetchLessons()
         affirmationsButton.userInteractionEnabled = true
         visualisationsButton.userInteractionEnabled = true
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            self.performSegueWithIdentifier("ShowDisclaimer", sender: self)
+        }
     }
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         super.didMoveToNextTutorial(tutorialStep)
-        
-        if tutorialStep.number == 40 {
-            let delay = self.dataSource.count > 0 ? TutorialManager.sharedInstance.delayForCurrentStep() : 0
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(delay) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                self.performSegueWithIdentifier("ShowDisclaimer", sender: self)
-            }
-            return
-        }
         
         if !self.isTopViewController || tutorialStep.screen != .Sensei {
             return
@@ -819,7 +841,6 @@ extension SenseiViewController: UICollectionViewDataSource {
             cell.visualization = Visualization.visualizationWithNumber(NSNumber(integer: (lesson.itemId as NSString).integerValue))
         }
         cell.attributedText = attributedCellTextAtIndexPath(indexPath)
-//        print("SHIT \(message)")
         cell.showCloseButton((message is Lesson) && (message as! Lesson).isTypeLesson())
 
 		let size = caluclateSizeForItemAtIndexPath(indexPath)
@@ -827,6 +848,15 @@ extension SenseiViewController: UICollectionViewDataSource {
         cell.speachBubleOffset = width - size.width
         configureTipForCell(cell)
         return cell
+    }
+    
+    func removeExpiredMessages() {
+        for message in dataSource {
+            if abs(message.date.timeIntervalSinceNow) > 60*60 {
+                CoreDataManager.sharedInstance.deleteManagedObject(message as! NSManagedObject)
+            }
+        }
+        CoreDataManager.sharedInstance.saveContext()
     }
     
     func attributedCellTextAtIndexPath(indexPath: NSIndexPath) -> NSAttributedString {
@@ -849,7 +879,6 @@ extension SenseiViewController: UICollectionViewDataSource {
             messageBody = NSMutableAttributedString(string: (message as! AnswerMessage).text, attributes:  nil)
         }
         
-//        messageBody.appendAttributedString(NSAttributedString(string: "\n\n\(message.date)"))
         messageBody.addAttribute(NSFontAttributeName, value: UIFont.speechBubbleTextFont, range: NSMakeRange(0, messageBody.length))
         return messageBody
     }
@@ -949,22 +978,19 @@ extension SenseiViewController: SpeechBubbleCollectionViewCellDelegate {
 extension SenseiViewController: NSFetchedResultsControllerDelegate {
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        shouldReload = true
+        shouldReload = false
         if let lesson = anObject as? Lesson {
             switch type {
                 case .Delete:
+                    shouldReload = true
                     dataSource = dataSource.filter() {
                         return $0.date != lesson.date
-//                        if $0 is Lesson {
-//                            return ($0 as! Lesson).date != lesson.date
-//                        }
-//                        return true
                     }
-                    shouldReload = false
                     print("Deleted \(lesson.date)")
                 case .Insert:
+                    shouldReload = true
                     dataSource.append(lesson as Message)
-                    collectionView.contentInset.top = topContentInset
+                    dataSource.sortInPlace { $0.date.compare($1.date) == .OrderedAscending }
                     print("Inserted \(lesson.date)")
                     break
                 default:
@@ -975,8 +1001,9 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
 
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         if shouldReload {
-            dataSource.sortInPlace { $0.date.compare($1.date) == .OrderedAscending }
+            print("START: \(NSDate())")
             reloadSectionAnimated(isTopViewController)
+            print("END: \(NSDate())")
             print("Reload")
         }
     }

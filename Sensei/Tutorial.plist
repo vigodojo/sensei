@@ -1133,25 +1133,11 @@
 		<key>Upgraded</key>
 		<true/>
 		<key>Message</key>
-		<string></string>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Number</key>
-		<integer>40</integer>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-	</dict>
-	<dict>
-		<key>Upgraded</key>
-		<true/>
-		<key>Message</key>
 		<string>Enjoy!</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>41</integer>
+		<integer>40</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 		<key>ScreenName</key>
@@ -1235,7 +1221,7 @@
 			</array>
 		</dict>
 		<key>Number</key>
-		<integer>42</integer>
+		<integer>41</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 		<key>ScreenName</key>

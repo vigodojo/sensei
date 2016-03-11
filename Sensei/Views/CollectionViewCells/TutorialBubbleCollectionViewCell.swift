@@ -37,7 +37,7 @@ class TutorialBubbleCollectionViewCell: UICollectionViewCell {
     var visualization: Visualization?
 
     weak var delegate: TutorialBubbleCollectionViewCellDelegate?
-        
+    
     var type = BubbleCollectionViewCellType.Sensei {
         didSet {
             switch type {

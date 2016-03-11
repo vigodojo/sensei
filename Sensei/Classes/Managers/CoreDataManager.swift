@@ -82,6 +82,10 @@ class CoreDataManager {
         return NSEntityDescription.insertNewObjectForEntityForName(entityName, inManagedObjectContext: self.managedObjectContext!) 
     }
     
+    func deleteManagedObject(object: NSManagedObject) {
+        self.managedObjectContext!.deleteObject(object)
+    }
+    
     // MARK: - Fetching
     
     func fetchObjectsWithEntityName(entityName: String, sortDescriptors: [NSSortDescriptor], predicate: NSPredicate?) -> [NSManagedObject]? {
@@ -98,36 +102,38 @@ class CoreDataManager {
     // MARK: Merging
     
     func mergeJSONs(jsons: [JSONObject]?, entityMapping: EntityMapping) {
+        print("Started: \(NSDate().timeIntervalSince1970)")
         if let jsons = jsons where NSJSONSerialization.isValidJSONObject(jsons) {
             let newPrimaryValues = jsons.map { entityMapping.valueForProperty(entityMapping.primaryProperty, json: $0)! }
             let sortDescriptor = [NSSortDescriptor(key: entityMapping.primaryProperty, ascending: true)]
             
-            if let fetchedObjects = fetchObjectsWithEntityName(entityMapping.entityName, sortDescriptors: sortDescriptor) {
-                print(fetchedObjects)
-                for managedObject in fetchedObjects {
+            if let fetchedItems = fetchObjectsWithEntityName(entityMapping.entityName, sortDescriptors: sortDescriptor) {
+                for managedObject in fetchedItems {
                     if !(newPrimaryValues as NSArray).containsObject(managedObject.valueForKey(entityMapping.primaryProperty)!) {
                         self.managedObjectContext!.deleteObject(managedObject)
                     }
                 }
-                
-                let oldPrimaryValues = fetchedObjects.map { $0.valueForKey(entityMapping.primaryProperty)! }
-                for json in jsons {
-                    let jsonPrimaryKey = entityMapping.propertyMapping[entityMapping.primaryProperty]!
-                    if let primaryValue = entityMapping.valueForProperty(jsonPrimaryKey, json: json) as? NSObject {
-                        if !(oldPrimaryValues as NSArray).containsObject(primaryValue) {
-                            createEntityObjectFromJSON(json, entityMapping: entityMapping)
-                        } else {
-                            let object = fetchedObjects.filter() { ($0.valueForKey(entityMapping.primaryProperty) as! NSObject).isEqual(primaryValue) }.first
-                            if object != nil {
-                                updateEntityObject(object!, withJSON: json, entityMapping: entityMapping)
+                CoreDataManager.sharedInstance.saveContext()
+                if let fetchedObjects = fetchObjectsWithEntityName(entityMapping.entityName, sortDescriptors: sortDescriptor) {
+                    let oldPrimaryValues = fetchedObjects.map { $0.valueForKey(entityMapping.primaryProperty)! }
+                    for json in jsons {
+                        let jsonPrimaryKey = entityMapping.propertyMapping[entityMapping.primaryProperty]!
+                        if let primaryValue = entityMapping.valueForProperty(jsonPrimaryKey, json: json) as? NSObject {
+                            if !(oldPrimaryValues as NSArray).containsObject(primaryValue) {
+                                createEntityObjectFromJSON(json, entityMapping: entityMapping)
+                            } else {
+                                let object = fetchedObjects.filter() { ($0.valueForKey(entityMapping.primaryProperty) as! NSObject).isEqual(primaryValue) }.first
+                                if object != nil {
+                                    updateEntityObject(object!, withJSON: json, entityMapping: entityMapping)
+                                }
                             }
                         }
                     }
+                    CoreDataManager.sharedInstance.saveContext()
                 }
-            } else {
-                print("nothin")
             }
         }
+        print("Ended: \(NSDate().timeIntervalSince1970)")
     }
     
     func createEntityObjectFromJSON(json: JSONObject, entityMapping: EntityMapping) -> NSManagedObject {
@@ -135,7 +141,6 @@ class CoreDataManager {
         for (objectKey, _) in entityMapping.propertyMapping {
             object.setValue(entityMapping.valueForProperty(objectKey, json: json), forKey: objectKey)
         }
-        CoreDataManager.sharedInstance.saveContext()
         return object
     }
     

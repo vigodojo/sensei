@@ -26,6 +26,10 @@ extension NSDate {
     func dateBetweenDates(firstDate: NSDate, lastDate: NSDate) -> Bool {
         return self.compare(firstDate) == .OrderedDescending && self.compare(lastDate) == .OrderedAscending
     }
+
+    func timeComponents() -> NSDateComponents {
+        return NSCalendar.currentCalendar().components([NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: self)
+    }
     
     func fullDaysSinceNow() -> Int {
         let interval = self.timeIntervalSinceNow

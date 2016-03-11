@@ -185,9 +185,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
             } catch {
                 fatalError()
             }
-            
-            print("\(self.affirmationsFetchedResultController.fetchedObjects)")
-
+        
             dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
                 self.messageSwitchView.reloadSlots()
                 self.selectAffirmationWithNumber(NSNumber(integer:0))

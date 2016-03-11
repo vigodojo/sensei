@@ -96,8 +96,6 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
         swipePrevGesture = UISwipeGestureRecognizer(target: self, action: "showPrevSlot:")
         swipePrevGesture!.direction = .Right
         self.view.addGestureRecognizer(swipePrevGesture!)
-        
-
     }
     
     override func viewWillAppear(animated: Bool) {

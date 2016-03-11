@@ -47,7 +47,14 @@ class TutorialViewController: BaseViewController {
     private var nextTimer: NSTimer?
     
     @IBAction func toggleLog(sender: AnyObject) {
-        logTextView.hidden = !logTextView.hidden
+        if let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as? String {
+            UIPasteboard.generalPasteboard().string = idfa
+            let alertController = UIAlertController(title: "Copied", message: nil, preferredStyle: .Alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+            presentViewController(alertController, animated: true, completion: nil)
+        }
+
+//        logTextView.hidden = !logTextView.hidden
     }
     
     var tutorialContainerHeight: CGFloat {
@@ -170,7 +177,8 @@ class TutorialViewController: BaseViewController {
         if !Settings.sharedSettings.tutorialOn.boolValue {
             return
         }
-        showMessage(PlainMessage(text: instruction), upgrade: false)
+        let message = PlainMessage(attributedText: NSAttributedString(string: instruction, attributes: [NSFontAttributeName : UIFont.speechBubbleTextFont]))
+        showMessage(message, upgrade: false)
     }
     
     func showWarningMessage(message: String, disappear: Bool) {
@@ -179,7 +187,7 @@ class TutorialViewController: BaseViewController {
         }
         warningTextView.alpha = 0.0
         warningTextView.hidden = false
-        warningTextView.text = message
+        warningTextView.attributedText = NSAttributedString(string: message, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
         warningTextView.contentOffset = CGPointZero
         
         warningTextView.contentInset = UIEdgeInsetsZero
@@ -187,17 +195,18 @@ class TutorialViewController: BaseViewController {
         warningTextView.font = UIFont.speechBubbleTextFont
         warningTextView.layoutIfNeeded()
         arrowMoreButton.hidden = true
+        
         UIView.animateWithDuration(0.3, animations: { [unowned self] () -> Void in
             self.warningTextView.alpha = 1.0
+        }) { (finished) -> Void in
+            if !disappear {
+                return
+            }
+            UIView.animateWithDuration(0.3, delay: 2.0, options: .CurveEaseOut, animations:{ [unowned self] () -> Void in
+                self.warningTextView.alpha = 0.0
             }) { (finished) -> Void in
-                if !disappear {
-                    return
-                }
-                UIView.animateWithDuration(0.4, delay: 2.0, options: .CurveEaseOut, animations:{ [unowned self] () -> Void in
-                    self.warningTextView.alpha = 0.0
-                    }) { (finished) -> Void in
-                        self.hideWarning()
-                }
+                self.hideWarning()
+            }
         }
     }
 
@@ -221,6 +230,15 @@ class TutorialViewController: BaseViewController {
             showWarningMessage(question.text, disappear: false)
         }
         type = .Confirmation
+    }
+    
+    func showVisualizationMessage(message: Message, visualization: Visualization?) {
+        showMessage(message, upgrade: true) {() -> Void in
+//            if let vis = visualization {
+//                let cell = self.tutorialCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialTextViewCell
+//                cell.visualization = vis
+//            }
+        }
     }
     
     func showMessage(message: Message, upgrade: Bool) {
@@ -269,7 +287,6 @@ class TutorialViewController: BaseViewController {
             type = message is ConfirmationQuestion ? .Confirmation: .Sensei
         }
     }
-    
     
     // MARK: - Tutorial
     
@@ -445,7 +462,11 @@ extension TutorialViewController: UICollectionViewDelegateFlowLayout {
         textView.font = UIFont.speechBubbleTextFont
         textView.contentInset = UIEdgeInsetsZero
         textView.textContainerInset = UIEdgeInsetsZero
-        textView.text = message.text
+        if let attributedText = message.attributedText {
+            textView.attributedText = attributedText
+        } else {
+            textView.text = message.text
+        }
         textView.layoutIfNeeded()
         
         let height = ceil(textView.contentSize.height/collectionView.bounds.size.height) * collectionView.bounds.size.height

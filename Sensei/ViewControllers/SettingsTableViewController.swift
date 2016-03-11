@@ -316,7 +316,7 @@ class SettingsTableViewController: UITableViewController {
         upgradeButton.enabled = !UpgradeManager.sharedInstance.isProVersion()
         upgradeViewHeightConstraint.constant = UpgradeManager.sharedInstance.isProVersion() ? 0.0 : 46.0
         upgradeSeparatorView.hidden = !UpgradeManager.sharedInstance.isProVersion()
-        tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 2, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None)
+        tableView.reloadData()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -372,7 +372,6 @@ class SettingsTableViewController: UITableViewController {
     
     func didUpgradeToPro(notification: NSNotification) {
         if parentViewController is SenseiTabController {
-            
             Settings.sharedSettings.isProVersion = NSNumber(bool: true)
             CoreDataManager.sharedInstance.saveContext()
             APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
@@ -564,46 +563,36 @@ class SettingsTableViewController: UITableViewController {
     
     func configureTimeFieldsBorder() {
         
-//        let weekSleepStart = sleepTimeSettings?.weekdaysStart
-//        let weekSleepEnd = sleepTimeSettings?.weekdaysEnd
-//        let weekendSleepStart = sleepTimeSettings?.weekendsStart
-//        let weekendSleepEnd = sleepTimeSettings?.weekendsEnd
-//        
-//        let weekComponents = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: weekSleepEnd!)
-//        let nextWeekSleepEnd = NSCalendar.currentCalendar().nextDateAfterDate(weekSleepStart!, matchingComponents: weekComponents, options: NSCalendarOptions.MatchNextTime)!
-//        
-//        let weekendComponents = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: weekendSleepEnd!)
-//        let nextWeekendSleepEnd = NSCalendar.currentCalendar().nextDateAfterDate(weekendSleepStart!, matchingComponents: weekendComponents, options: NSCalendarOptions.MatchNextTime)!
-//        
-//        let weekSleepTimeInterval = nextWeekSleepEnd.timeIntervalSinceDate(weekSleepStart!)
-//        let weekendSleepTimeInterval = nextWeekendSleepEnd.timeIntervalSinceDate(weekendSleepStart!)
+        let weekSleepStart = sleepTimeSettings?.weekdaysStart
+        let weekSleepEnd = sleepTimeSettings?.weekdaysEnd
+        let weekendSleepStart = sleepTimeSettings?.weekendsStart
+        let weekendSleepEnd = sleepTimeSettings?.weekendsEnd
+        
+        let weekComponents = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: weekSleepEnd!)
+        let nextWeekSleepEnd = NSCalendar.currentCalendar().nextDateAfterDate(weekSleepStart!, matchingComponents: weekComponents, options: .MatchNextTime)!
+        
+        let weekendComponents = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: weekendSleepEnd!)
+        let nextWeekendSleepEnd = NSCalendar.currentCalendar().nextDateAfterDate(weekendSleepStart!, matchingComponents: weekendComponents, options: .MatchNextTime)!
+        
+        let weekNonSleepTimeInterval = nextWeekSleepEnd.timeIntervalSinceDate(weekSleepStart!)
+        let weekendNonSleepTimeInterval = nextWeekendSleepEnd.timeIntervalSinceDate(weekendSleepStart!)
 
+        let twentyThreeAndHalf: Double = 0.5*60*60
+        let twelveHours: Double = 12*60*60
         
-        let thirtyMinIntervalInPast: Double = -30*60
-        let twelveHoursInterval: Double = 0.5*60*60
-        
-        if (sleepTimeSettings?.weekdaysEnd)!.dateByAddingTimeInterval(thirtyMinIntervalInPast).compare((sleepTimeSettings?.weekdaysStart)!) != .OrderedAscending ||
-            (sleepTimeSettings?.weekdaysEnd)!.dateByAddingTimeInterval(twelveHoursInterval).compare((sleepTimeSettings?.weekdaysStart)!) != .OrderedDescending {
-                setSenseiBorder(weekDaysStartTF)
+        if weekNonSleepTimeInterval <= twelveHours && weekNonSleepTimeInterval >= twentyThreeAndHalf {
+            setSenseiBorder(weekDaysStartTF)
+            setSenseiBorder(weekDaysEndTF)
         } else {
             setRedBorder(weekDaysStartTF)
-        }
-        if (sleepTimeSettings?.weekdaysEnd)!.dateByAddingTimeInterval(thirtyMinIntervalInPast).compare((sleepTimeSettings?.weekdaysStart)!) != .OrderedAscending ||
-            (sleepTimeSettings?.weekdaysEnd)!.dateByAddingTimeInterval(twelveHoursInterval).compare((sleepTimeSettings?.weekdaysStart)!) != .OrderedDescending {
-                setSenseiBorder(weekDaysEndTF)
-        } else {
             setRedBorder(weekDaysEndTF)
         }
-        if (sleepTimeSettings?.weekendsEnd)!.dateByAddingTimeInterval(thirtyMinIntervalInPast).compare((sleepTimeSettings?.weekendsStart)!) != .OrderedAscending ||
-            (sleepTimeSettings?.weekendsEnd)!.dateByAddingTimeInterval(twelveHoursInterval).compare((sleepTimeSettings?.weekendsStart)!) != .OrderedDescending {
-                setSenseiBorder(weekEndsStartTF)
+        
+        if weekendNonSleepTimeInterval <= twelveHours && weekendNonSleepTimeInterval >= twentyThreeAndHalf {
+            setSenseiBorder(weekEndsStartTF)
+            setSenseiBorder(weekEndsEndTF)
         } else {
             setRedBorder(weekEndsStartTF)
-        }
-        if (sleepTimeSettings?.weekendsEnd)!.dateByAddingTimeInterval(thirtyMinIntervalInPast).compare((sleepTimeSettings?.weekendsStart)!) != .OrderedAscending ||
-            (sleepTimeSettings?.weekendsEnd)!.dateByAddingTimeInterval(twelveHoursInterval).compare((sleepTimeSettings?.weekendsStart)!) != .OrderedDescending {
-                setSenseiBorder(weekEndsEndTF)
-        } else {
             setRedBorder(weekEndsEndTF)
         }
     }
