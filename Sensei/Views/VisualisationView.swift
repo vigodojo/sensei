@@ -233,7 +233,7 @@ class VisualisationView: UIView {
         let maxHeight = (imageContainerHeightConstraint.constant / CGFloat(6))
         var size = NSAttributedString(string: someText, attributes: Visualization.outlinedTextAttributesWithFontSize(fontSize)).size()
         while size.height < maxHeight {
-            fontSize++
+            fontSize += 1
             size = NSAttributedString(string: someText, attributes: Visualization.outlinedTextAttributesWithFontSize(fontSize)).size()
         }
         textView.attributedText = NSAttributedString(string: someText, attributes: Visualization.outlinedTextAttributesWithFontSize(fontSize))

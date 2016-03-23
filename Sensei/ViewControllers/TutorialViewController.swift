@@ -53,7 +53,6 @@ class TutorialViewController: BaseViewController {
             alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
             presentViewController(alertController, animated: true, completion: nil)
         }
-
 //        logTextView.hidden = !logTextView.hidden
     }
     

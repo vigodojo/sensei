@@ -87,6 +87,53 @@ class APIManager: NSObject {
         })
     }
     
+    // MARK: Share And Rate 
+    
+    func didShare(handler: ErrorHandlerClosure?) {
+        sessionManager.performRequestWithBuilderBlock({ [unowned self] (requestBuilder) -> Void in
+            self.loggingIn = true
+            requestBuilder.path = APIPath.Login
+            requestBuilder.requestMethod = RCRequestMethod.POST
+            requestBuilder.object = ["param": "value"]
+        }, completion: { (response) -> Void in
+            if let handler = handler {
+                handler(error: response.error)
+            }
+        })
+    }
+    
+    func didRate(handler: ErrorHandlerClosure?) {
+        sessionManager.performRequestWithBuilderBlock({ [unowned self] (requestBuilder) -> Void in
+            self.loggingIn = true
+            requestBuilder.path = APIPath.Login
+            requestBuilder.requestMethod = RCRequestMethod.POST
+            requestBuilder.object = ["param": "value"]
+        }, completion: { (response) -> Void in
+            if let handler = handler {
+                handler(error: response.error)
+            }
+        })
+    }
+    
+    // MARK: Instructions
+    
+    func instructions(handler: ErrorHandlerClosure?) {
+        sessionManager.performRequestWithBuilderBlock({ [unowned self] (requestBuilder) -> Void in
+            self.loggingIn = true
+            requestBuilder.path = APIPath.Login
+            requestBuilder.requestMethod = RCRequestMethod.GET
+            requestBuilder.object = ["param": "value"]
+        }, completion: { (response) -> Void in
+            if response.error == nil {
+                CoreDataManager.sharedInstance.updateInstructions(response.object as? [JSONObject])
+            }
+            if let handler = handler {
+                handler(error: response.error)
+            }
+        })
+    }
+
+    
     // MARK: Push Notifications
     
     func sendDeviceToken(token: String) {
@@ -108,6 +155,7 @@ class APIManager: NSObject {
             builder.path = APIPath.LessonsHistory
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
+//            print(response.object)
             self.addToLog("GET \(APIManager.BaseURL)\(APIPath.LessonsHistory) \(response.statusCode)")
             if response.error == nil && TutorialManager.sharedInstance.completed {
                 CoreDataManager.sharedInstance.mergeJSONs(response.object as? [JSONObject], entityMapping: Lesson.entityMapping)

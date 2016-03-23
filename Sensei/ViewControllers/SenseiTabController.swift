@@ -69,15 +69,15 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
             UIApplication.sharedApplication().delegate?.window!?.addSubview(blackView)
         }
         
-        if AlertsController.sharedController.shouldShowRateUsAlert() && self.navigationController?.presentedViewController == nil {
-            self.navigationController?.presentViewController(AlertsController.rateUsAlertController(), animated: true, completion: nil)
-        }
-        if AlertsController.sharedController.shouldShowUpgradeAlert() && self.navigationController?.presentedViewController == nil {
-            self.navigationController?.presentViewController(AlertsController.upgradeAlertController(), animated: true, completion: nil)
-        }
-        if AlertsController.sharedController.shouldShowShareAlert() && self.navigationController?.presentedViewController == nil {
-            self.navigationController?.presentViewController(AlertsController.shareMessageAlertController(), animated: true, completion: nil)
-        }
+//        if AlertsController.sharedController.shouldShowRateUsAlert() && self.navigationController?.presentedViewController == nil {
+//            self.navigationController?.presentViewController(AlertsController.rateUsAlertController(), animated: true, completion: nil)
+//        }
+//        if AlertsController.sharedController.shouldShowUpgradeAlert() && self.navigationController?.presentedViewController == nil {
+//            self.navigationController?.presentViewController(AlertsController.upgradeAlertController(), animated: true, completion: nil)
+//        }
+//        if AlertsController.sharedController.shouldShowShareAlert() && self.navigationController?.presentedViewController == nil {
+//            self.navigationController?.presentViewController(AlertsController.shareMessageAlertController(), animated: true, completion: nil)
+//        }
     }
 
     func reachabilityChanged(notifiication: NSNotification) {

@@ -18,6 +18,8 @@
 		3DC0CA471C731E590062AC3E /* VisInstructions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DC0CA461C731E590062AC3E /* VisInstructions.plist */; };
 		3DC0CA491C7347630062AC3E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0CA481C7347630062AC3E /* Reachability.swift */; };
 		3DC0CA4C1C7364A50062AC3E /* OfflineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0CA4B1C7364A50062AC3E /* OfflineManager.swift */; };
+		3DC28C971CA2EB2900ABBF37 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC28C951CA2EB2900ABBF37 /* IAPHelper.swift */; };
+		3DC28C981CA2EB2900ABBF37 /* IAPurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC28C961CA2EB2900ABBF37 /* IAPurchaseManager.swift */; };
 		3DE3BF2C1C74D09C00F38052 /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */; };
 		400CA4A01B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */; };
 		400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */; };
@@ -106,6 +108,8 @@
 		3DC0CA481C7347630062AC3E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		3DC0CA4A1C735A960062AC3E /* SenseiModelV2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV2.xcdatamodel; sourceTree = "<group>"; };
 		3DC0CA4B1C7364A50062AC3E /* OfflineManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineManager.swift; sourceTree = "<group>"; };
+		3DC28C951CA2EB2900ABBF37 /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
+		3DC28C961CA2EB2900ABBF37 /* IAPurchaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPurchaseManager.swift; sourceTree = "<group>"; };
 		3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -198,6 +202,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3DC28C991CA2EB2E00ABBF37 /* In-App Purchase */ = {
+			isa = PBXGroup;
+			children = (
+				3DC28C951CA2EB2900ABBF37 /* IAPHelper.swift */,
+				3DC28C961CA2EB2900ABBF37 /* IAPurchaseManager.swift */,
+			);
+			name = "In-App Purchase";
+			sourceTree = "<group>";
+		};
 		4016F32F1B04EC7E00728202 /* CollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,6 +310,7 @@
 		402F14541B0A0A24000C4261 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				3DC28C991CA2EB2E00ABBF37 /* In-App Purchase */,
 				402F14581B0A0A42000C4261 /* APIManager.swift */,
 				40A7B6BF1B12F7A00097852F /* CoreDataManager.swift */,
 				3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */,
@@ -587,6 +601,7 @@
 				3DE3BF2C1C74D09C00F38052 /* DisclaimerViewController.swift in Sources */,
 				C76E77721B189FE000986B6F /* SettingsTableViewController.swift in Sources */,
 				40AA2D9F1B3AE2C500606E4E /* WeightPickerDelegate.swift in Sources */,
+				3DC28C971CA2EB2900ABBF37 /* IAPHelper.swift in Sources */,
 				404E0CA51B56677300FE2F3F /* TutorialManager.swift in Sources */,
 				3D8CF4F31C747C16005ED08E /* AlertsController.swift in Sources */,
 				404E0CA71B566E8400FE2F3F /* QuestionTutorialStep.swift in Sources */,
@@ -596,6 +611,7 @@
 				404E0CA91B568B2000FE2F3F /* AnimatableImageView.swift in Sources */,
 				40A139A91B0DC68D0010176D /* SlotCollectionViewCell.swift in Sources */,
 				3D4501971C5A432D00ABB756 /* SenseiManager.swift in Sources */,
+				3DC28C981CA2EB2900ABBF37 /* IAPurchaseManager.swift in Sources */,
 				408B320C1B0B7632001BB455 /* KeyboardInputAccessoryView.swift in Sources */,
 				C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,

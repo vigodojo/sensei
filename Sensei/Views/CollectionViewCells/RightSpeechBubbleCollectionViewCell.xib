@@ -67,7 +67,7 @@
             </view>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="EWJ-4P-st8" secondAttribute="trailing" id="ADJ-7J-zaD"/>
+                <constraint firstAttribute="trailing" secondItem="EWJ-4P-st8" secondAttribute="trailing" id="Hr8-ME-PrM"/>
                 <constraint firstItem="EWJ-4P-st8" firstAttribute="top" secondItem="kvc-o9-MLK" secondAttribute="top" id="Oxw-UC-cJc"/>
                 <constraint firstAttribute="bottom" secondItem="EWJ-4P-st8" secondAttribute="bottom" id="pAj-zL-c8i"/>
                 <constraint firstItem="EWJ-4P-st8" firstAttribute="leading" secondItem="kvc-o9-MLK" secondAttribute="leading" id="xBP-7r-CDd"/>

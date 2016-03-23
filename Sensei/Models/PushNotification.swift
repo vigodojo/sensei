@@ -19,17 +19,22 @@ struct PushNotification: CustomStringConvertible {
     let date: NSDate?
     let type: PushType
     let alert: String
+    var preMessage: String = ""
     
     init?(userInfo: [NSObject: AnyObject]) {
         let idString = userInfo["id"] as? String
         let typeString = userInfo["type"] as? String
         let alertString = userInfo["aps"]!["alert"] as? String
+        let preMessage = userInfo["preMessage"] as? String
         
         if let id = idString, typeString = typeString, type = PushType(rawValue: typeString), alert = alertString {
             self.id = id
             self.type = type
             self.alert = alert
-
+            
+            if let pre = preMessage {
+                self.preMessage = pre
+            }
             if let dateString = userInfo["date"] as? String {
                 date = LessonDateTransformer().valueFromString(dateString) as? NSDate
             } else {

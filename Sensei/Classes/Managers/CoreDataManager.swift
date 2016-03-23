@@ -136,6 +136,10 @@ class CoreDataManager {
         print("Ended: \(NSDate().timeIntervalSince1970)")
     }
     
+    func updateInstructions(jsons: [JSONObject]?) {
+        
+    }
+    
     func createEntityObjectFromJSON(json: JSONObject, entityMapping: EntityMapping) -> NSManagedObject {
         let object = createObjectForEntityWithName(entityMapping.entityName)
         for (objectKey, _) in entityMapping.propertyMapping {

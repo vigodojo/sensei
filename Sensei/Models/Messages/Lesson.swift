@@ -41,6 +41,10 @@ class Lesson: NSManagedObject, Message {
         return typeEquals("L")
     }
 
+    func isTypeAffirmation() -> Bool {
+        return typeEquals("A")
+    }
+    
     func isTypeVisualization() -> Bool {
         return typeEquals("V")
     }

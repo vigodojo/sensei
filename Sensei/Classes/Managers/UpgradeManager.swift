@@ -9,8 +9,6 @@
 import Foundation
 import UIKit
 
-
-
 class UpgradeManager:NSObject {
     
     struct Notifications {
@@ -25,6 +23,7 @@ class UpgradeManager:NSObject {
     }
     
     func isProVersion() -> Bool {
+//        return IAPurchaseManager.sharedManager.isProductPurchased("Sensei01")
         return Settings.sharedSettings.isProVersion?.boolValue == true
     }
     
@@ -33,11 +32,20 @@ class UpgradeManager:NSObject {
             UIApplication.sharedApplication().openURL(LinkToAppOnAppStore)
         }
     }
+    
+    func buyUpgrade() {
+        IAPurchaseManager.sharedManager.requestProducts { (success, products) in
+            if !success || products?.count == 0 {
+                UIAlertView(title: "Warning", message: "Something went wrong. Cannot find any products to buy", delegate: nil, cancelButtonTitle: "Okay").show()
+            }
+        }
+    }
 }
 
 extension UpgradeManager: UIAlertViewDelegate{
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
+//            buyUpgrade()
             Settings.sharedSettings.isProVersion = NSNumber(bool: true)
             CoreDataManager.sharedInstance.saveContext()
             APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)

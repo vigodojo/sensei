@@ -32,7 +32,10 @@ class Settings: NSManagedObject {
     
     struct Constants {
         static let DefaultStartSleepTime = "23:00"
-        static let DefaultEndSleepTime = "08:00"
+        static let DefaultEndSleepTime = "07:00"
+        static let DefaultStartSleepTimeWeekends = "00:00"
+        static let DefaultEndSleepTimeWeekends = "09:00"
+
         static let MaxNumberOfLessons = 6
     }
     
@@ -122,7 +125,7 @@ class Settings: NSManagedObject {
         settings.isProVersion = NSNumber(bool: false)
         settings.dataFormat = Settings.defaultDataFormat
         settings.sleepTimeWeekdays = SleepTime.sleepTimeWithStartTimeStrng(Constants.DefaultStartSleepTime, endTimeString: Constants.DefaultEndSleepTime)
-        settings.sleepTimeWeekends = SleepTime.sleepTimeWithStartTimeStrng(Constants.DefaultStartSleepTime, endTimeString: Constants.DefaultEndSleepTime)
+        settings.sleepTimeWeekends = SleepTime.sleepTimeWithStartTimeStrng(Constants.DefaultStartSleepTimeWeekends, endTimeString: Constants.DefaultEndSleepTimeWeekends)
         return settings
     }
     

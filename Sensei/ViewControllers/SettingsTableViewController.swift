@@ -301,7 +301,9 @@ class SettingsTableViewController: UITableViewController {
                 }
             case .Affirmation:
                 if let affirmation = Affirmation.affirmationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
-                    let messageText = NSMutableAttributedString(string: affirmation.fullMessage(), attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+                    affirmation.preMessage = push.preMessage
+                    
+                    let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
                     tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
                 }
             case .Visualisation:

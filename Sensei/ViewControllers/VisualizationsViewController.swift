@@ -89,18 +89,18 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        swipeNextGesture = UISwipeGestureRecognizer(target: self, action: "showNextSlot:")
+        swipeNextGesture = UISwipeGestureRecognizer(target: self, action: #selector(VisualizationsViewController.showNextSlot(_:)))
         swipeNextGesture!.direction = .Left
         self.view.addGestureRecognizer(swipeNextGesture!)
         
-        swipePrevGesture = UISwipeGestureRecognizer(target: self, action: "showPrevSlot:")
+        swipePrevGesture = UISwipeGestureRecognizer(target: self, action: #selector(VisualizationsViewController.showPrevSlot(_:)))
         swipePrevGesture!.direction = .Right
         self.view.addGestureRecognizer(swipePrevGesture!)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didUpgradeToPro:"), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(VisualizationsViewController.didUpgradeToPro(_:)), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
     }
 
     override func viewDidAppear(animated: Bool) {

@@ -120,10 +120,10 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     }
     
     private func addTutorialViewObservers() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillShowNotification:"), name: TutorialViewController.Notifications.TutorialWillShow, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialWillHideNotification:"), name: TutorialViewController.Notifications.TutorialWillHide, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleNoAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.NoAnswer, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserMessageViewController.tutorialWillShowNotification(_:)), name: TutorialViewController.Notifications.TutorialWillShow, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserMessageViewController.tutorialWillHideNotification(_:)), name: TutorialViewController.Notifications.TutorialWillHide, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserMessageViewController.handleYesAnswerNotification(_:)), name: TutorialBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserMessageViewController.handleNoAnswerNotification(_:)), name: TutorialBubbleCollectionViewCell.Notifications.NoAnswer, object: nil)
     }
     
     private func removeTutorialViewObservers() {

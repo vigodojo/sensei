@@ -198,7 +198,7 @@ class TutorialManager {
         if !UpgradeManager.sharedInstance.isProVersion() || upgradeCompleted {
             return
         }
-        upgradedStepCounter++
+        upgradedStepCounter += 1
         if upgradedStepCounter < upgradedSteps.count {
             let step = upgradedSteps[upgradedStepCounter]
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidMoveToNextStep, object: nil, userInfo: [UserInfoKeys.TutorialStep: step])
@@ -214,7 +214,7 @@ class TutorialManager {
     // MARK: - Private
     
     private func increaseStepCounter() {
-        stepCounter++
+        stepCounter += 1
         if stepCounter > 0 {
             lastCompletedStepNumber = stepCounter - 1
             NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastCompletedStepNumber!), forKey: UserDefaultsKeys.LastCompletedStepNumber)

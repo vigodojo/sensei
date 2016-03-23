@@ -144,7 +144,7 @@ class OfflineManager {
         }
         APIManager.sharedInstance.deleteVisualizationWithNumber(visualizations[counter]) { [unowned self] (error) -> Void in
             if error == nil {
-                counter++
+                counter += 1
             }
             self.deleteVisualization(visualizations, counter: counter, completion: completion)
         }
@@ -160,7 +160,7 @@ class OfflineManager {
         
         APIManager.sharedInstance.saveVisualization(visualizations[counter], handler: { [unowned self] (error) -> Void in
             if error == nil {
-                counter++
+                counter += 1
             }
             self.updateVisualization(visualizations, counter: counter, completion: completion)
         })
@@ -183,7 +183,7 @@ class OfflineManager {
         }
         APIManager.sharedInstance.deleteAffirmationWithNumber(affirmations[counter]) { [unowned self] (error) -> Void in
             if error == nil {
-                counter++
+                counter += 1
             }
             self.deleteAffirmation(affirmations, counter: counter, completion: completion)
         }
@@ -199,7 +199,7 @@ class OfflineManager {
         
         APIManager.sharedInstance.saveAffirmation(affirmations[counter], handler: { [unowned self] (error) -> Void in
             if error == nil {
-                counter++
+                counter += 1
             }
             self.updateAffirmation(affirmations, counter: counter, completion: completion)
         })
