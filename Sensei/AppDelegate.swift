@@ -30,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "TutorialUpgradeCompleted")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
+        SenseiManager.sharedManager.standBow = true
         return true
     }
     
@@ -53,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-
+        SenseiManager.sharedManager.standBow = true
     }
     
     func applicationWillEnterForeground(application: UIApplication) {

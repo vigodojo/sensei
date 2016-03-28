@@ -22,6 +22,8 @@ class SenseiManager {
         }
     }
     
+    var standBow: Bool = true
+    
     var showSenseiStandAnimation: Bool = false
     var shouldSitBowAfterOpening: Bool = false
     init() {

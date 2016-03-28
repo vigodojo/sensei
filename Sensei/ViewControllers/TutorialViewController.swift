@@ -36,7 +36,9 @@ class TutorialViewController: BaseViewController {
     @IBOutlet weak var tutorialCollectionView: UICollectionView!
     @IBOutlet weak var senseiImageView: AnimatableImageView!
     @IBOutlet weak var senseiTapView: UIView!
-    
+    @IBOutlet weak var senseiHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var backgroundImageView: UIImageView!
+
     @IBOutlet weak var warningTextView: UITextView!
     @IBOutlet weak var arrowMoreButton: UIButton!
     @IBOutlet weak var buttonsView: UIView!
@@ -107,6 +109,14 @@ class TutorialViewController: BaseViewController {
         super.viewDidLoad()
         tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
         addTutorialObservers()
+        configureBackground()
+    }
+    
+    func configureBackground() {
+        let screenHeight = CGRectGetHeight(UIScreen.mainScreen().bounds)
+        let imageName = "top_background_\(Int(screenHeight))"
+        backgroundImageView.image = UIImage(named: imageName)
+//        senseiHeightConstraint.constant = screenHeight/4
     }
     
     // MARK: - Public 

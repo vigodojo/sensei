@@ -132,7 +132,8 @@ class SenseiViewController: BaseViewController {
         if SenseiManager.sharedManager.senseiSitting {
             senseiImageView.image = SenseiManager.sharedManager.sittingImage()
             senseiImageView.hidden = false
-            
+            SenseiManager.sharedManager.standBow = false
+
             if !TutorialManager.sharedInstance.completed {
                 return
             }
@@ -149,6 +150,7 @@ class SenseiViewController: BaseViewController {
             } else if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
                 setupAwakeAnimationTimer()
             }
+            SenseiManager.sharedManager.shouldSitBowAfterOpening = false
         } else {
             senseiImageView.image = SenseiManager.sharedManager.standingImage()
             senseiImageView.hidden = false
@@ -157,6 +159,11 @@ class SenseiViewController: BaseViewController {
                 return
             }
 
+            if !SenseiManager.sharedManager.standBow {
+                return
+            }
+            SenseiManager.sharedManager.standBow = false
+            
             if standUpTimer != nil {
                 standUpTimer?.invalidate()
                 standUpTimer = nil
@@ -195,13 +202,15 @@ class SenseiViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print("view will appear")
         view.setNeedsDisplayInRect(UIScreen.mainScreen().bounds)
         
         tutorialViewController?.hideTutorialAnimated(false)
         collectionView.contentInset.bottom = bottomContentInset
         
-        showSitSenseiAnimation()
+        if !self.notificationReceived {
+            showSitSenseiAnimation()
+        }
 //        if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
 //            SenseiManager.sharedManager.shouldSitBowAfterOpening = false
 //            senseiImageView.image = SenseiManager.sharedManager.sittingImage()
@@ -209,15 +218,13 @@ class SenseiViewController: BaseViewController {
 //            senseiImageView.image = SenseiManager.sharedManager.standingImage()
 //        }
 //        senseiImageView.hidden = false
-        
-//        scrollToLastItemAnimated(false)
+        scrollToLastItemAnimated(false)
         
         if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
             setupAwakeAnimationTimer()
         }
         affirmationsButton.exclusiveTouch = true
         visualisationsButton.exclusiveTouch = true
-        
         
         addKeyboardObservers()
         addTutorialObservers()
@@ -276,7 +283,7 @@ class SenseiViewController: BaseViewController {
 
         print("START: \(NSDate())")
         if let lessons = self.lessonsFetchedResultController.fetchedObjects as? [Lesson] {
-            self.dataSource = lessons.map { $0 as Message }
+            self.dataSource += lessons.map { $0 as Message }
             self.reloadSectionAnimated(true)
         }
         print("END: \(NSDate())")
@@ -434,7 +441,14 @@ class SenseiViewController: BaseViewController {
     
     private func scrollToLastItemAnimated(animated: Bool) {
         if dataSource.count > 0 {
-            self.scrollToItemAtIndexPath(NSIndexPath(forItem: dataSource.count-1, inSection: 0), animated: animated)
+            let collectionViewHeightWithoutBottomInset = CGRectGetHeight(collectionView.frame) - bottomContentInset
+
+//            collectionView.performBatchUpdates({ [unowned self]() -> Void in
+                let contentSize = self.collectionView.contentSize
+                self.collectionView.setContentOffset(CGPoint(x: self.collectionView.contentOffset.x, y: contentSize.height - collectionViewHeightWithoutBottomInset), animated: animated)
+//            }, completion: { [unowned self] finished in
+//                self.configureBubles()
+//            })
         }
     }
     
@@ -508,19 +522,24 @@ class SenseiViewController: BaseViewController {
             }
         }
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
+            print("become active")
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [unowned self]notification in
+            print("will enter foreground")
             if self.previousApplicationState == .Background && TutorialManager.sharedInstance.completed {
                 APIManager.sharedInstance.lessonsHistoryCompletion(nil)
             }
             self.previousApplicationState = UIApplicationState.Active
             
             if !self.notificationReceived {
-                self.showSitSenseiAnimation()
+//                self.showSitSenseiAnimation()
             }
             if !TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.currentStep is QuestionTutorialStep {
                 (self.view as? AnswerableView)?.askQuestion(TutorialManager.sharedInstance.currentStep as! QuestionTutorialStep)
             }
+
         }
-        
         NSNotificationCenter.defaultCenter().addObserverForName(ApplicationDidReceiveRemotePushNotification, object: nil, queue: nil) { [unowned self] notification in
             if let userInfo = notification.userInfo, push = PushNotification(userInfo: userInfo) {
                 if push.type == .Visualisation {
