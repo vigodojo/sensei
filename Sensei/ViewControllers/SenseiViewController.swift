@@ -208,10 +208,13 @@ class SenseiViewController: BaseViewController {
         tutorialViewController?.hideTutorialAnimated(false)
         collectionView.contentInset.bottom = bottomContentInset
         
-        if !self.notificationReceived {
+        if !self.notificationReceived && !(UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted) {
             showSitSenseiAnimation()
         }
-        
+        if UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted {
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "TutorialUpgradeCompleted")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
         
 //        if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
 //            SenseiManager.sharedManager.shouldSitBowAfterOpening = false
@@ -220,12 +223,12 @@ class SenseiViewController: BaseViewController {
 //            senseiImageView.image = SenseiManager.sharedManager.standingImage()
 //        }
 //        senseiImageView.hidden = false
-        
         scrollToLastItemAnimated(false)
         
         if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
             setupAwakeAnimationTimer()
         }
+        
         affirmationsButton.exclusiveTouch = true
         visualisationsButton.exclusiveTouch = true
         
