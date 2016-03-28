@@ -2,8 +2,16 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "top_background_4s@2x.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "topBackground_480.png",
       "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

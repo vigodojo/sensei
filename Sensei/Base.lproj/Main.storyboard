@@ -284,19 +284,6 @@
                                             <constraint firstAttribute="trailing" secondItem="1Dr-1N-A2v" secondAttribute="trailing" constant="10" id="ire-Kc-yrH"/>
                                         </constraints>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="PHS-Xl-anD" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
-                                        <rect key="frame" x="220" y="0.0" width="178" height="184"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="PHS-Xl-anD" secondAttribute="height" multiplier="31:32" id="QoV-95-NW6"/>
-                                            <constraint firstAttribute="height" constant="128" id="g1W-yB-DjF"/>
-                                        </constraints>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="g1W-yB-DjF"/>
-                                            </mask>
-                                        </variation>
-                                    </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iXt-Kz-JPk">
                                         <rect key="frame" x="309" y="0.0" width="89" height="184"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -305,6 +292,19 @@
                                             <outletCollection property="gestureRecognizers" destination="Af5-mw-p56" appends="YES" id="JXD-g5-aw1"/>
                                         </connections>
                                     </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="PHS-Xl-anD" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
+                                        <rect key="frame" x="220" y="0.0" width="178" height="184"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="PHS-Xl-anD" secondAttribute="height" multiplier="124:128" id="QoV-95-NW6"/>
+                                            <constraint firstAttribute="height" constant="128" id="g1W-yB-DjF"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="g1W-yB-DjF"/>
+                                            </mask>
+                                        </variation>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -445,7 +445,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="94"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v0y-Na-Lbu" id="VY3-HW-8fB">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="93.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="94"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SENSEI TEACHING INTENSITY" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VqA-Aj-ACh">
@@ -481,7 +481,7 @@
                                         <rect key="frame" x="0.0" y="94" width="600" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yzP-nj-wBO" id="HHc-Vr-zIB">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="64.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fvs-DB-Vl2">
@@ -510,7 +510,7 @@
                                         <rect key="frame" x="0.0" y="159" width="600" height="416"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uTk-OE-Qm4" id="jUv-Ca-w5L">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="415.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="416"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SHARE ON FACEBOOK" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Erq-oB-8ld">
@@ -833,7 +833,7 @@
                                         <rect key="frame" x="0.0" y="575" width="600" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mqr-MT-GGn" id="pQ8-zJ-V3V">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DATA FORMAT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3tl-NM-ueC">
@@ -896,7 +896,7 @@
                                         <rect key="frame" x="0.0" y="641" width="600" height="262"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="coh-rD-MDF" id="VxH-6B-UD8">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="261.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="262"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DATE OF BIRTH" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1W-yZ-sMG">
@@ -1595,7 +1595,7 @@ Please tap here to create a new affirmation</string>
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LDJ-Py-bdg">
-                                <rect key="frame" x="311" y="564" width="266" height="24"/>
+                                <rect key="frame" x="312" y="564" width="265" height="24"/>
                                 <color key="backgroundColor" red="0.19215686269999999" green="0.6705882353" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="kl6-zy-euJ"/>
@@ -1612,11 +1612,12 @@ Please tap here to create a new affirmation</string>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VigoSensei" translatesAutoresizingMaskIntoConstraints="NO" id="Rut-uN-STO" customClass="AnimatableImageView" customModule="Sensei" customModuleProvider="target">
                                 <rect key="frame" x="439" y="414" width="145" height="150"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="O9n-X6-Hag"/>
                                     <constraint firstAttribute="width" secondItem="Rut-uN-STO" secondAttribute="height" multiplier="124:128" id="tEJ-Ra-Lf5"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MM4-jN-QCH">
-                                <rect key="frame" x="511" y="414" width="73" height="150"/>
+                                <rect key="frame" x="512" y="414" width="72" height="150"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xlf-Nb-mFF">
@@ -1653,6 +1654,7 @@ Please tap here to create a new affirmation</string>
                             <constraint firstItem="1w7-5X-fM9" firstAttribute="bottom" secondItem="Rut-uN-STO" secondAttribute="bottom" constant="36" id="MXI-Kc-hQN"/>
                             <constraint firstAttribute="trailing" secondItem="ADr-Be-Y3Z" secondAttribute="trailing" id="OsI-6e-0XS"/>
                             <constraint firstItem="ADr-Be-Y3Z" firstAttribute="height" secondItem="lQE-Fo-0Gf" secondAttribute="height" id="R1Q-NJ-ww8"/>
+                            <constraint firstItem="Rut-uN-STO" firstAttribute="height" secondItem="lQE-Fo-0Gf" secondAttribute="height" multiplier="1:4" id="SHW-Cf-c7q"/>
                             <constraint firstItem="Xlf-Nb-mFF" firstAttribute="top" secondItem="LDJ-Py-bdg" secondAttribute="top" id="af4-BE-N4f"/>
                             <constraint firstItem="LDJ-Py-bdg" firstAttribute="leading" secondItem="Xlf-Nb-mFF" secondAttribute="trailing" constant="23" id="cb0-CH-d7N"/>
                             <constraint firstItem="Rut-uN-STO" firstAttribute="bottom" secondItem="UUv-h4-auF" secondAttribute="bottom" constant="35" id="fds-Gg-XXD"/>
@@ -1660,13 +1662,17 @@ Please tap here to create a new affirmation</string>
                             <constraint firstAttribute="trailing" secondItem="Bda-1S-RJp" secondAttribute="trailing" id="hel-uP-jet"/>
                             <constraint firstItem="1w7-5X-fM9" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="ise-lj-5TO"/>
                             <constraint firstAttribute="trailing" secondItem="UUv-h4-auF" secondAttribute="trailing" id="rN7-DY-Cqt"/>
-                            <constraint firstItem="Rut-uN-STO" firstAttribute="height" secondItem="ADr-Be-Y3Z" secondAttribute="height" multiplier="1:4" id="suy-sF-KO8"/>
                             <constraint firstItem="Rut-uN-STO" firstAttribute="width" secondItem="MM4-jN-QCH" secondAttribute="width" multiplier="2:1" id="uda-HI-wxF"/>
                             <constraint firstItem="KZy-uO-hs9" firstAttribute="top" secondItem="Xlf-Nb-mFF" secondAttribute="bottom" constant="12" id="vRM-ND-eeD"/>
                             <constraint firstItem="ADr-Be-Y3Z" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" id="vxJ-8m-lvN"/>
                             <constraint firstItem="Xlf-Nb-mFF" firstAttribute="leading" secondItem="lQE-Fo-0Gf" secondAttribute="leading" constant="23" id="xy5-fV-T97"/>
                             <constraint firstItem="1w7-5X-fM9" firstAttribute="height" secondItem="ADr-Be-Y3Z" secondAttribute="height" id="zkK-jw-QRT"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="SHW-Cf-c7q"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="affirmationsButton" destination="Xlf-Nb-mFF" id="bCI-Qi-jib"/>
@@ -1674,6 +1680,7 @@ Please tap here to create a new affirmation</string>
                         <outlet property="fadingGradientView" destination="Bda-1S-RJp" id="Eo5-GV-OCJ"/>
                         <outlet property="fadingImageView" destination="1w7-5X-fM9" id="oMo-8A-kpI"/>
                         <outlet property="senseiBottomSpaceConstraint" destination="EJU-34-GbJ" id="l9f-Zc-pYG"/>
+                        <outlet property="senseiHeightConstraint" destination="O9n-X6-Hag" id="xsd-fh-fl2"/>
                         <outlet property="senseiImageView" destination="Rut-uN-STO" id="lWa-ty-F9Y"/>
                         <outlet property="senseiTapView" destination="MM4-jN-QCH" id="unp-Dk-jfV"/>
                         <outlet property="visualisationsButton" destination="LDJ-Py-bdg" id="t0j-Qg-z0H"/>

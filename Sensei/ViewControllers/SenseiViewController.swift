@@ -27,6 +27,7 @@ class SenseiViewController: BaseViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var fadingGradientView: FadingGradientView!
     @IBOutlet weak var senseiBottomSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet weak var senseiHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var senseiImageView: AnimatableImageView!
     @IBOutlet weak var affirmationsButton: UIButton!
     @IBOutlet weak var visualisationsButton: UIButton!
@@ -202,7 +203,6 @@ class SenseiViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        print("view will appear")
         view.setNeedsDisplayInRect(UIScreen.mainScreen().bounds)
         
         tutorialViewController?.hideTutorialAnimated(false)
@@ -211,6 +211,8 @@ class SenseiViewController: BaseViewController {
         if !self.notificationReceived {
             showSitSenseiAnimation()
         }
+        
+        
 //        if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
 //            SenseiManager.sharedManager.shouldSitBowAfterOpening = false
 //            senseiImageView.image = SenseiManager.sharedManager.sittingImage()
@@ -218,6 +220,7 @@ class SenseiViewController: BaseViewController {
 //            senseiImageView.image = SenseiManager.sharedManager.standingImage()
 //        }
 //        senseiImageView.hidden = false
+        
         scrollToLastItemAnimated(false)
         
         if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
@@ -249,6 +252,9 @@ class SenseiViewController: BaseViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        if UpgradeManager.sharedInstance.isProVersion() {
+
+        }
         removeAllExeptLessons()
         removeKeyboardObservers()
         removeTutorialObservers()
@@ -261,7 +267,7 @@ class SenseiViewController: BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+        senseiHeightConstraint.constant = UIScreen.mainScreen().bounds.height/4
 		transparrencyGradientLayer.frame = fadingImageView.bounds
         collectionView.contentInset.top = topContentInset
         collectionView.contentInset.bottom = bottomContentInset
@@ -740,7 +746,7 @@ class SenseiViewController: BaseViewController {
     func didFinishTutorialNotificatin(notification: NSNotification) {
         self.affirmationsButton.userInteractionEnabled = true
         self.visualisationsButton.userInteractionEnabled = true
-        fetchLessons()
+//        fetchLessons()
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(2) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
             if TutorialManager.sharedInstance.completed {
                 (UIApplication.sharedApplication().delegate as! AppDelegate).registerForNotifications()

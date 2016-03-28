@@ -238,7 +238,9 @@ extension AnswerableView: UITextFieldDelegate {
             return false
         }
         textField.resignFirstResponder()
-        submitAnswer(Answer.Text(textField.text!.capitalizedString))
+        var answerString = textField.text!.capitalizedString
+        answerString = answerString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        submitAnswer(Answer.Text(answerString))
         return true;
     }
 }
