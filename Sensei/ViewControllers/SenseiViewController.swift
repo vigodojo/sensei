@@ -530,9 +530,9 @@ class SenseiViewController: BaseViewController {
                 self.standUpTimer = nil
             }
         }
-        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
-            print("become active")
-        }
+//        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
+//            print("become active")
+//        }
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [unowned self]notification in
             print("will enter foreground")
@@ -637,12 +637,12 @@ class SenseiViewController: BaseViewController {
                         }
                     }
                 case .Visualisation:
-                    self.lastVisualisation = Visualization.visualizationWithNumber(NSNumber(integer: (push.id as NSString).integerValue))
-                    
-                    if !(self.navigationController?.topViewController is SenseiTabController) || ((self.parentViewController as? SenseiTabController)?.currentViewController is SettingsTableViewController) {
-                        let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
-                        messageText.addAttribute(NSLinkAttributeName, value: LinkToVisualization, range: NSMakeRange(0, messageText.length))
-                        self.tutorialViewController?.showVisualizationMessage(PlainMessage(attributedText: messageText), visualization: self.lastVisualisation)
+                    if let visualization = Visualization.visualizationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
+                        if !(self.navigationController?.topViewController is SenseiTabController) || ((self.parentViewController as? SenseiTabController)?.currentViewController is SettingsTableViewController) {
+                            let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+                            messageText.addAttribute(NSLinkAttributeName, value: LinkToVisualization, range: NSMakeRange(0, messageText.length))
+                            self.tutorialViewController?.showVisualizationMessage(PlainMessage(attributedText: messageText), visualization: visualization)
+                        }
                     }
             }
         }
