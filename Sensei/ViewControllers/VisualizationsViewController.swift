@@ -322,11 +322,6 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
                     if !APIManager.sharedInstance.reachability.isReachable() {
                         visualisation.updatedOffline = NSNumber(bool: true)
                     }
-                    if !TutorialManager.sharedInstance.completed {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            TutorialManager.sharedInstance.nextStep()
-                        }
-                    }
                 }
             }
         }
@@ -371,6 +366,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
             let scaledFontSize = Visualization.scaledFontSizeForFontSize(visualisationView.currentFontSize, imageSize: image.size, insideRect: visualisationView.imageView.bounds)
             let imagePreviewController = TextImagePreviewController.imagePreviewControllerWithImage(image)
 			imagePreviewController.attributedText = NSAttributedString(string: text, attributes: Visualization.outlinedTextAttributesWithFontSize(scaledFontSize))
+            imagePreviewController.delegate = self
             self.presentViewController(imagePreviewController, animated: true, completion: nil)
         }
     }
@@ -406,6 +402,16 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 			}
 		}
 	}
+}
+
+// MARK: - TextImagePreviewControllerDelegate
+
+extension VisualizationsViewController: TextImagePreviewControllerDelegate {
+    func textImagePreviewControllerWillDismiss() {
+        if !TutorialManager.sharedInstance.completed {
+            TutorialManager.sharedInstance.nextStep()
+        }
+    }
 }
 
 // MARK: - MessageSwitchViewDelegate

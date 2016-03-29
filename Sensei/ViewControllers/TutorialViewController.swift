@@ -361,7 +361,7 @@ class TutorialViewController: BaseViewController {
         }
         let show = tutorialCollectionView.frame.size.height >= tutorialCollectionView.contentSize.height - tutorialCollectionView.contentOffset.y
         
-        if canLoadNextStep && self.nextTimer == nil && show && TutorialManager.sharedInstance.currentStep?.screen != .Sensei {
+        if canLoadNextStep && self.nextTimer == nil && show && TutorialManager.sharedInstance.currentStep?.screen != .Sensei && self.presentedViewController == nil {
             TutorialManager.sharedInstance.nextStep()
         }
     }
