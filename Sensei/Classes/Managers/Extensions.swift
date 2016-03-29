@@ -115,7 +115,8 @@ extension UITextView {
         }
     }
 
-    func textInFrame(var receivedFrame: CGRect) -> String {
+    func textInFrame(receivedFrame: CGRect) -> String {
+        var receivedFrame = receivedFrame
         self.selectable = true
 
         receivedFrame.origin = CGPoint(x: contentInset.left, y: CGRectGetHeight(self.frame) - CGRectGetHeight(receivedFrame))

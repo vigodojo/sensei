@@ -15,6 +15,7 @@ class SpeechBubbleView: UIView {
         case Left = 0
         case TopRight
         case BottomRight //this case added relative to https://trello.com/c/iZHV6sJt/37-tutorial-and-help-please-move-speech-bubble-pointer-to-the-top-right-of-the-bubble-see-comments
+        case CenterRight
     }
     
     @IBInspectable var cornerRadius: CGFloat = 16 {
@@ -68,14 +69,15 @@ class SpeechBubbleView: UIView {
 			case .Left: bodyPath = bezierPathForLeft()
 			case .TopRight: bodyPath = bezierPathForUpperRight()
             case .BottomRight: bodyPath = bezierPathForBottomRight()
+            case .CenterRight: bodyPath = bezierPathForCenterRight()
         }
         bodyPath.lineWidth = lineWidth
 //        strokeColor.setStroke()
-        fillColor.setFill()
 //        bodyPath.stroke()
+        fillColor.setFill()        
         bodyPath.fill()
     }
-
+    
     // MARK: - Draw Bottom Right Speech Bubble
     
     /**
@@ -187,6 +189,51 @@ class SpeechBubbleView: UIView {
 		controlPoint = CGPoint(x: startPoint.x + xDelta * 1.2, y: endPoint.y - aPointerSize.height * 0.6)
 		bezierPath.addQuadCurveToPoint(endPoint, controlPoint: controlPoint)
 	}
+    
+    func bezierPathForCenterRight() -> UIBezierPath {
+        let aPointerSize = pointerSize
+        let beziePath = UIBezierPath()
+        let offset = lineWidth / 2.0
+        let angle = RadiangsFromDegrees(55)
+        let rightEdgeOffset = cornerRadius + aPointerSize.width
+        
+        var point = CGPoint(x: cornerRadius + offset, y: cornerRadius + offset)
+        beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(M_PI), endAngle: CGFloat(-M_PI_2), clockwise: true)
+        point = beziePath.currentPoint
+        point.x = CGRectGetWidth(bounds) - rightEdgeOffset
+        beziePath.addLineToPoint(point)
+        point.y = cornerRadius + offset
+        beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(-M_PI_2), endAngle: 0.0, clockwise: true)
+        point = beziePath.currentPoint
+
+        beziePath.addLineToPoint(point)
+        let lineX = point.x
+        point.y += 1
+        self.layer.masksToBounds = false
+        point.x = CGRectGetWidth(bounds)
+        beziePath.addArcWithCenter(point, radius: aPointerSize.width, startAngle: CGFloat(M_PI), endAngle: CGFloat(M_PI_2), clockwise: false)
+
+        point.y += 2*aPointerSize.width
+        beziePath.addArcWithCenter(point, radius: aPointerSize.width, startAngle: CGFloat(-M_PI_2), endAngle: CGFloat(M_PI) , clockwise: false)
+//
+        point.x = lineX
+        point.y = CGRectGetHeight(bounds) - cornerRadius - offset
+        beziePath.addLineToPoint(point)
+        
+        point.x = CGRectGetWidth(bounds) - rightEdgeOffset
+        point.y = bounds.size.height - cornerRadius - offset
+        beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(0.0), endAngle: CGFloat(M_PI_2), clockwise: true)
+        
+        point.x = cornerRadius + offset
+        point.y = CGRectGetHeight(bounds) - offset
+        beziePath.addLineToPoint(point)
+        
+        point.y = bounds.size.height - cornerRadius - offset
+        beziePath.addArcWithCenter(point, radius: cornerRadius, startAngle: CGFloat(M_PI_2), endAngle: CGFloat(M_PI), clockwise: true)
+//
+        beziePath.closePath()
+        return beziePath
+    }
     
     // MARK: - Draw Left Speech Bubble
     

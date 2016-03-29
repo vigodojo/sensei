@@ -137,7 +137,8 @@ class OfflineManager {
         }
     }
 
-    private func deleteVisualization(visualizations: Array<NSNumber>, var counter: Int,  completion:(() -> Void)?) {
+    private func deleteVisualization(visualizations: Array<NSNumber>, counter: Int,  completion:(() -> Void)?) {
+        var counter = counter
         if counter >= visualizations.count {
             completion
             return
@@ -150,7 +151,8 @@ class OfflineManager {
         }
     }
     
-    private func updateVisualization(visualizations: Array<Visualization>, var counter: Int,  completion:(() -> Void)?) {
+    private func updateVisualization(visualizations: Array<Visualization>, counter: Int,  completion:(() -> Void)?) {
+        var counter = counter
         if counter >= visualizations.count {
             completion
             return
@@ -176,7 +178,8 @@ class OfflineManager {
         }
     }
     
-    private func deleteAffirmation(affirmations: Array<NSNumber>, var counter: Int,  completion:(() -> Void)?) {
+    private func deleteAffirmation(affirmations: Array<NSNumber>, counter: Int,  completion:(() -> Void)?) {
+        var counter = counter
         if counter >= affirmations.count {
             completion
             return
@@ -189,7 +192,8 @@ class OfflineManager {
         }
     }
     
-    private func updateAffirmation(affirmations: Array<Affirmation>, var counter: Int,  completion:(() -> Void)?) {
+    private func updateAffirmation(affirmations: Array<Affirmation>, counter: Int,  completion:(() -> Void)?) {
+        var counter = counter
         if counter >= affirmations.count {
             completion
             return

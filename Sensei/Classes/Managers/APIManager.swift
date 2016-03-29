@@ -19,8 +19,8 @@ class APIManager: NSObject {
     static let sharedInstance = APIManager()
 
 //	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
-	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
-//    static let BaseURL = NSURL(string: "http://192.168.89.172:8831")! //!LA
+//	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
+    static let BaseURL = NSURL(string: "http://192.168.88.181:8831")! //Alex Local
     
     struct APIPath {
         static let Login = "/user/signIn"
@@ -34,6 +34,7 @@ class APIManager: NSObject {
         static let VisualizationPathPattern = "/user/visualisation/:id"
         static let DeviceToken = "/push/pushURL"
         static let Settings = "/user/settings"
+        static let Instructions = "/user/instructions"
     }
     
     var logined = false
@@ -74,6 +75,9 @@ class APIManager: NSObject {
             self.loggingIn = false
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Login) \(response.statusCode)")
             
+            APIManager.sharedInstance.instructions({ (error) in
+                
+            })
             self.logined = response.successful
             if self.logined {
                 OfflineManager.sharedManager.synchronizeWithServer()
@@ -120,12 +124,12 @@ class APIManager: NSObject {
     func instructions(handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ [unowned self] (requestBuilder) -> Void in
             self.loggingIn = true
-            requestBuilder.path = APIPath.Login
+            requestBuilder.path = APIPath.Instructions
             requestBuilder.requestMethod = RCRequestMethod.GET
-            requestBuilder.object = ["param": "value"]
+//            requestBuilder.object = ["param": "value"]
         }, completion: { (response) -> Void in
             if response.error == nil {
-                CoreDataManager.sharedInstance.updateInstructions(response.object as? [JSONObject])
+                CoreDataManager.sharedInstance.updateInstructions(response.object as? JSONObject)
             }
             if let handler = handler {
                 handler(error: response.error)
@@ -155,7 +159,9 @@ class APIManager: NSObject {
             builder.path = APIPath.LessonsHistory
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
-//            print(response.object)
+            if let object = response.object {
+                print(object)
+            }
             self.addToLog("GET \(APIManager.BaseURL)\(APIPath.LessonsHistory) \(response.statusCode)")
             if response.error == nil && TutorialManager.sharedInstance.completed {
                 CoreDataManager.sharedInstance.mergeJSONs(response.object as? [JSONObject], entityMapping: Lesson.entityMapping)

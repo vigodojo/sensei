@@ -102,8 +102,23 @@ class TutorialManager {
             stepCounter = lastCompletedStepNumber
         }
         
+
         lastAffirmationInstrucitonNumber = (userDefaults.objectForKey(UserDefaultsKeys.LastAffirmationInstrucitonNumebr) as? NSNumber)?.integerValue ?? 0
         lastVisualizationInstructionNumber = (userDefaults.objectForKey(UserDefaultsKeys.LastVisualizationInstructionNumber) as? NSNumber)?.integerValue ?? 0
+
+        loadInstructions()
+
+        if lastAffirmationInstrucitonNumber >= affirmationInstructions.count {
+            lastAffirmationInstrucitonNumber = 0
+            NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastAffirmationInstrucitonNumber), forKey: UserDefaultsKeys.LastAffirmationInstrucitonNumebr)
+            NSUserDefaults.standardUserDefaults().synchronize()
+
+        }
+        if lastVisualizationInstructionNumber >= visualizationInstructions.count {
+            lastVisualizationInstructionNumber = 0
+            NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastVisualizationInstructionNumber), forKey: UserDefaultsKeys.LastVisualizationInstructionNumber)
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
         
         if !completed {
             loadStepsFromPlist()
@@ -111,7 +126,6 @@ class TutorialManager {
         if !upgradeCompleted {
             loadUpgradedStepsFromPlist()
         }
-        loadInstructions()
     }
     
     func delayForCurrentStep() -> Double {
@@ -135,7 +149,10 @@ class TutorialManager {
         return 0
     }
     
-    func nextAffInstruction() -> String {
+    func nextAffInstruction() -> String? {
+        if affirmationInstructions.isEmpty {
+            return nil
+        }
         let instruction = affirmationInstructions[lastAffirmationInstrucitonNumber]
 
         lastAffirmationInstrucitonNumber += 1
@@ -147,7 +164,10 @@ class TutorialManager {
         return instruction
     }
 
-    func nextVisInstruction() -> String {
+    func nextVisInstruction() -> String? {
+        if affirmationInstructions.isEmpty {
+            return nil
+        }
         let instruction = visualizationInstructions[lastVisualizationInstructionNumber]
         
         lastVisualizationInstructionNumber += 1
@@ -159,18 +179,35 @@ class TutorialManager {
         return instruction
     }
     
-    private func loadInstructions() {
-        if let affPlistURL = NSBundle.mainBundle().URLForResource("AffInstructions", withExtension: "plist") {
-            if let affsArray = NSArray(contentsOfURL: affPlistURL) as? [String] {
-                for affInstuction in affsArray {
-                    affirmationInstructions.append(affInstuction)
-                }
-            }
+     static func pathForInstructions() -> String {
+        if var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first {
+            path.appendContentsOf("/Instructions.plist")
+            print(path)
+            return path
         }
-        if let visPlistURL = NSBundle.mainBundle().URLForResource("VisInstructions", withExtension: "plist") {
-            if let vissArray = NSArray(contentsOfURL: visPlistURL) as? [String] {
-                for visInstuction in vissArray {
-                    visualizationInstructions.append(visInstuction)
+        return ""
+    }
+    
+    func updateInstructions() {
+        affirmationInstructions = [String]()
+        visualizationInstructions = [String]()
+        loadInstructions()
+    }
+    
+    private func loadInstructions() {
+        let path = TutorialManager.pathForInstructions()
+        
+        if let dataRead = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as? NSData {
+            if let dict = NSKeyedUnarchiver.unarchiveObjectWithData(dataRead) as? NSDictionary {
+                
+                let affirmations = dict["affirmation"] as! [String: String]
+                let visualizations = dict["visualization"] as! [String: String]
+                
+                for index in affirmations.keys.sort() {
+                    affirmationInstructions.append(affirmations[index]!)
+                }
+                for index in visualizations.keys.sort() {
+                    visualizationInstructions.append(visualizations[index]!)
                 }
             }
         }

@@ -75,7 +75,7 @@ class SettingsTableViewController: UITableViewController {
     private lazy var timePicker: UIDatePicker = { [unowned self] in
         let picker = UIDatePicker()
         picker.datePickerMode = .Time
-        picker.addTarget(self, action: Selector("timePickerDidChangeValue:"), forControlEvents: UIControlEvents.ValueChanged)
+        picker.addTarget(self, action: #selector(SettingsTableViewController.timePickerDidChangeValue(_:)), forControlEvents: UIControlEvents.ValueChanged)
 		picker.backgroundColor = UIColor.whiteColor()
         return picker
     }()
@@ -83,7 +83,7 @@ class SettingsTableViewController: UITableViewController {
     private lazy var datePicker: UIDatePicker = { [unowned self] in
         let picker = UIDatePicker()
         picker.datePickerMode = .Date
-        picker.addTarget(self, action: Selector("datePickerDidChangeValue:"), forControlEvents: UIControlEvents.ValueChanged)
+        picker.addTarget(self, action: #selector(SettingsTableViewController.datePickerDidChangeValue(_:)), forControlEvents: UIControlEvents.ValueChanged)
 		picker.backgroundColor = UIColor.whiteColor()
         
         let minComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
@@ -96,6 +96,10 @@ class SettingsTableViewController: UITableViewController {
 
         return picker
     }()
+    
+    func process(dict: NSDictionary) {
+        
+    }
     
     private lazy var pickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
         let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.view.bounds), height: DefaultInputAccessotyViewHeight))
@@ -349,10 +353,10 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func addObservers() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleNoAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.NoAnswer, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleYesAnswerNotification:"), name: TutorialBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didMoveToNextTutorialNotification:"), name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didUpgradeToPro:"), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsTableViewController.handleNoAnswerNotification(_:)), name: TutorialBubbleCollectionViewCell.Notifications.NoAnswer, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsTableViewController.handleYesAnswerNotification(_:)), name: TutorialBubbleCollectionViewCell.Notifications.YesAnswer, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsTableViewController.didMoveToNextTutorialNotification(_:)), name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsTableViewController.didUpgradeToPro(_:)), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [unowned self] notification in
             self.previousApplicationState = UIApplicationState.Background
@@ -418,7 +422,7 @@ class SettingsTableViewController: UITableViewController {
     private func showConfirmation(question: ConfirmationQuestion) {
         tutorialViewController?.askConfirmationQuestion(question)
         fieldToChange = nil
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("tutorialDidHideNotification:"), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsTableViewController.tutorialDidHideNotification(_:)), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
     }
     
     private func fillFromSettings() {

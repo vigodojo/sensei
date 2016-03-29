@@ -136,8 +136,36 @@ class CoreDataManager {
         print("Ended: \(NSDate().timeIntervalSince1970)")
     }
     
-    func updateInstructions(jsons: [JSONObject]?) {
-        
+    func updateInstructions(jsons: JSONObject?) {
+        if let jsons = jsons where NSJSONSerialization.isValidJSONObject(jsons) {
+            let result = NSMutableDictionary()
+            if let visualizationInstructions = jsons["visualization"] as? NSArray {
+                let visualizations = NSMutableDictionary()
+                for json in visualizationInstructions {
+                    let number = json["number"] as! NSInteger
+                    let text = json["text"] as! String
+                    
+                    visualizations.setObject(text, forKey: "\(number)")
+                }
+                result["visualization"] = visualizations
+            }
+            if let affirmationInstructions = jsons["affirmation"] as? NSArray {
+                let affirmations = NSMutableDictionary()
+                for json in affirmationInstructions {
+                    let number = json["number"] as! NSInteger
+                    let text = json["text"] as! String
+                    
+                    affirmations.setObject(text, forKey: "\(number)")
+                }
+                result["affirmation"] = affirmations
+            }
+            
+            let path = TutorialManager.pathForInstructions()
+            let data = NSKeyedArchiver.archivedDataWithRootObject(result)
+            NSKeyedArchiver.archiveRootObject(data, toFile: path)
+
+            TutorialManager.sharedInstance.updateInstructions()
+        }
     }
     
     func createEntityObjectFromJSON(json: JSONObject, entityMapping: EntityMapping) -> NSManagedObject {

@@ -45,7 +45,7 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
         showSenseiViewController()
         addTutorialObservers()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("reachabilityChanged:"), name: ReachabilityChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SenseiTabController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: nil) { [unowned self] notification in
             if SenseiManager.sharedManager.shouldShowSenseiScreen() {
@@ -101,8 +101,8 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     
     override func addTutorialObservers() {
         super.addTutorialObservers()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishTutorialNotificatin:"), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didFinishUpgradeNotificatin:"), name: TutorialManager.Notifications.DidFinishUpgrade, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SenseiTabController.didFinishTutorialNotificatin(_:)), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SenseiTabController.didFinishUpgradeNotificatin(_:)), name: TutorialManager.Notifications.DidFinishUpgrade, object: nil)
     }
     
     func showSenseiViewController() {

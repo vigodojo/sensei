@@ -175,11 +175,15 @@ class TutorialViewController: BaseViewController {
     }
     
     func showNextAffInstruction() {
-        showInstruction(TutorialManager.sharedInstance.nextAffInstruction())
+        if let nextInstruction = TutorialManager.sharedInstance.nextAffInstruction() {
+            showInstruction(nextInstruction)
+        }
     }
     
     func showNextVisInstruction() {
-        showInstruction(TutorialManager.sharedInstance.nextVisInstruction())
+        if let nextInstruction = TutorialManager.sharedInstance.nextVisInstruction() {
+            showInstruction(nextInstruction)
+        }
     }
     
     func showInstruction(instruction: String) {
@@ -306,10 +310,10 @@ class TutorialViewController: BaseViewController {
                 if let cell = tutorialCollectionView.cellForItemAtIndexPath(visibleCells.first! as NSIndexPath) as? TutorialTextViewCell {
                     let visibleText = cell.textView.textInFrame(self.view.convertRect(tutorialCollectionView.frame, toView: cell.textView))
                     let delay = tutorialStep.delayBefore == 0 ? tutorialStep.delayBefore : ceil(Double((visibleText.characters.count)) * 0.03)
-                    self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: "didMoveToNextTutorialStepAction:", userInfo: tutorialStep, repeats: false)
+                    self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: #selector(TutorialViewController.didMoveToNextTutorialStepAction(_:)), userInfo: tutorialStep, repeats: false)
                 }
             } else {
-                self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(tutorialStep.delayBefore, target: self, selector: "didMoveToNextTutorialStepAction:", userInfo: tutorialStep, repeats: false)
+                self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(tutorialStep.delayBefore, target: self, selector: #selector(TutorialViewController.didMoveToNextTutorialStepAction(_:)), userInfo: tutorialStep, repeats: false)
             }
         }
     }
