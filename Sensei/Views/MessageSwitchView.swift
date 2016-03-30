@@ -21,7 +21,7 @@ protocol MessageSwitchViewDelegate: class {
     func messageSwitchView(view: MessageSwitchView, itemAvailable index: Int) -> Bool
 }
 
-let MessageSwitchViewSclotsCollectionViewBoundsContext = UnsafeMutablePointer<Void>()
+let MessageSwitchViewSclotsCollectionViewBoundsContext = UnsafeMutablePointer<Void>(nil)
 
 class MessageSwitchView: UIView {
     

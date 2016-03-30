@@ -1119,25 +1119,11 @@
 		<key>Upgraded</key>
 		<true/>
 		<key>Message</key>
-		<string>You will notice a little red ‘x’ in the top right corner of the lessons. If you are not interested in a lesson, hit that &apos;x&apos; to indicate that. This will help teach me what type of lessons you prefer, both in terms of topic and format. Use this feature carefully please, as you may end up missing out on good lessons, or even shut down lessons altogether, if you keep rejecting them.</string>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Number</key>
-		<integer>39</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
-	</dict>
-	<dict>
-		<key>Upgraded</key>
-		<true/>
-		<key>Message</key>
 		<string>Enjoy!</string>
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Number</key>
-		<integer>40</integer>
+		<integer>39</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 		<key>ScreenName</key>
@@ -1221,7 +1207,7 @@
 			</array>
 		</dict>
 		<key>Number</key>
-		<integer>41</integer>
+		<integer>40</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
 		<key>ScreenName</key>

@@ -156,12 +156,15 @@ class SenseiViewController: BaseViewController {
             senseiImageView.image = SenseiManager.sharedManager.standingImage()
             senseiImageView.hidden = false
             
-            if !TutorialManager.sharedInstance.completed || !SenseiManager.sharedManager.standBow{
+            if !SenseiManager.sharedManager.standBow {
+                return
+            }
+            SenseiManager.sharedManager.standBow = false
+            
+            if !TutorialManager.sharedInstance.completed {
                 return
             }
 
-            SenseiManager.sharedManager.standBow = false
-            
             if standUpTimer != nil {
                 standUpTimer?.invalidate()
                 standUpTimer = nil
@@ -531,10 +534,13 @@ class SenseiViewController: BaseViewController {
         }
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
             print("become active")
-            if !self.notificationReceived && !(UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted) {
+            if let _ = self.parentViewController {
+                SenseiManager.sharedManager = SenseiManager()
+                SenseiManager.sharedManager.standBow = true
+            }
+            if !self.notificationReceived {
                 self.showSitSenseiAnimation()
             }
-
         }
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [unowned self]notification in
@@ -544,9 +550,7 @@ class SenseiViewController: BaseViewController {
             }
             self.previousApplicationState = UIApplicationState.Active
             
-            if !self.notificationReceived {
-//                self.showSitSenseiAnimation()
-            }
+
             if !TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.currentStep is QuestionTutorialStep {
                 (self.view as? AnswerableView)?.askQuestion(TutorialManager.sharedInstance.currentStep as! QuestionTutorialStep)
             }

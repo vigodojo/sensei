@@ -259,7 +259,7 @@ class TutorialManager {
     }
 
     private func decreaseStepCounter() {
-        stepCounter--
+        stepCounter -= 1
         if stepCounter > 0 {
             lastCompletedStepNumber = stepCounter - 1
             NSUserDefaults.standardUserDefaults().setObject(NSNumber(integer: lastCompletedStepNumber!), forKey: UserDefaultsKeys.LastCompletedStepNumber)

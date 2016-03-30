@@ -102,11 +102,11 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        swipeNextGesture = UISwipeGestureRecognizer(target: self, action: "showNextSlot:")
+        swipeNextGesture = UISwipeGestureRecognizer(target: self, action: #selector(AffirmationsViewController.showNextSlot(_:)))
         swipeNextGesture!.direction = .Left
         self.view.addGestureRecognizer(swipeNextGesture!)
 
-        swipePrevGesture = UISwipeGestureRecognizer(target: self, action: "showPrevSlot:")
+        swipePrevGesture = UISwipeGestureRecognizer(target: self, action: #selector(AffirmationsViewController.showPrevSlot(_:)))
         swipePrevGesture!.direction = .Right
         self.view.addGestureRecognizer(swipePrevGesture!)
     }
@@ -137,7 +137,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didUpgradeToPro:"), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AffirmationsViewController.didUpgradeToPro(_:)), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
