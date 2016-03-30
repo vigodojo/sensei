@@ -19,8 +19,8 @@ class APIManager: NSObject {
     static let sharedInstance = APIManager()
 
 //	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
-//	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
-    static let BaseURL = NSURL(string: "http://192.168.88.181:8831")! //Alex Local
+	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
+//    static let BaseURL = NSURL(string: "http://192.168.88.181:8831")! //Alex Local
     
     struct APIPath {
         static let Login = "/user/signIn"

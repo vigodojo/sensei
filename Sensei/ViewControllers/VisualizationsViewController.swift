@@ -545,7 +545,6 @@ extension VisualizationsViewController: VisualizationViewDelegate {
                 tutorialViewController?.askConfirmationQuestion(DeleteConfirmationQuestion)
             }
         }
-        
     }
     
     func minPossibleHeightForVisualizationView(view: VisualisationView) -> CGFloat {

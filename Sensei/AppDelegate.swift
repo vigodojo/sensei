@@ -54,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
+        SenseiManager.sharedManager = SenseiManager()
         SenseiManager.sharedManager.standBow = true
     }
     

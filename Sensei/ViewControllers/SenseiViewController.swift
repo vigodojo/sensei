@@ -156,13 +156,10 @@ class SenseiViewController: BaseViewController {
             senseiImageView.image = SenseiManager.sharedManager.standingImage()
             senseiImageView.hidden = false
             
-            if !TutorialManager.sharedInstance.completed {
+            if !TutorialManager.sharedInstance.completed || !SenseiManager.sharedManager.standBow{
                 return
             }
 
-            if !SenseiManager.sharedManager.standBow {
-                return
-            }
             SenseiManager.sharedManager.standBow = false
             
             if standUpTimer != nil {
@@ -208,14 +205,16 @@ class SenseiViewController: BaseViewController {
         tutorialViewController?.hideTutorialAnimated(false)
         collectionView.contentInset.bottom = bottomContentInset
         
-        if !self.notificationReceived && !(UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted) {
-            showSitSenseiAnimation()
-        }
+        APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         if UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted {
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "TutorialUpgradeCompleted")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
-        
+
+        if !self.notificationReceived && !(UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted) {
+            showSitSenseiAnimation()
+        }
+
 //        if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
 //            SenseiManager.sharedManager.shouldSitBowAfterOpening = false
 //            senseiImageView.image = SenseiManager.sharedManager.sittingImage()
@@ -530,9 +529,13 @@ class SenseiViewController: BaseViewController {
                 self.standUpTimer = nil
             }
         }
-//        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
-//            print("become active")
-//        }
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
+            print("become active")
+            if !self.notificationReceived && !(UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted) {
+                self.showSitSenseiAnimation()
+            }
+
+        }
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [unowned self]notification in
             print("will enter foreground")
