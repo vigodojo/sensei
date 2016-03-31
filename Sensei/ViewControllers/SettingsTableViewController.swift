@@ -86,13 +86,13 @@ class SettingsTableViewController: UITableViewController {
         picker.addTarget(self, action: #selector(SettingsTableViewController.datePickerDidChangeValue(_:)), forControlEvents: UIControlEvents.ValueChanged)
 		picker.backgroundColor = UIColor.whiteColor()
         
-        let minComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
-        minComponents.year -= 100
-        picker.minimumDate = NSCalendar.currentCalendar().dateFromComponents(minComponents)
-        
-        let maxComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
-        maxComponents.year -= 10
-        picker.maximumDate = NSCalendar.currentCalendar().dateFromComponents(maxComponents)
+//        let minComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
+//        minComponents.year -= 100
+//        picker.minimumDate = NSCalendar.currentCalendar().dateFromComponents(minComponents)
+//        
+//        let maxComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
+//        maxComponents.year -= 10
+//        picker.maximumDate = NSCalendar.currentCalendar().dateFromComponents(maxComponents)
 
         return picker
     }()
@@ -111,7 +111,9 @@ class SettingsTableViewController: UITableViewController {
         
             if let fieldName = self?.fieldToChange {
                 if fieldName == .DOB {
-                    self?.dateOfBirthTF.text = DataFormatter.stringFromDate((self?.datePicker.date)!)
+                    if let date = self?.datePicker.date where self?.checkSelectedDate(date) == false {
+                        return
+                    }
                 }
                 
                 if fieldName == .Height {
@@ -143,6 +145,34 @@ class SettingsTableViewController: UITableViewController {
         }
         return inputAccessoryView
     }()
+    
+    func checkSelectedDate(date: NSDate) -> Bool {
+        let today = NSDate()
+        let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Era, NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day], fromDate: today)
+    
+        components.year -= 10
+        let maxDate = NSCalendar.currentCalendar().dateFromComponents(components)!
+        components.year -= 90
+        let minDate = NSCalendar.currentCalendar().dateFromComponents(components)!
+        
+        let beforeMaxDate = date.timeless().compare(maxDate) == NSComparisonResult.OrderedAscending
+        let afterMinDate = date.timeless().compare(minDate) == NSComparisonResult.OrderedDescending
+        
+        let dateMatches = beforeMaxDate && afterMinDate
+        if dateMatches {
+            self.dateOfBirthTF.text = DataFormatter.stringFromDate(date)
+        } else {
+            tutorialViewController?.showWarningMessage("", disappear: true)
+            if let dateOfBirth = Settings.sharedSettings.dayOfBirth {
+                self.dateOfBirthTF.text = DataFormatter.stringFromDate(dateOfBirth)
+                self.datePicker.date = dateOfBirth
+            } else {
+                self.datePicker.date = NSDate()
+                self.dateOfBirthTF.text = ""
+            }
+        }
+        return dateMatches
+    }
     
     private lazy var heightPickerDelegate: HeightPickerDelegate = { [unowned self] in
         let pickerDelegate = HeightPickerDelegate()
@@ -316,7 +346,6 @@ class SettingsTableViewController: UITableViewController {
                 tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
         }
     }
-    
     
     func refreshUpgradState() {
         upgradeButton.enabled = !UpgradeManager.sharedInstance.isProVersion()
@@ -751,6 +780,12 @@ extension SettingsTableViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(textField: UITextField) {
         firstResponder = nil
+        if textField == self.dateOfBirthTF {
+            let date = self.datePicker.date
+            if self.checkSelectedDate(date) == false {
+                return
+            }
+        }
     }
 }
 
