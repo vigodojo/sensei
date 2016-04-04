@@ -54,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
+        
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
@@ -88,6 +89,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         print("Push Info = \(userInfo)")
+        NSLog("PUSH")
+        APIManager.sharedInstance.addToLog("didReceiveRemoteNotification APPDELEGATE")
         NSNotificationCenter.defaultCenter().postNotificationName(ApplicationDidReceiveRemotePushNotification, object: nil, userInfo: userInfo)
     }
     

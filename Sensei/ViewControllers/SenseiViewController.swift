@@ -42,7 +42,9 @@ class SenseiViewController: BaseViewController {
     private var lastQuestion: QuestionProtocol?
     private var lastAffirmation: Affirmation?
     private var lastVisualisation: Visualization?
-
+    private var viewWillAppearBeenCalled = false
+    private var startFromVis = false
+    
 	private lazy var transparrencyGradientLayer: CAGradientLayer = {
 		let gradientLayer = CAGradientLayer()
 		gradientLayer.colors = [UIColor(white: 0.0, alpha: 1.0).CGColor, UIColor(white: 0.0, alpha: 0.0).CGColor]
@@ -99,10 +101,6 @@ class SenseiViewController: BaseViewController {
         return false
     }
     
-    func isLastAffirmation() -> Bool {
-        return lastAffirmation != nil
-    }
-    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -122,120 +120,63 @@ class SenseiViewController: BaseViewController {
         
         addApplicationObservers()
         addSenseiGesture()
-//        showSitSenseiAnimation()
 
+        if let push = (UIApplication.sharedApplication().delegate as! AppDelegate).pushNotification where push.type == .Visualisation {
+            startFromVis = true
+            notificationReceived = true
+        }
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SenseiViewController.tutorialDidHideNotification(_:)), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SenseiViewController.didFinishTutorialNotificatin(_:)), name: TutorialManager.Notifications.DidFinishTutorial, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SenseiViewController.didFinishUpgradeNotificatin(_:)), name: TutorialManager.Notifications.DidFinishUpgrade, object: nil)
     }
     
-    func showSitSenseiAnimation() {
-        if SenseiManager.sharedManager.senseiSitting {
-            senseiImageView.image = SenseiManager.sharedManager.sittingImage()
-            senseiImageView.hidden = false
-            SenseiManager.sharedManager.standBow = false
-
-            if !TutorialManager.sharedInstance.completed {
-                return
-            }
-
-            if (SenseiManager.sharedManager.showSenseiStandAnimation || SenseiManager.sharedManager.shouldSitBowAfterOpening) && !SenseiManager.sharedManager.isSleepTime() {
-                if SenseiManager.sharedManager.showSenseiStandAnimation {
-                    SenseiManager.sharedManager.showSenseiStandAnimation = false
-                }
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                    SenseiManager.sharedManager.animateSenseiBowsInImageView(self.senseiImageView, completion: { (finished) -> Void in
-                        self.standUpSensei()
-                    })
-                }
-            } else if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
-                setupAwakeAnimationTimer()
-            }
-            SenseiManager.sharedManager.shouldSitBowAfterOpening = false
-        } else {
-            senseiImageView.image = SenseiManager.sharedManager.standingImage()
-            senseiImageView.hidden = false
-            
-            if !SenseiManager.sharedManager.standBow {
-                return
-            }
-            SenseiManager.sharedManager.standBow = false
-            
-            if !TutorialManager.sharedInstance.completed {
-                return
-            }
-
-            if standUpTimer != nil {
-                standUpTimer?.invalidate()
-                standUpTimer = nil
-            }
-            standUpTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(SenseiViewController.standBowSensei(_:)), userInfo: nil, repeats: false)
-        }
-    }
-    
-    func setupAwakeAnimationTimer() {
-        let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
-        let timeComponents = sleepTime.end.timeComponents()
-        let nextDate = NSCalendar.currentCalendar().nextDateAfterDate(NSDate(), matchingComponents: timeComponents, options: NSCalendarOptions.MatchNextTime)
-        
-        if standUpTimer != nil {
-            standUpTimer?.invalidate()
-            standUpTimer = nil
-        }
-        standUpTimer = NSTimer(fireDate: nextDate!, interval: 0, target: self, selector: #selector(SenseiViewController.standSenseiUpTimerAction(_:)), userInfo: nil, repeats: false)
-        NSRunLoop.currentRunLoop().addTimer(standUpTimer!, forMode: NSRunLoopCommonModes)
-    }
-    
-    func standBowSensei(timer: NSTimer) {
-        SenseiManager.sharedManager.animateSenseiStandsBowsInImageView(self.senseiImageView, completion: nil)
-    }
-    
-    func standSenseiUpTimerAction(timer: NSTimer) {
-        standUpTimer = nil
-        SenseiManager.sharedManager.saveLastActiveTime()
-        senseiImageView.stopAnimatableImageAnimation()
-        standUpSensei()
-    }
-    
-    func standUpSensei() {
-        SenseiManager.sharedManager.animateSenseiSittingInImageView(self.senseiImageView, completion: nil)
-    }
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        viewWillAppearBeenCalled = true
         view.setNeedsDisplayInRect(UIScreen.mainScreen().bounds)
         
         tutorialViewController?.hideTutorialAnimated(false)
         collectionView.contentInset.bottom = bottomContentInset
         
-        APIManager.sharedInstance.lessonsHistoryCompletion(nil)
+        APIManager.sharedInstance.lessonsHistoryCompletion({ (error) in
+            APIManager.sharedInstance.clearHistory(nil)
+        })
+        
         if UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted {
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "TutorialUpgradeCompleted")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
 
+        APIManager.sharedInstance.addToLog("viewWillAppear - self.notificationReceived: \(self.notificationReceived)")
+
         if !self.notificationReceived && !(UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted) {
             showSitSenseiAnimation()
         }
-
-//        if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
-//            SenseiManager.sharedManager.shouldSitBowAfterOpening = false
-//            senseiImageView.image = SenseiManager.sharedManager.sittingImage()
-//        } else {
-//            senseiImageView.image = SenseiManager.sharedManager.standingImage()
-//        }
-//        senseiImageView.hidden = false
+        if startFromVis {
+            startFromVis = false
+            if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
+                SenseiManager.sharedManager.shouldSitBowAfterOpening = false
+                senseiImageView.image = SenseiManager.sharedManager.sittingImage()
+            } else {
+                senseiImageView.image = SenseiManager.sharedManager.standingImage()
+            }
+            senseiImageView.hidden = false
+            let push = (UIApplication.sharedApplication().delegate as! AppDelegate).pushNotification!
+            handleLaunchViaPush(push)
+        }
         scrollToLastItemAnimated(false)
         
-        if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
-            setupAwakeAnimationTimer()
-        }
+//        if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
+//            setupAwakeAnimationTimer()
+//        }
         
         affirmationsButton.exclusiveTouch = true
         visualisationsButton.exclusiveTouch = true
         
         addKeyboardObservers()
         addTutorialObservers()
+        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -258,7 +199,7 @@ class SenseiViewController: BaseViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         if UpgradeManager.sharedInstance.isProVersion() {
-
+            
         }
         removeAllExeptLessons()
         removeKeyboardObservers()
@@ -276,6 +217,102 @@ class SenseiViewController: BaseViewController {
 		transparrencyGradientLayer.frame = fadingImageView.bounds
         collectionView.contentInset.top = topContentInset
         collectionView.contentInset.bottom = bottomContentInset
+    }
+
+    //MARK: - Sensei animation
+    
+    func showSitSenseiAnimation() {
+        if SenseiManager.sharedManager.senseiSitting {
+            senseiImageView.image = SenseiManager.sharedManager.sittingImage()
+            senseiImageView.hidden = false
+            
+            if !TutorialManager.sharedInstance.completed {
+                return
+            }
+            
+            if (SenseiManager.sharedManager.showSenseiStandAnimation || SenseiManager.sharedManager.shouldSitBowAfterOpening) && !SenseiManager.sharedManager.isSleepTime() {
+                if SenseiManager.sharedManager.showSenseiStandAnimation {
+                    SenseiManager.sharedManager.showSenseiStandAnimation = false
+                }
+                SenseiManager.sharedManager.standBow = false
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                    SenseiManager.sharedManager.animateSenseiBowsInImageView(self.senseiImageView, completion: { (finished) -> Void in
+                        self.standUpSensei()
+                    })
+                }
+            } else {
+                sitBowIfNeeded()
+                if TutorialManager.sharedInstance.completed && SenseiManager.sharedManager.isSleepTime() {
+                    setupAwakeAnimationTimer()
+                }
+            }
+            SenseiManager.sharedManager.shouldSitBowAfterOpening = false
+        } else {
+            senseiImageView.image = SenseiManager.sharedManager.standingImage()
+            senseiImageView.hidden = false
+            
+            
+            if !TutorialManager.sharedInstance.completed {
+                return
+            }
+            
+            standBowIfNeeded()
+        }
+    }
+    
+    func standBowIfNeeded() {
+        if !SenseiManager.sharedManager.standBow || self.notificationReceived || self.parentViewController == nil {
+            return
+        }
+        
+        SenseiManager.sharedManager.standBow = false
+
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            self.standBowSensei()
+        }
+    }
+    
+    func sitBowIfNeeded() {
+        if !SenseiManager.sharedManager.standBow || self.notificationReceived || self.parentViewController == nil {
+            return
+        }
+        SenseiManager.sharedManager.standBow = false
+
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            self.sitBowSensei()
+        }
+    }
+    
+    func setupAwakeAnimationTimer() {
+        let sleepTime = NSCalendar.currentCalendar().isDateInWeekend(NSDate()) ? Settings.sharedSettings.sleepTimeWeekends : Settings.sharedSettings.sleepTimeWeekdays
+        let timeComponents = sleepTime.end.timeComponents()
+        let nextDate = NSCalendar.currentCalendar().nextDateAfterDate(NSDate(), matchingComponents: timeComponents, options: NSCalendarOptions.MatchNextTime)
+        
+        if standUpTimer != nil {
+            standUpTimer?.invalidate()
+            standUpTimer = nil
+        }
+        standUpTimer = NSTimer(fireDate: nextDate!, interval: 0, target: self, selector: #selector(SenseiViewController.standSenseiUpTimerAction(_:)), userInfo: nil, repeats: false)
+        NSRunLoop.currentRunLoop().addTimer(standUpTimer!, forMode: NSRunLoopCommonModes)
+    }
+    
+    func standBowSensei() {
+        SenseiManager.sharedManager.animateSenseiStandsBowsInImageView(self.senseiImageView, completion: nil)
+    }
+    
+    func sitBowSensei() {
+        SenseiManager.sharedManager.animateSenseiBowsInImageView(self.senseiImageView, completion: nil)
+    }
+    
+    func standSenseiUpTimerAction(timer: NSTimer) {
+        standUpTimer = nil
+        SenseiManager.sharedManager.saveLastActiveTime()
+        senseiImageView.stopAnimatableImageAnimation()
+        standUpSensei()
+    }
+    
+    func standUpSensei() {
+        SenseiManager.sharedManager.animateSenseiSittingInImageView(self.senseiImageView, completion: nil)
     }
     
     // MARK: - Private
@@ -376,6 +413,9 @@ class SenseiViewController: BaseViewController {
     
     private func removeAllExeptLessons() {
         dataSource = dataSource.filter { $0 is Lesson }
+        dataSource = dataSource.filter {
+            ($0 as! Lesson).type.lowercaseString == "l"
+        }
         collectionView.reloadData()
     }
     
@@ -438,10 +478,15 @@ class SenseiViewController: BaseViewController {
     // MARK: UI Operations
     
     private func scrollToItemAtIndexPath(indexPath: NSIndexPath, animated: Bool) {
-        if let attributes = self.collectionView.collectionViewLayout.layoutAttributesForItemAtIndexPath(indexPath) {
+        if indexPath.row >= dataSource.count {
+            return
+        }
+        if let attributes = collectionView.collectionViewLayout.layoutAttributesForItemAtIndexPath(indexPath) {
             let collectionViewHeightWithoutBottomInset = CGRectGetHeight(collectionView.frame) - bottomContentInset
             let offs = CGRectGetMaxY(attributes.frame) - collectionViewHeightWithoutBottomInset
+            
             collectionView.contentInset.top = topContentInset
+            
             collectionView.performBatchUpdates({ [unowned self]() -> Void in
                 self.collectionView.setContentOffset(CGPoint(x: self.collectionView.contentOffset.x, y: offs), animated: animated)
             }, completion: { [unowned self] finished in
@@ -524,6 +569,7 @@ class SenseiViewController: BaseViewController {
     
     private func addApplicationObservers() {
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [unowned self] notification in
+            self.viewWillAppearBeenCalled = false
             self.previousApplicationState = UIApplicationState.Background
             self.lastAffirmation = nil
             self.lastVisualisation = nil
@@ -534,44 +580,47 @@ class SenseiViewController: BaseViewController {
         }
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
             print("become active")
-            if let _ = self.parentViewController {
-                SenseiManager.sharedManager = SenseiManager()
-                SenseiManager.sharedManager.standBow = true
-            }
-            if !self.notificationReceived {
-                self.showSitSenseiAnimation()
-            }
-        }
-        
-        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [unowned self]notification in
-            print("will enter foreground")
+ 
             if self.previousApplicationState == .Background && TutorialManager.sharedInstance.completed {
                 APIManager.sharedInstance.lessonsHistoryCompletion(nil)
             }
             self.previousApplicationState = UIApplicationState.Active
             
+            SenseiManager.sharedManager = SenseiManager()
+            if let _ = self.parentViewController {
+                SenseiManager.sharedManager.standBow = true
+            }
+            APIManager.sharedInstance.addToLog("become active - self.notificationReceived: \(self.notificationReceived)")
 
+            if !self.notificationReceived && !self.viewWillAppearBeenCalled {
+                self.showSitSenseiAnimation()
+            }
             if !TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.currentStep is QuestionTutorialStep {
                 (self.view as? AnswerableView)?.askQuestion(TutorialManager.sharedInstance.currentStep as! QuestionTutorialStep)
             }
-
         }
+
         NSNotificationCenter.defaultCenter().addObserverForName(ApplicationDidReceiveRemotePushNotification, object: nil, queue: nil) { [unowned self] notification in
+            APIManager.sharedInstance.addToLog("received push notfication")
+
             if let userInfo = notification.userInfo, push = PushNotification(userInfo: userInfo) {
-                if push.type == .Visualisation {
-                    self.notificationReceived = true
-                }
                 print("Push Info = \(userInfo)")
-                if UIApplication.sharedApplication().applicationState == .Inactive && self.previousApplicationState == .Background {
-                    if !self.isTopViewController {
-                        self.navigationController?.popToRootViewControllerAnimated(false)
-                        (self.navigationController?.viewControllers.first as? SenseiTabController)?.showSenseiViewController()
-                    }
-                    self.handleLaunchViaPush(push)
-                } else {
-                    self.handleReceivedPushNotification(push)
-                }
+                self.processPushReceiving(push)
             }
+        }
+    }
+    
+    func processPushReceiving(push: PushNotification) {
+        self.notificationReceived = (push.type == .Visualisation)
+        
+        if UIApplication.sharedApplication().applicationState == .Inactive && self.previousApplicationState == .Background {
+            if !self.isTopViewController {
+                self.navigationController?.popToRootViewControllerAnimated(false)
+                (self.navigationController?.viewControllers.first as? SenseiTabController)?.showSenseiViewController()
+            }
+            self.handleLaunchViaPush(push)
+        } else {
+            self.handleReceivedPushNotification(push)
         }
     }
     
@@ -646,6 +695,7 @@ class SenseiViewController: BaseViewController {
                 case .Visualisation:
                     if let visualization = Visualization.visualizationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
                         if !(self.navigationController?.topViewController is SenseiTabController) || ((self.parentViewController as? SenseiTabController)?.currentViewController is SettingsTableViewController) {
+                            self.lastVisualisation = visualization
                             let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
                             messageText.addAttribute(NSLinkAttributeName, value: LinkToVisualization, range: NSMakeRange(0, messageText.length))
                             self.tutorialViewController?.showVisualizationMessage(PlainMessage(attributedText: messageText), visualization: visualization)
@@ -681,7 +731,7 @@ class SenseiViewController: BaseViewController {
                         }
                         return idsEqual
                     }
-                    if let index = index {
+                    if let index = index where index < self.dataSource.count {
                         self.scrollToItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: true)
                     }
                 case .Affirmation:
@@ -998,7 +1048,12 @@ extension SenseiViewController: TextImagePreviewControllerDelegate {
     func textImagePreviewControllerWillDismiss() {
         if self.notificationReceived == true {
             self.notificationReceived = false
-            showSitSenseiAnimation()
+            if SenseiManager.sharedManager.senseiSitting {
+                sitBowIfNeeded()
+            } else {
+                standBowIfNeeded()
+            }
+//            showSitSenseiAnimation()
         }
     }
 }

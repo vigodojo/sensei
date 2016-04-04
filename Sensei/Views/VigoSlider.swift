@@ -94,7 +94,7 @@ class VigoSlider: UIControl {
     }
     
     private func createTapGesture() {
-        let gesture = UITapGestureRecognizer(target: self, action: Selector("tap:"))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(VigoSlider.tap(_:)))
         addGestureRecognizer(gesture)
         tapGesture = gesture
     }

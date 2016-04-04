@@ -13,8 +13,8 @@ class BaseViewController: UIViewController {
     // MARK: - Keyboard
 
     func addKeyboardObservers() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShowNotification:"), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHideNotification:"), name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.keyboardWillShowNotification(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.keyboardWillHideNotification(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     func removeKeyboardObservers() {
@@ -55,9 +55,9 @@ class BaseViewController: UIViewController {
     // MARK: - Tutorial
     
     func addTutorialObservers() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("visualizationTapped:"), name: TutorialBubbleCollectionViewCell.Notifications.VisualizationTap, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("affirmationTapped:"), name: TutorialBubbleCollectionViewCell.Notifications.AfirmationTap, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didMoveToNextTutorialNotification:"), name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.visualizationTapped(_:)), name: TutorialBubbleCollectionViewCell.Notifications.VisualizationTap, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.affirmationTapped(_:)), name: TutorialBubbleCollectionViewCell.Notifications.AfirmationTap, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.didMoveToNextTutorialNotification(_:)), name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
     }
     
     func removeTutorialObservers() {

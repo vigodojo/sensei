@@ -85,22 +85,9 @@ class SettingsTableViewController: UITableViewController {
         picker.datePickerMode = .Date
         picker.addTarget(self, action: #selector(SettingsTableViewController.datePickerDidChangeValue(_:)), forControlEvents: UIControlEvents.ValueChanged)
 		picker.backgroundColor = UIColor.whiteColor()
-        
-//        let minComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
-//        minComponents.year -= 100
-//        picker.minimumDate = NSCalendar.currentCalendar().dateFromComponents(minComponents)
-//        
-//        let maxComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Era], fromDate: NSDate())
-//        maxComponents.year -= 10
-//        picker.maximumDate = NSCalendar.currentCalendar().dateFromComponents(maxComponents)
-
         return picker
     }()
-    
-    func process(dict: NSDictionary) {
-        
-    }
-    
+
     private lazy var pickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
         let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.view.bounds), height: DefaultInputAccessotyViewHeight))
         let inputAccessoryView = PickerInputAccessoryView(frame: rect)
@@ -129,9 +116,6 @@ class SettingsTableViewController: UITableViewController {
                     self?.weightKg = currentValue!.realValue
                     self?.weightTexField.text = "\(currentValue!)"
                 }
-                
-                print("\(Settings.sharedSettings.weight?.doubleValue) | \(self?.weightKg)")
-                print("\(Settings.sharedSettings.height?.doubleValue) | \(self?.heightCm)")
 
                 if (Settings.sharedSettings.weight?.doubleValue != self?.weightKg && Settings.sharedSettings.weight?.doubleValue > 0 && self?.weightKg > 0 ||
                     Settings.sharedSettings.height?.doubleValue != self?.heightCm && Settings.sharedSettings.height?.doubleValue > 0 && self?.heightCm > 0 ||
@@ -141,38 +125,12 @@ class SettingsTableViewController: UITableViewController {
                 } else {
                     self?.performYesAnswerAction()
                 }
+            } else {
+                self?.performYesAnswerAction()
             }
         }
         return inputAccessoryView
     }()
-    
-    func checkSelectedDate(date: NSDate) -> Bool {
-        let today = NSDate()
-        let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Era, NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day], fromDate: today)
-    
-        components.year -= 10
-        let maxDate = NSCalendar.currentCalendar().dateFromComponents(components)!
-        components.year -= 90
-        let minDate = NSCalendar.currentCalendar().dateFromComponents(components)!
-        
-        let beforeMaxDate = date.timeless().compare(maxDate) == NSComparisonResult.OrderedAscending
-        let afterMinDate = date.timeless().compare(minDate) == NSComparisonResult.OrderedDescending
-        
-        let dateMatches = beforeMaxDate && afterMinDate
-        if dateMatches {
-            self.dateOfBirthTF.text = DataFormatter.stringFromDate(date)
-        } else {
-            tutorialViewController?.showWarningMessage("", disappear: true)
-            if let dateOfBirth = Settings.sharedSettings.dayOfBirth {
-                self.dateOfBirthTF.text = DataFormatter.stringFromDate(dateOfBirth)
-                self.datePicker.date = dateOfBirth
-            } else {
-                self.datePicker.date = NSDate()
-                self.dateOfBirthTF.text = ""
-            }
-        }
-        return dateMatches
-    }
     
     private lazy var heightPickerDelegate: HeightPickerDelegate = { [unowned self] in
         let pickerDelegate = HeightPickerDelegate()
@@ -319,39 +277,8 @@ class SettingsTableViewController: UITableViewController {
         if !TutorialManager.sharedInstance.completed {
             TutorialManager.sharedInstance.nextStep()
         }
+        SenseiManager.sharedManager.standBow = false
         tutorialSwitch.enabled = TutorialManager.sharedInstance.completed
-    }
-    
-    private func handleReceivedPushNotification(push: PushNotification) {
-        if UIApplication.sharedApplication().applicationState == .Inactive && self.previousApplicationState == .Background {
-            (self.navigationController?.viewControllers.first as? SenseiTabController)?.showSenseiViewController()
-            return
-        }
-        switch push.type {
-            case .Lesson:
-                if let _ = parentViewController as? SenseiTabController {
-                    let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont, NSForegroundColorAttributeName: UIColor.blackColor()])
-                    tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: false)
-                }
-            case .Affirmation:
-                if let affirmation = Affirmation.affirmationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
-                    affirmation.preMessage = push.preMessage
-                    
-                    let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
-                    tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
-                }
-            case .Visualisation:
-                let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
-                messageText.addAttribute(NSLinkAttributeName, value: LinkToVisualization, range: NSMakeRange(0, messageText.length))
-                tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
-        }
-    }
-    
-    func refreshUpgradState() {
-        upgradeButton.enabled = !UpgradeManager.sharedInstance.isProVersion()
-        upgradeViewHeightConstraint.constant = UpgradeManager.sharedInstance.isProVersion() ? 0.0 : 46.0
-        upgradeSeparatorView.hidden = !UpgradeManager.sharedInstance.isProVersion()
-        tableView.reloadData()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -362,7 +289,83 @@ class SettingsTableViewController: UITableViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
     }
   
+    // MARK: - Notification
+
+    @IBAction func intensitySliderTouchUpOutside(sender: AnyObject) {
+        teachingIntensityUpdated()
+    }
+    
+    @IBAction func intensitySliderTouchUpInside(sender: AnyObject) {
+        teachingIntensityUpdated()
+    }
+    
+    func teachingIntensityUpdated() {
+        saveSettings()
+        APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) in
+            print("Updated Intensity")
+        }
+    }
+    
+    private func handleReceivedPushNotification(push: PushNotification) {
+        if UIApplication.sharedApplication().applicationState == .Inactive && self.previousApplicationState == .Background {
+            (self.navigationController?.viewControllers.first as? SenseiTabController)?.showSenseiViewController()
+            return
+        }
+        switch push.type {
+        case .Lesson:
+            if let _ = parentViewController as? SenseiTabController {
+                let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont, NSForegroundColorAttributeName: UIColor.blackColor()])
+                tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: false)
+            }
+        case .Affirmation:
+            if let affirmation = Affirmation.affirmationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
+                affirmation.preMessage = push.preMessage
+                
+                let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+                tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
+            }
+        case .Visualisation:
+            let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+            messageText.addAttribute(NSLinkAttributeName, value: LinkToVisualization, range: NSMakeRange(0, messageText.length))
+            tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
+        }
+    }
+
     // MARK: - Private
+    
+    private func refreshUpgradState() {
+        upgradeButton.enabled = !UpgradeManager.sharedInstance.isProVersion()
+        upgradeViewHeightConstraint.constant = UpgradeManager.sharedInstance.isProVersion() ? 0.0 : 46.0
+        upgradeSeparatorView.hidden = !UpgradeManager.sharedInstance.isProVersion()
+        tableView.reloadData()
+    }
+    
+    private func checkSelectedDate(date: NSDate) -> Bool {
+        let today = NSDate()
+        let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Era, NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day], fromDate: today)
+        
+        components.year -= 10
+        let maxDate = NSCalendar.currentCalendar().dateFromComponents(components)!
+        components.year -= 90
+        let minDate = NSCalendar.currentCalendar().dateFromComponents(components)!
+        
+        let beforeMaxDate = date.timeless().compare(maxDate) == NSComparisonResult.OrderedAscending
+        let afterMinDate = date.timeless().compare(minDate) == NSComparisonResult.OrderedDescending
+        
+        let dateMatches = beforeMaxDate && afterMinDate
+        if dateMatches {
+            self.dateOfBirthTF.text = DataFormatter.stringFromDate(date)
+        } else {
+            if let dateOfBirth = Settings.sharedSettings.dayOfBirth {
+                self.dateOfBirthTF.text = DataFormatter.stringFromDate(dateOfBirth)
+                self.datePicker.date = dateOfBirth
+            } else {
+                self.datePicker.date = NSDate()
+                self.dateOfBirthTF.text = ""
+            }
+        }
+        return dateMatches
+    }
     
     private func setup() {
         weekDaysStartTF.inputView = timePicker
@@ -571,6 +574,9 @@ class SettingsTableViewController: UITableViewController {
             saveSettings()
         }
         saveProfile()
+        APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) in
+            print("Settings updated")
+        }
     }
     
     // MARK: - IBActions
@@ -667,6 +673,9 @@ class SettingsTableViewController: UITableViewController {
                 if femaleButton.selected {
                     Settings.sharedSettings.gender = .Female
                 }
+                APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: { (error) in
+                    print("Settings updated")
+                })
             }
         }
     }
@@ -696,7 +705,7 @@ class SettingsTableViewController: UITableViewController {
     
     func sharedWithResult(result: SLComposeViewControllerResult) {
         if result == .Done {
-            AlertsController.sharedController.setShareAlertDisplayed()
+            APIManager.sharedInstance.didShare(nil)
         }
     }
     
@@ -705,6 +714,7 @@ class SettingsTableViewController: UITableViewController {
             return
         }
         UpgradeManager.sharedInstance.openAppStoreURL()
+        APIManager.sharedInstance.didRate(nil)
     }
     
     /**
@@ -737,7 +747,7 @@ class SettingsTableViewController: UITableViewController {
             return
         }
         UpgradeManager.sharedInstance.askForUpgrade()
-//UpgradeManager.sharedInstance.openAppStoreURL 
+//UpgradeManager.sharedInstance.openAppStoreURL
     }
 }
 
@@ -801,10 +811,6 @@ extension SettingsTableViewController: SenseiTabControllerDelegate {
         }
         if hasSettingsBeenChanged {
             saveSettings()
-            print("before save \(Settings.sharedSettings)")
-//            APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) -> Void in
-//                print("after save \(Settings.sharedSettings)")
-//            }
         }
         return true
     }

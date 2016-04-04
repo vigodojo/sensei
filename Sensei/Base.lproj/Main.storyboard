@@ -370,7 +370,7 @@
                                     </mask>
                                 </variation>
                             </textView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A8k-xh-X9B">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A8k-xh-X9B">
                                 <rect key="frame" x="334" y="131" width="80" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Puv-0L-iit"/>
@@ -470,6 +470,10 @@
                                                             <color key="value" red="0.68235294117647061" green="0.68627450980392157" blue="0.69411764705882351" alpha="1" colorSpace="calibratedRGB"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="intensitySliderTouchUpInside:" destination="dbf-lu-mRv" eventType="touchUpInside" id="L0l-r6-AuF"/>
+                                                        <action selector="intensitySliderTouchUpOutside:" destination="dbf-lu-mRv" eventType="touchUpOutside" id="5S9-Tv-60A"/>
+                                                    </connections>
                                                 </view>
                                             </subviews>
                                             <constraints>

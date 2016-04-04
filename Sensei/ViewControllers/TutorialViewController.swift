@@ -49,13 +49,13 @@ class TutorialViewController: BaseViewController {
     private var nextTimer: NSTimer?
     
     @IBAction func toggleLog(sender: AnyObject) {
-        if let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as? String {
-            UIPasteboard.generalPasteboard().string = idfa
-            let alertController = UIAlertController(title: "Copied", message: nil, preferredStyle: .Alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-            presentViewController(alertController, animated: true, completion: nil)
-        }
-//        logTextView.hidden = !logTextView.hidden
+//        if let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as? String {
+//            UIPasteboard.generalPasteboard().string = idfa
+//            let alertController = UIAlertController(title: "Copied", message: nil, preferredStyle: .Alert)
+//            alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+//            presentViewController(alertController, animated: true, completion: nil)
+//        }
+        logTextView.hidden = !logTextView.hidden
     }
     
     var tutorialContainerHeight: CGFloat {

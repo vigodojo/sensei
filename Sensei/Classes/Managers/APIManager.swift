@@ -20,7 +20,7 @@ class APIManager: NSObject {
 
 //	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
 	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
-//    static let BaseURL = NSURL(string: "http://192.168.88.181:8831")! //Alex Local
+//    static let BaseURL = NSURL(string: "http://192.168.88.39:8831")! //Alex Local
     
     struct APIPath {
         static let Login = "/user/signIn"
@@ -35,6 +35,9 @@ class APIManager: NSObject {
         static let DeviceToken = "/push/pushURL"
         static let Settings = "/user/settings"
         static let Instructions = "/user/instructions"
+        static let Share = "/user/share"
+        static let Rate = "/user/rate"
+        static let ClearHistory = "/history/clean"
     }
     
     var logined = false
@@ -96,9 +99,8 @@ class APIManager: NSObject {
     func didShare(handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ [unowned self] (requestBuilder) -> Void in
             self.loggingIn = true
-            requestBuilder.path = APIPath.Login
+            requestBuilder.path = APIPath.Share
             requestBuilder.requestMethod = RCRequestMethod.POST
-            requestBuilder.object = ["param": "value"]
         }, completion: { (response) -> Void in
             if let handler = handler {
                 handler(error: response.error)
@@ -109,9 +111,8 @@ class APIManager: NSObject {
     func didRate(handler: ErrorHandlerClosure?) {
         sessionManager.performRequestWithBuilderBlock({ [unowned self] (requestBuilder) -> Void in
             self.loggingIn = true
-            requestBuilder.path = APIPath.Login
+            requestBuilder.path = APIPath.Rate
             requestBuilder.requestMethod = RCRequestMethod.POST
-            requestBuilder.object = ["param": "value"]
         }, completion: { (response) -> Void in
             if let handler = handler {
                 handler(error: response.error)
@@ -126,7 +127,6 @@ class APIManager: NSObject {
             self.loggingIn = true
             requestBuilder.path = APIPath.Instructions
             requestBuilder.requestMethod = RCRequestMethod.GET
-//            requestBuilder.object = ["param": "value"]
         }, completion: { (response) -> Void in
             if response.error == nil {
                 CoreDataManager.sharedInstance.updateInstructions(response.object as? JSONObject)
@@ -166,6 +166,17 @@ class APIManager: NSObject {
             if response.error == nil && TutorialManager.sharedInstance.completed {
                 CoreDataManager.sharedInstance.mergeJSONs(response.object as? [JSONObject], entityMapping: Lesson.entityMapping)
             }
+            if let handler = handler {
+                handler(error: response.error)
+            }
+        })
+    }
+    
+    func clearHistory(handler: ErrorHandlerClosure?) {
+        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
+            builder.path = APIPath.ClearHistory
+            builder.requestMethod = RCRequestMethod.GET
+        }, completion: { (response) -> Void in
             if let handler = handler {
                 handler(error: response.error)
             }
@@ -363,7 +374,6 @@ class APIManager: NSObject {
 }
 
 extension APIManager: RCSessionManagerDelegate {
-    
     func sessionManager(sessionManager: RCSessionManager!, didReceivedResponse response: RCResponse!) {
         //
     }
