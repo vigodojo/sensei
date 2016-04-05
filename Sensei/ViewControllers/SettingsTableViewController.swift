@@ -126,7 +126,14 @@ class SettingsTableViewController: UITableViewController {
                     self?.performYesAnswerAction()
                 }
             } else {
-                self?.performYesAnswerAction()
+                if self!.configureTimeFieldsBorder() {
+                    self?.performYesAnswerAction()
+                } else {
+                    self!.fillFromSettings()
+                    if self!.tutorialViewController?.isMessageDisplayed() == false {
+                        self?.tutorialViewController?.showMessage(PlainMessage(text: "Sleep time must be more than 30 min and less then 12 hours"), upgrade: false)
+                    }
+                }
             }
         }
         return inputAccessoryView
@@ -258,6 +265,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tutorialViewController
         if TutorialManager.sharedInstance.completed {
             updateSettings()
         }
@@ -602,7 +610,7 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
-    func configureTimeFieldsBorder() {
+    func configureTimeFieldsBorder() -> Bool {
         
         let weekSleepStart = sleepTimeSettings?.weekdaysStart
         let weekSleepEnd = sleepTimeSettings?.weekdaysEnd
@@ -617,14 +625,17 @@ class SettingsTableViewController: UITableViewController {
         
         let weekNonSleepTimeInterval = nextWeekSleepEnd.timeIntervalSinceDate(weekSleepStart!)
         let weekendNonSleepTimeInterval = nextWeekendSleepEnd.timeIntervalSinceDate(weekendSleepStart!)
-
+        
         let twentyThreeAndHalf: Double = 0.5*60*60
         let twelveHours: Double = 12*60*60
+        
+        var isValid = true
         
         if weekNonSleepTimeInterval <= twelveHours && weekNonSleepTimeInterval >= twentyThreeAndHalf {
             setSenseiBorder(weekDaysStartTF)
             setSenseiBorder(weekDaysEndTF)
         } else {
+            isValid = false
             setRedBorder(weekDaysStartTF)
             setRedBorder(weekDaysEndTF)
         }
@@ -633,9 +644,11 @@ class SettingsTableViewController: UITableViewController {
             setSenseiBorder(weekEndsStartTF)
             setSenseiBorder(weekEndsEndTF)
         } else {
+            isValid = false
             setRedBorder(weekEndsStartTF)
             setRedBorder(weekEndsEndTF)
         }
+        return isValid
     }
     
     func setSenseiBorder(view: UIView) {

@@ -140,7 +140,7 @@ class SenseiViewController: BaseViewController {
         collectionView.contentInset.bottom = bottomContentInset
         
         APIManager.sharedInstance.lessonsHistoryCompletion({ (error) in
-            APIManager.sharedInstance.clearHistory(nil)
+//            APIManager.sharedInstance.clearHistory(nil)
         })
         
         if UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted {
@@ -250,7 +250,6 @@ class SenseiViewController: BaseViewController {
         } else {
             senseiImageView.image = SenseiManager.sharedManager.standingImage()
             senseiImageView.hidden = false
-            
             
             if !TutorialManager.sharedInstance.completed {
                 return
@@ -647,9 +646,10 @@ class SenseiViewController: BaseViewController {
     }
     
     func addLessonFromPush(push: PushNotification) {
-        if push.date == nil {
+        if push.date == nil && !APIManager.sharedInstance.reachability.isReachable() {
             return
         }
+    
         if abs((push.date?.timeIntervalSinceNow)!) < 60*60 {
             if let _ = CoreDataManager.sharedInstance.fetchObjectsWithEntityName("Lesson", sortDescriptors: [], predicate: NSPredicate(format: "date == %@", push.date!))?.first {
                 return

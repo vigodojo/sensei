@@ -129,6 +129,10 @@ class TutorialViewController: BaseViewController {
         }
     }
     
+    func isMessageDisplayed() -> Bool {
+        return tutorialContainerViewTopConstraint.constant == 0
+    }
+    
     func showTutorialAnimated(animated: Bool) {
         if _tutorialHidden {
             _tutorialHidden = false
