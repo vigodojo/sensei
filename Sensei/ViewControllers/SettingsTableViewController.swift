@@ -93,6 +93,7 @@ class SettingsTableViewController: UITableViewController {
         let inputAccessoryView = PickerInputAccessoryView(frame: rect)
         inputAccessoryView.rightButton.setTitle("Submit", forState: UIControlState.Normal)
         inputAccessoryView.leftButton.hidden = true
+        
         inputAccessoryView.didSubmit = { [weak self] () -> Void in
             self?.view.endEditing(true)
         
@@ -117,23 +118,30 @@ class SettingsTableViewController: UITableViewController {
                     self?.weightTexField.text = "\(currentValue!)"
                 }
 
-                if (Settings.sharedSettings.weight?.doubleValue != self?.weightKg && Settings.sharedSettings.weight?.doubleValue > 0 && self?.weightKg > 0 ||
-                    Settings.sharedSettings.height?.doubleValue != self?.heightCm && Settings.sharedSettings.height?.doubleValue > 0 && self?.heightCm > 0 ||
-                    Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date)!) != NSComparisonResult.OrderedSame && Settings.sharedSettings.dayOfBirth != nil) {
+                let weight = Settings.sharedSettings.weight?.doubleValue != self?.weightKg && Settings.sharedSettings.weight?.doubleValue > 0 && self?.weightKg > 0
+                let height = Settings.sharedSettings.height?.doubleValue != self?.heightCm && Settings.sharedSettings.height?.doubleValue > 0 && self?.heightCm > 0
+                let dob = Settings.sharedSettings.dayOfBirth != nil && Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date.timeless())!) != NSComparisonResult.OrderedSame
+//                
+//                print("Settings.sharedSettings.dayOfBirth: \(Settings.sharedSettings.dayOfBirth)")
+//                print("self?.datePicker.date: \(self?.datePicker.date)")
+//                print("Settings.sharedSettings.dayOfBirth != self?.datePicker.date: \(Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date)!) != NSComparisonResult.OrderedSame)")
+//                
+                
+                if (weight || height || dob) {
                         
                     self?.showConfirmation(self!.confirmationTextWithPropertyName(fieldName))
                 } else {
                     self?.performYesAnswerAction()
                 }
             } else {
-                if self!.configureTimeFieldsBorder() {
+//                if self!.configureTimeFieldsBorder() {
                     self?.performYesAnswerAction()
-                } else {
-                    self!.fillFromSettings()
-                    if self!.tutorialViewController?.isMessageDisplayed() == false {
-                        self?.tutorialViewController?.showMessage(PlainMessage(text: "Sleep time must be more than 30 min and less then 12 hours"), upgrade: false)
-                    }
-                }
+//                } else {
+//                    self!.fillFromSettings()
+//                    if self!.tutorialViewController?.isMessageDisplayed() == false {
+//                        self?.tutorialViewController?.showMessage(PlainMessage(text: "Sleep time must be more than 30 min and less then 12 hours"), upgrade: false)
+//                    }
+//                }
             }
         }
         return inputAccessoryView
@@ -265,6 +273,11 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Settings.sharedSettings.weight = nil
+        Settings.sharedSettings.height = nil
+        Settings.sharedSettings.dayOfBirth = nil
+        CoreDataManager.sharedInstance.saveContext()
+        
         tutorialViewController
         if TutorialManager.sharedInstance.completed {
             updateSettings()
@@ -279,6 +292,7 @@ class SettingsTableViewController: UITableViewController {
             updateSettings()
         }
         CoreDataManager.sharedInstance.saveContext()
+        
         refreshUpgradState()
         fillFromSettings()
         (parentViewController as? SenseiTabController)?.delegate = self
@@ -292,7 +306,14 @@ class SettingsTableViewController: UITableViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
-
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let tutorialViewController = appDelegate.window?.rootViewController as! TutorialViewController
+        let navController = tutorialViewController.childViewControllers.first as! UINavigationController
+        if let senseiTabController = navController.viewControllers.first as? SenseiTabController, senseiViewController = senseiTabController.viewControllers.first as? SenseiViewController {
+            senseiViewController.updateHistory()
+        }
+        
         (parentViewController as? SenseiTabController)?.delegate = nil
         NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
     }
@@ -315,6 +336,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func handleReceivedPushNotification(push: PushNotification) {
+        APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         if UIApplication.sharedApplication().applicationState == .Inactive && self.previousApplicationState == .Background {
             (self.navigationController?.viewControllers.first as? SenseiTabController)?.showSenseiViewController()
             return

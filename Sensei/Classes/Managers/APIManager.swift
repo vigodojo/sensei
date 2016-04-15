@@ -53,7 +53,7 @@ class APIManager: NSObject {
         do {
             try reachability.startNotifier()
         } catch {
-            print("could not start notifier")
+            //print("could not start notifier")
         }
     }
     
@@ -147,7 +147,7 @@ class APIManager: NSObject {
             let deviceId = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
             builder.object = ["provider": "APPLE", "deviceURL": token, "deviceId": deviceId]
         }, completion: { (response) -> Void in
-            print(String(data: response.request.HTTPBody!, encoding: NSUTF8StringEncoding))
+            //print(String(data: response.request.HTTPBody!, encoding: NSUTF8StringEncoding))
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.DeviceToken) \(response.statusCode)")
         })
     }
@@ -160,7 +160,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
             if let object = response.object {
-                print(object)
+                //print(object)
             }
             self.addToLog("GET \(APIManager.BaseURL)\(APIPath.LessonsHistory) \(response.statusCode)")
             if response.error == nil && TutorialManager.sharedInstance.completed {
@@ -230,8 +230,8 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = affirmation
         }, completion: { (response) -> Void in
-            print("\(response.request.HTTPBody)")
-            print("POST \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
+            //print("\(response.request.HTTPBody)")
+            //print("POST \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
             if let handler = handler {
                 handler(error: response.error)
@@ -244,9 +244,9 @@ class APIManager: NSObject {
             builder.path = APIPath.Affirmation + "\(affirmation.number)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-            print("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
+            //print("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
-//            print("\(response)")
+//            //print("\(response)")
             if let handler = handler {
                 handler(error: response.error)
             }
@@ -258,8 +258,8 @@ class APIManager: NSObject {
             builder.path = APIPath.Affirmation + "\(affirmationNumber)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-//            print("\(response)")
-            print("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmationNumber) \(response.statusCode)")
+//            //print("\(response)")
+            //print("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmationNumber) \(response.statusCode)")
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmationNumber) \(response.statusCode)")
             if let handler = handler {
                 handler(error: response.error)
@@ -275,8 +275,8 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = visualization
         }, completion: { (response) -> Void in
-//            print("\(response)")
-            print("POST \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
+//            //print("\(response)")
+            //print("POST \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
             if let handler = handler {
                 handler(error: response.error)
@@ -289,9 +289,9 @@ class APIManager: NSObject {
             builder.path = APIPath.Visualization + "\(visualization.number)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-//            print("\(response)")
+//            //print("\(response)")
             
-            print("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
+            //print("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
             if let handler = handler {
                 handler(error: response.error)
@@ -304,8 +304,8 @@ class APIManager: NSObject {
             builder.path = APIPath.Visualization + "\(visualizationNumber)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-//            print("\(response)")
-            print("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualizationNumber) \(response.statusCode)")
+//            //print("\(response)")
+            //print("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualizationNumber) \(response.statusCode)")
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualizationNumber) \(response.statusCode)")
 
             if let handler = handler {
@@ -329,10 +329,10 @@ class APIManager: NSObject {
             builder.path = APIPath.Settings
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
-//            print("\(response)")
-            print("GET \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
+//            //print("\(response)")
+            //print("GET \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
             self.addToLog("GET \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
-            print("\(response.object)")
+            //print("\(response.object)")
             if let json = response.object as? JSONObject {
                 Settings.updateWithJSON(json)
             }
@@ -349,11 +349,11 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = settings
         }, completion: { (response) -> Void in
-            print(String(data: response.request.HTTPBody!, encoding: NSUTF8StringEncoding))
-            print("POST \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
+            //print(String(data: response.request.HTTPBody!, encoding: NSUTF8StringEncoding))
+            //print("POST \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
-            print("Request Corpse = \(NSString(data: response.request.HTTPBody!, encoding: 4))")
-            print("\(response)")
+            //print("Request Corpse = \(NSString(data: response.request.HTTPBody!, encoding: 4))")
+            //print("\(response)")
             if let handler = handler {
                 handler(error: response.error)
             }

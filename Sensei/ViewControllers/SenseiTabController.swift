@@ -155,7 +155,7 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
         self.senseiTabButton.userInteractionEnabled = true
         self.moreTabButton.userInteractionEnabled = true
     }
-    
+
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         switch tutorialStep.screen {
             case .Sensei, .More:

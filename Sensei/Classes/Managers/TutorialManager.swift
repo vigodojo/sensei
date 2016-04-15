@@ -182,7 +182,6 @@ class TutorialManager {
      static func pathForInstructions() -> String {
         if var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first {
             path.appendContentsOf("/Instructions.plist")
-            print(path)
             return path
         }
         return ""
