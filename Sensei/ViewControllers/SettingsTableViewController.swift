@@ -134,14 +134,23 @@ class SettingsTableViewController: UITableViewController {
                     self?.performYesAnswerAction()
                 }
             } else {
-//                if self!.configureTimeFieldsBorder() {
+                let nonSleepTimeInterval = self!.nonSleepTimeIntervals()
+                if self!.configureTimeFieldsBorder(nonSleepTimeInterval) {
                     self?.performYesAnswerAction()
-//                } else {
-//                    self!.fillFromSettings()
-//                    if self!.tutorialViewController?.isMessageDisplayed() == false {
-//                        self?.tutorialViewController?.showMessage(PlainMessage(text: "Sleep time must be more than 30 min and less then 12 hours"), upgrade: false)
-//                    }
-//                }
+                } else {
+                    self!.fillFromSettings()
+
+                    if self!.tutorialViewController?.isMessageDisplayed() == false {
+                        if self!.isShortSleepTime(nonSleepTimeInterval) {
+                            self?.tutorialViewController?.showMessage(PlainMessage(text: "I highly recommend that you get at least five hours of sleep a day"), upgrade: false)
+                        } else if (self!.isLongSleepTime(nonSleepTimeInterval)) {
+                            self?.tutorialViewController?.showMessage(PlainMessage(text: "Surely you don't need to sleep more than twelve hours a day. Get out of bed and live life!"), upgrade: false)
+                        }
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(Affirmation.TextLimitShowDuration) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                            self?.tutorialViewController!.hideTutorialAnimated(true)
+                        }
+                    }
+                }
             }
         }
         return inputAccessoryView
@@ -153,7 +162,7 @@ class SettingsTableViewController: UITableViewController {
             self?.heightCm = newHeight.realValue
             self?.heightTextField.text = "\(newHeight)"
         }
-
+        
         return pickerDelegate
     }()
     
@@ -311,6 +320,7 @@ class SettingsTableViewController: UITableViewController {
         let tutorialViewController = appDelegate.window?.rootViewController as! TutorialViewController
         let navController = tutorialViewController.childViewControllers.first as! UINavigationController
         if let senseiTabController = navController.viewControllers.first as? SenseiTabController, senseiViewController = senseiTabController.viewControllers.first as? SenseiViewController {
+            (UIApplication.sharedApplication().delegate as! AppDelegate).pushNotification = nil
             senseiViewController.updateHistory()
         }
         
@@ -493,7 +503,7 @@ class SettingsTableViewController: UITableViewController {
         sleepTimeSettings = SleepTimeSettings(weekdaysStart: Settings.sharedSettings.sleepTimeWeekdays.start, weekdaysEnd: Settings.sharedSettings.sleepTimeWeekdays.end, weekendsStart: Settings.sharedSettings.sleepTimeWeekends.start, weekendsEnd: Settings.sharedSettings.sleepTimeWeekends.end)
         
         updateSleepTimeSettingTextFields()
-        configureTimeFieldsBorder()
+        configureTimeFieldsBorder(nonSleepTimeIntervals())
         
         if let date = Settings.sharedSettings.dayOfBirth {
             dateOfBirthTF.text = DataFormatter.stringFromDate(date)
@@ -628,12 +638,60 @@ class SettingsTableViewController: UITableViewController {
                 sleepTimeSettings?.weekendsEnd = sender.date
             }
             
-            configureTimeFieldsBorder()
+            configureTimeFieldsBorder(nonSleepTimeIntervals())
         }
     }
     
-    func configureTimeFieldsBorder() -> Bool {
+    func configureTimeFieldsBorder(nonSleepTimeInterval: (Double, Double)) -> Bool {
         
+        let weekNonSleepTimeInterval = nonSleepTimeInterval.0
+        let weekendNonSleepTimeInterval = nonSleepTimeInterval.1
+
+        let twentyThreeAndHalf: Double = 5*60*60
+        let twelveHours: Double = 23.5*60*60
+        
+        var isValid = true
+        
+        if weekNonSleepTimeInterval > twelveHours || weekNonSleepTimeInterval < twentyThreeAndHalf {
+            isValid = false
+            setRedBorder(weekDaysStartTF)
+            setRedBorder(weekDaysEndTF)
+        } else {
+            setSenseiBorder(weekDaysStartTF)
+            setSenseiBorder(weekDaysEndTF)
+        }
+        
+        if weekendNonSleepTimeInterval > twelveHours || weekendNonSleepTimeInterval < twentyThreeAndHalf {
+            isValid = false
+            setRedBorder(weekEndsStartTF)
+            setRedBorder(weekEndsEndTF)
+        } else {
+            setSenseiBorder(weekEndsStartTF)
+            setSenseiBorder(weekEndsEndTF)
+        }
+        
+        return isValid
+    }
+    
+    func isLongSleepTime(nonSleepTimeInterval: (Double, Double)) -> Bool {
+        let weekNonSleepTimeInterval = nonSleepTimeInterval.0
+        let weekendNonSleepTimeInterval = nonSleepTimeInterval.1
+        
+        let twelveHours: Double = 23.5*60*60
+        
+        return weekNonSleepTimeInterval > twelveHours ||  weekendNonSleepTimeInterval > twelveHours
+    }
+    
+    func isShortSleepTime(nonSleepTimeInterval: (Double, Double)) -> Bool {
+        let weekNonSleepTimeInterval = nonSleepTimeInterval.0
+        let weekendNonSleepTimeInterval = nonSleepTimeInterval.1
+        
+        let fiveHours: Double = 5*60*60
+        
+        return weekNonSleepTimeInterval < fiveHours ||  weekendNonSleepTimeInterval < fiveHours
+    }
+    
+    func nonSleepTimeIntervals() -> (Double, Double) {
         let weekSleepStart = sleepTimeSettings?.weekdaysStart
         let weekSleepEnd = sleepTimeSettings?.weekdaysEnd
         let weekendSleepStart = sleepTimeSettings?.weekendsStart
@@ -648,29 +706,7 @@ class SettingsTableViewController: UITableViewController {
         let weekNonSleepTimeInterval = nextWeekSleepEnd.timeIntervalSinceDate(weekSleepStart!)
         let weekendNonSleepTimeInterval = nextWeekendSleepEnd.timeIntervalSinceDate(weekendSleepStart!)
         
-        let twentyThreeAndHalf: Double = 0.5*60*60
-        let twelveHours: Double = 12*60*60
-        
-        var isValid = true
-        
-        if weekNonSleepTimeInterval <= twelveHours && weekNonSleepTimeInterval >= twentyThreeAndHalf {
-            setSenseiBorder(weekDaysStartTF)
-            setSenseiBorder(weekDaysEndTF)
-        } else {
-            isValid = false
-            setRedBorder(weekDaysStartTF)
-            setRedBorder(weekDaysEndTF)
-        }
-        
-        if weekendNonSleepTimeInterval <= twelveHours && weekendNonSleepTimeInterval >= twentyThreeAndHalf {
-            setSenseiBorder(weekEndsStartTF)
-            setSenseiBorder(weekEndsEndTF)
-        } else {
-            isValid = false
-            setRedBorder(weekEndsStartTF)
-            setRedBorder(weekEndsEndTF)
-        }
-        return isValid
+        return (weekNonSleepTimeInterval, weekendNonSleepTimeInterval)
     }
     
     func setSenseiBorder(view: UIView) {
@@ -724,6 +760,7 @@ class SettingsTableViewController: UITableViewController {
         if !TutorialManager.sharedInstance.completed {
             return
         }
+        SoundController.playTock()
         SocialPostingService.postToSocialNetworksWithType(.Facebook, fromController: self) { [unowned self] (composeResult) -> Void in
             self.sharedWithResult(composeResult)
         }
@@ -733,6 +770,7 @@ class SettingsTableViewController: UITableViewController {
         if !TutorialManager.sharedInstance.completed {
             return
         }
+        SoundController.playTock()
         SocialPostingService.postToSocialNetworksWithType(.Twitter, fromController: self) { [unowned self] (composeResult) -> Void in
             self.sharedWithResult(composeResult)
         }
@@ -748,6 +786,7 @@ class SettingsTableViewController: UITableViewController {
         if !TutorialManager.sharedInstance.completed {
             return
         }
+        SoundController.playTock()
         UpgradeManager.sharedInstance.openAppStoreURL()
         APIManager.sharedInstance.didRate(nil)
     }
@@ -761,15 +800,21 @@ class SettingsTableViewController: UITableViewController {
         if !TutorialManager.sharedInstance.completed {
             return
         }
+        SoundController.playTock()     
         if MFMailComposeViewController.canSendMail() {
             
+//            let mailComposeController = MFMailComposeViewController()
+//            mailComposeController.mailComposeDelegate = self
+//            mailComposeController.setToRecipients(["sensei@vigosensei.com"])
+//            mailComposeController.setSubject("Note from a user")
+
             let mailComposeController = MFMailComposeViewController()
             mailComposeController.mailComposeDelegate = self
-            mailComposeController.setToRecipients(["sensei@vigosensei.com"])
+            mailComposeController.setToRecipients(["sergey.sheba@gmail.com"])
             mailComposeController.setSubject("Note from a user")
-            
+
+            mailComposeController.setMessageBody("<a href=\"mvt://\">URL</a>", isHTML: true)
             self.presentViewController(mailComposeController, animated: true, completion: nil)
-            
         } else {
             AlertMessagesService.showWarningAlert(nil, message: "Can't send e-mail.", fromController: self, completion: nil)
         }

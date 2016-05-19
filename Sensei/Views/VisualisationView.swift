@@ -252,10 +252,12 @@ class VisualisationView: UIView {
     // MARK: - IBActions
     
     @IBAction func takePhoto() {
+        SoundController.playTock()
         delegate?.visualizationViewDidTakePhoto(self)
     }
     
     @IBAction func edit() {
+        SoundController.playTock()
         switch mode {
             case .Default:
                 mode = .Editing

@@ -34,10 +34,13 @@ class APIManager: NSObject {
         static let VisualizationPathPattern = "/user/visualisation/:id"
         static let DeviceToken = "/push/pushURL"
         static let Settings = "/user/settings"
+        
         static let Instructions = "/user/instructions"
         static let Share = "/user/share"
         static let Rate = "/user/rate"
         static let ClearHistory = "/history/clean"
+        
+        static let Plan = "/plan/device"
     }
     
     var logined = false
@@ -102,6 +105,7 @@ class APIManager: NSObject {
             requestBuilder.path = APIPath.Share
             requestBuilder.requestMethod = RCRequestMethod.POST
         }, completion: { (response) -> Void in
+            self.addToLog("Share Sent to server")
             if let handler = handler {
                 handler(error: response.error)
             }
@@ -114,6 +118,7 @@ class APIManager: NSObject {
             requestBuilder.path = APIPath.Rate
             requestBuilder.requestMethod = RCRequestMethod.POST
         }, completion: { (response) -> Void in
+            self.addToLog("Rate Sent to server")
             if let handler = handler {
                 handler(error: response.error)
             }
@@ -155,12 +160,14 @@ class APIManager: NSObject {
     // MARK: Lessons
     
     func lessonsHistoryCompletion(handler: ErrorHandlerClosure?) {
+        NSURLCache.sharedURLCache().removeAllCachedResponses()
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
             builder.path = APIPath.LessonsHistory
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
+            print("RESPONSE: \(response)")
             if let object = response.object {
-                //print(object)
+                print(object)
             }
             self.addToLog("GET \(APIManager.BaseURL)\(APIPath.LessonsHistory) \(response.statusCode)")
             if response.error == nil && TutorialManager.sharedInstance.completed {
@@ -173,6 +180,8 @@ class APIManager: NSObject {
     }
     
     func clearHistory(handler: ErrorHandlerClosure?) {
+        NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "LastClearTime")
+        NSUserDefaults.standardUserDefaults().synchronize()
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
             builder.path = APIPath.ClearHistory
             builder.requestMethod = RCRequestMethod.GET
@@ -338,6 +347,17 @@ class APIManager: NSObject {
             }
             if let handler = handler {
                 handler(settings: Settings.sharedSettings, error: response.error)
+            }
+        })
+    }
+    
+    func userPlanWithCompletion(userId: String, handler: ((response: JSONObject?, error: NSError?) -> Void)?) {
+        sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
+            builder.path = "\(APIPath.Plan)/\(userId)"
+            builder.requestMethod = RCRequestMethod.GET
+        }, completion: { (response) -> Void in
+            if let handler = handler {
+                handler(response: response.object as? JSONObject, error: response.error)
             }
         })
     }

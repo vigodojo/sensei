@@ -119,7 +119,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         CoreDataManager.sharedInstance.saveContext()
-        
+        APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 

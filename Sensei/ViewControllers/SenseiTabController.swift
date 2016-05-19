@@ -56,8 +56,8 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
                     self.showSenseiViewController()
                 }
             }
-            (self.viewControllers.first as? SenseiViewController)?.didBecomeActive()
-            SenseiManager.sharedManager.saveLastActiveTime()
+//            (self.viewControllers.first as? SenseiViewController)?.didBecomeActive()
+//            SenseiManager.sharedManager.saveLastActiveTime()
             UIApplication.sharedApplication().delegate?.window!?.subviews.last!.removeFromSuperview()
         }
         
@@ -68,16 +68,6 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
             blackView.backgroundColor = UIColor.blackColor()
             UIApplication.sharedApplication().delegate?.window!?.addSubview(blackView)
         }
-        
-//        if AlertsController.sharedController.shouldShowRateUsAlert() && self.navigationController?.presentedViewController == nil {
-//            self.navigationController?.presentViewController(AlertsController.rateUsAlertController(), animated: true, completion: nil)
-//        }
-//        if AlertsController.sharedController.shouldShowUpgradeAlert() && self.navigationController?.presentedViewController == nil {
-//            self.navigationController?.presentViewController(AlertsController.upgradeAlertController(), animated: true, completion: nil)
-//        }
-//        if AlertsController.sharedController.shouldShowShareAlert() && self.navigationController?.presentedViewController == nil {
-//            self.navigationController?.presentViewController(AlertsController.shareMessageAlertController(), animated: true, completion: nil)
-//        }
     }
 
     func reachabilityChanged(notifiication: NSNotification) {
@@ -120,6 +110,8 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
             if delegate == nil || delegate!.senseiTabController(self, shouldSelectViewController: viewControllers[0]) {
                 senseiTabButton.selected = false
                 moreTabButton.selected = true
+                (viewControllers[0] as! SenseiViewController).removeAllExeptLessons()
+                APIManager.sharedInstance.clearHistory(nil)
                 showChildViewController(viewControllers[1])
             }
         }
@@ -180,10 +172,12 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     // MARK: - IBAction
 
     @IBAction func openSensei() {
+        SoundController.playTock()
         showSenseiViewController()
     }
 
     @IBAction func openMore() {
+        SoundController.playTock()
         showSettingsViewController()
     }
 }

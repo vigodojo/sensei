@@ -47,6 +47,7 @@ class NavigationView: UIView {
     // MARK: - IBAction
     
     @IBAction func back() {
+        SoundController.playTock()
         delegate?.navigationViewDidBack(self)
     }
 }

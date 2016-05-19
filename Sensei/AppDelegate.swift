@@ -20,10 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var shouldSit: Bool = false
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
         pushNotification = extractPushFromLaunchOptions(launchOptions)
         Fabric.with([Crashlytics()])
         if TutorialManager.sharedInstance.completed {
            self.registerForNotifications()
+        }
+        
+        if NSUserDefaults.standardUserDefaults().objectForKey("LastClearTime") == nil {
+            NSUserDefaults.standardUserDefaults().setObject(NSDate().dateByAddingTimeInterval(-60*60*24), forKey: "LastClearTime")
+            NSUserDefaults.standardUserDefaults().synchronize()
         }
         
         if !UpgradeManager.sharedInstance.isProVersion() {
@@ -89,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         print("Push Info = \(userInfo)")
-        NSLog("PUSH")
+//        NSLog("PUSH")
         APIManager.sharedInstance.addToLog("didReceiveRemoteNotification APPDELEGATE")
         NSNotificationCenter.defaultCenter().postNotificationName(ApplicationDidReceiveRemotePushNotification, object: nil, userInfo: userInfo)
     }

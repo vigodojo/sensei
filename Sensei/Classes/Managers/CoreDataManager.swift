@@ -118,9 +118,23 @@ class CoreDataManager {
                     let oldPrimaryValues = fetchedObjects.map { $0.valueForKey(entityMapping.primaryProperty)! }
                     for json in jsons {
                         let jsonPrimaryKey = entityMapping.propertyMapping[entityMapping.primaryProperty]!
+                        
+                        let lastClearTime = NSUserDefaults.standardUserDefaults().objectForKey("LastClearTime") as! NSDate
+                        let messageType = json["msgType"]
+                        
                         if let primaryValue = entityMapping.valueForProperty(jsonPrimaryKey, json: json) as? NSObject {
+                            
+                            if primaryValue is NSDate && (primaryValue as! NSDate).compare(lastClearTime) == .OrderedAscending && messageType != nil && (messageType as! String).lowercaseString != "l" {
+                                let object = fetchedObjects.filter() { ($0.valueForKey(entityMapping.primaryProperty) as! NSObject).isEqual(primaryValue) }.first
+                                if object != nil {
+                                    CoreDataManager.sharedInstance.deleteManagedObject(object!)
+                                }
+                                continue
+                            }
                             if !(oldPrimaryValues as NSArray).containsObject(primaryValue) {
-                                createEntityObjectFromJSON(json, entityMapping: entityMapping)
+                                if let text = json["text"] as? String where !text.isEmpty {
+                                    createEntityObjectFromJSON(json, entityMapping: entityMapping)
+                                }
                             } else {
                                 let object = fetchedObjects.filter() { ($0.valueForKey(entityMapping.primaryProperty) as! NSObject).isEqual(primaryValue) }.first
                                 if object != nil {

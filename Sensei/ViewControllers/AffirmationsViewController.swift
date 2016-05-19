@@ -156,6 +156,8 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         super.viewWillDisappear(animated)
         CoreDataManager.sharedInstance.saveContext()
         
+        APIManager.sharedInstance.lessonsHistoryCompletion(nil)
+        
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     

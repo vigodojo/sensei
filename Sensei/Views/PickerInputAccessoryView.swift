@@ -32,12 +32,14 @@ class PickerInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
 
     @IBAction func submit() {
         if let didSubmit = didSubmit {
+            SoundController.playTock()
             didSubmit()
         }
     }
     
     @IBAction func cancel() {
         if let didCancel = didCancel {
+            SoundController.playTock()
             didCancel()
         }
     }

@@ -8,6 +8,15 @@
 
 import Foundation
 
+enum StepIndexes: Int {
+    case WhatInYourNameIndex = 1
+    case MayIAskYourSexIndex = 3
+    case AfterThankYouIndex = 5
+    case CreatedAffirmationIndex = 12
+    case CreatedVisualizationIndex = 18
+    case YouCanHideMeByTappingIndex = 29
+}
+
 class TutorialStep: Message {
     
     private struct Keys {

@@ -170,6 +170,7 @@ class MessageSwitchView: UIView {
     
     @IBAction func activateReceivingTimeView() {
         if let delegate = delegate where delegate.shouldActivateReceivingTimeViewInMessageSwitchView(self) {
+            SoundController.playTock()
             receiveTimeTextView.becomeFirstResponder()
         }
     }
@@ -219,6 +220,7 @@ extension MessageSwitchView: UICollectionViewDelegate {
         if let previousSelectedIndxPath = currentSelectedIndexPath {
             collectionView.deselectItemAtIndexPath(previousSelectedIndxPath, animated: false)
         }
+        SoundController.playTock()
         currentSelectedIndexPath = indexPath
         delegate?.messageSwitchView(self, didSelectSlotAtIndex: indexPath.item)
     }

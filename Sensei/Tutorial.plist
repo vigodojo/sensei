@@ -80,7 +80,7 @@
 		<key>Number</key>
 		<integer>0</integer>
 		<key>DelayBefore</key>
-		<integer>1</integer>
+		<integer>2</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 	</dict>
@@ -287,7 +287,7 @@
 		<key>Number</key>
 		<integer>4</integer>
 		<key>DelayBefore</key>
-		<integer>0</integer>
+		<integer>1</integer>
 	</dict>
 	<dict>
 		<key>RequiresActionToProceed</key>
@@ -505,7 +505,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>This is the Visualization screen. It works the same as the Affirmation screen, except here you create picture messages, and you only have 5 slots.</string>
+		<string>This is the Visualization screen. It works the same as the Affirmation screen, except here you create picture messages, and you only have 5 slots. The idea of a visualization is that it either represents something you strive for or something positive in your life which you want to focus on.</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
@@ -517,7 +517,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>Select a picture by tapping the camera icon in the lower left corner, and then enter text to be superimposed on top of the image. The idea of a visualization is that it either represents something you strive for or something positive in your life which you want to focus on.</string>
+		<string>Select a picture by tapping the camera icon in the lower left corner, and then enter text to be superimposed on top of the image.</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>

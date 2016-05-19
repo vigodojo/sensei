@@ -88,11 +88,11 @@ class SenseiManager {
         }
     }
     
-    func shouldSenseiSit() -> Bool {
-        //print("isBeginOfTutorial:\(isBeginOfTutorial())")
-        //print("showSenseiStandAnimation:\(showSenseiStandAnimation)")
-        //print("isSleepTime:\(isSleepTime())")
-        //print("shouldSitBowAfterOpening:\(shouldSitBowAfterOpening)")
+    private func shouldSenseiSit() -> Bool {
+//        NSLog("isBeginOfTutorial:\(isBeginOfTutorial())")
+//        NSLog("showSenseiStandAnimation:\(showSenseiStandAnimation)")
+//        NSLog("isSleepTime:\(isSleepTime())")
+//        NSLog("shouldSitBowAfterOpening:\(shouldSitBowAfterOpening)")
         return isBeginOfTutorial() || showSenseiStandAnimation || isSleepTime() || shouldSitBowAfterOpening
     }
 
@@ -110,10 +110,10 @@ class SenseiManager {
         let isStartBeforeNow = now.compare(sleepStartBeforeNow) == NSComparisonResult.OrderedDescending
         let isEndAfterNow = now.compare(sleepEnd) == NSComparisonResult.OrderedAscending
         
-//        //print("******* isSleepTime *******")
-//        //print("start: \(sleepStartBeforeNow)\nnow: \(now)\nend: \(sleepEnd)")
-//        //print("isSleepTime: \(isStartBeforeNow && isEndAfterNow ? "true" : "false")")
-//        //print("**************")
+        print("******* isSleepTime *******")
+        print("start: \(sleepStartBeforeNow)\nnow: \(now)\nend: \(sleepEnd)")
+        print("isSleepTime: \(isStartBeforeNow && isEndAfterNow ? "true" : "false")")
+        print("**************")
         
         return isStartBeforeNow && isEndAfterNow
     }
@@ -138,10 +138,10 @@ class SenseiManager {
         let now = NSDate()
         let nowAfterSleep = now.compare(sleepEndAfterActivity) == NSComparisonResult.OrderedDescending
         
-//        //print("******* isFirstTimeAfterSleep *******")
-//        //print("lastActivity: \(lastActivity)\nend: \(sleepEndAfterActivity)\nnow: \(now)")
-//        //print("isFirstTimeAfterSleep: \(lastActivityBeforeSleepEnd && nowAfterSleep)")
-//        //print("**************")
+        print("******* isFirstTimeAfterSleep *******")
+        print("lastActivity: \(lastActivity)\nend: \(sleepEndAfterActivity)\nnow: \(now)")
+        print("isFirstTimeAfterSleep: \(lastActivityBeforeSleepEnd && nowAfterSleep)")
+        print("**************")
         
         return lastActivityBeforeSleepEnd && nowAfterSleep
     }
@@ -157,9 +157,9 @@ class SenseiManager {
             timeIntervalSinceNow *= -1
         }
         
-//        //print("******* shouldBowAfterLastActivity *******")
-//        //print("shouldBowAfterLastActivity: \(timeIntervalSinceNow > 60*60)")
-//        //print("**************")
+        print("******* shouldBowAfterLastActivity *******")
+        print("shouldBowAfterLastActivity: \(timeIntervalSinceNow > 60*60)")
+        print("**************")
         
         return timeIntervalSinceNow > 60*60
     }

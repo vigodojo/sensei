@@ -49,13 +49,26 @@ class TutorialViewController: BaseViewController {
     private var nextTimer: NSTimer?
     
     @IBAction func toggleLog(sender: AnyObject) {
-//        if let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as? String {
-//            UIPasteboard.generalPasteboard().string = idfa
-//            let alertController = UIAlertController(title: "Copied", message: nil, preferredStyle: .Alert)
-//            alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-//            presentViewController(alertController, animated: true, completion: nil)
-//        }
-        logTextView.hidden = !logTextView.hidden
+        let alert = UIAlertController(title: "Make your choice", message: nil, preferredStyle: .ActionSheet)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil))
+        alert.addAction(UIAlertAction(title: "Copy ID", style: .Default, handler: { (action) in
+            if let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as? String {
+                UIPasteboard.generalPasteboard().string = idfa
+                let alertController = UIAlertController(title: "Copied", message: nil, preferredStyle: .Alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "\(self.logTextView.hidden ? "Show" : "Hide") Logs", style: .Default, handler: { (action) in
+            self.logTextView.hidden = !self.logTextView.hidden
+        }))
+        alert.addAction(UIAlertAction(title: "Show Plan", style: .Default, handler: { (action) in
+            self.performSegueWithIdentifier("ShowPlan", sender: self)
+        }))
+        alert.addAction(UIAlertAction(title: "Show Shounds", style: .Default, handler: { (action) in
+            self.performSegueWithIdentifier("ShowSounds", sender: self)
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     var tutorialContainerHeight: CGFloat {
@@ -194,6 +207,8 @@ class TutorialViewController: BaseViewController {
         if !Settings.sharedSettings.tutorialOn.boolValue {
             return
         }
+        var instruction = instruction
+        instruction = instruction.stringByReplacingOccurrencesOfString("${name}", withString: Settings.sharedSettings.name)
         let message = PlainMessage(attributedText: NSAttributedString(string: instruction, attributes: [NSFontAttributeName : UIFont.speechBubbleTextFont]))
         showMessage(message, upgrade: false)
     }
@@ -347,7 +362,7 @@ class TutorialViewController: BaseViewController {
     }
     
     func shouldShowAnimationAfterTutorialStep(tutorialStep: TutorialStep) -> Bool {
-        return tutorialStep.number == 12 || tutorialStep.number == 18
+        return tutorialStep.number == StepIndexes.CreatedAffirmationIndex.rawValue || tutorialStep.number == StepIndexes.CreatedVisualizationIndex.rawValue
     }
     
     func showTutorialStep(tutorialStep: TutorialStep) {
@@ -422,20 +437,23 @@ class TutorialViewController: BaseViewController {
     // MARK: - IBActions
     
     @IBAction func yesAction(sender: AnyObject) {
+        SoundController.playTock()
         NSNotificationCenter.defaultCenter().postNotificationName(Notifications.YesAnswer, object: nil)
         performConfirmationSelectedAction()
     }
     
     @IBAction func noAction(sender: AnyObject) {
+        SoundController.playTock()
         NSNotificationCenter.defaultCenter().postNotificationName(Notifications.NoAnswer, object: nil)
         performConfirmationSelectedAction()
     }
     
     @IBAction func touchOnSensei(senser: UITapGestureRecognizer) {
+        SoundController.playTock()
         if TutorialManager.sharedInstance.completed {
             hideTutorialAnimated(true)
             type = .Sensei
-        } else if TutorialManager.sharedInstance.currentStep?.number >= 29 {
+        } else if TutorialManager.sharedInstance.currentStep?.number >= StepIndexes.YouCanHideMeByTappingIndex.rawValue {
             if let animatableImage = AnimationManager.sharedManager.bowsAnimatableImage() {
                 showWarningMessage("Not yet, we need to complete the tutorial first please.", disappear:  true)
                 senseiImageView.animateAnimatableImage(animatableImage, completion: nil)

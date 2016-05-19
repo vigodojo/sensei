@@ -157,6 +157,7 @@ class OfflineManager {
             completion
             return
         }
+                
         visualizations[counter].updatedOffline = NSNumber(bool: false)
         CoreDataManager.sharedInstance.saveContext()
         
