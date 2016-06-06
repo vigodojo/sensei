@@ -45,6 +45,8 @@ class TutorialViewController: BaseViewController {
     @IBOutlet weak var yesButton: UIButton!
     @IBOutlet weak var noButton: UIButton!
 
+    @IBOutlet weak var splashMaskImageView: UIImageView!
+    
     @IBOutlet weak var logTextView: UITextView!
     private var nextTimer: NSTimer?
     
@@ -120,6 +122,7 @@ class TutorialViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        splashMaskImageView.hidden = !TutorialManager.sharedInstance.completed
         tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
         addTutorialObservers()
         configureBackground()
@@ -129,7 +132,6 @@ class TutorialViewController: BaseViewController {
         let screenHeight = CGRectGetHeight(UIScreen.mainScreen().bounds)
         let imageName = "top_background_\(Int(screenHeight))"
         backgroundImageView.image = UIImage(named: imageName)
-//        senseiHeightConstraint.constant = screenHeight/4
     }
     
     // MARK: - Public 

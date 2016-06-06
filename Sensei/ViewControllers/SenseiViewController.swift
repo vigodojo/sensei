@@ -376,9 +376,12 @@ class SenseiViewController: BaseViewController {
             self.login()
             return
         }
-        if let lessons = self.lessonsFetchedResultController.fetchedObjects as? [Lesson] where lessons.count > 0 {
-            self.dataSource = lessons.map { $0 as Message }
-            self.reloadSectionAnimated(false, scroll: true, scrollAnimated: false)
+        if let lessons = self.lessonsFetchedResultController.fetchedObjects as? [Lesson]  {
+            if lessons.count > 0 {
+                self.dataSource = lessons.map { $0 as Message }
+                self.reloadSectionAnimated(false, scroll: true, scrollAnimated: false)
+            }
+            self.tutorialViewController?.splashMaskImageView.hidden = (lessons.count == 0)
         }
 
         if !APIManager.sharedInstance.logined {
@@ -537,7 +540,6 @@ class SenseiViewController: BaseViewController {
                 }
             })
             self.collectionView.reloadData()
-            CATransaction.commit()
         }
     }
     
@@ -548,9 +550,14 @@ class SenseiViewController: BaseViewController {
                 
                 scrollToItemAtIndexPath(indexPath, animated: animated)
             } else {
+                CATransaction.begin()
+                CATransaction.setCompletionBlock({
+                    self.tutorialViewController?.splashMaskImageView.hidden = true
+                })
                 let collectionViewHeightWithoutBottomInset = CGRectGetHeight(collectionView.frame) - bottomContentInset
                 let contentSize = self.collectionView.contentSize
                 self.collectionView.setContentOffset(CGPoint(x: self.collectionView.contentOffset.x, y: contentSize.height - collectionViewHeightWithoutBottomInset), animated: animated)
+                CATransaction.commit()
             }
         }
     }
@@ -603,6 +610,10 @@ class SenseiViewController: BaseViewController {
             self.enteredToBackground()
         }
         
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillResignActiveNotification, object: nil, queue: nil) { [unowned self] notification in
+            self.previousApplicationState = .Inactive
+        }
+        
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
             if self.previousApplicationState != .Inactive {
                 self.appOpenedFromTray()
@@ -653,6 +664,12 @@ class SenseiViewController: BaseViewController {
             self.didBecomeActive()
         }
         SenseiManager.sharedManager.saveLastActiveTime()
+        
+        self.tutorialViewController?.splashMaskImageView.hidden = true
+        
+        if let tabController = self.parentViewController as? SenseiTabController {
+            tabController.maskBlack?.removeFromSuperview()
+        }
 
         if let push = (UIApplication.sharedApplication().delegate as! AppDelegate).pushNotification {
             NSLog("    PUSH WITH TYPE \(push.type)")
@@ -845,8 +862,14 @@ class SenseiViewController: BaseViewController {
     }
     
     override func enableControls(controlNames: [String]?) {
-        self.affirmationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.AffirmationsButton) ?? true
-        self.visualisationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.VisualisationsButton) ?? true
+        var delay: Float = 0.0
+        if let names = controlNames where names.contains(ControlNames.AffirmationsButton) {
+            delay = 2.0
+        }
+        self.dispatchInMainThreadAfter(delay: delay) {
+            self.affirmationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.AffirmationsButton) ?? true
+            self.visualisationsButton.userInteractionEnabled = controlNames?.contains(ControlNames.VisualisationsButton) ?? true
+        }
     }
 }
 
@@ -1116,6 +1139,18 @@ extension SenseiViewController: UICollectionViewDataSource {
 // MARK: - UIScrollViewDelegate
 
 extension SenseiViewController: UIScrollViewDelegate {
+
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        tutorialViewController?.splashMaskImageView.hidden = true;
+    }
+    
+    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+        tutorialViewController?.splashMaskImageView.hidden = true;
+    }
+
+    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
+        tutorialViewController?.splashMaskImageView.hidden = true;
+    }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         configureBubles()

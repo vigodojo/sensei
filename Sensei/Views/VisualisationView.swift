@@ -53,7 +53,6 @@ class VisualisationView: UIView {
             switch mode {
                 case .Editing:
                     textView.userInteractionEnabled = true
-//                    editButton.setTitle("DELETE", forState: UIControlState.Normal)
                     editButtonHidden = true
                     cameraButton.hidden = true
                     textView.becomeFirstResponder()

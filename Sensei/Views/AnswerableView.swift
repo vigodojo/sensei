@@ -240,6 +240,7 @@ extension AnswerableView: UITextFieldDelegate {
         textField.resignFirstResponder()
         var answerString = textField.text!.capitalizedString
         answerString = answerString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        
         submitAnswer(Answer.Text(answerString))
         return true;
     }

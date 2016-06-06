@@ -409,6 +409,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 extension VisualizationsViewController: TextImagePreviewControllerDelegate {
     func textImagePreviewControllerWillDismiss() {
         if !TutorialManager.sharedInstance.completed {
+            visualisationView.userInteractionEnabled = false
             TutorialManager.sharedInstance.nextStep()
         }
     }

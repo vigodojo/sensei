@@ -31,6 +31,8 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     
     var currentViewController: UIViewController?
     var viewControllers = [UIViewController]()
+    var maskBlack: UIView?
+    
     weak var delegate: SenseiTabControllerDelegate?
     
     // MARK: - Lifecycle
@@ -55,18 +57,23 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
                 if self.currentViewController != self.viewControllers.first {
                     self.showSenseiViewController()
                 }
+            } else if let mask = self.maskBlack {
+                mask.removeFromSuperview()
             }
-//            (self.viewControllers.first as? SenseiViewController)?.didBecomeActive()
-//            SenseiManager.sharedManager.saveLastActiveTime()
-            UIApplication.sharedApplication().delegate?.window!?.subviews.last!.removeFromSuperview()
+            (self.viewControllers.first as? SenseiViewController)?.didBecomeActive()
+            SenseiManager.sharedManager.saveLastActiveTime()
         }
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [unowned self]notification in
             (self.viewControllers.first as? SenseiViewController)?.didEnterBackground()
-
-            let blackView = UIView(frame: UIScreen.mainScreen().bounds)
-            blackView.backgroundColor = UIColor.blackColor()
-            UIApplication.sharedApplication().delegate?.window!?.addSubview(blackView)
+//            self.tutorialViewController?.splashMaskImageView.hidden = false
+            if self.maskBlack == nil {
+                self.maskBlack = UIView(frame: UIScreen.mainScreen().bounds)
+                self.maskBlack!.backgroundColor = UIColor.blackColor()
+            }
+            if let mask = self.maskBlack {
+                UIApplication.sharedApplication().delegate?.window!?.addSubview(mask)
+            }
         }
     }
 
@@ -151,9 +158,7 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
         switch tutorialStep.screen {
             case .Sensei, .More:
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(tutorialStep.delayBefore) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                    self.enableControls(tutorialStep.enabledContols)
-                }
+                self.enableControls(tutorialStep.enabledContols)
                 break
             default:
                 break
@@ -161,7 +166,11 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     }
     
     override func enableControls(controlNames: [String]?) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(2) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+        var delay: Float = 0
+        if let names = controlNames where names.contains(ControlNames.SenseiTab) || names.contains(ControlNames.MoreTab) {
+            delay = 2.0
+        }
+        self.dispatchInMainThreadAfter(delay: delay) {
             if !TutorialManager.sharedInstance.upgradeCompleted {
                 self.senseiTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.SenseiTab) ?? true
                 self.moreTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.MoreTab) ?? true

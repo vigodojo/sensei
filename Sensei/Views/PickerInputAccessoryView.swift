@@ -28,6 +28,7 @@ class PickerInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        
     }
 
     @IBAction func submit() {

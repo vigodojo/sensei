@@ -121,14 +121,8 @@ class SettingsTableViewController: UITableViewController {
                 let weight = Settings.sharedSettings.weight?.doubleValue != self?.weightKg && Settings.sharedSettings.weight?.doubleValue > 0 && self?.weightKg > 0
                 let height = Settings.sharedSettings.height?.doubleValue != self?.heightCm && Settings.sharedSettings.height?.doubleValue > 0 && self?.heightCm > 0
                 let dob = Settings.sharedSettings.dayOfBirth != nil && Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date.timeless())!) != NSComparisonResult.OrderedSame
-//                
-//                print("Settings.sharedSettings.dayOfBirth: \(Settings.sharedSettings.dayOfBirth)")
-//                print("self?.datePicker.date: \(self?.datePicker.date)")
-//                print("Settings.sharedSettings.dayOfBirth != self?.datePicker.date: \(Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date)!) != NSComparisonResult.OrderedSame)")
-//                
                 
                 if (weight || height || dob) {
-                        
                     self?.showConfirmation(self!.confirmationTextWithPropertyName(fieldName))
                 } else {
                     self?.performYesAnswerAction()
@@ -147,7 +141,9 @@ class SettingsTableViewController: UITableViewController {
                             self?.tutorialViewController?.showMessage(PlainMessage(text: "Surely you don't need to sleep more than twelve hours a day. Get out of bed and live life!"), upgrade: false)
                         }
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(Affirmation.TextLimitShowDuration) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                            self?.tutorialViewController!.hideTutorialAnimated(true)
+                            if let tutorialController = self!.tutorialViewController {
+                                tutorialController.hideTutorialAnimated(true)
+                            }
                         }
                     }
                 }
@@ -282,12 +278,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Settings.sharedSettings.weight = nil
-        Settings.sharedSettings.height = nil
-        Settings.sharedSettings.dayOfBirth = nil
-        CoreDataManager.sharedInstance.saveContext()
         
-        tutorialViewController
         if TutorialManager.sharedInstance.completed {
             updateSettings()
         }
@@ -434,6 +425,8 @@ class SettingsTableViewController: UITableViewController {
             self.previousApplicationState = UIApplicationState.Background
         }
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
+            self.tutorialViewController?.splashMaskImageView.hidden = true
+
             self.previousApplicationState = UIApplicationState.Active
         }
         NSNotificationCenter.defaultCenter().addObserverForName(ApplicationDidReceiveRemotePushNotification, object: nil, queue: nil) { [unowned self] notification in
@@ -492,6 +485,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func showConfirmation(question: ConfirmationQuestion) {
+        view.endEditing(true)
         tutorialViewController?.askConfirmationQuestion(question)
         fieldToChange = nil
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsTableViewController.tutorialDidHideNotification(_:)), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
@@ -652,7 +646,7 @@ class SettingsTableViewController: UITableViewController {
         
         var isValid = true
         
-        if weekNonSleepTimeInterval > twelveHours || weekNonSleepTimeInterval < twentyThreeAndHalf {
+        if weekNonSleepTimeInterval > twelveHours || weekNonSleepTimeInterval < twentyThreeAndHalf{
             isValid = false
             setRedBorder(weekDaysStartTF)
             setRedBorder(weekDaysEndTF)
@@ -669,8 +663,38 @@ class SettingsTableViewController: UITableViewController {
             setSenseiBorder(weekEndsStartTF)
             setSenseiBorder(weekEndsEndTF)
         }
-        
+
         return isValid
+    }
+    
+    func isSleepStartEndInSameDay() -> Bool {
+        let weekStartMin = sleepTimeSettings?.weekdaysStart.minutesSinceLastMidnight()
+        let weekEndMin = sleepTimeSettings?.weekdaysEnd.minutesSinceLastMidnight()
+        
+        let weekendStartMin = sleepTimeSettings?.weekendsStart.minutesSinceLastMidnight()
+        let weekendEndMin = sleepTimeSettings?.weekendsEnd.minutesSinceLastMidnight()
+
+        let minInDay = 24*60-1
+
+        guard 0 < weekEndMin && weekStartMin < minInDay  else {
+            return false
+        }
+        
+        guard 0 < weekendEndMin && weekendStartMin < minInDay else {
+            return false
+        }
+        
+        return true
+    }
+
+    func isSleepEndBeforeStart() -> Bool {
+        let weekStartMin = sleepTimeSettings?.weekdaysStart.minutesSinceLastMidnight()
+        let weekEndMin = sleepTimeSettings?.weekdaysEnd.minutesSinceLastMidnight()
+        
+        let weekendStartMin = sleepTimeSettings?.weekendsStart.minutesSinceLastMidnight()
+        let weekendEndMin = sleepTimeSettings?.weekendsEnd.minutesSinceLastMidnight()
+        
+        return weekEndMin < weekStartMin && weekendEndMin < weekendStartMin
     }
     
     func isLongSleepTime(nonSleepTimeInterval: (Double, Double)) -> Bool {
@@ -724,6 +748,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func selectDataFormat(sender: UIButton) {
+        view.endEditing(true)
         usDataFormatButton.selected = (sender == usDataFormatButton)
         metricDataFormatButton.selected = (sender == metricDataFormatButton)
         Settings.sharedSettings.dataFormat = usDataFormatButton.selected ? .US: .Metric
@@ -731,6 +756,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func selectGender(sender: UIButton) {
+        view.endEditing(true)
         if !((maleButton.selected && maleButton == sender) || (femaleButton.selected && femaleButton == sender)) {
             configureGenderSelection(sender)
 
@@ -803,17 +829,10 @@ class SettingsTableViewController: UITableViewController {
         SoundController.playTock()     
         if MFMailComposeViewController.canSendMail() {
             
-//            let mailComposeController = MFMailComposeViewController()
-//            mailComposeController.mailComposeDelegate = self
-//            mailComposeController.setToRecipients(["sensei@vigosensei.com"])
-//            mailComposeController.setSubject("Note from a user")
-
             let mailComposeController = MFMailComposeViewController()
             mailComposeController.mailComposeDelegate = self
-            mailComposeController.setToRecipients(["sergey.sheba@gmail.com"])
+            mailComposeController.setToRecipients(["sensei@vigosensei.com"])
             mailComposeController.setSubject("Note from a user")
-
-            mailComposeController.setMessageBody("<a href=\"mvt://\">URL</a>", isHTML: true)
             self.presentViewController(mailComposeController, animated: true, completion: nil)
         } else {
             AlertMessagesService.showWarningAlert(nil, message: "Can't send e-mail.", fromController: self, completion: nil)

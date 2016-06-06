@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if TutorialManager.sharedInstance.completed {
            self.registerForNotifications()
         }
-        
+
         if NSUserDefaults.standardUserDefaults().objectForKey("LastClearTime") == nil {
             NSUserDefaults.standardUserDefaults().setObject(NSDate().dateByAddingTimeInterval(-60*60*24), forKey: "LastClearTime")
             NSUserDefaults.standardUserDefaults().synchronize()
@@ -38,6 +38,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         SenseiManager.sharedManager.standBow = true
         return true
+    }
+    
+    func intervalFromDateToDate(date1: NSDate, date2: NSDate) -> Double {
+        return abs(floor(date1.timeIntervalSinceDate(NSCalendar.currentCalendar().nextDateAfterDate(date1, matchingComponents: date2.timeComponents(), options: NSCalendarOptions.MatchNextTime)!)))
+    }
+    
+    func date(hours hours: Int, minutes: Int) -> NSDate {
+        let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day, NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second, NSCalendarUnit.TimeZone], fromDate: NSDate())
+        components.hour = hours
+        components.minute = minutes
+        return NSCalendar.currentCalendar().dateFromComponents(components)!
     }
     
     func startFromTutorialStep(stepNumber: Int32) {
@@ -81,6 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         token = token.stringByReplacingOccurrencesOfString(">", withString: "", options: .CaseInsensitiveSearch, range: nil)
         token = token.stringByReplacingOccurrencesOfString(" ", withString: "", options: .CaseInsensitiveSearch, range: nil)
         token = token.stringByReplacingOccurrencesOfString("_", withString: "", options: .CaseInsensitiveSearch, range: nil)
+        
         if APIManager.sharedInstance.logined {
             APIManager.sharedInstance.sendDeviceToken(token)
         } else {

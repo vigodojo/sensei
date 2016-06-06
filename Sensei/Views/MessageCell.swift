@@ -18,9 +18,8 @@ class MessageCell: UITableViewCell {
         didSet {
             if let data = data {
                 
-                if let messageTime = data["messageTime"] as? String {
-                    let comps = messageTime.componentsSeparatedByString(":")
-                    dateLabel.text = String(format: "Time: %02ld:%02ld +0000 GMT", Int(comps.first!)!, Int(comps.last!)!)
+                if let messageTime = data["sendDate"] as? String {
+                    dateLabel.text = messageTime
                 }
                 
                 if let messageType = data["messageType"] as? String {

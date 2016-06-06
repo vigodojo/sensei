@@ -20,7 +20,7 @@ class APIManager: NSObject {
 
 //	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
 	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
-//    static let BaseURL = NSURL(string: "http://192.168.88.39:8831")! //Alex Local
+//    static let BaseURL = NSURL(string: "http://192.168.89.131:8832")! //Local
     
     struct APIPath {
         static let Login = "/user/signIn"
@@ -369,11 +369,10 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = settings
         }, completion: { (response) -> Void in
-            //print(String(data: response.request.HTTPBody!, encoding: NSUTF8StringEncoding))
-            //print("POST \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
+            if let error = response.error {
+                UIAlertView(title: "Achtung", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "OK").show()
+            }
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
-            //print("Request Corpse = \(NSString(data: response.request.HTTPBody!, encoding: 4))")
-            //print("\(response)")
             if let handler = handler {
                 handler(error: response.error)
             }

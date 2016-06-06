@@ -37,6 +37,13 @@ extension NSDate {
         
         return Int(floor(abs(interval)/60.0))//*60.0*24.0))
     }
+    
+    func minutesSinceLastMidnight() -> NSInteger {
+        let components = self.timeComponents()
+        let hours = components.hour
+        let minutes = components.minute
+        return hours * 60 + minutes
+    }
 }
 
 // MARK: - UIViewController
