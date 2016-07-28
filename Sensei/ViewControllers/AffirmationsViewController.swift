@@ -138,6 +138,16 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AffirmationsViewController.didUpgradeToPro(_:)), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [weak self] notification in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.swipeNextGesture?.enabled = true
+            strongSelf.swipePrevGesture?.enabled = true
+            
+            strongSelf.scrollView.contentInset = UIEdgeInsetsZero
+            strongSelf.saveAffirmation()
+            strongSelf.view.layoutIfNeeded()
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -167,11 +177,17 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         super.keyboardWillHideWithSize(size, animationDuration: animationDuration, animationOptions: animationOptions)
         swipeNextGesture?.enabled = true
         swipePrevGesture?.enabled = true
+        UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: {
+            self.scrollView.contentInset = UIEdgeInsetsZero
+        }, completion: nil)
     }
     
     override func keyboardWillShowWithSize(size: CGSize, animationDuration: NSTimeInterval, animationOptions: UIViewAnimationOptions) {
         swipeNextGesture?.enabled = false
         swipePrevGesture?.enabled = false
+        UIView.animateWithDuration(animationDuration, delay: 0, options: animationOptions, animations: {
+            self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, size.height, 0)
+        }, completion: nil)
     }
     
     // MARK: - UserMessageViewController
@@ -211,10 +227,16 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     
     override func enableControls(controlNames: [String]?) {
         super.enableControls(controlNames)
-        textView.userInteractionEnabled = controlNames?.contains(ControlNames.TextView) ?? true
-        messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.TextView) ?? true
-        swipeNextGesture?.enabled = messageSwitchView.slotsCollectionView.userInteractionEnabled
-        swipePrevGesture?.enabled = messageSwitchView.slotsCollectionView.userInteractionEnabled
+        var delay: Float = 0
+        if let names = controlNames where names.contains(ControlNames.TextView) {
+            delay = 4
+        }
+        dispatchInMainThreadAfter(delay: delay) {
+            self.textView.userInteractionEnabled = controlNames?.contains(ControlNames.TextView) ?? true
+            self.messageSwitchView.longPressGesture.enabled = controlNames?.contains(ControlNames.TextView) ?? true
+            self.swipeNextGesture?.enabled = self.messageSwitchView.slotsCollectionView.userInteractionEnabled
+            self.swipePrevGesture?.enabled = self.messageSwitchView.slotsCollectionView.userInteractionEnabled
+        }
     }
     
     override func handleYesAnswerNotification(notification: NSNotification) {
@@ -273,6 +295,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
                 affirmation.receiveTime = receiveTime
                 if !APIManager.sharedInstance.reachability.isReachable() {
                     affirmation.updatedOffline = NSNumber(bool: true)
+                    tutorialViewController?.showNoInternetConnection()
                 }
                 CoreDataManager.sharedInstance.saveContext()
             }
@@ -281,10 +304,13 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
                 let affirmation = Affirmation.createAffirmationNumber(index, text: text, receiveTime: receiveTime)
                 if !APIManager.sharedInstance.reachability.isReachable() {
                     affirmation.updatedOffline = NSNumber(bool: true)
+                    tutorialViewController?.showNoInternetConnection()
                 }
                 CoreDataManager.sharedInstance.saveContext()
                 TutorialManager.sharedInstance.nextStep()
             }
+        } else {
+            CoreDataManager.sharedInstance.saveContext()
         }
     }
     
@@ -292,6 +318,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         if let aff = Affirmation.affirmationWithNumber(itemToDelete!) {
             if !APIManager.sharedInstance.reachability.isReachable() {
                 OfflineManager.sharedManager.affirmationDeleted(aff.number)
+                tutorialViewController?.showNoInternetConnection()
             }
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(aff)
             CoreDataManager.sharedInstance.saveContext()
@@ -302,6 +329,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         } else if let affirmation = selectedAffirmation {
             if !APIManager.sharedInstance.reachability.isReachable() {
                 OfflineManager.sharedManager.affirmationDeleted(affirmation.number)
+                tutorialViewController?.showNoInternetConnection()
             }
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(affirmation)
             CoreDataManager.sharedInstance.saveContext()
@@ -351,7 +379,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
 				}
 			case .Delete:
 				messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
-//				APIManager.sharedInstance.deleteAffirmation(affirmation, handler: nil)
                 APIManager.sharedInstance.deleteAffirmationWithNumber(affirmation.number, handler: nil)
 			default:
 				break
@@ -418,12 +445,7 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
     }
     
     func showReceiveTimeDuplicationWarning() {
-        tutorialViewController?.showMessage(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime), upgrade: false)
-        if TutorialManager.sharedInstance.completed {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(Affirmation.TextLimitShowDuration) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                self.tutorialViewController?.hideTutorialAnimated(true)
-            }
-        }
+        tutorialViewController?.showMessage(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime), disappear: TutorialManager.sharedInstance.completed)
     }
     
     func resetSelectedSlot() {
@@ -439,6 +461,9 @@ extension AffirmationsViewController: MessageSwitchViewDelegate {
             saveAffirmation()
         } else if let affirmation = selectedAffirmation where affirmation.receiveTime != messageSwitchView.receiveTime {
             affirmation.receiveTime = messageSwitchView.receiveTime
+            if !APIManager.sharedInstance.reachability.isReachable() {
+                tutorialViewController?.showNoInternetConnection()
+            }
         }
     }
     
@@ -469,10 +494,7 @@ extension AffirmationsViewController: UITextViewDelegate {
             if !TutorialManager.sharedInstance.completed {
                 tutorialViewController!.showWarningMessage(warningMessage, disappear: true)
             } else {
-                tutorialViewController?.showMessage(PlainMessage(text: warningMessage), upgrade: false)
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(Affirmation.TextLimitShowDuration) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                    self.tutorialViewController?.hideTutorialAnimated(true)
-                }
+                tutorialViewController?.showMessage(PlainMessage(text: warningMessage), disappear:true)
             }
             return false
         }

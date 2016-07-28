@@ -49,7 +49,8 @@ class TutorialViewController: BaseViewController {
     
     @IBOutlet weak var logTextView: UITextView!
     private var nextTimer: NSTimer?
-    
+    private var disappearTimer: NSTimer?
+
     @IBAction func toggleLog(sender: AnyObject) {
         let alert = UIAlertController(title: "Make your choice", message: nil, preferredStyle: .ActionSheet)
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil))
@@ -124,10 +125,30 @@ class TutorialViewController: BaseViewController {
         super.viewDidLoad()
         splashMaskImageView.hidden = !TutorialManager.sharedInstance.completed
         tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TutorialViewController.timeZoneChanged(_:)), name: NSSystemTimeZoneDidChangeNotification, object: nil)
+
         addTutorialObservers()
         configureBackground()
     }
     
+    func timeZoneChanged(notification: NSNotification) {
+        let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
+        if Settings.sharedSettings.timeZone?.integerValue != currentTimeZone {
+            Settings.sharedSettings.timeZone = NSNumber(integer: currentTimeZone)
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+        }
+    }
+    
+    func showNoInternetConnection() {
+        if !TutorialManager.sharedInstance.completed {
+            return
+        }
+        
+        showMessage(PlainMessage(text: "No internet connection. \nThe changes you just made will not take effect until you reconnect to the internet."), disappear: true)
+    }
+    
+
     func configureBackground() {
         let screenHeight = CGRectGetHeight(UIScreen.mainScreen().bounds)
         let imageName = "top_background_\(Int(screenHeight))"
@@ -250,7 +271,8 @@ class TutorialViewController: BaseViewController {
     }
     
     func ask(question: ConfirmationQuestion) {
-        
+        view.endEditing(true)
+
         if tutorialHidden || TutorialManager.sharedInstance.completed {
             if TutorialManager.sharedInstance.completed {
                 messages = [question]
@@ -268,11 +290,23 @@ class TutorialViewController: BaseViewController {
     
     func showVisualizationMessage(message: Message, visualization: Visualization?) {
         showMessage(message, upgrade: true) {() -> Void in
-//            if let vis = visualization {
-//                let cell = self.tutorialCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as! TutorialTextViewCell
-//                cell.visualization = vis
-//            }
+
         }
+    }
+    
+    func showMessage(message: Message, disappear: Bool) {
+        showMessage(message, upgrade: false)
+        
+        disappearTimer?.invalidate()
+        disappearTimer = nil
+        
+        if disappear {
+            disappearTimer = NSTimer.scheduledTimerWithTimeInterval(Affirmation.TextLimitShowDuration, target: self, selector: #selector(TutorialViewController.hideTutorialTimerAction(_:)), userInfo: nil, repeats: false)
+        }
+    }
+    
+    func hideTutorialTimerAction(timer: NSTimer) {
+        self.hideTutorialAnimated(true)
     }
     
     func showMessage(message: Message, upgrade: Bool) {
@@ -287,12 +321,16 @@ class TutorialViewController: BaseViewController {
             }
         }
         
-        if messages.count == 0 || TutorialManager.sharedInstance.completed {
+        view.endEditing(true)
+        
+        if !TutorialManager.sharedInstance.completed && messages.count == 0 || TutorialManager.sharedInstance.completed {
             messages = [message]
         } else {
             messages.append(message)
         }
 
+        NSLog("*******\n\nMESSAGE: %@\n\n********", messages.last!.text)
+        
         if tutorialHidden || TutorialManager.sharedInstance.completed {
             tutorialCollectionView.reloadData()
             showTutorialAnimated(true)
@@ -424,9 +462,7 @@ class TutorialViewController: BaseViewController {
             hideBlockingWindow()
         }
         type = .Sensei
-        if TutorialManager.sharedInstance.completed {
-            hideTutorialAnimated(true)
-        }
+
     }
     
     private func hideWarning() {
@@ -442,12 +478,20 @@ class TutorialViewController: BaseViewController {
         SoundController.playTock()
         NSNotificationCenter.defaultCenter().postNotificationName(Notifications.YesAnswer, object: nil)
         performConfirmationSelectedAction()
+        if !APIManager.sharedInstance.reachability.isReachable() {
+            showNoInternetConnection()
+        } else if TutorialManager.sharedInstance.completed {
+            hideTutorialAnimated(true)
+        }
     }
     
     @IBAction func noAction(sender: AnyObject) {
         SoundController.playTock()
         NSNotificationCenter.defaultCenter().postNotificationName(Notifications.NoAnswer, object: nil)
         performConfirmationSelectedAction()
+        if TutorialManager.sharedInstance.completed {
+            hideTutorialAnimated(true)
+        }
     }
     
     @IBAction func touchOnSensei(senser: UITapGestureRecognizer) {

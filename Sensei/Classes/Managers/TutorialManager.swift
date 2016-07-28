@@ -51,6 +51,10 @@ class TutorialManager {
         return ((stepCounter + 1) < steps.count) ? steps[stepCounter + 1].screen: nil
     }
     
+    func stepsCount() -> Int {
+        return steps.count
+    }
+    
     var currentStep: TutorialStep? {
         if completed || stepCounter < 0 {
             return nil

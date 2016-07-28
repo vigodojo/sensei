@@ -45,6 +45,12 @@ class SenseiManager {
         }
     }
     
+    func animateSenseiSitDownInImageView(imageView: AnimatableImageView, completion: ((finished: Bool) -> Void)?) {
+        animateSensei(AnimationManager.sharedManager.sitDownAnimatableImage()!, imageView: imageView) { (finished) -> Void in
+            completion?(finished: finished)
+        }
+    }
+    
     func animateSenseiBowsInImageView(imageView: AnimatableImageView, completion: ((finished: Bool) -> Void)?) {
         animateSensei(AnimationManager.sharedManager.sitsBowAnimatableImage()!, imageView: imageView) { (finished) -> Void in
             completion?(finished: finished)
@@ -89,10 +95,11 @@ class SenseiManager {
     }
     
     private func shouldSenseiSit() -> Bool {
-//        NSLog("isBeginOfTutorial:\(isBeginOfTutorial())")
-//        NSLog("showSenseiStandAnimation:\(showSenseiStandAnimation)")
-//        NSLog("isSleepTime:\(isSleepTime())")
-//        NSLog("shouldSitBowAfterOpening:\(shouldSitBowAfterOpening)")
+        NSLog("&&&&&&&&&&&&&&&&")
+        NSLog("isBeginOfTutorial:\(isBeginOfTutorial())")
+        NSLog("showSenseiStandAnimation:\(showSenseiStandAnimation)")
+        NSLog("isSleepTime:\(isSleepTime())")
+        NSLog("shouldSitBowAfterOpening:\(shouldSitBowAfterOpening)")
         return isBeginOfTutorial() || showSenseiStandAnimation || isSleepTime() || shouldSitBowAfterOpening
     }
 
@@ -115,7 +122,7 @@ class SenseiManager {
         print("isSleepTime: \(isStartBeforeNow && isEndAfterNow ? "true" : "false")")
         print("**************")
         
-        return isStartBeforeNow && isEndAfterNow
+        return isStartBeforeNow && isEndAfterNow && TutorialManager.sharedInstance.completed
     }
     
     private func isBeginOfTutorial() -> Bool {

@@ -77,6 +77,7 @@ class SettingsTableViewController: UITableViewController {
         picker.datePickerMode = .Time
         picker.addTarget(self, action: #selector(SettingsTableViewController.timePickerDidChangeValue(_:)), forControlEvents: UIControlEvents.ValueChanged)
 		picker.backgroundColor = UIColor.whiteColor()
+        
         return picker
     }()
     
@@ -85,6 +86,21 @@ class SettingsTableViewController: UITableViewController {
         picker.datePickerMode = .Date
         picker.addTarget(self, action: #selector(SettingsTableViewController.datePickerDidChangeValue(_:)), forControlEvents: UIControlEvents.ValueChanged)
 		picker.backgroundColor = UIColor.whiteColor()
+        
+        let today = NSDate()
+        let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Era, NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day], fromDate: today)
+        
+        components.year -= 10
+        components.month = 12
+        components.day = 31
+        let maxDate = NSCalendar.currentCalendar().dateFromComponents(components)!
+        components.year -= 80
+        components.month = 1
+        components.day = 1
+        let minDate = NSCalendar.currentCalendar().dateFromComponents(components)!
+        
+        picker.minimumDate = minDate
+        picker.maximumDate = maxDate
         return picker
     }()
 
@@ -94,6 +110,12 @@ class SettingsTableViewController: UITableViewController {
         inputAccessoryView.rightButton.setTitle("Submit", forState: UIControlState.Normal)
         inputAccessoryView.leftButton.hidden = true
         
+        inputAccessoryView.didCancel = { [weak self] () -> Void in
+            if let view = self?.view {
+                view.endEditing(true)
+            }
+        }
+            
         inputAccessoryView.didSubmit = { [weak self] () -> Void in
             self?.view.endEditing(true)
         
@@ -128,22 +150,22 @@ class SettingsTableViewController: UITableViewController {
                     self?.performYesAnswerAction()
                 }
             } else {
+                
                 let nonSleepTimeInterval = self!.nonSleepTimeIntervals()
+                self!.fillTimeFromTempStorage()
+                
                 if self!.configureTimeFieldsBorder(nonSleepTimeInterval) {
-                    self?.performYesAnswerAction()
+                    self!.performYesAnswerAction()
                 } else {
                     self!.fillFromSettings()
 
                     if self!.tutorialViewController?.isMessageDisplayed() == false {
+                        
                         if self!.isShortSleepTime(nonSleepTimeInterval) {
-                            self?.tutorialViewController?.showMessage(PlainMessage(text: "I highly recommend that you get at least five hours of sleep a day"), upgrade: false)
+                            self?.tutorialViewController?.showMessage(PlainMessage(text: "I highly recommend that you get at least five hours of sleep a day"), disappear: true)
+                        
                         } else if (self!.isLongSleepTime(nonSleepTimeInterval)) {
-                            self?.tutorialViewController?.showMessage(PlainMessage(text: "Surely you don't need to sleep more than twelve hours a day. Get out of bed and live life!"), upgrade: false)
-                        }
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(Affirmation.TextLimitShowDuration) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                            if let tutorialController = self!.tutorialViewController {
-                                tutorialController.hideTutorialAnimated(true)
-                            }
+                            self?.tutorialViewController?.showMessage(PlainMessage(text: "Surely you don't need to sleep more than twelve hours a day. Get out of bed and live life!"), disappear: true)
                         }
                     }
                 }
@@ -152,11 +174,20 @@ class SettingsTableViewController: UITableViewController {
         return inputAccessoryView
     }()
     
+    func fillTimeFromTempStorage() {
+        if let sleepTimeSettings = sleepTimeSettings {
+            weekDaysStartTF.text = DataFormatter.stringFromTime(sleepTimeSettings.weekdaysStart)
+            weekDaysEndTF.text = DataFormatter.stringFromTime(sleepTimeSettings.weekdaysEnd)
+            weekEndsStartTF.text = DataFormatter.stringFromTime(sleepTimeSettings.weekendsStart)
+            weekEndsEndTF.text = DataFormatter.stringFromTime(sleepTimeSettings.weekendsEnd)
+        }
+    }
+    
     private lazy var heightPickerDelegate: HeightPickerDelegate = { [unowned self] in
         let pickerDelegate = HeightPickerDelegate()
         pickerDelegate.didChangeValueEvent = { [weak self] (newHeight: Length) -> Void in
-            self?.heightCm = newHeight.realValue
-            self?.heightTextField.text = "\(newHeight)"
+//            self?.heightCm = newHeight.realValue
+//            self?.heightTextField.text = "\(newHeight)"
         }
         
         return pickerDelegate
@@ -165,8 +196,8 @@ class SettingsTableViewController: UITableViewController {
     private lazy var weightPickerDelegate: WeightPickerDelegate = { [unowned self] in
         let pickerDelegate = WeightPickerDelegate()
         pickerDelegate.didChangeValueEvent = { [weak self] (newWeight: Mass) -> Void in
-            self?.weightKg = newWeight.realValue
-            self?.weightTexField.text = "\(newWeight)"
+//            self?.weightKg = newWeight.realValue
+//            self?.weightTexField.text = "\(newWeight)"
         }
 
         return pickerDelegate
@@ -305,8 +336,13 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
-        
+        if hasSettingsBeenChanged || hasProfileBeenChanged {
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) in
+                if let error = error where error.code == -1009 {
+                    self.tutorialViewController?.showNoInternetConnection()
+                }
+            }
+        }
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let tutorialViewController = appDelegate.window?.rootViewController as! TutorialViewController
         let navController = tutorialViewController.childViewControllers.first as! UINavigationController
@@ -332,7 +368,11 @@ class SettingsTableViewController: UITableViewController {
     func teachingIntensityUpdated() {
         saveSettings()
         APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) in
-            print("Updated Intensity")
+            if let error = error where error.code == -1009 {
+                self.tutorialViewController?.showNoInternetConnection()
+            } else {
+                print("Updated Intensity")
+            }
         }
     }
     
@@ -376,8 +416,12 @@ class SettingsTableViewController: UITableViewController {
         let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Era, NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day], fromDate: today)
         
         components.year -= 10
+        components.month = 12
+        components.day = 31
         let maxDate = NSCalendar.currentCalendar().dateFromComponents(components)!
         components.year -= 90
+        components.month = 1
+        components.day = 1
         let minDate = NSCalendar.currentCalendar().dateFromComponents(components)!
         
         let beforeMaxDate = date.timeless().compare(maxDate) == NSComparisonResult.OrderedAscending
@@ -426,7 +470,7 @@ class SettingsTableViewController: UITableViewController {
         }
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
             self.tutorialViewController?.splashMaskImageView.hidden = true
-
+            
             self.previousApplicationState = UIApplicationState.Active
         }
         NSNotificationCenter.defaultCenter().addObserverForName(ApplicationDidReceiveRemotePushNotification, object: nil, queue: nil) { [unowned self] notification in
@@ -445,11 +489,16 @@ class SettingsTableViewController: UITableViewController {
         if parentViewController is SenseiTabController {
             Settings.sharedSettings.isProVersion = NSNumber(bool: true)
             CoreDataManager.sharedInstance.saveContext()
-            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
-            let parent = parentViewController as! SenseiTabController
-            parent.showSenseiViewController()
-            refreshUpgradState()
-        }
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: { (error) in
+                if let error = error where error.code == -1009 {
+                    self.tutorialViewController?.showNoInternetConnection()
+                } else if let proVersion = Settings.sharedSettings.isProVersion where proVersion.boolValue {
+                    let parent = self.parentViewController as! SenseiTabController
+                    parent.showSenseiViewController()
+                    self.refreshUpgradState()
+                }
+            })
+       }
     }
     
     private func saveSettings() {
@@ -609,7 +658,12 @@ class SettingsTableViewController: UITableViewController {
         }
         saveProfile()
         APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) in
-            print("Settings updated")
+            
+            if let error = error where error.code == -1009 {
+                self.tutorialViewController?.showNoInternetConnection()
+            } else {
+                print("Settings updated")
+            }
         }
     }
     
@@ -621,7 +675,7 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func timePickerDidChangeValue(sender: UIDatePicker) {
         if let textField = firstResponder {
-            textField.text = DataFormatter.stringFromTime(sender.date)
+//            textField.text = DataFormatter.stringFromTime(sender.date)
             if textField == weekDaysStartTF {
                 sleepTimeSettings?.weekdaysStart = sender.date
             } else if textField == weekDaysEndTF {
@@ -632,7 +686,7 @@ class SettingsTableViewController: UITableViewController {
                 sleepTimeSettings?.weekendsEnd = sender.date
             }
             
-            configureTimeFieldsBorder(nonSleepTimeIntervals())
+//            configureTimeFieldsBorder(nonSleepTimeIntervals())
         }
     }
     
@@ -744,7 +798,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func datePickerDidChangeValue(sender: UIDatePicker) {
-        dateOfBirthTF.text = DataFormatter.stringFromDate(sender.date)
+//        dateOfBirthTF.text = DataFormatter.stringFromDate(sender.date)
     }
     
     @IBAction func selectDataFormat(sender: UIButton) {
@@ -771,7 +825,11 @@ class SettingsTableViewController: UITableViewController {
                     Settings.sharedSettings.gender = .Female
                 }
                 APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: { (error) in
-                    print("Settings updated")
+                    if let error = error where error.code == -1009 {
+                        self.tutorialViewController?.showNoInternetConnection()
+                    } else {
+                        print("Settings updated")
+                    }
                 })
             }
         }
@@ -845,6 +903,10 @@ class SettingsTableViewController: UITableViewController {
             alert.show()
             return
         }
+        if !APIManager.sharedInstance.reachability.isReachable() {
+            self.tutorialViewController?.showNoInternetConnection()
+            return
+        }
         UpgradeManager.sharedInstance.askForUpgrade()
 //UpgradeManager.sharedInstance.openAppStoreURL
     }
@@ -889,12 +951,12 @@ extension SettingsTableViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(textField: UITextField) {
         firstResponder = nil
-        if textField == self.dateOfBirthTF {
-            let date = self.datePicker.date
-            if self.checkSelectedDate(date) == false {
-                return
-            }
-        }
+//        if textField == self.dateOfBirthTF {
+//            let date = self.datePicker.date
+//            if self.previousApplicationState == .Active && self.checkSelectedDate(date) == false {
+//                return
+//            }
+//        }
     }
 }
 

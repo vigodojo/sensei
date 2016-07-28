@@ -40,7 +40,9 @@ class TextImagePreviewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createImageView()
+        scrollView.backgroundColor = UIColor.clearColor()
         textImageView.image = image
+        textImageView.layer.masksToBounds = true
         textImageView.attributedText = attributedText
     }
     

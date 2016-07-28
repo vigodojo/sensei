@@ -40,6 +40,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     
     @IBOutlet weak var scrollViewBottomSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageSwitchViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var openVisualizationTapGesture: UITapGestureRecognizer!
     
     override weak var messageSwitchView: MessageSwitchView! {
         didSet {
@@ -86,6 +87,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     private var swipeNextGesture: UISwipeGestureRecognizer?
     private var swipePrevGesture: UISwipeGestureRecognizer?
     private var shouldShowInstruction: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -101,6 +103,23 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(VisualizationsViewController.didUpgradeToPro(_:)), name: UpgradeManager.Notifications.DidUpgrade, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [weak self] notification in
+
+            guard let strongSelf = self else { return }
+            strongSelf.visualisationView.mode = .Hide
+
+            strongSelf.swipeNextGesture?.enabled = true
+            strongSelf.swipePrevGesture?.enabled = true
+            
+            strongSelf.view.layoutIfNeeded()
+            
+            strongSelf.messageSwitchViewHeightConstraint.constant = Constants.VisualizationMessageSwitchViewHeight
+            strongSelf.scrollViewBottomSpaceConstraint.constant = 0
+            strongSelf.scrollView.contentInset = UIEdgeInsetsZero
+            strongSelf.saveVisualization()
+            strongSelf.view.layoutIfNeeded()
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -118,9 +137,11 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        
         CoreDataManager.sharedInstance.saveContext()
         APIManager.sharedInstance.lessonsHistoryCompletion(nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UpgradeManager.Notifications.DidUpgrade, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidEnterBackgroundNotification, object: nil)
     }
 
     // MARK: SwipeGestureRecognizer
@@ -168,6 +189,10 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
                 self.selectVisualizationWithNumber(NSNumber(integer:0))
             })
         })
+    }
+    
+    override func backDidPress() {
+        openVisualizationTapGesture.enabled = false
     }
     
     // MARK: - Keyboard
@@ -305,34 +330,40 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
             let wasImageChanged = didChangeImage
             let currentVisualisation = selectedVisualization
 
-            dispatch_async(dispatch_get_main_queue()) {
-                if let visualisation = currentVisualisation {
-                    if visualisation.text != text || visualisation.receiveTime != receiveTime || wasImageChanged {
-                        visualisation.text = text
-                        visualisation.picture = image
-                        visualisation.receiveTime = receiveTime
-                        visualisation.scaledFontSize = Visualization.scaledFontSizeForFontSize(fontSize, imageSize: image.size, insideRect: insideRect)
-                        if !APIManager.sharedInstance.reachability.isReachable() {
-                            visualisation.updatedOffline = NSNumber(bool: true)
-                        }
-                    }
-                } else {
-                    let visualisation = Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
+            if let visualisation = currentVisualisation {
+                if visualisation.text != text || visualisation.receiveTime != receiveTime || wasImageChanged {
+                    visualisation.text = text
+                    visualisation.picture = image
+                    visualisation.receiveTime = receiveTime
                     visualisation.scaledFontSize = Visualization.scaledFontSizeForFontSize(fontSize, imageSize: image.size, insideRect: insideRect)
                     if !APIManager.sharedInstance.reachability.isReachable() {
                         visualisation.updatedOffline = NSNumber(bool: true)
+                        self.tutorialViewController?.showNoInternetConnection()
                     }
                 }
+            } else {
+                let visualisation = Visualization.createVisualizationWithNumber(index, text: text, receiveTime: receiveTime, picture: image)
+                visualisation.scaledFontSize = Visualization.scaledFontSizeForFontSize(fontSize, imageSize: image.size, insideRect: insideRect)
+                if !APIManager.sharedInstance.reachability.isReachable() {
+                    visualisation.updatedOffline = NSNumber(bool: true)
+                    self.tutorialViewController?.showNoInternetConnection()
+                }
             }
+            CoreDataManager.sharedInstance.saveContext()
         }
     }
     
     private func deleteVisualization() {
         if let itemToDelete = itemToDelete {
+            if !APIManager.sharedInstance.reachability.isReachable() {
+                OfflineManager.sharedManager.visualizationDeleted(NSNumber(integer: itemToDelete))
+                tutorialViewController?.showNoInternetConnection()
+            }
             deleteVisualization(atIndex: itemToDelete);
         } else if let visualisation = selectedVisualization {
             if !APIManager.sharedInstance.reachability.isReachable() {
                 OfflineManager.sharedManager.visualizationDeleted(visualisation.number)
+                tutorialViewController?.showNoInternetConnection()
             }
             CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(visualisation)
         }
@@ -362,6 +393,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     
     private func showVisualizationInPreview() {
         if let image = visualisationView.image {
+            view.endEditing(true)
             let text = visualisationView.text
             let scaledFontSize = Visualization.scaledFontSizeForFontSize(visualisationView.currentFontSize, imageSize: image.size, insideRect: visualisationView.imageView.bounds)
             let imagePreviewController = TextImagePreviewController.imagePreviewControllerWithImage(image)
@@ -448,7 +480,7 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
     }
     
     func shouldActivateReceivingTimeViewInMessageSwitchView(view: MessageSwitchView) -> Bool {
-        return true
+        return self.presentedViewController == nil
     }
     
     func didFinishPickingReceivingTimeInMessageSwitchView(view: MessageSwitchView) {
@@ -471,12 +503,7 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
     }
     
     func showReceiveTimeDuplicationWarning() {
-        tutorialViewController?.showMessage(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime), upgrade: false)
-        if TutorialManager.sharedInstance.completed {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(Affirmation.TextLimitShowDuration) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                self.tutorialViewController?.hideTutorialAnimated(true)
-            }
-        }
+        tutorialViewController?.showMessage(ReceiveTimeConfirmationQuestion(messageSwitchView.receiveTime), disappear: TutorialManager.sharedInstance.completed)
     }
     
     func resetSelectedSlot() {
@@ -492,6 +519,9 @@ extension VisualizationsViewController: MessageSwitchViewDelegate {
             saveVisualization()
         } else if let visualization = selectedVisualization where visualization.receiveTime != messageSwitchView.receiveTime {
             visualization.receiveTime = messageSwitchView.receiveTime
+            if !APIManager.sharedInstance.reachability.isReachable() {
+                tutorialViewController?.showNoInternetConnection()
+            }
         }
     }
     

@@ -24,6 +24,20 @@ class AnimationManager: NSObject {
         return animatableImageWithAnimationName("SitStand")
     }
     
+    func sitDownAnimatableImage() -> AnimatableImage? {
+        if let animatableImage = sitStandAnimatableImage() {
+            return reversedAnimatableImage(animatableImage)
+        }
+        return nil
+    }
+    
+    func reversedAnimatableImage(animatableImage: AnimatableImage) -> AnimatableImage? {
+        let reversedImage = animatableImage
+        reversedImage.imageNames = reversedImage.imageNames.reverse()
+        reversedImage.images = reversedImage.images.reverse()
+        return reversedImage
+    }
+    
     func animatableImageWithAnimationName(name: String) -> AnimatableImage? {
         if let animationsURL = NSBundle.mainBundle().URLForResource("Animations", withExtension: "plist") {
             if let animationsArray = NSArray(contentsOfURL: animationsURL) as? [[String: AnyObject]] {

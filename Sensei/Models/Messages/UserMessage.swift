@@ -24,6 +24,14 @@ enum ReceiveTime: String, CustomStringConvertible {
         }
     }
     
+    init(description: String) {
+        switch description {
+            case "START OF DAY": self = .Morning
+            case "END OF DAY": self = .Evening
+            default: self = .AnyTime
+        }
+    }
+    
     var description: String {
         switch self {
             case .AnyTime: return "ANY TIME"

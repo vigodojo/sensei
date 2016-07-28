@@ -43,6 +43,7 @@ class MessageSwitchView: UIView {
         let inputAccessoryView = PickerInputAccessoryView(frame: rect)
         inputAccessoryView.rightButton.setTitle("Done", forState: UIControlState.Normal)
         inputAccessoryView.leftButton.hidden = true
+        
         inputAccessoryView.didSubmit = { [weak self] () -> Void in
             self?.receiveTimeTextView.resignFirstResponder()
             if let weakSelf = self {
@@ -170,7 +171,10 @@ class MessageSwitchView: UIView {
     
     @IBAction func activateReceivingTimeView() {
         if let delegate = delegate where delegate.shouldActivateReceivingTimeViewInMessageSwitchView(self) {
-            SoundController.playTock()
+            
+            if let pickerView = receiveTimeTextView.inputView as? UIPickerView, let index = switchItems.indexOf(ReceiveTime(description: receiveTimeTextView.text)) {
+                pickerView.selectRow(index, inComponent: 0, animated: false)
+            }
             receiveTimeTextView.becomeFirstResponder()
         }
     }
@@ -220,7 +224,7 @@ extension MessageSwitchView: UICollectionViewDelegate {
         if let previousSelectedIndxPath = currentSelectedIndexPath {
             collectionView.deselectItemAtIndexPath(previousSelectedIndxPath, animated: false)
         }
-        SoundController.playTock()
+//        SoundController.playTock()
         currentSelectedIndexPath = indexPath
         delegate?.messageSwitchView(self, didSelectSlotAtIndex: indexPath.item)
     }

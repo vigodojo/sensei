@@ -10,6 +10,9 @@ import UIKit
 
 class PlanViewController: UIViewController {
 
+    @IBOutlet weak var totalVisLabel: UILabel!
+    @IBOutlet weak var totalLesLabel: UILabel!
+    @IBOutlet weak var totalAffLabel: UILabel!
     @IBOutlet weak var tableVIew: UITableView!
     @IBOutlet weak var sleepTimeLabel: UILabel!
     @IBOutlet weak var sleepTimeWeekendLabel: UILabel!
@@ -55,7 +58,17 @@ class PlanViewController: UIViewController {
                     self?.sleepTimeWeekendLabel.text = "SleepTimeWeekEnd: \(sleepTimeWeekEnd!["start"] as! String) - \(sleepTimeWeekEnd!["end"] as! String)"
                     
                     
-                    self?.dataSource = dataSource
+                    self?.dataSource = dataSource.sort({return $0["serial"]?.integerValue < $1["serial"]?.integerValue})
+                    
+                    let aff = dataSource.filter({return $0["messageType"] as? String == "A"}).count
+                    let vis = dataSource.filter({return $0["messageType"] as? String == "V"}).count
+                    let les = dataSource.filter({return $0["messageType"] as? String == "L"}).count
+                    
+                    self?.totalAffLabel.text = "Affirmations: \(aff)"
+                    self?.totalVisLabel.text = "Visualizations: \(vis)"
+                    self?.totalLesLabel.text = "Lessons: \(les)"
+
+                    
                 } else {
                     self?.dataSource = [[String: AnyObject]]()
                 }

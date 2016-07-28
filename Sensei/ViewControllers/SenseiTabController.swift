@@ -50,6 +50,11 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SenseiTabController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: nil) { [unowned self] notification in
+            let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
+            if Settings.sharedSettings.timeZone?.integerValue != currentTimeZone {
+                Settings.sharedSettings.timeZone = NSNumber(integer: currentTimeZone)
+                APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+            }
             if SenseiManager.sharedManager.shouldShowSenseiScreen() {
                 if self.navigationController?.viewControllers.last != self {
                     self.navigationController?.popToRootViewControllerAnimated(false)
@@ -71,8 +76,9 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
                 self.maskBlack = UIView(frame: UIScreen.mainScreen().bounds)
                 self.maskBlack!.backgroundColor = UIColor.blackColor()
             }
-            if let mask = self.maskBlack {
-                UIApplication.sharedApplication().delegate?.window!?.addSubview(mask)
+            if let mask = self.maskBlack, let window = (UIApplication.sharedApplication().delegate as! AppDelegate).window {
+                window.endEditing(true)
+                window.addSubview(mask)
             }
         }
     }
@@ -81,9 +87,10 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
         let reachability = notifiication.object as! Reachability
         if reachability.isReachable() {
             if !APIManager.sharedInstance.logined {
-                let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
-                let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
-                APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone, handler: nil)
+                if let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as? String where !APIManager.sharedInstance.loggingIn {
+                    let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
+                    APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone, handler: nil)
+                }
             } else {
                 OfflineManager.sharedManager.synchronizeWithServer()
             }
@@ -167,9 +174,15 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
     
     override func enableControls(controlNames: [String]?) {
         var delay: Float = 0
-        if let names = controlNames where names.contains(ControlNames.SenseiTab) || names.contains(ControlNames.MoreTab) {
+        if let names = controlNames where names.contains(ControlNames.SenseiTab) {
             delay = 2.0
         }
+        
+        if let names = controlNames where names.contains(ControlNames.MoreTab) {
+            delay = Float(TutorialManager.sharedInstance.delayForCurrentStep())
+        }
+        
+        
         self.dispatchInMainThreadAfter(delay: delay) {
             if !TutorialManager.sharedInstance.upgradeCompleted {
                 self.senseiTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.SenseiTab) ?? true

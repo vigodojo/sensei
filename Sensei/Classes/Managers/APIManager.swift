@@ -18,8 +18,8 @@ class APIManager: NSObject {
     
     static let sharedInstance = APIManager()
 
-//	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
-	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
+	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
+//	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
 //    static let BaseURL = NSURL(string: "http://192.168.89.131:8832")! //Local
     
     struct APIPath {
@@ -41,6 +41,10 @@ class APIManager: NSObject {
         static let ClearHistory = "/history/clean"
         
         static let Plan = "/plan/device"
+    }
+    
+    struct Notification {
+        static let DidAuthenticateNotification = "DidAuthenticateNotification"
     }
     
     var logined = false
@@ -72,6 +76,9 @@ class APIManager: NSObject {
     // MARK: - Login
     
     func loginWithDeviceId(deveiceId: String, timeZone: Int, handler: ErrorHandlerClosure?) {
+        if self.loggingIn {
+            return
+        }
         sessionManager.performRequestWithBuilderBlock({ [unowned self] (requestBuilder) -> Void in
             self.loggingIn = true
             requestBuilder.path = APIPath.Login
@@ -81,11 +88,15 @@ class APIManager: NSObject {
             self.loggingIn = false
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Login) \(response.statusCode)")
             
-            APIManager.sharedInstance.instructions({ (error) in
-                
-            })
+            if timeZone != Settings.sharedSettings.timeZone?.integerValue {
+                Settings.sharedSettings.timeZone = NSNumber(integer: timeZone)
+                APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+            }
+
             self.logined = response.successful
             if self.logined {
+                APIManager.sharedInstance.instructions(nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.DidAuthenticateNotification, object: nil)
                 OfflineManager.sharedManager.synchronizeWithServer()
             }
             if let token = self.deviceToken {
@@ -165,7 +176,7 @@ class APIManager: NSObject {
             builder.path = APIPath.LessonsHistory
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
-            print("RESPONSE: \(response)")
+            self.checkWarning(response)
             if let object = response.object {
                 print(object)
             }
@@ -239,6 +250,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = affirmation
         }, completion: { (response) -> Void in
+            self.checkWarning(response)
             //print("\(response.request.HTTPBody)")
             //print("POST \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
@@ -253,6 +265,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Affirmation + "\(affirmation.number)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
+            self.checkWarning(response)
             //print("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
 //            //print("\(response)")
@@ -267,8 +280,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Affirmation + "\(affirmationNumber)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-//            //print("\(response)")
-            //print("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmationNumber) \(response.statusCode)")
+            self.checkWarning(response)
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmationNumber) \(response.statusCode)")
             if let handler = handler {
                 handler(error: response.error)
@@ -284,8 +296,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = visualization
         }, completion: { (response) -> Void in
-//            //print("\(response)")
-            //print("POST \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
+            self.checkWarning(response)
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
             if let handler = handler {
                 handler(error: response.error)
@@ -298,9 +309,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Visualization + "\(visualization.number)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-//            //print("\(response)")
-            
-            //print("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
+            self.checkWarning(response)
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
             if let handler = handler {
                 handler(error: response.error)
@@ -313,8 +322,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Visualization + "\(visualizationNumber)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-//            //print("\(response)")
-            //print("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualizationNumber) \(response.statusCode)")
+            self.checkWarning(response)
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualizationNumber) \(response.statusCode)")
 
             if let handler = handler {
@@ -338,10 +346,9 @@ class APIManager: NSObject {
             builder.path = APIPath.Settings
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
-//            //print("\(response)")
-            //print("GET \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
+            self.checkWarning(response)
             self.addToLog("GET \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
-            //print("\(response.object)")
+            
             if let json = response.object as? JSONObject {
                 Settings.updateWithJSON(json)
             }
@@ -356,6 +363,7 @@ class APIManager: NSObject {
             builder.path = "\(APIPath.Plan)/\(userId)"
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
+            self.checkWarning(response)
             if let handler = handler {
                 handler(response: response.object as? JSONObject, error: response.error)
             }
@@ -363,20 +371,34 @@ class APIManager: NSObject {
     }
     
     func saveSettings(settings: Settings, handler: ErrorHandlerClosure?) {
-//        settings.gender = .SheMale
         sessionManager.performRequestWithBuilderBlock({ (builder) -> Void in
             builder.path = APIPath.Settings
             builder.requestMethod = RCRequestMethod.POST
             builder.object = settings
         }, completion: { (response) -> Void in
-            if let error = response.error {
-                UIAlertView(title: "Achtung", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "OK").show()
-            }
+            self.checkWarning(response)
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
+            
+            if let _ = response.error {
+                APIManager.sharedInstance.updateSettingsWithCompletion(nil)
+            }
+            if let json = response.object as? JSONObject {
+                print(response.object)
+                Settings.updateWithJSON(json)
+            }
             if let handler = handler {
                 handler(error: response.error)
             }
         })
+    }
+    
+    private func checkWarning(response: RCResponse) {
+        if let _ = response.error where reachability.isReachable() {
+            let alertController = UIAlertController(title: "Warning", message: "Sorry, your action didn't register. Please try again.", preferredStyle: .Alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            appDelegate.window?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
+        }
     }
     
     // MARK: - Private

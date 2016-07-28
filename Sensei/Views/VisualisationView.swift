@@ -16,6 +16,7 @@ let VisualizationCollectionViewCellTextViewContentSizeContext = UnsafeMutablePoi
 enum VisualizationViewMode {
     case Default
     case Editing
+    case Hide
 }
 
 protocol VisualizationViewDelegate: class {
@@ -63,6 +64,12 @@ class VisualisationView: UIView {
                     editButton.setTitle("EDIT", forState: UIControlState.Normal)
                     cameraButton.hidden = false
                     delegate?.visualizationViewDidEndEditing(self)
+                case .Hide:
+                    textView.userInteractionEnabled = false
+                    textView.resignFirstResponder()
+                    editButton.setTitle("EDIT", forState: UIControlState.Normal)
+                    cameraButton.hidden = false
+                    editButtonHidden = false
                 }
         }
     }
@@ -251,14 +258,13 @@ class VisualisationView: UIView {
     // MARK: - IBActions
     
     @IBAction func takePhoto() {
-        SoundController.playTock()
         delegate?.visualizationViewDidTakePhoto(self)
     }
     
     @IBAction func edit() {
         SoundController.playTock()
         switch mode {
-            case .Default:
+            case .Default, .Hide:
                 mode = .Editing
             case .Editing:
                 delegate?.visualizationViewDidDelete(self)

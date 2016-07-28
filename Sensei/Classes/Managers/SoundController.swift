@@ -11,7 +11,7 @@ import AVFoundation
 
 class SoundController: NSObject {
     
-    
+    static var player = AVAudioPlayer()
     
     class func playTock() {
         var tockURL = NSURL(string:"file:///System/Library/Audio/UISounds/Tock.caf")
@@ -22,9 +22,14 @@ class SoundController: NSObject {
             NSUserDefaults.standardUserDefaults().setObject(tockURL?.absoluteString, forKey: "SoundURL")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
-        
-        var soundID: SystemSoundID = 0
-        AudioServicesCreateSystemSoundID(tockURL!, &soundID)
-        AudioServicesPlaySystemSound(soundID)
+        do {
+            if let url = tockURL {
+                self.player = try AVAudioPlayer(contentsOfURL: url)
+                self.player.volume = AVAudioSession.sharedInstance().outputVolume
+                self.player.play()
+            }
+        } catch {
+            print(error)
+        }
     }
 }

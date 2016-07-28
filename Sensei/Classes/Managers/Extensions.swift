@@ -262,7 +262,7 @@ extension UIImage {
         if coef >= 1 {
             return self
         }
-        let newSize = CGSizeMake(size.width * coef, size.height * coef);
+        let newSize = CGSizeMake(floor(size.width * coef), floor(size.height * coef));
         UIGraphicsBeginImageContext(newSize);
         drawInRect(CGRect(origin: CGPointZero, size: newSize))
         let fullScreenImage = UIGraphicsGetImageFromCurrentImageContext();

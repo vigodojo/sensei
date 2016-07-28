@@ -16,6 +16,14 @@ protocol Message {
     var attributedText: NSAttributedString? { get set }
 }
 
+func ==(left: Message, right: Message) -> Bool {
+    return left.id == right.id
+}
+
+func !=(left: Message, right: Message) -> Bool {
+    return left.id != right.id
+}
+
 class Lesson: NSManagedObject, Message {
 
     static let EntityName = "Lesson"

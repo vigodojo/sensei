@@ -139,6 +139,11 @@ extension UserMessageViewController: NavigationViewDelegate {
     
     func navigationViewDidBack(cell: NavigationView) {
         addSnapshot()
+        backDidPress()
         navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func backDidPress() {
+        
     }
 }

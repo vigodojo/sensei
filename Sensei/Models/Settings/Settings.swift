@@ -11,8 +11,8 @@ import CoreData
 import RestClient
 
 enum Gender: String, CustomStringConvertible {
-    case Male = "male"
-    case Female = "female"
+    case Male = "Male"
+    case Female = "Female"
     case SheMale = ""
     
     var description: String {
@@ -53,6 +53,7 @@ class Settings: NSManagedObject {
     @NSManaged var dayOfBirth: NSDate?
     @NSManaged var sleepTimeWeekdays: SleepTime
     @NSManaged var sleepTimeWeekends: SleepTime
+    @NSManaged var timeZone: NSNumber?
     
     var dataFormat: DataFormat {
         get {
@@ -65,7 +66,7 @@ class Settings: NSManagedObject {
     
     var gender: Gender {
         get {
-            return Gender(rawValue: genderString) ?? Gender.SheMale
+            return Gender(rawValue: genderString.capitalizedString) ?? Gender.SheMale
         }
         set {
             genderString = newValue.rawValue
@@ -91,7 +92,7 @@ class Settings: NSManagedObject {
     
     // MARK: Mapping
     
-    private static let propertyMapping = ["isProVersion":"isUpgraded", "dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight"]
+    private static let propertyMapping = ["timeZone":"timeZone", "isProVersion":"isUpgraded", "dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight"]
     
     private static let entityPropertyMapping = propertyMapping + ["sleepTimeWeekdays.start": "sleepTime.start", "sleepTimeWeekdays.end": "sleepTime.end", "sleepTimeWeekends.start": "sleepTimeWeekEnd.start", "sleepTimeWeekends.end": "sleepTimeWeekEnd.end"]
 
@@ -102,7 +103,9 @@ class Settings: NSManagedObject {
     }
     
     class func updateWithJSON(json: JSONObject) {
-        CoreDataManager.sharedInstance.updateEntityObject(Settings.sharedSettings, withJSON: json, entityMapping: entityMapping)
+        if CoreDataManager.sharedInstance.updateEntityObject(Settings.sharedSettings, withJSON: json, entityMapping: entityMapping) {
+            print("The big big bang")
+        }
     }
     
     class var objectMapping: RCObjectMapping {
@@ -122,6 +125,7 @@ class Settings: NSManagedObject {
     private class func createDeafultSettings() -> Settings {
         let settings = CoreDataManager.sharedInstance.createObjectForEntityWithName(Settings.EntityName) as! Settings
         settings.name = ""
+        settings.numberOfLessons = NSNumber(integer: 3)
         settings.isProVersion = NSNumber(bool: false)
         settings.dataFormat = Settings.defaultDataFormat
         settings.sleepTimeWeekdays = SleepTime.sleepTimeWithStartTimeStrng(Constants.DefaultStartSleepTime, endTimeString: Constants.DefaultEndSleepTime)

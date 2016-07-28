@@ -14,6 +14,7 @@
 		3D4350831C6A37E0006CC43A /* TutorialTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4350821C6A37E0006CC43A /* TutorialTextViewCell.swift */; };
 		3D4501971C5A432D00ABB756 /* SenseiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4501961C5A432D00ABB756 /* SenseiManager.swift */; };
 		3D5533121C564B6F0093E5D6 /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5533111C564B6F0093E5D6 /* AnimationManager.swift */; };
+		3D701F901D06AF59004D2A13 /* SettingsTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D701F8F1D06AF59004D2A13 /* SettingsTextField.swift */; };
 		3D8CF4F31C747C16005ED08E /* AlertsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CF4F21C747C16005ED08E /* AlertsController.swift */; };
 		3DA8D7D71C1ADCEF0075ADA5 /* UpgradeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */; };
 		3DB7C3DE1C480C4B00A234F8 /* Animations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB7C3DD1C480C4B00A234F8 /* Animations.plist */; };
@@ -98,6 +99,7 @@
 
 /* Begin PBXFileReference section */
 		3D08C51D1C6DCE7400451FE6 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../Settings.bundle; sourceTree = "<group>"; };
+		3D0ADC211D1050C60065A9B0 /* SenseiModelV4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV4.xcdatamodel; sourceTree = "<group>"; };
 		3D1F2FC01CE9B531002432B9 /* SoundController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundController.swift; sourceTree = "<group>"; };
 		3D3B5B1C1CDB741B0033FBD2 /* SoundsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoundsViewController.swift; path = ../Views/SoundsViewController.swift; sourceTree = "<group>"; };
 		3D3B5B1E1CDB79A00033FBD2 /* SoundCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundCell.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 		3D4501961C5A432D00ABB756 /* SenseiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiManager.swift; sourceTree = "<group>"; };
 		3D5533111C564B6F0093E5D6 /* AnimationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV1.xcdatamodel; sourceTree = "<group>"; };
+		3D701F8F1D06AF59004D2A13 /* SettingsTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTextField.swift; sourceTree = "<group>"; };
 		3D8CF4F21C747C16005ED08E /* AlertsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertsController.swift; sourceTree = "<group>"; };
 		3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeManager.swift; sourceTree = "<group>"; };
 		3DB4F0541C7DE4B30006F939 /* SenseiModelV3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV3.xcdatamodel; sourceTree = "<group>"; };
@@ -461,6 +464,7 @@
 			children = (
 				404E0C841B56474E00FE2F3F /* Extensions.swift */,
 				C7E32E9E1B184662008A2233 /* OSTextField.swift */,
+				3D701F8F1D06AF59004D2A13 /* SettingsTextField.swift */,
 			);
 			name = Extensions;
 			path = Managers;
@@ -623,6 +627,7 @@
 				3D4501971C5A432D00ABB756 /* SenseiManager.swift in Sources */,
 				3DC28C981CA2EB2900ABBF37 /* IAPurchaseManager.swift in Sources */,
 				408B320C1B0B7632001BB455 /* KeyboardInputAccessoryView.swift in Sources */,
+				3D701F901D06AF59004D2A13 /* SettingsTextField.swift in Sources */,
 				C7E32E9F1B184662008A2233 /* OSTextField.swift in Sources */,
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				405389AB1B287FCF0035607E /* TextImageView.swift in Sources */,
@@ -817,12 +822,13 @@
 		401FBF911B20A221001DC2D0 /* SenseiModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3D0ADC211D1050C60065A9B0 /* SenseiModelV4.xcdatamodel */,
 				3DB4F0541C7DE4B30006F939 /* SenseiModelV3.xcdatamodel */,
 				3DC0CA4A1C735A960062AC3E /* SenseiModelV2.xcdatamodel */,
 				3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */,
 				401FBF921B20A221001DC2D0 /* SenseiModel.xcdatamodel */,
 			);
-			currentVersion = 3DB4F0541C7DE4B30006F939 /* SenseiModelV3.xcdatamodel */;
+			currentVersion = 3D0ADC211D1050C60065A9B0 /* SenseiModelV4.xcdatamodel */;
 			path = SenseiModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

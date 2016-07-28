@@ -53,6 +53,7 @@ class TextImageView: UIView {
 
     var image: UIImage? {
         didSet {
+            imageView.layer.masksToBounds = true
             imageView.image = image
         }
     }

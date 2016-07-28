@@ -67,7 +67,7 @@ class TutorialStep: Message {
         }
     }
     var date = NSDate()
-    
+
     init(dictionary: [String: AnyObject]) {
         number = (dictionary[Keys.Number] as! NSNumber).integerValue
         screen = ScreenName(rawValue: dictionary[Keys.ScreenName] as! String)!
@@ -83,6 +83,10 @@ class TutorialStep: Message {
             allowedAction = nil
         }
         requiresActionToProceed = (dictionary[Keys.RequiresActionToProceed] as! NSNumber).boolValue
+    }
+    
+    func isLast() -> Bool {
+        return number == TutorialManager.sharedInstance.stepsCount()
     }
 }
 

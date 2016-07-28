@@ -47,8 +47,10 @@ class OfflineManager {
             return
         }
         var deletedAffirmationsArray = deletedAffirmations()
-        deletedAffirmationsArray.append(number)
-        saveArrayToDefaults(deletedAffirmationsArray, key: UserDefaultsKeys.DeletedAffirmations)
+        if !deletedAffirmationsArray.contains(number) {
+            deletedAffirmationsArray.append(number)
+            saveArrayToDefaults(deletedAffirmationsArray, key: UserDefaultsKeys.DeletedAffirmations)
+        }
     }
     
     func isAffirmationDeleted(number: NSNumber) -> Bool {
@@ -90,8 +92,10 @@ class OfflineManager {
             return
         }
         var deletedVisualizationsArray = deletedVisualizations()
-        deletedVisualizationsArray.append(number)
-        saveArrayToDefaults(deletedVisualizationsArray, key: UserDefaultsKeys.DeletedVisualizations)
+        if !deletedVisualizationsArray.contains(number) {
+            deletedVisualizationsArray.append(number)
+            saveArrayToDefaults(deletedVisualizationsArray, key: UserDefaultsKeys.DeletedVisualizations)
+        }
     }
     
     func isVisualizationDeleted(number: NSNumber) -> Bool {
@@ -122,34 +126,48 @@ class OfflineManager {
     
     func synchronizeWithServer() {
         if TutorialManager.sharedInstance.completed {
-            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
-            synchAffirmations()
-            synchVisualizations()
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: { (error) in
+                guard let _ = error else {
+                    print("settings updated")
+                    self.synchAffirmations()
+                    self.synchVisualizations()
+                    return
+                }
+            })
         }
     }
     
     private func synchVisualizations() {
         let visualizations = Visualization.offlineVisualizations()
-        updateVisualization(visualizations, counter: 0) { [unowned self] () -> Void in
-            self.deleteVisualization(OfflineManager.sharedManager.deletedVisualizations(), counter: 0, completion: { () -> Void in
-                OfflineManager.sharedManager.resetDeletedVisualizations()
-            })
-        }
+        print("\(visualizations.count) updated visualizations")
+        self.deleteVisualization(OfflineManager.sharedManager.deletedVisualizations(), counter: 0, completion: { (finished) -> Void in
+            OfflineManager.sharedManager.resetDeletedVisualizations()
+            self.updateVisualization(visualizations, counter: 0) { () -> Void in
+            }
+        })
     }
 
-    private func deleteVisualization(visualizations: Array<NSNumber>, counter: Int,  completion:(() -> Void)?) {
+    private func deleteVisualization(visualizations: Array<NSNumber>, counter: Int,  completion:((finished: Bool) -> Void)?) {
+        print("\(visualizations.count) deleted visualizations")
+
         var counter = counter
         if counter >= visualizations.count {
-            completion
+            if let completion = completion {
+                completion(finished: true)
+            }
             return
         }
         APIManager.sharedInstance.deleteVisualizationWithNumber(visualizations[counter]) { [unowned self] (error) -> Void in
             if error == nil {
+                print("DELETED VISUALIZATION \(visualizations[counter])")
                 counter += 1
+            } else {
+                print("ERROR DELETING VISUALIZATION \(visualizations[counter])")
             }
             self.deleteVisualization(visualizations, counter: counter, completion: completion)
         }
     }
+    
     
     private func updateVisualization(visualizations: Array<Visualization>, counter: Int,  completion:(() -> Void)?) {
         var counter = counter
@@ -163,7 +181,10 @@ class OfflineManager {
         
         APIManager.sharedInstance.saveVisualization(visualizations[counter], handler: { [unowned self] (error) -> Void in
             if error == nil {
+                print("UPDATED VISUALIZATION \(visualizations[counter].number)")
                 counter += 1
+            } else {
+                print("ERROR UPDATING VISUALIZATION \(visualizations[counter].number)")
             }
             self.updateVisualization(visualizations, counter: counter, completion: completion)
         })
@@ -171,23 +192,32 @@ class OfflineManager {
     
     private func synchAffirmations() {
         let affirmations = Affirmation.offlineAffirmations()
-        
-        updateAffirmation(affirmations, counter: 0) { [unowned self] () -> Void in
-            self.deleteVisualization(OfflineManager.sharedManager.deletedVisualizations(), counter: 0, completion: { () -> Void in
-                OfflineManager.sharedManager.resetDeletedAffirmations()
-            })
-        }
+        print("\(affirmations.count) updated affirmations")
+
+        self.deleteAffirmation(OfflineManager.sharedManager.deletedAffirmations(), counter: 0, completion: { (finished) -> Void in
+            OfflineManager.sharedManager.resetDeletedAffirmations()
+            self.updateAffirmation(affirmations, counter: 0) { () -> Void in
+                
+            }
+        })
     }
     
-    private func deleteAffirmation(affirmations: Array<NSNumber>, counter: Int,  completion:(() -> Void)?) {
+    private func deleteAffirmation(affirmations: Array<NSNumber>, counter: Int,  completion:((finished: Bool) -> Void)?) {
+        print("\(affirmations.count) deleted affirmations")
+
         var counter = counter
         if counter >= affirmations.count {
-            completion
+            if let completion = completion {
+                completion(finished: true)
+            }
             return
         }
         APIManager.sharedInstance.deleteAffirmationWithNumber(affirmations[counter]) { [unowned self] (error) -> Void in
             if error == nil {
+                print("DELETED AFFIRMATION \(affirmations[counter])")
                 counter += 1
+            } else {
+                print("ERROR DELETING AFFIRMATION \(affirmations[counter])")
             }
             self.deleteAffirmation(affirmations, counter: counter, completion: completion)
         }
@@ -204,7 +234,10 @@ class OfflineManager {
         
         APIManager.sharedInstance.saveAffirmation(affirmations[counter], handler: { [unowned self] (error) -> Void in
             if error == nil {
+                print("UPDATED AFFIRMATION \(affirmations[counter].number)")
                 counter += 1
+            } else {
+                print("ERROR UPDATING AFFIRMATION \(affirmations[counter].number)")
             }
             self.updateAffirmation(affirmations, counter: counter, completion: completion)
         })
