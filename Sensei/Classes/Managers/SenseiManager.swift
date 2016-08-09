@@ -168,6 +168,6 @@ class SenseiManager {
         print("shouldBowAfterLastActivity: \(timeIntervalSinceNow > 60*60)")
         print("**************")
         
-        return timeIntervalSinceNow > 60*60
+        return timeIntervalSinceNow > 5//60*60
     }
 }

@@ -299,7 +299,7 @@ class SenseiViewController: BaseViewController {
     
     func showSitSenseiAnimation() {
         if SenseiManager.sharedManager.senseiSitting {
-            senseiImageView.image = SenseiManager.sharedManager.sittingImage()
+//            senseiImageView.image = SenseiManager.sharedManager.sittingImage()
             senseiImageView.hidden = false
             
             if !TutorialManager.sharedInstance.completed {
@@ -324,7 +324,7 @@ class SenseiViewController: BaseViewController {
             }
             SenseiManager.sharedManager.shouldSitBowAfterOpening = false
         } else {
-            senseiImageView.image = SenseiManager.sharedManager.standingImage()
+//            senseiImageView.image = SenseiManager.sharedManager.standingImage()
             senseiImageView.hidden = false
             setupAwakeAsleepTimer()
 
@@ -756,7 +756,7 @@ class SenseiViewController: BaseViewController {
     func appOpenedFromTray() {
         NSLog("*** FROM TRAY")
         
-        SenseiManager.sharedManager = SenseiManager()
+//        SenseiManager.sharedManager = SenseiManager()
         if let _ = self.parentViewController {
             SenseiManager.sharedManager.standBow = true
         }
@@ -1086,8 +1086,8 @@ extension SenseiViewController {
     }
     
     func didBecomeActive() {
-//        SenseiManager.sharedManager = SenseiManager()
-//        
+        SenseiManager.sharedManager = SenseiManager()
+//
         if SenseiManager.sharedManager.senseiSitting || (!TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.currentStep?.number < StepIndexes.MayIAskYourSexIndex.rawValue) {
             self.senseiImageView.image = SenseiManager.sharedManager.sittingImage()
         } else {
@@ -1118,7 +1118,6 @@ extension SenseiViewController {
 
     private func handleReceivedPushNotification(push: PushNotification) {
         storeLastItem()
-        addLessonFromPush(push)
         
         if let _ = parentViewController where push.type == PushType.Visualisation {
             if let visualisation = Visualization.visualizationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
@@ -1126,6 +1125,7 @@ extension SenseiViewController {
             }
         }
         APIManager.sharedInstance.lessonsHistoryCompletion { [unowned self] (error) -> Void in
+            self.addLessonFromPush(push)
             switch push.type {
             case .Lesson:
                 if !self.isTopViewController {
@@ -1160,7 +1160,6 @@ extension SenseiViewController {
     
     private func handleLaunchViaPush(push: PushNotification) {
         self.storeLastItem()
-        addLessonFromPush(push)
 
         if push.type == PushType.Visualisation {
             if let visualisation = Visualization.visualizationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
@@ -1168,6 +1167,7 @@ extension SenseiViewController {
             }
         }
         APIManager.sharedInstance.lessonsHistoryCompletion { [unowned self] error in
+            self.addLessonFromPush(push)
             switch push.type {
                 case .Lesson:
                     let index = self.dataSource.find {
@@ -1195,11 +1195,11 @@ extension SenseiViewController {
     }
     
     func addLessonFromPush(push: PushNotification) {
-        if push.date == nil || APIManager.sharedInstance.reachability.isReachable() {
+        if push.date == nil {//|| APIManager.sharedInstance.reachability.isReachable() {
             return
         }
         
-        if abs((push.date?.timeIntervalSinceNow)!) < 60*60 {
+//        if abs((push.date?.timeIntervalSinceNow)!) < 60*60 {
             storeLastItem()
             if let _ = CoreDataManager.sharedInstance.fetchObjectsWithEntityName("Lesson", sortDescriptors: [], predicate: NSPredicate(format: "date == %@", push.date!))?.first {
                 return
@@ -1230,7 +1230,7 @@ extension SenseiViewController {
             if let index = index where index < self.dataSource.count {
                 self.scrollToItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: true)
             }
-        }
+//        }
     }
     
     @IBAction func affirmationButtonTapped(sender: AnyObject) {
@@ -1475,7 +1475,6 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
 
         shouldReload = false
         reloadAnimated = false
-
     }
     
     func hideSplashImage() {

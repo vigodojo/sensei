@@ -117,55 +117,59 @@ class SettingsTableViewController: UITableViewController {
         }
             
         inputAccessoryView.didSubmit = { [weak self] () -> Void in
-            self?.view.endEditing(true)
-        
-            if let fieldName = self?.fieldToChange {
+            
+            guard let strongSelf = self else { return }
+            
+            strongSelf.view.endEditing(true)
+            
+            if let fieldName = strongSelf.fieldToChange {
                 if fieldName == .DOB {
-                    if let date = self?.datePicker.date where self?.checkSelectedDate(date) == false {
+                    let date = strongSelf.datePicker.date
+                    if strongSelf.checkSelectedDate(date) == false {
                         return
                     }
                 }
                 
                 if fieldName == .Height {
-                    let pickerDelegate = self?.heightPickerDelegate
-                    let currentValue = pickerDelegate?.currentValueForPickerView((self?.heightPicker)!)
-                    self?.heightCm = currentValue!.realValue
-                    self?.heightTextField.text = "\(currentValue!)"
+                    let pickerDelegate = strongSelf.heightPickerDelegate
+                    let currentValue = pickerDelegate.currentValueForPickerView(strongSelf.heightPicker)
+                    strongSelf.heightCm = currentValue.realValue
+                    strongSelf.heightTextField.text = "\(currentValue)"
                 }
                 
                 if fieldName == .Weight {
-                    let pickerDelegate = self?.weightPickerDelegate
-                    let currentValue = pickerDelegate?.currentValueForPickerView((self?.weightPicker)!)
-                    self?.weightKg = currentValue!.realValue
-                    self?.weightTexField.text = "\(currentValue!)"
+                    let pickerDelegate = strongSelf.weightPickerDelegate
+                    let currentValue = pickerDelegate.currentValueForPickerView(strongSelf.weightPicker)
+                    strongSelf.weightKg = currentValue.realValue
+                    strongSelf.weightTexField.text = "\(currentValue)"
                 }
 
-                let weight = Settings.sharedSettings.weight?.doubleValue != self?.weightKg && Settings.sharedSettings.weight?.doubleValue > 0 && self?.weightKg > 0
-                let height = Settings.sharedSettings.height?.doubleValue != self?.heightCm && Settings.sharedSettings.height?.doubleValue > 0 && self?.heightCm > 0
-                let dob = Settings.sharedSettings.dayOfBirth != nil && Settings.sharedSettings.dayOfBirth?.compare((self?.datePicker.date.timeless())!) != NSComparisonResult.OrderedSame
+                let weight = Settings.sharedSettings.weight?.doubleValue != strongSelf.weightKg && Settings.sharedSettings.weight?.doubleValue > 0 && strongSelf.weightKg > 0
+                let height = Settings.sharedSettings.height?.doubleValue != strongSelf.heightCm && Settings.sharedSettings.height?.doubleValue > 0 && strongSelf.heightCm > 0
+                let dob = Settings.sharedSettings.dayOfBirth != nil && Settings.sharedSettings.dayOfBirth?.compare(strongSelf.datePicker.date.timeless()) != NSComparisonResult.OrderedSame
                 
                 if (weight || height || dob) {
-                    self?.showConfirmation(self!.confirmationTextWithPropertyName(fieldName))
+                    strongSelf.showConfirmation(strongSelf.confirmationTextWithPropertyName(fieldName))
                 } else {
-                    self?.performYesAnswerAction()
+                    strongSelf.performYesAnswerAction()
                 }
             } else {
                 
-                let nonSleepTimeInterval = self!.nonSleepTimeIntervals()
-                self!.fillTimeFromTempStorage()
+                let nonSleepTimeInterval = strongSelf.nonSleepTimeIntervals()
+                strongSelf.fillTimeFromTempStorage()
                 
-                if self!.configureTimeFieldsBorder(nonSleepTimeInterval) {
-                    self!.performYesAnswerAction()
+                if strongSelf.configureTimeFieldsBorder(nonSleepTimeInterval) {
+                    strongSelf.performYesAnswerAction()
                 } else {
-                    self!.fillFromSettings()
+                    strongSelf.fillFromSettings()
 
-                    if self!.tutorialViewController?.isMessageDisplayed() == false {
+                    if strongSelf.tutorialViewController?.isMessageDisplayed() == false {
                         
-                        if self!.isShortSleepTime(nonSleepTimeInterval) {
-                            self?.tutorialViewController?.showMessage(PlainMessage(text: "I highly recommend that you get at least five hours of sleep a day"), disappear: true)
+                        if strongSelf.isShortSleepTime(nonSleepTimeInterval) {
+                            strongSelf.tutorialViewController?.showMessage(PlainMessage(text: "I highly recommend that you get at least five hours of sleep a day"), disappear: true)
                         
-                        } else if (self!.isLongSleepTime(nonSleepTimeInterval)) {
-                            self?.tutorialViewController?.showMessage(PlainMessage(text: "Surely you don't need to sleep more than twelve hours a day. Get out of bed and live life!"), disappear: true)
+                        } else if (strongSelf.isLongSleepTime(nonSleepTimeInterval)) {
+                            strongSelf.tutorialViewController?.showMessage(PlainMessage(text: "Surely you don't need to sleep more than twelve hours a day. Get out of bed and live life!"), disappear: true)
                         }
                     }
                 }
