@@ -176,6 +176,12 @@ class SenseiViewController: BaseViewController {
                 handleLaunchViaPush(push)
             }
         } else if (!(UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted) || TutorialManager.sharedInstance.completed) && tutorialViewController!.splashMaskImageView.hidden {
+            if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
+                SenseiManager.sharedManager.shouldSitBowAfterOpening = false
+                senseiImageView.image = SenseiManager.sharedManager.sittingImage()
+            } else {
+                senseiImageView.image = SenseiManager.sharedManager.standingImage()
+            }
             showSitSenseiAnimation()
         } else if TutorialManager.sharedInstance.completed {
             setupAwakeAsleepTimer()
@@ -447,6 +453,27 @@ class SenseiViewController: BaseViewController {
         }
     }
     
+    func insertMessage(message: Message) {
+        
+        dataSource.append(message)
+        dataSource.sortInPlace { $0.date.compare($1.date) == .OrderedAscending }
+        
+        var indexInArray = dataSource.count - 1
+
+        for index in 0..<dataSource.count {
+            let enumMessage = dataSource[index]
+            if enumMessage.date == message.date {
+                indexInArray = index
+                break
+            }
+        }
+        
+        self.collectionView.contentInset.top = self.topContentInset
+        if self.parentViewController != nil {
+            scrollToItemAtIndexPath(NSIndexPath(forRow: indexInArray, inSection: 0), animated: true)
+        }
+    }
+    
     private func addMessages(messages: [Message], scroll: Bool, completion: (() -> Void)?) {
         var indexPathes = [NSIndexPath]()
         for index in dataSource.count..<(dataSource.count + messages.count) {
@@ -460,36 +487,22 @@ class SenseiViewController: BaseViewController {
         if self.parentViewController != nil {
             collectionView.performBatchUpdates({ [unowned self] () -> Void in
                 self.collectionView.insertItemsAtIndexPaths(indexPathes)
-            }, completion: { [unowned self] (finished) -> Void in
-                if scroll {
-                    self.scrollToLastItemAnimated(true)
-                }
-                if let completion = completion {
-                    self.configureBubles()
-                    completion()
-                }
-            })
+                }, completion: { [unowned self] (finished) -> Void in
+                    if scroll {
+                        self.scrollToLastItemAnimated(true)
+                    }
+                    if let completion = completion {
+                        self.configureBubles()
+                        completion()
+                    }
+                })
         }
     }
     
     func addMsesage(message: Message) {
         addMessages([message], scroll: true, completion: nil)
     }
-    
-    private func deleteMessageAtIndexPath(indexPath: NSIndexPath) {
-        let message = dataSource.removeAtIndex(indexPath.item)
-        if let message = message as? Lesson {
-            APIManager.sharedInstance.blockLessonWithId((message).itemId, handler: nil)
-            CoreDataManager.sharedInstance.managedObjectContext!.deleteObject(message)
-        }
-        
-        collectionView.performBatchUpdates({ [unowned self] () -> Void in
-            self.collectionView.deleteItemsAtIndexPaths([indexPath])
-        }) { [unowned self] (finished) -> Void in
-            self.changeTopInsets()
-        }
-    }
-    
+
     func removeAllExeptLessons() {
         dataSource = dataSource.filter { $0 is Lesson }
         dataSource = dataSource.filter({ (lesson) -> Bool in
@@ -1199,38 +1212,28 @@ extension SenseiViewController {
             return
         }
         
-//        if abs((push.date?.timeIntervalSinceNow)!) < 60*60 {
-            storeLastItem()
-            if let _ = CoreDataManager.sharedInstance.fetchObjectsWithEntityName("Lesson", sortDescriptors: [], predicate: NSPredicate(format: "date == %@", push.date!))?.first {
-                return
-            }
-            
-            let lesson = CoreDataManager.sharedInstance.createObjectForEntityWithName("Lesson") as! Lesson
-            lesson.itemId = push.id
-            lesson.type = push.type.rawValue
-            lesson.date = push.date!
-            
-            if lesson.isTypeLesson() {
-                lesson.text = push.alert
-            } else {
-                lesson.preText = push.preMessage
-                let lessonMessage = push.alert.stringByReplacingOccurrencesOfString(lesson.preText, withString:"")
-                lesson.text = lessonMessage.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            }
-            CoreDataManager.sharedInstance.saveContext()
-            
-            let index = self.dataSource.find {
-                let idsEqual = $0.id == push.id
-                if let pushDate = push.date {
-                    let isDateEqueal = $0.date.compare(pushDate) == .OrderedSame
-                    return idsEqual && isDateEqueal
-                }
-                return idsEqual
-            }
-            if let index = index where index < self.dataSource.count {
-                self.scrollToItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: true)
-            }
-//        }
+        storeLastItem()
+        if let _ = CoreDataManager.sharedInstance.fetchObjectsWithEntityName("Lesson", sortDescriptors: [], predicate: NSPredicate(format: "date == %@", push.date!))?.first {
+            return
+        }
+        
+        let message = PlainMessage(text: "")
+        
+        switch push.type {
+        case .Lesson:
+            message.text = push.alert
+        case .Affirmation:
+            var lessonMessage = push.alert.stringByReplacingOccurrencesOfString(push.preMessage, withString:"")
+            lessonMessage = lessonMessage.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            message.text = "\(push.preMessage) \(lessonMessage)"
+        default:
+            print("nothing at all")
+        }
+        if let date = push.date {
+            message.date = date
+        }
+        removeAllExeptLessons()
+        insertMessage(message)
     }
     
     @IBAction func affirmationButtonTapped(sender: AnyObject) {
@@ -1258,7 +1261,6 @@ extension SenseiViewController: UICollectionViewDataSource {
         let message = dataSource[indexPath.item]
         let identifier = SpeechBubbleCollectionViewCell.reuseIdetifierForBubbleCellType(message is AnswerMessage ? .Me : .Sensei)
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as! SpeechBubbleCollectionViewCell
-        cell.delegate = self
         
         if let lesson = message as? Lesson where (message as! Lesson).isTypeVisualization() {
             cell.visualization = Visualization.visualizationWithNumber(NSNumber(integer: (lesson.itemId as NSString).integerValue))
@@ -1402,17 +1404,6 @@ extension SenseiViewController: TextImagePreviewControllerDelegate {
             self.startFromVis = false
             
             showSitSenseiAnimation()
-        }
-    }
-}
-
-// MARK: - SpeechBubbleCollectionViewCellDelegate
-
-extension SenseiViewController: SpeechBubbleCollectionViewCellDelegate {
-    
-    func speechBubbleCollectionViewCellDidClose(cell: SpeechBubbleCollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell) {
-            deleteMessageAtIndexPath(indexPath)
         }
     }
 }

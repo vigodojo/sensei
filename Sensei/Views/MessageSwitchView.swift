@@ -41,7 +41,7 @@ class MessageSwitchView: UIView {
     private lazy var receiveTimePickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
         let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.bounds), height: DefaultInputAccessotyViewHeight))
         let inputAccessoryView = PickerInputAccessoryView(frame: rect)
-        inputAccessoryView.rightButton.setTitle("Done", forState: UIControlState.Normal)
+        inputAccessoryView.rightButton.setTitle("Submit", forState: UIControlState.Normal)
         inputAccessoryView.leftButton.hidden = true
         
         inputAccessoryView.didSubmit = { [weak self] () -> Void in
