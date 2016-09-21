@@ -71,7 +71,7 @@ class SenseiViewController: BaseViewController {
 	}()
     
     private lazy var sizingCell: SpeechBubbleCollectionViewCell = {
-        NSBundle.mainBundle().loadNibNamed(RightSpeechBubbleCollectionViewCellNibName, owner: self, options: nil).first as! SpeechBubbleCollectionViewCell
+        NSBundle.mainBundle().loadNibNamed(RightSpeechBubbleCollectionViewCellNibName, owner: self, options: nil)!.first as! SpeechBubbleCollectionViewCell
     }()
     
     private var collectionViewContentInset: UIEdgeInsets {

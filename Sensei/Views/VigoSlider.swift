@@ -64,9 +64,9 @@ class VigoSlider: UIControl {
 
     override func drawRect(rect: CGRect) {
         let context = UIGraphicsGetCurrentContext()
-        CGContextSaveGState(context)
+        CGContextSaveGState(context!)
         drawScaleInContext(context!)
-        CGContextRestoreGState(context)
+        CGContextRestoreGState(context!)
     }
     
     // MARK: Public

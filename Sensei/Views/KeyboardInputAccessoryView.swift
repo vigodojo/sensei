@@ -76,7 +76,7 @@ class KeyboardInputAccessoryView: UIView, AnswerableInputAccessoryViewProtocol {
     }
     
     private func setup() {
-        if let view = NSBundle.mainBundle().loadNibNamed(Constants.NibName, owner: self, options: nil).first as? UIView {
+        if let view = NSBundle.mainBundle().loadNibNamed(Constants.NibName, owner: self, options: nil)!.first as? UIView {
             addEdgePinnedSubview(view)
         }
     }

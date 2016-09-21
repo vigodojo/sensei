@@ -505,6 +505,7 @@
 					4084CFD51AFA611B000F8D47 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = 7JSQETKKF7;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -771,6 +772,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -792,6 +794,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};

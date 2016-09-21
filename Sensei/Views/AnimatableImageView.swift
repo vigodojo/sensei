@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AnimatableImageView: UIImageView {
+class AnimatableImageView: UIImageView, CAAnimationDelegate {
     
     private struct Constants {
         static let KeyPathContents = "contents"
@@ -40,7 +40,7 @@ class AnimatableImageView: UIImageView {
         return layer.animationKeys()?.count > 0
     }
     
-    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+    func animationDidStop(anim: CAAnimation, finished flag: Bool) {
         if let completionClosure = completionClosure {
             completionClosure(finished: flag)
         }

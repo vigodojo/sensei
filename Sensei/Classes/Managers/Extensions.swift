@@ -239,16 +239,16 @@ extension UIImage {
                 break;
         }
         
-        let context = CGBitmapContextCreate(nil, Int(size.width), Int(size.height), CGImageGetBitsPerComponent(CGImage), 0, CGImageGetColorSpace(CGImage), CGImageGetBitmapInfo(CGImage).rawValue)
-        CGContextConcatCTM(context, transform)
+        let context = CGBitmapContextCreate(nil, Int(size.width), Int(size.height), CGImageGetBitsPerComponent(CGImage!), 0, CGImageGetColorSpace(CGImage!)!, CGImageGetBitmapInfo(CGImage!).rawValue)
+        CGContextConcatCTM(context!, transform)
         switch imageOrientation {
             case .Left, .LeftMirrored, .Right, .RightMirrored:
-                CGContextDrawImage(context, CGRect(origin: CGPointZero, size: CGSize(width: size.height, height: size.width)), CGImage)
+                CGContextDrawImage(context!, CGRect(origin: CGPointZero, size: CGSize(width: size.height, height: size.width)), CGImage!)
             default:
-                CGContextDrawImage(context, CGRect(origin: CGPointZero, size: size), CGImage)
+                CGContextDrawImage(context!, CGRect(origin: CGPointZero, size: size), CGImage!)
         }
         
-        let newCGImage = CGBitmapContextCreateImage(context)
+        let newCGImage = CGBitmapContextCreateImage(context!)
         let newImage = UIImage(CGImage: newCGImage!)
         return newImage
     }
@@ -267,7 +267,7 @@ extension UIImage {
         drawInRect(CGRect(origin: CGPointZero, size: newSize))
         let fullScreenImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        return fullScreenImage;
+        return fullScreenImage!;
     }
 }
 
