@@ -32,4 +32,24 @@ class SoundController: NSObject {
             print(error)
         }
     }
+    
+    private class func playSound(name: String, withExtension: String) {
+        do {
+            if let url = NSBundle.mainBundle().URLForResource(name, withExtension: withExtension) {
+                self.player = try AVAudioPlayer(contentsOfURL: url)
+                self.player.volume = AVAudioSession.sharedInstance().outputVolume
+                self.player.play()
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
+    class func playSwish() {
+        playSound("Swish_1", withExtension: "aif")
+    }
+    
+    class func playBloop() {
+        playSound("Bloop_3", withExtension: "aif")
+    }
 }

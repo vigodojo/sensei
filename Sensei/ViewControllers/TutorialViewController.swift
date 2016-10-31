@@ -38,6 +38,7 @@ class TutorialViewController: BaseViewController {
     @IBOutlet weak var senseiTapView: UIView!
     @IBOutlet weak var senseiHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet var tapSenseiGesture: UITapGestureRecognizer!
 
     @IBOutlet weak var warningTextView: UITextView!
     @IBOutlet weak var arrowMoreButton: UIButton!
@@ -236,6 +237,27 @@ class TutorialViewController: BaseViewController {
         showMessage(message, upgrade: false)
     }
     
+    func showShareRegards() {
+        
+        var message = "Thank you for sharing the app ${name}, helping others is a key to happiness!"
+        message = message.stringByReplacingOccurrencesOfString("${name}", withString: Settings.sharedSettings.name)
+        
+        showMessage(PlainMessage(text: message), disappear: false)
+        showBlockingWindow()
+        tapSenseiGesture.enabled = false
+        let delay = ceil(Double((message.characters.count)) * 0.03)
+
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(delay) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+            SenseiManager.sharedManager.animateSenseiPunchInImageView(self.senseiImageView) { (finished) in
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(1) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                    self.messages = []
+                    self.hideTutorialAnimated(true)
+                    self.tapSenseiGesture.enabled = true
+                }
+            }
+        }
+    }
+    
     func showWarningMessage(message: String, disappear: Bool) {
         if !warningTextView.hidden {
             return
@@ -273,6 +295,7 @@ class TutorialViewController: BaseViewController {
     func ask(question: ConfirmationQuestion) {
         view.endEditing(true)
 
+        SoundController.playSwish()
         if tutorialHidden || TutorialManager.sharedInstance.completed {
             if TutorialManager.sharedInstance.completed {
                 messages = [question]
@@ -310,6 +333,7 @@ class TutorialViewController: BaseViewController {
     }
     
     func showMessage(message: Message, upgrade: Bool) {
+        SoundController.playBloop()
         showMessage(message, upgrade: upgrade, completion: nil)
     }
     

@@ -13,6 +13,8 @@
 		3D3B5B1F1CDB79A00033FBD2 /* SoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3B5B1E1CDB79A00033FBD2 /* SoundCell.swift */; };
 		3D4350831C6A37E0006CC43A /* TutorialTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4350821C6A37E0006CC43A /* TutorialTextViewCell.swift */; };
 		3D4501971C5A432D00ABB756 /* SenseiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4501961C5A432D00ABB756 /* SenseiManager.swift */; };
+		3D4AA7271DB671B4001A41C3 /* Bloop_3.aif in Resources */ = {isa = PBXBuildFile; fileRef = 3D4AA7261DB671B4001A41C3 /* Bloop_3.aif */; };
+		3D4AA7291DB6724B001A41C3 /* Swish_1.aif in Resources */ = {isa = PBXBuildFile; fileRef = 3D4AA7281DB6724B001A41C3 /* Swish_1.aif */; };
 		3D5533121C564B6F0093E5D6 /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5533111C564B6F0093E5D6 /* AnimationManager.swift */; };
 		3D701F901D06AF59004D2A13 /* SettingsTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D701F8F1D06AF59004D2A13 /* SettingsTextField.swift */; };
 		3D8CF4F31C747C16005ED08E /* AlertsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CF4F21C747C16005ED08E /* AlertsController.swift */; };
@@ -105,9 +107,12 @@
 		3D3B5B1E1CDB79A00033FBD2 /* SoundCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundCell.swift; sourceTree = "<group>"; };
 		3D4350821C6A37E0006CC43A /* TutorialTextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialTextViewCell.swift; sourceTree = "<group>"; };
 		3D4501961C5A432D00ABB756 /* SenseiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiManager.swift; sourceTree = "<group>"; };
+		3D4AA7261DB671B4001A41C3 /* Bloop_3.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = Bloop_3.aif; path = ../../../../Desktop/Bloop_3.aif; sourceTree = "<group>"; };
+		3D4AA7281DB6724B001A41C3 /* Swish_1.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = Swish_1.aif; path = ../../../../Desktop/Swish_1.aif; sourceTree = "<group>"; };
 		3D5533111C564B6F0093E5D6 /* AnimationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV1.xcdatamodel; sourceTree = "<group>"; };
 		3D701F8F1D06AF59004D2A13 /* SettingsTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTextField.swift; sourceTree = "<group>"; };
+		3D888FFF1D92DEBE00F381DF /* Sensei.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sensei.entitlements; sourceTree = "<group>"; };
 		3D8CF4F21C747C16005ED08E /* AlertsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertsController.swift; sourceTree = "<group>"; };
 		3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeManager.swift; sourceTree = "<group>"; };
 		3DB4F0541C7DE4B30006F939 /* SenseiModelV3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV3.xcdatamodel; sourceTree = "<group>"; };
@@ -242,7 +247,6 @@
 				58DE41731BE903E40051018C /* Services */,
 				C7E32E9D1B184619008A2233 /* Extensions */,
 				402F14541B0A0A24000C4261 /* Managers */,
-				402F14551B0A0A24000C4261 /* Segues */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -342,7 +346,8 @@
 			children = (
 				402F14561B0A0A24000C4261 /* TabSegue.swift */,
 			);
-			path = Segues;
+			name = Segues;
+			path = Classes/Segues;
 			sourceTree = "<group>";
 		};
 		404E0C8A1B5647CB00FE2F3F /* Messages */ = {
@@ -391,14 +396,18 @@
 		4084CFD81AFA611B000F8D47 /* Sensei */ = {
 			isa = PBXGroup;
 			children = (
+				3D888FFF1D92DEBE00F381DF /* Sensei.entitlements */,
 				401FBF911B20A221001DC2D0 /* SenseiModel.xcdatamodeld */,
 				402F14511B0A08AC000C4261 /* Frameworks */,
 				402C32AE1B0392180045BAD7 /* Classes */,
+				402F14551B0A0A24000C4261 /* Segues */,
 				402C32AF1B0392180045BAD7 /* Models */,
 				402C32B21B0392180045BAD7 /* Views */,
 				402C32B01B0392180045BAD7 /* ViewControllers */,
 				4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */,
 				4084CFDF1AFA611B000F8D47 /* Main.storyboard */,
+				3D4AA7261DB671B4001A41C3 /* Bloop_3.aif */,
+				3D4AA7281DB6724B001A41C3 /* Swish_1.aif */,
 				4084CFE21AFA611B000F8D47 /* Images.xcassets */,
 				4084CFD91AFA611B000F8D47 /* Supporting Files */,
 			);
@@ -504,8 +513,14 @@
 				TargetAttributes = {
 					4084CFD51AFA611B000F8D47 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = 7JSQETKKF7;
+						DevelopmentTeam = P2P9NRDX32;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -539,9 +554,11 @@
 				404E0CA31B56527F00FE2F3F /* Tutorial.plist in Resources */,
 				408B320E1B0B7645001BB455 /* KeyboardInputAccessoryView.xib in Resources */,
 				3D08C51E1C6DCE7400451FE6 /* Settings.bundle in Resources */,
+				3D4AA7291DB6724B001A41C3 /* Swish_1.aif in Resources */,
 				3DB7C3DE1C480C4B00A234F8 /* Animations.plist in Resources */,
 				40EB50F91B4A9DD0003D5833 /* NavigationView.xib in Resources */,
 				400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */,
+				3D4AA7271DB671B4001A41C3 /* Bloop_3.aif in Resources */,
 				40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */,
 				4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */,
 				40EB50F71B4A9DD0003D5833 /* MessageSwitchView.xib in Resources */,
@@ -757,8 +774,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sensei/Sensei.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = P2P9NRDX32;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -769,7 +788,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thinkmobiles.ViGoDojo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 2.3;
@@ -780,8 +799,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sensei/Sensei.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = P2P9NRDX32;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -791,7 +812,7 @@
 				INFOPLIST_FILE = Sensei/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thinkmobiles.ViGoDojo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 2.3;

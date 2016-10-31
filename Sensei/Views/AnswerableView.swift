@@ -20,7 +20,7 @@ protocol AnswerableViewDelegate: class {
     func answerableViewDidCancel(answerableView: AnswerableView)
 }
 
-let DefaultInputAccessotyViewHeight: CGFloat = 40
+let DefaultInputAccessotyViewHeight: CGFloat = 56
 
 class AnswerableView: UIView {
     

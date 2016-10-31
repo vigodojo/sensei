@@ -83,14 +83,14 @@ class SpeechBubbleCollectionViewCell: UICollectionViewCell {
         }
     }
 
-	var speachBubleOffset: CGFloat {
-		get {
-			return speachBubleOffsetConstraint.constant
-		}
-		set {
-			speachBubleOffsetConstraint.constant = newValue
-		}
-	}
+//	var speachBubleOffset: CGFloat {
+//		get {
+//			return speachBubleOffsetConstraint.constant
+//		}
+//		set {
+//			speachBubleOffsetConstraint.constant = newValue
+//		}
+//	}
     
     var delegate: SpeechBubbleCollectionViewCellDelegate?
     

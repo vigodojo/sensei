@@ -43,6 +43,7 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     override weak var messageSwitchView: MessageSwitchView! {
         didSet {
             messageSwitchView.delegate = self
+            messageSwitchView.translatesAutoresizingMaskIntoConstraints = false
         }
     }
     
@@ -169,6 +170,10 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
         APIManager.sharedInstance.lessonsHistoryCompletion(nil)
         
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    override func backDidPress() {
+        SoundController.playSwish()
     }
     
     // MARK: - Keyboard

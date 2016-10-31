@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A319" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -15,26 +16,9 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="EWJ-4P-st8" customClass="SpeechBubbleView" customModule="Sensei" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="142"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBn-PW-Mrd">
-                                <rect key="frame" x="264" y="0.0" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="7mF-fE-WPd"/>
-                                    <constraint firstAttribute="height" constant="30" id="LvA-aq-PNL"/>
-                                </constraints>
-                                <inset key="contentEdgeInsets" minX="16" minY="8" maxX="8" maxY="16"/>
-                                <state key="normal" image="btn_close">
-                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="close" destination="kvc-o9-MLK" eventType="touchUpInside" id="SsL-xn-NxU"/>
-                                </connections>
-                            </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Guten Morgen" translatesAutoresizingMaskIntoConstraints="NO" id="oEO-RP-dDl" customClass="IrresponsibleTextView" customModule="Sensei" customModuleProvider="target">
-                                <rect key="frame" x="8" y="8" width="270" height="126"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
@@ -43,10 +27,8 @@
                                 </connections>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="GBn-PW-Mrd" firstAttribute="top" secondItem="EWJ-4P-st8" secondAttribute="top" id="5lP-dE-J6l"/>
-                            <constraint firstAttribute="trailing" secondItem="GBn-PW-Mrd" secondAttribute="trailing" constant="6" id="9TU-0L-k3t"/>
                             <constraint firstItem="oEO-RP-dDl" firstAttribute="leading" secondItem="EWJ-4P-st8" secondAttribute="leading" constant="8" id="WBN-zJ-BLf"/>
                             <constraint firstAttribute="bottom" secondItem="oEO-RP-dDl" secondAttribute="bottom" constant="8" id="Xfd-Tz-T7f"/>
                             <constraint firstAttribute="trailing" secondItem="oEO-RP-dDl" secondAttribute="trailing" constant="22" id="g7v-0Q-t64"/>
@@ -54,7 +36,7 @@
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
-                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="pointerPositionNumber">
                                 <integer key="value" value="2"/>
@@ -63,26 +45,19 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="EWJ-4P-st8" secondAttribute="trailing" id="Hr8-ME-PrM"/>
                 <constraint firstItem="EWJ-4P-st8" firstAttribute="top" secondItem="kvc-o9-MLK" secondAttribute="top" id="Oxw-UC-cJc"/>
                 <constraint firstItem="EWJ-4P-st8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kvc-o9-MLK" secondAttribute="leading" id="Wjg-G8-LCh"/>
                 <constraint firstAttribute="bottom" secondItem="EWJ-4P-st8" secondAttribute="bottom" id="pAj-zL-c8i"/>
-                <constraint firstItem="EWJ-4P-st8" firstAttribute="leading" secondItem="kvc-o9-MLK" secondAttribute="leading" id="xBP-7r-CDd"/>
             </constraints>
             <connections>
-                <outlet property="closeButton" destination="GBn-PW-Mrd" id="D0h-ii-EvP"/>
-                <outlet property="speachBubleOffsetConstraint" destination="xBP-7r-CDd" id="neT-cq-aHI"/>
                 <outlet property="speechBubbleView" destination="EWJ-4P-st8" id="Nps-ED-Wke"/>
                 <outlet property="textView" destination="oEO-RP-dDl" id="Xbv-7Q-Gh8"/>
             </connections>
             <point key="canvasLocation" x="378" y="252"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="btn_close" width="6" height="6"/>
-    </resources>
 </document>

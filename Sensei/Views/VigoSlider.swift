@@ -56,7 +56,6 @@ class VigoSlider: UIControl {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("awakeFromNib: \(thumbView)")
         if thumbView == nil {
             setCustomThumbView(createDefaultTumbView())
         }
@@ -177,6 +176,7 @@ class VigoSlider: UIControl {
     override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
         setCurrentValueFromThumbXPosition(touch!.locationInView(self).x, rounded: true)
         updateThumbViewCenterAnimated(true)
+        SoundController.playBloop()
         tapGesture.enabled = true
     }
     
@@ -187,6 +187,7 @@ class VigoSlider: UIControl {
         if !thumbView.frame.contains(location) {
             setCurrentValueFromThumbXPosition(location.x, rounded: true)
             updateThumbViewCenterAnimated(true)
+            SoundController.playBloop()
         }
     }
 }

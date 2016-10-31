@@ -67,6 +67,8 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     }()
     
     private var scrollViewBottomSpace: CGFloat {
+        view.layoutIfNeeded()
+        navigationView.superview?.layoutIfNeeded()
         var space = CGRectGetHeight(UIScreen.mainScreen().bounds) - CGRectGetHeight(navigationView.frame) - visualisationView.minRequiredHeight
         if let tutorialViewController = tutorialViewController where !tutorialViewController.tutorialHidden {
             space -= tutorialViewController.tutorialContainerHeight
@@ -192,6 +194,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     }
     
     override func backDidPress() {
+        SoundController.playSwish()
         openVisualizationTapGesture.enabled = false
     }
     
@@ -579,6 +582,8 @@ extension VisualizationsViewController: VisualizationViewDelegate {
     }
     
     func minPossibleHeightForVisualizationView(view: VisualisationView) -> CGFloat {
+        view.layoutIfNeeded()
+        navigationView.superview?.layoutIfNeeded()
         var height = CGRectGetHeight(UIScreen.mainScreen().bounds) - CGRectGetHeight(navigationView.frame) - CGRectGetHeight(messageSwitchView.frame)
         if let tutorialViewController = tutorialViewController {
             height -= tutorialViewController.tutorialContainerHeight

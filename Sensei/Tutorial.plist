@@ -754,7 +754,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>The ‘Sensei teaching intensity’ control allows you to set the intensity of my teachings both in terms of volume and tone. Keep in mind though that lessons are only available in the full version of the app, you will need to upgrade to get this feature. I hope you will love the app and decide to do so soon!</string>
+		<string>The ‘Sensei teaching intensity’ control allows you to set the intensity of my teachings both in terms of quantity and tone. Keep in mind though that lessons are only available in the full version of the app, you will need to upgrade to get this feature. I hope you will love the app and decide to do so soon!</string>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>

@@ -21,9 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-
         pushNotification = extractPushFromLaunchOptions(launchOptions)
         Fabric.with([Crashlytics()])
+        
         if TutorialManager.sharedInstance.completed {
            self.registerForNotifications()
         }
@@ -39,10 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         SenseiManager.sharedManager.standBow = true
         return true
-    }
-    
-    func intervalFromDateToDate(date1: NSDate, date2: NSDate) -> Double {
-        return abs(floor(date1.timeIntervalSinceDate(NSCalendar.currentCalendar().nextDateAfterDate(date1, matchingComponents: date2.timeComponents(), options: NSCalendarOptions.MatchNextTime)!)))
     }
     
     func date(hours hours: Int, minutes: Int) -> NSDate {
@@ -108,7 +104,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         print("Push Info = \(userInfo)")
-//        NSLog("PUSH")
         APIManager.sharedInstance.addToLog("didReceiveRemoteNotification APPDELEGATE")
         NSNotificationCenter.defaultCenter().postNotificationName(ApplicationDidReceiveRemotePushNotification, object: nil, userInfo: userInfo)
     }

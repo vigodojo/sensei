@@ -9,44 +9,45 @@
 import UIKit
 
 protocol SenseiTabControllerDelegate: class {
-    
+
     func senseiTabController(senseiTabController: SenseiTabController, shouldSelectViewController: UIViewController) -> Bool
 }
 
 class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControllerDelegate {
-    
+
     private struct ControlNames {
         static let SenseiTab = "SenseiTab"
         static let MoreTab = "MoreTab"
     }
-    
+
     private struct Constants {
         static let SenseiViewControllerSegueIdentifier = "SwitchToSenseiViewController"
         static let MoreViewControllerSegueIdentifier = "SwitchToMoreViewController"
     }
-    
+
     @IBOutlet weak var senseiTabButton: UIButton!
     @IBOutlet weak var moreTabButton: UIButton!
     @IBOutlet weak var containerView: UIView!
-    
+
     var currentViewController: UIViewController?
     var viewControllers = [UIViewController]()
     var maskBlack: UIView?
-    
+
     weak var delegate: SenseiTabControllerDelegate?
     
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.navigationController?.navigationBarHidden = true
         UIApplication.sharedApplication().statusBarHidden = true
         performSegueWithIdentifier(Constants.SenseiViewControllerSegueIdentifier, sender: self)
         performSegueWithIdentifier(Constants.MoreViewControllerSegueIdentifier, sender: self)
-        
+
         showSenseiViewController()
         addTutorialObservers()
-        
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SenseiTabController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: nil) { [unowned self] notification in

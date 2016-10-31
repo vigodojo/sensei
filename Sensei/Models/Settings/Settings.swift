@@ -89,14 +89,12 @@ class Settings: NSManagedObject {
             }
         }
     }
-    
-    // MARK: Mapping
-    
+
     private static let propertyMapping = ["timeZone":"timeZone", "isProVersion":"isUpgraded", "dayOfBirth": "birthDate", "numberOfLessons": "countLesson", "genderString": "gender", "height": "height", "weight": "weight"]
     
     private static let entityPropertyMapping = propertyMapping + ["sleepTimeWeekdays.start": "sleepTime.start", "sleepTimeWeekdays.end": "sleepTime.end", "sleepTimeWeekends.start": "sleepTimeWeekEnd.start", "sleepTimeWeekends.end": "sleepTimeWeekEnd.end"]
 
-    private static let transformers: [String: JSONValueTransformerProtocol] = ["dayOfBirth": LessonDateTransformer(), "sleepTimeWeekdays.start": SleepTimeEntityTransformer(), "sleepTimeWeekdays.end": SleepTimeEntityTransformer(), "sleepTimeWeekends.start": SleepTimeEntityTransformer(), "sleepTimeWeekends.end": SleepTimeEntityTransformer()]
+    private static let transformers: [String: JSONValueTransformerProtocol] = ["dayOfBirth": DOBDateTransformer(), "sleepTimeWeekdays.start": SleepTimeEntityTransformer(), "sleepTimeWeekdays.end": SleepTimeEntityTransformer(), "sleepTimeWeekends.start": SleepTimeEntityTransformer(), "sleepTimeWeekends.end": SleepTimeEntityTransformer()]
     
     class var entityMapping: EntityMapping {
         return EntityMapping(entityName: Settings.EntityName, propertyMapping: entityPropertyMapping, primaryProperty: "numberOfLessons", valueTransformers: transformers)
@@ -138,6 +136,26 @@ class Settings: NSManagedObject {
             return DataFormat.Metric
         }
         return DataFormat.US
+    }
+}
+
+class DOBDateTransformer: JSONValueTransformerProtocol {
+    
+    static var dateFormatter: NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        return formatter
+    }()
+    
+    func valueFromString(string: String) -> AnyObject? {
+        return DOBDateTransformer.dateFormatter.dateFromString(string)
+    }
+    
+    func stringFromValue(value: AnyObject) -> String? {
+        if let date = value as? NSDate {
+            return DOBDateTransformer.dateFormatter.stringFromDate(date)
+        }
+        return nil
     }
 }
 

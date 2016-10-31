@@ -24,6 +24,10 @@ class AnimationManager: NSObject {
         return animatableImageWithAnimationName("SitStand")
     }
     
+    func punchAnimatableImage() -> AnimatableImage? {
+        return animatableImageWithAnimationName("7Punch")
+    }
+    
     func sitDownAnimatableImage() -> AnimatableImage? {
         if let animatableImage = sitStandAnimatableImage() {
             return reversedAnimatableImage(animatableImage)

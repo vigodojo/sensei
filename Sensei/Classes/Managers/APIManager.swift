@@ -18,8 +18,8 @@ class APIManager: NSObject {
     
     static let sharedInstance = APIManager()
 
-	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
-//	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
+//	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
+	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
 //    static let BaseURL = NSURL(string: "http://192.168.89.131:8832")! //Local
     
     struct APIPath {
@@ -393,8 +393,8 @@ class APIManager: NSObject {
     }
     
     private func checkWarning(response: RCResponse) {
-        if let _ = response.error where reachability.isReachable() {
-            let alertController = UIAlertController(title: "Warning", message: "Sorry, your action didn't register. Please try again.", preferredStyle: .Alert)
+        if let error = response.error where reachability.isReachable() {
+            let alertController = UIAlertController(title: "Warning", message: "\(error.localizedDescription)\n\nSorry, your action didn't register. Please try again.", preferredStyle: .Alert)
             alertController.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             appDelegate.window?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)

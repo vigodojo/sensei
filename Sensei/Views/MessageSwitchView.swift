@@ -104,8 +104,6 @@ class MessageSwitchView: UIView {
         }
     }
     
-    
-    
     // MARK: - Lifecycle
     
     required init?(coder aDecoder: NSCoder) {
@@ -151,9 +149,8 @@ class MessageSwitchView: UIView {
     private func calculateSlotItemWidth() {
         if let delegate = delegate {
             let numberOfItems = delegate.numberOfSlotsInMessageSwitchView(self)
-            let defaultItemWidth = (slotsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
             let itemsWidth = CGRectGetWidth(slotsCollectionView.frame) / CGFloat(numberOfItems)
-            (slotsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width = max(defaultItemWidth, itemsWidth)
+            (slotsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width = itemsWidth
         }
     }
     
@@ -224,8 +221,8 @@ extension MessageSwitchView: UICollectionViewDelegate {
         if let previousSelectedIndxPath = currentSelectedIndexPath {
             collectionView.deselectItemAtIndexPath(previousSelectedIndxPath, animated: false)
         }
-//        SoundController.playTock()
         currentSelectedIndexPath = indexPath
+        SoundController.playSwish()
         delegate?.messageSwitchView(self, didSelectSlotAtIndex: indexPath.item)
     }
     

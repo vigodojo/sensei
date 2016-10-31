@@ -57,6 +57,12 @@ class SenseiManager {
         }
     }
     
+    func animateSenseiPunchInImageView(imageView: AnimatableImageView, completion: ((finished: Bool) -> Void)?) {
+        animateSensei(AnimationManager.sharedManager.punchAnimatableImage()!, imageView: imageView) { (finished) -> Void in
+            completion?(finished: finished)
+        }
+    }
+    
     func animateSenseiStandsBowsInImageView(imageView: AnimatableImageView, completion: ((finished: Bool) -> Void)?) {
         animateSensei(AnimationManager.sharedManager.bowsAnimatableImage()!, imageView: imageView) { (finished) -> Void in
             completion?(finished: finished)

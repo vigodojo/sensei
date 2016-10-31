@@ -62,8 +62,6 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var upgradeSeparatorView: UIView!
     @IBOutlet weak var upgradeViewHeightConstraint: NSLayoutConstraint!
     
-    private let SaveConfirmationQuestion = ConfirmationQuestion(text: "Are you sure you want to save this changes?")
-    
     func confirmationTextWithPropertyName(property: FieldName) -> ConfirmationQuestion {
         return ConfirmationQuestion(text: "Are you sure you want to change \(property.rawValue)?")
     }
@@ -161,7 +159,8 @@ class SettingsTableViewController: UITableViewController {
                 if strongSelf.configureTimeFieldsBorder(nonSleepTimeInterval) {
                     strongSelf.performYesAnswerAction()
                 } else {
-                    strongSelf.fillFromSettings()
+//                    strongSelf.fillFromSettings()
+                    strongSelf.performYesAnswerAction()
 
                     if strongSelf.tutorialViewController?.isMessageDisplayed() == false {
                         
@@ -845,6 +844,10 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func shareOnFaebook() {
+//        if let tutorial = tutorialViewController {
+//            tutorial.showShareRegards()
+//            return
+//        }
         if !TutorialManager.sharedInstance.completed {
             return
         }
@@ -866,6 +869,9 @@ class SettingsTableViewController: UITableViewController {
     
     func sharedWithResult(result: SLComposeViewControllerResult) {
         if result == .Done {
+            if let tutorial = tutorialViewController {
+                tutorial.showShareRegards()
+            }
             APIManager.sharedInstance.didShare(nil)
         }
     }

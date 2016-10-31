@@ -129,7 +129,13 @@ class SenseiViewController: BaseViewController {
         
         collectionView.registerNib(UINib(nibName: RightSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: RightSpeechBubbleCollectionViewCellIdentifier)
         collectionView.registerNib(UINib(nibName: LeftSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: LeftSpeechBubbleCollectionViewCellIdentifier)
-		
+        
+//        if let collectionViewLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+//            let width = collectionView.frame.size.width - collectionViewContentInset.left - collectionViewContentInset.right
+//
+//            collectionViewLayout.estimatedItemSize = CGSize(width: width, height: 75.0)
+//        }
+        
         fadingImageView.layer.mask = transparrencyGradientLayer
         collectionView.contentInset = collectionViewContentInset
         
@@ -673,10 +679,14 @@ class SenseiViewController: BaseViewController {
 		let message = dataSource[indexPath.item]
         sizingCell.attributedText = attributedCellTextAtIndexPath(indexPath)
 		sizingCell.frame = CGRect(x: 0.0, y: 0.0, width: fullWidth, height: Constants.DefaultCellHeight)
+        
+        sizingCell.setNeedsLayout()
+        sizingCell.layoutIfNeeded()
 		sizingCell.textView.layoutIfNeeded()
         
 		if #available(iOS 9, *) {
-			return sizingCell.systemLayoutSizeFittingSize(CGSize(width: fullWidth, height: Constants.DefaultCellHeight))
+            let size = sizingCell.systemLayoutSizeFittingSize(CGSize(width: fullWidth, height: Constants.DefaultCellHeight), withHorizontalFittingPriority: UILayoutPriorityDefaultHigh, verticalFittingPriority: UILayoutPriorityDefaultLow)
+            return size
 		} else  {
 			let size = sizingCell.systemLayoutSizeFittingSize(CGSize(width: fullWidth, height: Constants.DefaultCellHeight), withHorizontalFittingPriority: 1000, verticalFittingPriority: 50)
 			let textSize = SpeechBubbleCollectionViewCell.sizeForText(sizingCell.text, maxWidth: fullWidth, type: message is AnswerMessage ? .Me : .Sensei)
@@ -1265,20 +1275,16 @@ extension SenseiViewController: UICollectionViewDataSource {
         if let lesson = message as? Lesson where (message as! Lesson).isTypeVisualization() {
             cell.visualization = Visualization.visualizationWithNumber(NSNumber(integer: (lesson.itemId as NSString).integerValue))
         }
-        
         cell.attributedText = attributedCellTextAtIndexPath(indexPath)
         cell.showCloseButton(false)
-
-		let size = caluclateSizeForItemAtIndexPath(indexPath)
-		let width = CGRectGetWidth(UIEdgeInsetsInsetRect(collectionView.bounds, collectionViewContentInset))
-        cell.speachBubleOffset = width - size.width
         configureTipForCell(cell)
+
         return cell
     }
     
     func removeExpiredMessages() {
         for message in dataSource {
-            if abs(message.date.timeIntervalSinceNow) > 60*60 {
+            if abs(message.date.timeIntervalSinceNow) > 3*60*60 {
                 CoreDataManager.sharedInstance.deleteManagedObject(message as! NSManagedObject)
             }
         }
@@ -1310,8 +1316,8 @@ extension SenseiViewController: UICollectionViewDataSource {
         if message is PlainMessage {
             messageBody = NSMutableAttributedString(string: (message as! PlainMessage).text, attributes:  nil)
         }
-        let attrDate = NSAttributedString(string: "\n\n\(message.date)")
-        messageBody.appendAttributedString(attrDate)
+//        let attrDate = NSAttributedString(string: "\n\n\(message.date)")
+//        messageBody.appendAttributedString(attrDate)
 
         messageBody.addAttribute(NSFontAttributeName, value: UIFont.speechBubbleTextFont, range: NSMakeRange(0, messageBody.length))
         return messageBody
@@ -1351,7 +1357,8 @@ extension SenseiViewController: UIScrollViewDelegate {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension SenseiViewController: UICollectionViewDelegateFlowLayout {
-    
+
+
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
 		let width = collectionView.frame.size.width - collectionViewContentInset.left - collectionViewContentInset.right
 		let height = caluclateSizeForItemAtIndexPath(indexPath).height

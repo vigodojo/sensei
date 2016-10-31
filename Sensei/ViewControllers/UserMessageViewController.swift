@@ -112,10 +112,9 @@ class UserMessageViewController: BaseViewController, UINavigationControllerDeleg
     // MARK: - Private
     
     private func addSnapshot() {
-        if let tutorialController = tutorialViewController where !tutorialController.tutorialHidden {
-            let snapshotView = tutorialController.view.snapshotViewAfterScreenUpdates(false)
+        if let tutorialController = tutorialViewController where !tutorialController.tutorialHidden, let snapshotView = tutorialController.view.snapshotViewAfterScreenUpdates(false) {
             view.clipsToBounds = false
-            view.addSubview(snapshotView!)
+            view.addSubview(snapshotView)
         }
     }
     
