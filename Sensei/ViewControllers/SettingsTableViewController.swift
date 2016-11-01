@@ -67,9 +67,11 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private var sleepTimeSettings: SleepTimeSettings?
-    
     private var fieldToChange: FieldName?
     
+    private let minimumSleepTime: Double = 5*60*60 //5h
+    private let maximumSleepTime: Double = 23.5*60*60 //23h 30m
+
     private lazy var timePicker: UIDatePicker = { [unowned self] in
         let picker = UIDatePicker()
         picker.datePickerMode = .Time
@@ -92,6 +94,7 @@ class SettingsTableViewController: UITableViewController {
         components.month = 12
         components.day = 31
         let maxDate = NSCalendar.currentCalendar().dateFromComponents(components)!
+        
         components.year -= 80
         components.month = 1
         components.day = 1
@@ -103,6 +106,7 @@ class SettingsTableViewController: UITableViewController {
     }()
 
     private lazy var pickerInputAccessoryView: PickerInputAccessoryView = { [unowned self] in
+        
         let rect = CGRect(origin: CGPointZero, size: CGSize(width: CGRectGetWidth(self.view.bounds), height: DefaultInputAccessotyViewHeight))
         let inputAccessoryView = PickerInputAccessoryView(frame: rect)
         inputAccessoryView.rightButton.setTitle("Submit", forState: UIControlState.Normal)
@@ -113,11 +117,10 @@ class SettingsTableViewController: UITableViewController {
                 view.endEditing(true)
             }
         }
-            
+        
         inputAccessoryView.didSubmit = { [weak self] () -> Void in
             
             guard let strongSelf = self else { return }
-            
             strongSelf.view.endEditing(true)
             
             if let fieldName = strongSelf.fieldToChange {
@@ -142,9 +145,9 @@ class SettingsTableViewController: UITableViewController {
                     strongSelf.weightTexField.text = "\(currentValue)"
                 }
 
-                let weight = Settings.sharedSettings.weight?.doubleValue != strongSelf.weightKg && Settings.sharedSettings.weight?.doubleValue > 0 && strongSelf.weightKg > 0
-                let height = Settings.sharedSettings.height?.doubleValue != strongSelf.heightCm && Settings.sharedSettings.height?.doubleValue > 0 && strongSelf.heightCm > 0
-                let dob = Settings.sharedSettings.dayOfBirth != nil && Settings.sharedSettings.dayOfBirth?.compare(strongSelf.datePicker.date.timeless()) != NSComparisonResult.OrderedSame
+                let weight = strongSelf.weightChanged()
+                let height = strongSelf.heightChanged()
+                let dob = strongSelf.dobChanged()
                 
                 if (weight || height || dob) {
                     strongSelf.showConfirmation(strongSelf.confirmationTextWithPropertyName(fieldName))
@@ -155,21 +158,18 @@ class SettingsTableViewController: UITableViewController {
                 
                 let nonSleepTimeInterval = strongSelf.nonSleepTimeIntervals()
                 strongSelf.fillTimeFromTempStorage()
-                
-                if strongSelf.configureTimeFieldsBorder(nonSleepTimeInterval) {
-                    strongSelf.performYesAnswerAction()
-                } else {
-//                    strongSelf.fillFromSettings()
-                    strongSelf.performYesAnswerAction()
+                strongSelf.performYesAnswerAction()
 
-                    if strongSelf.tutorialViewController?.isMessageDisplayed() == false {
+                if strongSelf.configureTimeFieldsBorder(nonSleepTimeInterval) {
+                
+                } else if let tutorialViewController = strongSelf.tutorialViewController where !tutorialViewController.isMessageDisplayed() {
                         
-                        if strongSelf.isShortSleepTime(nonSleepTimeInterval) {
-                            strongSelf.tutorialViewController?.showMessage(PlainMessage(text: "I highly recommend that you get at least five hours of sleep a day"), disappear: true)
-                        
-                        } else if (strongSelf.isLongSleepTime(nonSleepTimeInterval)) {
-                            strongSelf.tutorialViewController?.showMessage(PlainMessage(text: "Surely you don't need to sleep more than twelve hours a day. Get out of bed and live life!"), disappear: true)
-                        }
+                    if strongSelf.isShortSleepTime(nonSleepTimeInterval) {
+                        let message = PlainMessage(text: "I highly recommend that you get at least five hours of sleep a day")
+                        strongSelf.tutorialViewController?.showMessage(message, disappear: true)
+                    } else if (strongSelf.isLongSleepTime(nonSleepTimeInterval)) {
+                        let message = PlainMessage(text: "Surely you don't need to sleep more than twelve hours a day. Get out of bed and live life!")
+                        strongSelf.tutorialViewController?.showMessage(message, disappear: true)
                     }
                 }
             }
@@ -177,7 +177,22 @@ class SettingsTableViewController: UITableViewController {
         return inputAccessoryView
     }()
     
-    func fillTimeFromTempStorage() {
+    private func weightChanged() -> Bool {
+        guard let weight = Settings.sharedSettings.weight else { return false }
+        return weight.doubleValue != weightKg && weight.doubleValue > 0 && weightKg > 0
+    }
+    
+    private func heightChanged() -> Bool {
+        guard let height = Settings.sharedSettings.height else { return false }
+        return height.doubleValue != heightCm && height.doubleValue > 0 && heightCm > 0
+    }
+    
+    private func dobChanged() -> Bool {
+        guard let dayOfBirth = Settings.sharedSettings.dayOfBirth else { return false }
+        return dayOfBirth.compare(datePicker.date.timeless()) != NSComparisonResult.OrderedSame
+    }
+    
+    private func fillTimeFromTempStorage() {
         if let sleepTimeSettings = sleepTimeSettings {
             weekDaysStartTF.text = DataFormatter.stringFromTime(sleepTimeSettings.weekdaysStart)
             weekDaysEndTF.text = DataFormatter.stringFromTime(sleepTimeSettings.weekdaysEnd)
@@ -260,6 +275,7 @@ class SettingsTableViewController: UITableViewController {
             timePicker.locale = DataFormatter.locale
             datePicker.locale = DataFormatter.locale
             updateSleepTimeSettingTextFields()
+            
             if Settings.sharedSettings.dayOfBirth != nil  {
                 dateOfBirthTF.text = DataFormatter.stringFromDate(datePicker.date)
             }
@@ -278,23 +294,23 @@ class SettingsTableViewController: UITableViewController {
 
         let genderEqual = (Settings.sharedSettings.gender == (maleButton.selected ? .Male: .Female)) || (!maleButton.selected && !femaleButton.selected)
         
-        var heightEqual = false
+        var heightEqual = true
         if let height = Settings.sharedSettings.height {
-            heightEqual = height.doubleValue == heightCm
-        } else {
-            heightEqual = true
+            heightEqual = (height.doubleValue == heightCm)
         }
-        var weightEqual = false
+   
+        var weightEqual = true
         if let weight = Settings.sharedSettings.weight {
-            weightEqual = weight.doubleValue == weightKg
-        } else {
-            weightEqual = true;
+            weightEqual = (weight.doubleValue == weightKg)
         }
+        
         return !dobEqual || !genderEqual || !heightEqual || !weightEqual
     }
     
     private var hasSettingsBeenChanged: Bool {
+        
         let numberOfLessonsEqual = Settings.sharedSettings.numberOfLessons.integerValue == numberOfLessonsSlider.currentValue
+        
         var timeSettingsEqual = false
         if let timeSettings = sleepTimeSettings {
             let weekdaysStartEqual = Settings.sharedSettings.sleepTimeWeekdays.start.compare(timeSettings.weekdaysStart) == .OrderedSame
@@ -322,6 +338,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         if TutorialManager.sharedInstance.completed {
             updateSettings()
         }
@@ -339,16 +356,19 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        
         if hasSettingsBeenChanged || hasProfileBeenChanged {
-            APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) in
-                if let error = error where error.code == -1009 {
-                    self.tutorialViewController?.showNoInternetConnection()
-                }
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { [weak self] (error) in
+                guard let strongSelf = self else { return }
+                strongSelf.showNoInternetError(error)
             }
         }
+        
+        //TODO: need refactor
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let tutorialViewController = appDelegate.window?.rootViewController as! TutorialViewController
         let navController = tutorialViewController.childViewControllers.first as! UINavigationController
+        
         if let senseiTabController = navController.viewControllers.first as? SenseiTabController, senseiViewController = senseiTabController.viewControllers.first as? SenseiViewController {
             (UIApplication.sharedApplication().delegate as! AppDelegate).pushNotification = nil
             senseiViewController.updateHistory()
@@ -368,16 +388,24 @@ class SettingsTableViewController: UITableViewController {
         teachingIntensityUpdated()
     }
     
-    func teachingIntensityUpdated() {
+    private func teachingIntensityUpdated() {
+        
         saveSettings()
-        APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) in
-            if let error = error where error.code == -1009 {
-                self.tutorialViewController?.showNoInternetConnection()
-            } else {
-                print("Updated Intensity")
-            }
+        APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { [weak self] (error) in
+            guard let strongSelf = self else { return }
+            strongSelf.showNoInternetError(error)
         }
     }
+    
+    private func showNoInternetError(error: NSError?) -> Bool {
+        if let error = error where error.code == -1009 {
+            self.tutorialViewController?.showNoInternetConnection()
+            return true
+        }
+        return false
+    }
+    
+    //MARK: - Push Notification
     
     private func handleReceivedPushNotification(push: PushNotification) {
         APIManager.sharedInstance.lessonsHistoryCompletion(nil)
@@ -387,29 +415,42 @@ class SettingsTableViewController: UITableViewController {
         }
         switch push.type {
         case .Lesson:
-            if let _ = parentViewController as? SenseiTabController {
-                let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont, NSForegroundColorAttributeName: UIColor.blackColor()])
-                tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: false)
-            }
+            processLessonPush(push)
         case .Affirmation:
-            if let affirmation = Affirmation.affirmationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
-                affirmation.preMessage = push.preMessage
-                
-                let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
-                tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
-            }
+            processAffirmationPush(push)
         case .Visualisation:
-            let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
-            messageText.addAttribute(NSLinkAttributeName, value: LinkToVisualization, range: NSMakeRange(0, messageText.length))
-            tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
+            processVisualizationPush(push)
         }
     }
 
+    private func processLessonPush(push: PushNotification) {
+        if let _ = parentViewController as? SenseiTabController {
+            let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont, NSForegroundColorAttributeName: UIColor.blackColor()])
+            tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: false)
+        }
+    }
+    
+    private func processAffirmationPush(push: PushNotification) {
+        if let affirmation = Affirmation.affirmationWithNumber(NSNumber(integer: (push.id as NSString).integerValue)) {
+            affirmation.preMessage = push.preMessage
+            let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+            tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
+        }
+    }
+    
+    private func processVisualizationPush(push: PushNotification) {
+        let messageText = NSMutableAttributedString(string: push.alert, attributes: [NSFontAttributeName: UIFont.speechBubbleTextFont])
+        messageText.addAttribute(NSLinkAttributeName, value: LinkToVisualization, range: NSMakeRange(0, messageText.length))
+        tutorialViewController?.showMessage(PlainMessage(attributedText: messageText), upgrade: true)
+    }
+    
     // MARK: - Private
+    
+    let upgradeButtonHeight: CGFloat = 46.0
     
     private func refreshUpgradState() {
         upgradeButton.enabled = !UpgradeManager.sharedInstance.isProVersion()
-        upgradeViewHeightConstraint.constant = UpgradeManager.sharedInstance.isProVersion() ? 0.0 : 46.0
+        upgradeViewHeightConstraint.constant = UpgradeManager.sharedInstance.isProVersion() ? 0.0 : upgradeButtonHeight
         upgradeSeparatorView.hidden = !UpgradeManager.sharedInstance.isProVersion()
         tableView.reloadData()
     }
@@ -492,13 +533,12 @@ class SettingsTableViewController: UITableViewController {
         if parentViewController is SenseiTabController {
             Settings.sharedSettings.isProVersion = NSNumber(bool: true)
             CoreDataManager.sharedInstance.saveContext()
-            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: { (error) in
-                if let error = error where error.code == -1009 {
-                    self.tutorialViewController?.showNoInternetConnection()
-                } else if let proVersion = Settings.sharedSettings.isProVersion where proVersion.boolValue {
-                    let parent = self.parentViewController as! SenseiTabController
+            
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: { [weak self] (error) in
+                guard let strongSelf = self else { return }
+                if let parent = strongSelf.parentViewController as? SenseiTabController where !strongSelf.showNoInternetError(error) {
                     parent.showSenseiViewController()
-                    self.refreshUpgradState()
+                    strongSelf.refreshUpgradState()
                 }
             })
        }
@@ -532,6 +572,15 @@ class SettingsTableViewController: UITableViewController {
         CoreDataManager.sharedInstance.saveContext()
     }
     
+    func saveUpdates() {
+        saveSettings()
+        saveProfile()
+        APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { [weak self](error) in
+            guard let strongSelf = self else { return }
+            strongSelf.showNoInternetError(error)
+        }
+    }
+    
     private func updateSettings() {
         fillFromSettings()
     }
@@ -546,30 +595,34 @@ class SettingsTableViewController: UITableViewController {
     private func fillFromSettings() {
         numberOfLessonsSlider.setCurrentValue(Settings.sharedSettings.numberOfLessons.integerValue, animated: false)
         tutorialSwitch.on = Settings.sharedSettings.tutorialOn.boolValue
-        sleepTimeSettings = SleepTimeSettings(weekdaysStart: Settings.sharedSettings.sleepTimeWeekdays.start, weekdaysEnd: Settings.sharedSettings.sleepTimeWeekdays.end, weekendsStart: Settings.sharedSettings.sleepTimeWeekends.start, weekendsEnd: Settings.sharedSettings.sleepTimeWeekends.end)
+        sleepTimeSettings = SleepTimeSettings(weekdaysStart: Settings.sharedSettings.sleepTimeWeekdays.start,
+                                              weekdaysEnd: Settings.sharedSettings.sleepTimeWeekdays.end,
+                                              weekendsStart: Settings.sharedSettings.sleepTimeWeekends.start,
+                                              weekendsEnd: Settings.sharedSettings.sleepTimeWeekends.end)
         
         updateSleepTimeSettingTextFields()
         configureTimeFieldsBorder(nonSleepTimeIntervals())
         
+        let emptyString = ""
         if let date = Settings.sharedSettings.dayOfBirth {
             dateOfBirthTF.text = DataFormatter.stringFromDate(date)
             datePicker.setDate(date, animated: false)
         } else {
-            dateOfBirthTF.text = ""
+            dateOfBirthTF.text = emptyString
         }
         
         heightCm = Double(0)
         if let height = Settings.sharedSettings.height where height.doubleValue > 0 {
             heightCm = height.doubleValue
         } else {
-            heightTextField.text = ""
+            heightTextField.text = emptyString
         }
         
         weightKg = Double(0)
         if let weight = Settings.sharedSettings.weight where weight.doubleValue > 0 {
             weightKg = weight.doubleValue
         } else {
-            weightTexField.text = ""
+            weightTexField.text = emptyString
         }
         
         switch Settings.sharedSettings.dataFormat {
@@ -616,23 +669,25 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func didScrollToTop() {
-        if !TutorialManager.sharedInstance.completed {
-            if let allowedAction = TutorialManager.sharedInstance.currentStep?.allowedAction where allowedAction == .ScrollToTop {
-                TutorialManager.sharedInstance.nextStep()
-            }
+        if TutorialManager.sharedInstance.completed {
+            return
+        }
+        if let allowedAction = TutorialManager.sharedInstance.currentStep?.allowedAction where allowedAction == .ScrollToTop {
+            TutorialManager.sharedInstance.nextStep()
         }
     }
     
     private func didScrollToBottom() {
-        if !TutorialManager.sharedInstance.completed {
-            if let allowedAction = TutorialManager.sharedInstance.currentStep?.allowedAction where allowedAction == .ScrollToBottom {
-                TutorialManager.sharedInstance.nextStep()
-            }
+        if TutorialManager.sharedInstance.completed {
+            return
+        }
+        if let allowedAction = TutorialManager.sharedInstance.currentStep?.allowedAction where allowedAction == .ScrollToBottom {
+            TutorialManager.sharedInstance.nextStep()
         }
     }
     
-    // MARK: - Tutorial
-    
+    // MARK: - Notifications
+
     func didMoveToNextTutorialNotification(notification: NSNotification) {
         if let tutorialStep = notification.userInfo?[TutorialManager.UserInfoKeys.TutorialStep] as? TutorialStep {
             if tutorialStep.number == Constants.ScrollToTopTutorialStepNumber && tableView.contentOffset.y == 0 {
@@ -655,19 +710,8 @@ class SettingsTableViewController: UITableViewController {
         performYesAnswerAction()
     }
     
-    func performYesAnswerAction() {
-        if hasSettingsBeenChanged {
-            saveSettings()
-        }
-        saveProfile()
-        APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { (error) in
-            
-            if let error = error where error.code == -1009 {
-                self.tutorialViewController?.showNoInternetConnection()
-            } else {
-                print("Settings updated")
-            }
-        }
+    private func performYesAnswerAction() {
+        saveUpdates()
     }
     
     // MARK: - IBActions
@@ -688,22 +732,18 @@ class SettingsTableViewController: UITableViewController {
             } else if textField == weekEndsEndTF {
                 sleepTimeSettings?.weekendsEnd = sender.date
             }
-            
-//            configureTimeFieldsBorder(nonSleepTimeIntervals())
         }
     }
     
-    func configureTimeFieldsBorder(nonSleepTimeInterval: (Double, Double)) -> Bool {
+    
+    private func configureTimeFieldsBorder(nonSleepTimeInterval: (Double, Double)) -> Bool {
         
         let weekNonSleepTimeInterval = nonSleepTimeInterval.0
         let weekendNonSleepTimeInterval = nonSleepTimeInterval.1
 
-        let twentyThreeAndHalf: Double = 5*60*60
-        let twelveHours: Double = 23.5*60*60
-        
         var isValid = true
         
-        if weekNonSleepTimeInterval > twelveHours || weekNonSleepTimeInterval < twentyThreeAndHalf{
+        if weekNonSleepTimeInterval > maximumSleepTime || weekNonSleepTimeInterval < minimumSleepTime {
             isValid = false
             setRedBorder(weekDaysStartTF)
             setRedBorder(weekDaysEndTF)
@@ -712,7 +752,7 @@ class SettingsTableViewController: UITableViewController {
             setSenseiBorder(weekDaysEndTF)
         }
         
-        if weekendNonSleepTimeInterval > twelveHours || weekendNonSleepTimeInterval < twentyThreeAndHalf {
+        if weekendNonSleepTimeInterval > maximumSleepTime || weekendNonSleepTimeInterval < minimumSleepTime {
             isValid = false
             setRedBorder(weekEndsStartTF)
             setRedBorder(weekEndsEndTF)
@@ -723,56 +763,25 @@ class SettingsTableViewController: UITableViewController {
 
         return isValid
     }
-    
-    func isSleepStartEndInSameDay() -> Bool {
-        let weekStartMin = sleepTimeSettings?.weekdaysStart.minutesSinceLastMidnight()
-        let weekEndMin = sleepTimeSettings?.weekdaysEnd.minutesSinceLastMidnight()
-        
-        let weekendStartMin = sleepTimeSettings?.weekendsStart.minutesSinceLastMidnight()
-        let weekendEndMin = sleepTimeSettings?.weekendsEnd.minutesSinceLastMidnight()
 
-        let minInDay = 24*60-1
-
-        guard 0 < weekEndMin && weekStartMin < minInDay  else {
-            return false
-        }
-        
-        guard 0 < weekendEndMin && weekendStartMin < minInDay else {
-            return false
-        }
-        
-        return true
-    }
-
-    func isSleepEndBeforeStart() -> Bool {
-        let weekStartMin = sleepTimeSettings?.weekdaysStart.minutesSinceLastMidnight()
-        let weekEndMin = sleepTimeSettings?.weekdaysEnd.minutesSinceLastMidnight()
-        
-        let weekendStartMin = sleepTimeSettings?.weekendsStart.minutesSinceLastMidnight()
-        let weekendEndMin = sleepTimeSettings?.weekendsEnd.minutesSinceLastMidnight()
-        
-        return weekEndMin < weekStartMin && weekendEndMin < weekendStartMin
-    }
-    
     func isLongSleepTime(nonSleepTimeInterval: (Double, Double)) -> Bool {
         let weekNonSleepTimeInterval = nonSleepTimeInterval.0
         let weekendNonSleepTimeInterval = nonSleepTimeInterval.1
         
-        let twelveHours: Double = 23.5*60*60
-        
-        return weekNonSleepTimeInterval > twelveHours ||  weekendNonSleepTimeInterval > twelveHours
+        return weekNonSleepTimeInterval > maximumSleepTime ||  weekendNonSleepTimeInterval > maximumSleepTime
     }
     
     func isShortSleepTime(nonSleepTimeInterval: (Double, Double)) -> Bool {
         let weekNonSleepTimeInterval = nonSleepTimeInterval.0
         let weekendNonSleepTimeInterval = nonSleepTimeInterval.1
         
-        let fiveHours: Double = 5*60*60
-        
-        return weekNonSleepTimeInterval < fiveHours ||  weekendNonSleepTimeInterval < fiveHours
+        return weekNonSleepTimeInterval < minimumSleepTime ||  weekendNonSleepTimeInterval < minimumSleepTime
     }
     
+    /* Non Sleep time intervals return user's awake time duration in seconds
+     * Returns: (WeekDayAwakeInterval, WeekendDayAwakeInterval). */
     func nonSleepTimeIntervals() -> (Double, Double) {
+        
         let weekSleepStart = sleepTimeSettings?.weekdaysStart
         let weekSleepEnd = sleepTimeSettings?.weekdaysEnd
         let weekendSleepStart = sleepTimeSettings?.weekendsStart
@@ -800,6 +809,7 @@ class SettingsTableViewController: UITableViewController {
         view.layer.borderWidth = 1
     }
     
+    //TODO: remove if not used
     @IBAction func datePickerDidChangeValue(sender: UIDatePicker) {
 //        dateOfBirthTF.text = DataFormatter.stringFromDate(sender.date)
     }
@@ -827,13 +837,7 @@ class SettingsTableViewController: UITableViewController {
                 if femaleButton.selected {
                     Settings.sharedSettings.gender = .Female
                 }
-                APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: { (error) in
-                    if let error = error where error.code == -1009 {
-                        self.tutorialViewController?.showNoInternetConnection()
-                    } else {
-                        print("Settings updated")
-                    }
-                })
+                saveUpdates()
             }
         }
     }
@@ -844,10 +848,6 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func shareOnFaebook() {
-//        if let tutorial = tutorialViewController {
-//            tutorial.showShareRegards()
-//            return
-//        }
         if !TutorialManager.sharedInstance.completed {
             return
         }
@@ -868,12 +868,13 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func sharedWithResult(result: SLComposeViewControllerResult) {
-        if result == .Done {
-            if let tutorial = tutorialViewController {
-                tutorial.showShareRegards()
-            }
-            APIManager.sharedInstance.didShare(nil)
+        if result != .Done {
+            return
         }
+        if let tutorial = tutorialViewController {
+            tutorial.showShareRegards()
+        }
+        APIManager.sharedInstance.didShare(nil)
     }
     
     @IBAction func rateInAppStore() {
@@ -896,7 +897,6 @@ class SettingsTableViewController: UITableViewController {
         }
         SoundController.playTock()     
         if MFMailComposeViewController.canSendMail() {
-            
             let mailComposeController = MFMailComposeViewController()
             mailComposeController.mailComposeDelegate = self
             mailComposeController.setToRecipients(["sensei@vigosensei.com"])
@@ -918,7 +918,6 @@ class SettingsTableViewController: UITableViewController {
             return
         }
         UpgradeManager.sharedInstance.askForUpgrade()
-//UpgradeManager.sharedInstance.openAppStoreURL
     }
 }
 
@@ -961,12 +960,6 @@ extension SettingsTableViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(textField: UITextField) {
         firstResponder = nil
-//        if textField == self.dateOfBirthTF {
-//            let date = self.datePicker.date
-//            if self.previousApplicationState == .Active && self.checkSelectedDate(date) == false {
-//                return
-//            }
-//        }
     }
 }
 
@@ -975,14 +968,7 @@ extension SettingsTableViewController: UITextFieldDelegate {
 extension SettingsTableViewController: SenseiTabControllerDelegate {
     
     func senseiTabController(senseiTabController: SenseiTabController, shouldSelectViewController: UIViewController) -> Bool {
-        if !TutorialManager.sharedInstance.completed {
-            saveSettings()
-            saveProfile()
-            return true
-        }
-        if hasSettingsBeenChanged {
-            saveSettings()
-        }
+        saveUpdates()
         return true
     }
 }
@@ -998,5 +984,4 @@ extension SettingsTableViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
-    
 }

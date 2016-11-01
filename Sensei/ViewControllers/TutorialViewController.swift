@@ -146,7 +146,8 @@ class TutorialViewController: BaseViewController {
             return
         }
         
-        showMessage(PlainMessage(text: "No internet connection. \nThe changes you just made will not take effect until you reconnect to the internet."), disappear: true)
+        let message = PlainMessage(text: "No internet connection. \nThe changes you just made will not take effect until you reconnect to the internet.")
+        showMessage(message, disappear: true)
     }
     
 
