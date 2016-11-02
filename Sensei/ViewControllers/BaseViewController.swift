@@ -64,12 +64,9 @@ class BaseViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: TutorialManager.Notifications.DidMoveToNextStep, object: nil)
     }
     
-    func affirmationTapped(notification: NSNotification) {
-        
-    }
+    func affirmationTapped(notification: NSNotification) { }
   
-    func visualizationTapped(notification: NSNotification) {
-    }
+    func visualizationTapped(notification: NSNotification) { }
     
     func didMoveToNextTutorialNotification(notification: NSNotification) {
         if let tutorialStep = notification.userInfo?[TutorialManager.UserInfoKeys.TutorialStep] as? TutorialStep {
@@ -78,13 +75,12 @@ class BaseViewController: UIViewController {
     }
     
     func didMoveToNextTutorial(tutorialStep: TutorialStep) {
-        var delay: Double = 0
+        var delay: Float = 0
         if tutorialStep.enabledContols.contains("BackButton") ||
            tutorialStep.enabledContols.contains("MoreTab") {
-
            delay = TutorialManager.sharedInstance.delayForCurrentStep()
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(UInt64(delay) * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+        dispatchInMainThreadAfter(delay: delay) { 
             self.enableControls(tutorialStep.enabledContols)
         }
     }

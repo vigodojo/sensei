@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if TutorialManager.sharedInstance.completed {
            self.registerForNotifications()
         }
-
+        
         if NSUserDefaults.standardUserDefaults().objectForKey("LastClearTime") == nil {
             NSUserDefaults.standardUserDefaults().setObject(NSDate().dateByAddingTimeInterval(-60*60*24), forKey: "LastClearTime")
             NSUserDefaults.standardUserDefaults().synchronize()

@@ -42,6 +42,7 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
         
         self.navigationController?.navigationBarHidden = true
         UIApplication.sharedApplication().statusBarHidden = true
+        
         performSegueWithIdentifier(Constants.SenseiViewControllerSegueIdentifier, sender: self)
         performSegueWithIdentifier(Constants.MoreViewControllerSegueIdentifier, sender: self)
 
@@ -49,7 +50,6 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
         addTutorialObservers()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SenseiTabController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: nil)
-        
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillEnterForegroundNotification, object: nil, queue: nil) { [unowned self] notification in
             let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
             if Settings.sharedSettings.timeZone?.integerValue != currentTimeZone {
@@ -72,7 +72,6 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [unowned self]notification in
             (self.viewControllers.first as? SenseiViewController)?.didEnterBackground()
-//            self.tutorialViewController?.splashMaskImageView.hidden = false
             if self.maskBlack == nil {
                 self.maskBlack = UIView(frame: UIScreen.mainScreen().bounds)
                 self.maskBlack!.backgroundColor = UIColor.blackColor()

@@ -39,7 +39,7 @@ class TutorialStep: Message {
     let screen: ScreenName
     var message: String?
     var animatableImage: AnimatableImage?
-    var delayBefore: Double = 0
+    var delayBefore: Float = 0
     let enabledContols: [String]
     let allowedAction: ActionName?
     let requiresActionToProceed: Bool
@@ -71,7 +71,7 @@ class TutorialStep: Message {
     init(dictionary: [String: AnyObject]) {
         number = (dictionary[Keys.Number] as! NSNumber).integerValue
         screen = ScreenName(rawValue: dictionary[Keys.ScreenName] as! String)!
-        delayBefore = (dictionary[Keys.DelayBefore] as? NSNumber)?.doubleValue ?? 0
+        delayBefore = (dictionary[Keys.DelayBefore] as? NSNumber)?.floatValue ?? 0
         message = dictionary[Keys.Message] as? String
         if let animatableImageDictionary = dictionary[Keys.AnimatableImage] as? [String: AnyObject] {
             animatableImage = AnimatableImage(dictionary: animatableImageDictionary)

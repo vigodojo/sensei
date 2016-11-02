@@ -18,6 +18,12 @@ class AnimatableImageView: UIImageView, CAAnimationDelegate {
     private var completionClosure: ((finished: Bool) -> Void)?
     
     func animateAnimatableImage(animatableImage: AnimatableImage, completion: ((finished: Bool) -> Void)?) {
+        if layerAnimating() {
+            if let completion = completion {
+                completion(finished: false)
+            }
+            return
+        }
         completionClosure = completion
         let animation = CAKeyframeAnimation()
         animation.keyPath = Constants.KeyPathContents

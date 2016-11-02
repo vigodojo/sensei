@@ -393,11 +393,11 @@ class TutorialViewController: BaseViewController {
             if visibleCells.count > 0 {
                 if let cell = tutorialCollectionView.cellForItemAtIndexPath(visibleCells.first! as NSIndexPath) as? TutorialTextViewCell {
                     let visibleText = cell.textView.textInFrame(self.view.convertRect(tutorialCollectionView.frame, toView: cell.textView))
-                    let delay = tutorialStep.delayBefore == 0 ? tutorialStep.delayBefore : ceil(Double((visibleText.characters.count)) * 0.03)
-                    self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: #selector(TutorialViewController.didMoveToNextTutorialStepAction(_:)), userInfo: tutorialStep, repeats: false)
+                    let delay = tutorialStep.delayBefore == 0 ? tutorialStep.delayBefore : ceil(Float((visibleText.characters.count)) * 0.03)
+                    self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(Double(delay), target: self, selector: #selector(TutorialViewController.didMoveToNextTutorialStepAction(_:)), userInfo: tutorialStep, repeats: false)
                 }
             } else {
-                self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(tutorialStep.delayBefore, target: self, selector: #selector(TutorialViewController.didMoveToNextTutorialStepAction(_:)), userInfo: tutorialStep, repeats: false)
+                self.nextTimer = NSTimer.scheduledTimerWithTimeInterval(Double(tutorialStep.delayBefore), target: self, selector: #selector(TutorialViewController.didMoveToNextTutorialStepAction(_:)), userInfo: tutorialStep, repeats: false)
             }
         }
     }

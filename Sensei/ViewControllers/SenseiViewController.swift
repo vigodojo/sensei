@@ -25,17 +25,17 @@ class SenseiViewController: BaseViewController {
     }
     
     private enum ScreenHeight: CGFloat {
-        case iPhone4 = 480.0
+        case iPhone4 = 480
         case iPhone5 = 568
-        case iPhone6 = 667.0
-        case iPhone6plus = 736.0
+        case iPhone6 = 667
+        case iPhone6plus = 736
     }
     
     private enum SpeechBubbleRightInset: CGFloat {
-        case iPhone4 = 60.0
-        case iPhone5 = 70.0
-        case iPhone6 = 80.0
-        case iPhone6plus = 90.0
+        case iPhone4 = 60
+        case iPhone5 = 70
+        case iPhone6 = 80
+        case iPhone6plus = 90
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -102,7 +102,7 @@ class SenseiViewController: BaseViewController {
     private var bottomContentInset: CGFloat {
         let bottomCollectionViewOffset: CGFloat = 35.0
         let calcHeight = CGRectGetHeight(senseiImageView.frame) - bottomCollectionViewOffset
-        return max(0, calcHeight * 0.8)
+        return max(0, calcHeight * 0.8)//magic number
     }
     
     private lazy var lessonsFetchedResultController: NSFetchedResultsController = { [unowned self] in
@@ -130,12 +130,6 @@ class SenseiViewController: BaseViewController {
         collectionView.registerNib(UINib(nibName: RightSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: RightSpeechBubbleCollectionViewCellIdentifier)
         collectionView.registerNib(UINib(nibName: LeftSpeechBubbleCollectionViewCellNibName, bundle: nil), forCellWithReuseIdentifier: LeftSpeechBubbleCollectionViewCellIdentifier)
         
-//        if let collectionViewLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-//            let width = collectionView.frame.size.width - collectionViewContentInset.left - collectionViewContentInset.right
-//
-//            collectionViewLayout.estimatedItemSize = CGSize(width: width, height: 75.0)
-//        }
-        
         fadingImageView.layer.mask = transparrencyGradientLayer
         collectionView.contentInset = collectionViewContentInset
         
@@ -160,15 +154,17 @@ class SenseiViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        viewWillAppearCalled()
         
+        viewWillAppearCalled()
         tutorialViewController?.hideTutorialAnimated(false)
         collectionView.contentInset.bottom = bottomContentInset
         
         if UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted {
+
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "TutorialUpgradeCompleted")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
+
 
         if startFromVis {
             if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
@@ -732,11 +728,11 @@ class SenseiViewController: BaseViewController {
             self.dismissViewController()
         }
         
-        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self]notification in
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self] notification in
             if self.previousApplicationState != .Inactive {
                 self.appOpenedFromTray()
             }
-
+            
             self.enableSenseiInteractionIfNeeded()
             self.previousApplicationState = UIApplicationState.Active
         }
@@ -763,6 +759,7 @@ class SenseiViewController: BaseViewController {
         NSLog("*** LAUNCHED")
     
         SenseiManager.sharedManager.saveLastActiveTime()
+        
         if SenseiManager.sharedManager.senseiSitting || (!TutorialManager.sharedInstance.completed && TutorialManager.sharedInstance.currentStep?.number < StepIndexes.MayIAskYourSexIndex.rawValue) {
             self.senseiImageView.image = SenseiManager.sharedManager.sittingImage()
         } else {
@@ -908,7 +905,6 @@ class SenseiViewController: BaseViewController {
                 self.performSegueWithIdentifier("ShowDisclaimer", sender: self)
             }
         }
-        
     }
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
@@ -959,7 +955,7 @@ class SenseiViewController: BaseViewController {
             delay = tutorialStep.delayBefore
         }
         
-        dispatchInMainThreadAfter(delay: Float(delay)) {
+        dispatchInMainThreadAfter(delay: delay) {
             if let animatableimage = tutorialStep.animatableImage {
                 
                 if TutorialManager.sharedInstance.completed &&

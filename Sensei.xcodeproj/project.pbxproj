@@ -13,8 +13,6 @@
 		3D3B5B1F1CDB79A00033FBD2 /* SoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3B5B1E1CDB79A00033FBD2 /* SoundCell.swift */; };
 		3D4350831C6A37E0006CC43A /* TutorialTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4350821C6A37E0006CC43A /* TutorialTextViewCell.swift */; };
 		3D4501971C5A432D00ABB756 /* SenseiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4501961C5A432D00ABB756 /* SenseiManager.swift */; };
-		3D4AA7271DB671B4001A41C3 /* Bloop_3.aif in Resources */ = {isa = PBXBuildFile; fileRef = 3D4AA7261DB671B4001A41C3 /* Bloop_3.aif */; };
-		3D4AA7291DB6724B001A41C3 /* Swish_1.aif in Resources */ = {isa = PBXBuildFile; fileRef = 3D4AA7281DB6724B001A41C3 /* Swish_1.aif */; };
 		3D5533121C564B6F0093E5D6 /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5533111C564B6F0093E5D6 /* AnimationManager.swift */; };
 		3D701F901D06AF59004D2A13 /* SettingsTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D701F8F1D06AF59004D2A13 /* SettingsTextField.swift */; };
 		3D8CF4F31C747C16005ED08E /* AlertsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CF4F21C747C16005ED08E /* AlertsController.swift */; };
@@ -27,6 +25,8 @@
 		3DDF38FC1CD1EAFC00FD534A /* PlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF38FB1CD1EAFC00FD534A /* PlanViewController.swift */; };
 		3DDF38FE1CD1F52300FD534A /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF38FD1CD1F52300FD534A /* MessageCell.swift */; };
 		3DE3BF2C1C74D09C00F38052 /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */; };
+		3DFFFAC51DC8DA7C0064C2C5 /* Bloop_3.aif in Resources */ = {isa = PBXBuildFile; fileRef = 3DFFFAC31DC8DA7C0064C2C5 /* Bloop_3.aif */; };
+		3DFFFAC61DC8DA7C0064C2C5 /* Swish_1.aif in Resources */ = {isa = PBXBuildFile; fileRef = 3DFFFAC41DC8DA7C0064C2C5 /* Swish_1.aif */; };
 		400CA4A01B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */; };
 		400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */; };
 		4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */; };
@@ -107,8 +107,6 @@
 		3D3B5B1E1CDB79A00033FBD2 /* SoundCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundCell.swift; sourceTree = "<group>"; };
 		3D4350821C6A37E0006CC43A /* TutorialTextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialTextViewCell.swift; sourceTree = "<group>"; };
 		3D4501961C5A432D00ABB756 /* SenseiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseiManager.swift; sourceTree = "<group>"; };
-		3D4AA7261DB671B4001A41C3 /* Bloop_3.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = Bloop_3.aif; path = ../../../../Desktop/Bloop_3.aif; sourceTree = "<group>"; };
-		3D4AA7281DB6724B001A41C3 /* Swish_1.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = Swish_1.aif; path = ../../../../Desktop/Swish_1.aif; sourceTree = "<group>"; };
 		3D5533111C564B6F0093E5D6 /* AnimationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		3D7000FC1C3FF55C009F88F8 /* SenseiModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV1.xcdatamodel; sourceTree = "<group>"; };
 		3D701F8F1D06AF59004D2A13 /* SettingsTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTextField.swift; sourceTree = "<group>"; };
@@ -125,6 +123,8 @@
 		3DDF38FB1CD1EAFC00FD534A /* PlanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanViewController.swift; sourceTree = "<group>"; };
 		3DDF38FD1CD1F52300FD534A /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
+		3DFFFAC31DC8DA7C0064C2C5 /* Bloop_3.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bloop_3.aif; sourceTree = "<group>"; };
+		3DFFFAC41DC8DA7C0064C2C5 /* Swish_1.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Swish_1.aif; sourceTree = "<group>"; };
 		400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleView.swift; sourceTree = "<group>"; };
@@ -225,6 +225,24 @@
 			name = "In-App Purchase";
 			sourceTree = "<group>";
 		};
+		3DFFFAC71DC8DA800064C2C5 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				3DFFFAC31DC8DA7C0064C2C5 /* Bloop_3.aif */,
+				3DFFFAC41DC8DA7C0064C2C5 /* Swish_1.aif */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
+		3DFFFAC81DC8DC500064C2C5 /* PlanCheckAndSounds */ = {
+			isa = PBXGroup;
+			children = (
+				3D3B5B1C1CDB741B0033FBD2 /* SoundsViewController.swift */,
+				3DDF38FB1CD1EAFC00FD534A /* PlanViewController.swift */,
+			);
+			name = PlanCheckAndSounds;
+			sourceTree = "<group>";
+		};
 		4016F32F1B04EC7E00728202 /* CollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,8 +286,8 @@
 		402C32B01B0392180045BAD7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				3DFFFAC81DC8DC500064C2C5 /* PlanCheckAndSounds */,
 				40EC078F1B0B86D8009A2000 /* BaseViewController.swift */,
-				3D3B5B1C1CDB741B0033FBD2 /* SoundsViewController.swift */,
 				40A026501B428A2B00E18958 /* TutorialViewController.swift */,
 				402C32B11B0392180045BAD7 /* SenseiTabController.swift */,
 				4016F3321B04EDF200728202 /* SenseiViewController.swift */,
@@ -279,7 +297,6 @@
 				40A6741B1B21B11E001408C3 /* VisualizationsViewController.swift */,
 				40B960121B25A04600D36938 /* TextImagePreviewController.swift */,
 				3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */,
-				3DDF38FB1CD1EAFC00FD534A /* PlanViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -406,9 +423,8 @@
 				402C32B01B0392180045BAD7 /* ViewControllers */,
 				4084CFDB1AFA611B000F8D47 /* AppDelegate.swift */,
 				4084CFDF1AFA611B000F8D47 /* Main.storyboard */,
-				3D4AA7261DB671B4001A41C3 /* Bloop_3.aif */,
-				3D4AA7281DB6724B001A41C3 /* Swish_1.aif */,
 				4084CFE21AFA611B000F8D47 /* Images.xcassets */,
+				3DFFFAC71DC8DA800064C2C5 /* Sounds */,
 				4084CFD91AFA611B000F8D47 /* Supporting Files */,
 			);
 			path = Sensei;
@@ -554,11 +570,11 @@
 				404E0CA31B56527F00FE2F3F /* Tutorial.plist in Resources */,
 				408B320E1B0B7645001BB455 /* KeyboardInputAccessoryView.xib in Resources */,
 				3D08C51E1C6DCE7400451FE6 /* Settings.bundle in Resources */,
-				3D4AA7291DB6724B001A41C3 /* Swish_1.aif in Resources */,
+				3DFFFAC61DC8DA7C0064C2C5 /* Swish_1.aif in Resources */,
 				3DB7C3DE1C480C4B00A234F8 /* Animations.plist in Resources */,
 				40EB50F91B4A9DD0003D5833 /* NavigationView.xib in Resources */,
 				400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */,
-				3D4AA7271DB671B4001A41C3 /* Bloop_3.aif in Resources */,
+				3DFFFAC51DC8DA7C0064C2C5 /* Bloop_3.aif in Resources */,
 				40EC078E1B0B7DE4009A2000 /* PickerInputAccessoryView.xib in Resources */,
 				4084CFE31AFA611B000F8D47 /* Images.xcassets in Resources */,
 				40EB50F71B4A9DD0003D5833 /* MessageSwitchView.xib in Resources */,
