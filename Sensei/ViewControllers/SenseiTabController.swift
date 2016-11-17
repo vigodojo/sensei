@@ -182,7 +182,6 @@ class SenseiTabController: BaseViewController, TabSegueProtocol, UITabBarControl
             delay = Float(TutorialManager.sharedInstance.delayForCurrentStep())
         }
         
-        
         self.dispatchInMainThreadAfter(delay: delay) {
             if !TutorialManager.sharedInstance.upgradeCompleted {
                 self.senseiTabButton.userInteractionEnabled = controlNames?.contains(ControlNames.SenseiTab) ?? true

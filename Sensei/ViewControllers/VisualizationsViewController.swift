@@ -194,7 +194,6 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
     }
     
     override func backDidPress() {
-        SoundController.playSwish()
         openVisualizationTapGesture.enabled = false
     }
     

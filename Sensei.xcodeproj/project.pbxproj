@@ -17,6 +17,7 @@
 		3D701F901D06AF59004D2A13 /* SettingsTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D701F8F1D06AF59004D2A13 /* SettingsTextField.swift */; };
 		3D8CF4F31C747C16005ED08E /* AlertsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CF4F21C747C16005ED08E /* AlertsController.swift */; };
 		3DA8D7D71C1ADCEF0075ADA5 /* UpgradeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */; };
+		3DAFFD0E1DD36149001BCCA7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAFFD0D1DD36149001BCCA7 /* StoreKit.framework */; };
 		3DB7C3DE1C480C4B00A234F8 /* Animations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB7C3DD1C480C4B00A234F8 /* Animations.plist */; };
 		3DC0CA491C7347630062AC3E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0CA481C7347630062AC3E /* Reachability.swift */; };
 		3DC0CA4C1C7364A50062AC3E /* OfflineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0CA4B1C7364A50062AC3E /* OfflineManager.swift */; };
@@ -26,7 +27,6 @@
 		3DDF38FE1CD1F52300FD534A /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF38FD1CD1F52300FD534A /* MessageCell.swift */; };
 		3DE3BF2C1C74D09C00F38052 /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */; };
 		3DFFFAC51DC8DA7C0064C2C5 /* Bloop_3.aif in Resources */ = {isa = PBXBuildFile; fileRef = 3DFFFAC31DC8DA7C0064C2C5 /* Bloop_3.aif */; };
-		3DFFFAC61DC8DA7C0064C2C5 /* Swish_1.aif in Resources */ = {isa = PBXBuildFile; fileRef = 3DFFFAC41DC8DA7C0064C2C5 /* Swish_1.aif */; };
 		400CA4A01B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */; };
 		400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */; };
 		4016F32E1B04B5EE00728202 /* SpeechBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */; };
@@ -113,6 +113,7 @@
 		3D888FFF1D92DEBE00F381DF /* Sensei.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sensei.entitlements; sourceTree = "<group>"; };
 		3D8CF4F21C747C16005ED08E /* AlertsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertsController.swift; sourceTree = "<group>"; };
 		3DA8D7D61C1ADCEF0075ADA5 /* UpgradeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeManager.swift; sourceTree = "<group>"; };
+		3DAFFD0D1DD36149001BCCA7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3DB4F0541C7DE4B30006F939 /* SenseiModelV3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SenseiModelV3.xcdatamodel; sourceTree = "<group>"; };
 		3DB7C3DD1C480C4B00A234F8 /* Animations.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animations.plist; sourceTree = "<group>"; };
 		3DC0CA481C7347630062AC3E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -124,7 +125,6 @@
 		3DDF38FD1CD1F52300FD534A /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		3DFFFAC31DC8DA7C0064C2C5 /* Bloop_3.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bloop_3.aif; sourceTree = "<group>"; };
-		3DFFFAC41DC8DA7C0064C2C5 /* Swish_1.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Swish_1.aif; sourceTree = "<group>"; };
 		400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		4016F32D1B04B5EE00728202 /* SpeechBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleView.swift; sourceTree = "<group>"; };
@@ -208,6 +208,7 @@
 			files = (
 				7FC56FE91BD0C50D002F8105 /* Social.framework in Frameworks */,
 				402F14531B0A08AC000C4261 /* RestClient.framework in Frameworks */,
+				3DAFFD0E1DD36149001BCCA7 /* StoreKit.framework in Frameworks */,
 				40EB50F11B4A63EA003D5833 /* Crashlytics.framework in Frameworks */,
 				40EB50EF1B4A630A003D5833 /* Fabric.framework in Frameworks */,
 			);
@@ -216,6 +217,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3DAFFD0C1DD36149001BCCA7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3DAFFD0D1DD36149001BCCA7 /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3DC28C991CA2EB2E00ABBF37 /* In-App Purchase */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,7 +238,6 @@
 			isa = PBXGroup;
 			children = (
 				3DFFFAC31DC8DA7C0064C2C5 /* Bloop_3.aif */,
-				3DFFFAC41DC8DA7C0064C2C5 /* Swish_1.aif */,
 			);
 			name = Sounds;
 			sourceTree = "<group>";
@@ -399,6 +407,7 @@
 				4084CFD81AFA611B000F8D47 /* Sensei */,
 				4084CFEE1AFA611B000F8D47 /* SenseiTests */,
 				4084CFD71AFA611B000F8D47 /* Products */,
+				3DAFFD0C1DD36149001BCCA7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -533,6 +542,9 @@
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -570,7 +582,6 @@
 				404E0CA31B56527F00FE2F3F /* Tutorial.plist in Resources */,
 				408B320E1B0B7645001BB455 /* KeyboardInputAccessoryView.xib in Resources */,
 				3D08C51E1C6DCE7400451FE6 /* Settings.bundle in Resources */,
-				3DFFFAC61DC8DA7C0064C2C5 /* Swish_1.aif in Resources */,
 				3DB7C3DE1C480C4B00A234F8 /* Animations.plist in Resources */,
 				40EB50F91B4A9DD0003D5833 /* NavigationView.xib in Resources */,
 				400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */,

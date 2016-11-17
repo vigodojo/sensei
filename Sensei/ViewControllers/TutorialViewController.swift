@@ -296,7 +296,6 @@ class TutorialViewController: BaseViewController {
     func ask(question: ConfirmationQuestion) {
         view.endEditing(true)
 
-        SoundController.playSwish()
         if tutorialHidden || TutorialManager.sharedInstance.completed {
             if TutorialManager.sharedInstance.completed {
                 messages = [question]
@@ -334,7 +333,9 @@ class TutorialViewController: BaseViewController {
     }
     
     func showMessage(message: Message, upgrade: Bool) {
-        SoundController.playBloop()
+        if tutorialHidden {
+            SoundController.playBloop()
+        }
         showMessage(message, upgrade: upgrade, completion: nil)
     }
     

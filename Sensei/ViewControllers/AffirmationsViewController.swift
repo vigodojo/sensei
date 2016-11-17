@@ -173,7 +173,6 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
     }
     
     override func backDidPress() {
-        SoundController.playSwish()
     }
     
     // MARK: - Keyboard

@@ -44,11 +44,7 @@ class SoundController: NSObject {
             print(error)
         }
     }
-    
-    class func playSwish() {
-        playSound("Swish_1", withExtension: "aif")
-    }
-    
+
     class func playBloop() {
         playSound("Bloop_3", withExtension: "aif")
     }

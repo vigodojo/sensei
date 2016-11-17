@@ -222,7 +222,6 @@ extension MessageSwitchView: UICollectionViewDelegate {
             collectionView.deselectItemAtIndexPath(previousSelectedIndxPath, animated: false)
         }
         currentSelectedIndexPath = indexPath
-        SoundController.playSwish()
         delegate?.messageSwitchView(self, didSelectSlotAtIndex: indexPath.item)
     }
     
