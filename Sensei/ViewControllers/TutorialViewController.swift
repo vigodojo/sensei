@@ -354,8 +354,6 @@ class TutorialViewController: BaseViewController {
         } else {
             messages.append(message)
         }
-
-        NSLog("*******\n\nMESSAGE: %@\n\n********", messages.last!.text)
         
         if tutorialHidden || TutorialManager.sharedInstance.completed {
             tutorialCollectionView.reloadData()

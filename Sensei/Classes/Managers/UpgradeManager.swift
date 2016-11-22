@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import StoreKit
 
 class UpgradeManager:NSObject {
     
@@ -34,10 +35,23 @@ class UpgradeManager:NSObject {
     }
     
     func buyUpgrade() {
+        IAPurchaseManager.sharedManager.delegate = self
         IAPurchaseManager.sharedManager.requestProducts { (success, products) in
-            if !success || products?.count == 0 {
+            guard let products = products, let product = products.first else {
                 UIAlertView(title: "Warning", message: "Something went wrong. Cannot find any products to buy", delegate: nil, cancelButtonTitle: "Okay").show()
+                return
             }
+            IAPurchaseManager.sharedManager.buyProduct(product)
+        }
+    }
+}
+extension UpgradeManager: IAPurchaseDelegate {
+    func didPurchase(identifier productIdentifier: String, transaction: SKPaymentTransaction, success: Bool, error: NSError?) {
+        if success {
+            Settings.sharedSettings.isProVersion = NSNumber(bool: true)
+            CoreDataManager.sharedInstance.saveContext()
+            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidUpgrade, object: nil);
         }
     }
 }
@@ -45,11 +59,7 @@ class UpgradeManager:NSObject {
 extension UpgradeManager: UIAlertViewDelegate{
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
-//            buyUpgrade()
-            Settings.sharedSettings.isProVersion = NSNumber(bool: true)
-            CoreDataManager.sharedInstance.saveContext()
-            APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidUpgrade, object: nil);
+            buyUpgrade()
         }
     }
 }

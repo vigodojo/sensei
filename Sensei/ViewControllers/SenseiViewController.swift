@@ -284,6 +284,7 @@ class SenseiViewController: BaseViewController {
     func dismissViewController() {
         if let viewController = (UIApplication.sharedApplication().delegate as? AppDelegate)?.window?.rootViewController where viewController.presentedViewController != nil && viewController.presentedViewController is TextImagePreviewController {
             viewController.dismissViewControllerAnimated(false, completion: nil)
+            NSLog("asd")
         }
     }
     
@@ -537,11 +538,7 @@ class SenseiViewController: BaseViewController {
             NSUserDefaults.standardUserDefaults().synchronize()
         }
         let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
-//		let idfa = ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
-        
         let currentTimeZone = NSTimeZone.systemTimeZone().secondsFromGMT / 3600
-        print("IDFA = \(idfa)")
-        print("timezone = \(currentTimeZone)")
         APIManager.sharedInstance.loginWithDeviceId(idfa, timeZone: currentTimeZone) { error in
             if let error = error {
                 print("Failed to login with error \(error)")
@@ -725,7 +722,7 @@ class SenseiViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillResignActiveNotification, object: nil, queue: nil) { [unowned self] notification in
             self.senseiTapView.userInteractionEnabled = false
             self.previousApplicationState = .Inactive
-            self.dismissViewController()
+//            self.dismissViewController()
         }
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self] notification in
@@ -1214,12 +1211,10 @@ extension SenseiViewController {
     }
     
     func addLessonFromPush(push: PushNotification) {
-        if push.date == nil {//|| APIManager.sharedInstance.reachability.isReachable() {
-            return
-        }
+        guard let pushDate = push.date where push.type != .Visualisation else { return }
         
         storeLastItem()
-        if let _ = CoreDataManager.sharedInstance.fetchObjectsWithEntityName("Lesson", sortDescriptors: [], predicate: NSPredicate(format: "date == %@", push.date!))?.first {
+        if let _ = CoreDataManager.sharedInstance.fetchObjectsWithEntityName("Lesson", sortDescriptors: [], predicate: NSPredicate(format: "date == %@", pushDate))?.first {
             return
         }
         
@@ -1235,9 +1230,7 @@ extension SenseiViewController {
         default:
             print("nothing at all")
         }
-        if let date = push.date {
-            message.date = date
-        }
+        message.date = pushDate
         removeAllExeptLessons()
         insertMessage(message)
     }

@@ -9,7 +9,7 @@
 import UIKit
 
 class IAPurchaseManager: IAPHelper {
-    static let sharedManager = IAPurchaseManager(productIdentifiers: ["Sensei01"])
+    static let sharedManager = IAPurchaseManager(productIdentifiers: ["VS01"])
     
     class func saveDefaultsToUserDefault(productIdentifier: String) {
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: productIdentifier)

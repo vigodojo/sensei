@@ -540,7 +540,7 @@
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = P2P9NRDX32;
 						LastSwiftMigration = 0800;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 1;
@@ -802,8 +802,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sensei/Sensei.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Seb Buska (Z583T8BA83)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Seb Buska (Z583T8BA83)";
 				DEVELOPMENT_TEAM = P2P9NRDX32;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -818,6 +818,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.thinkmobiles.ViGoDojo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = SenseiDevelopment;
 				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
@@ -827,8 +828,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sensei/Sensei.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ViGo DoJo (P2P9NRDX32)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ViGo DoJo (P2P9NRDX32)";
 				DEVELOPMENT_TEAM = P2P9NRDX32;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -842,6 +843,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.thinkmobiles.ViGoDojo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = SenseiAdHoc;
 				SWIFT_VERSION = 2.3;
 			};
 			name = Release;

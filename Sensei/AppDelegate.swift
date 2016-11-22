@@ -70,6 +70,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         
     }
+    //4f0b0a986922738aa55e2a4c3376f43a29498c55463637e609efa3151b69a7dd
+    //4f0b0a986922738aa55e2a4c3376f43a29498c55463637e609efa3151b69a7dd
+    //4f0b0a986922738aa55e2a4c3376f43a29498c55463637e609efa3151b69a7dd
     
     func applicationWillEnterForeground(application: UIApplication) {
         if APIManager.sharedInstance.reachability.isReachable() && TutorialManager.sharedInstance.completed && !APIManager.sharedInstance.logined && !APIManager.sharedInstance.loggingIn {
@@ -90,10 +93,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         token = token.stringByReplacingOccurrencesOfString(" ", withString: "", options: .CaseInsensitiveSearch, range: nil)
         token = token.stringByReplacingOccurrencesOfString("_", withString: "", options: .CaseInsensitiveSearch, range: nil)
         
+        APIManager.sharedInstance.deviceToken = token
+
         if APIManager.sharedInstance.logined {
             APIManager.sharedInstance.sendDeviceToken(token)
-        } else {
-            APIManager.sharedInstance.deviceToken = token
         }
         print("Sensei Device Token: \(token)")
     }

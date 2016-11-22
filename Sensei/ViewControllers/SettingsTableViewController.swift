@@ -908,15 +908,15 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func upgrade() {
-        if !TutorialManager.sharedInstance.completed {
-            let alert = UIAlertView(title: "Alert", message: "You need to finish the tutorial first", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "OK")
-            alert.show()
-            return
-        }
-        if !APIManager.sharedInstance.reachability.isReachable() {
-            self.tutorialViewController?.showNoInternetConnection()
-            return
-        }
+//        if !TutorialManager.sharedInstance.completed {
+//            let alert = UIAlertView(title: "Alert", message: "You need to finish the tutorial first", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "OK")
+//            alert.show()
+//            return
+//        }
+//        if !APIManager.sharedInstance.reachability.isReachable() {
+//            self.tutorialViewController?.showNoInternetConnection()
+//            return
+//        }
         UpgradeManager.sharedInstance.askForUpgrade()
     }
 }

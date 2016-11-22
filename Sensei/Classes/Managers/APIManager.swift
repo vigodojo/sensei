@@ -99,6 +99,7 @@ class APIManager: NSObject {
                 NSNotificationCenter.defaultCenter().postNotificationName(Notification.DidAuthenticateNotification, object: nil)
                 OfflineManager.sharedManager.synchronizeWithServer()
             }
+
             if let token = self.deviceToken {
                 self.sendDeviceToken(token)
             }

@@ -207,7 +207,6 @@ class SpeechBubbleView: UIView {
         point = beziePath.currentPoint
         
         beziePath.addLineToPoint(point)
-        self.layer.masksToBounds = false
         point.x = CGRectGetWidth(bounds)
         beziePath.addArcWithCenter(point, radius: aPointerSize.width, startAngle: CGFloat(2.55), endAngle: CGFloat(M_PI_2), clockwise: false)
         
