@@ -520,7 +520,7 @@ class TutorialViewController: BaseViewController {
     
     @IBAction func touchOnSensei(senser: UITapGestureRecognizer) {
         if TutorialManager.sharedInstance.completed {
-            SoundController.playTock()
+            SoundController.playBloop()
             hideTutorialAnimated(true)
             type = .Sensei
         } else if TutorialManager.sharedInstance.currentStep?.number >= StepIndexes.YouCanHideMeByTappingIndex.rawValue {

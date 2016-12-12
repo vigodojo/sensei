@@ -168,7 +168,6 @@ class SenseiViewController: BaseViewController {
 
         if startFromVis {
             if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
-                SenseiManager.sharedManager.shouldSitBowAfterOpening = false
                 senseiImageView.image = SenseiManager.sharedManager.sittingImage()
             } else {
                 senseiImageView.image = SenseiManager.sharedManager.standingImage()
@@ -179,18 +178,19 @@ class SenseiViewController: BaseViewController {
             }
         } else if (!(UpgradeManager.sharedInstance.isProVersion() && !TutorialManager.sharedInstance.upgradeCompleted) || TutorialManager.sharedInstance.completed) && tutorialViewController!.splashMaskImageView.hidden {
             if SenseiManager.sharedManager.senseiSitting || SenseiManager.sharedManager.isSleepTime() || SenseiManager.sharedManager.shouldSitBowAfterOpening {
-                SenseiManager.sharedManager.shouldSitBowAfterOpening = false
+//                SenseiManager.sharedManager.shouldSitBowAfterOpening = false
                 senseiImageView.image = SenseiManager.sharedManager.sittingImage()
             } else {
                 senseiImageView.image = SenseiManager.sharedManager.standingImage()
             }
+            print("LINE 187")
             showSitSenseiAnimation()
         } else if TutorialManager.sharedInstance.completed {
             setupAwakeAsleepTimer()
         }
-        
+
 //        scrollToLastItemAnimated(false)
-        
+
         affirmationsButton.exclusiveTouch = true
         visualisationsButton.exclusiveTouch = true
         addKeyboardObservers()
@@ -308,7 +308,6 @@ class SenseiViewController: BaseViewController {
     
     func showSitSenseiAnimation() {
         if SenseiManager.sharedManager.senseiSitting {
-//            senseiImageView.image = SenseiManager.sharedManager.sittingImage()
             senseiImageView.hidden = false
             
             if !TutorialManager.sharedInstance.completed {
@@ -316,6 +315,10 @@ class SenseiViewController: BaseViewController {
             }
             
             if (SenseiManager.sharedManager.showSenseiStandAnimation || SenseiManager.sharedManager.shouldSitBowAfterOpening) && !SenseiManager.sharedManager.isSleepTime() {
+                print("VVVVVDFVDFVDFVDFV")
+                if startFromVis {
+                    return
+                }
                 if SenseiManager.sharedManager.showSenseiStandAnimation {
                     SenseiManager.sharedManager.showSenseiStandAnimation = false
                 }
@@ -326,6 +329,7 @@ class SenseiViewController: BaseViewController {
                     })
                 }
             } else {
+                print("AAAAAAAMMMAMAMAMAMA")
                 sitBowIfNeeded()
                 if TutorialManager.sharedInstance.completed {
                     setupAwakeAsleepTimer()
@@ -333,7 +337,6 @@ class SenseiViewController: BaseViewController {
             }
             SenseiManager.sharedManager.shouldSitBowAfterOpening = false
         } else {
-//            senseiImageView.image = SenseiManager.sharedManager.standingImage()
             senseiImageView.hidden = false
             setupAwakeAsleepTimer()
 
@@ -359,8 +362,10 @@ class SenseiViewController: BaseViewController {
     
     func sitBowIfNeeded() {
         if !SenseiManager.sharedManager.standBow || self.startFromVis || self.parentViewController == nil {
+            print("DONT SHOW ANIMATION")
             return
         }
+        print("SHOW ANIMATION")
         SenseiManager.sharedManager.standBow = false
 
         dispatchInMainThreadAfter(delay: 1) {
@@ -395,6 +400,7 @@ class SenseiViewController: BaseViewController {
     
     func sitBowSensei() {
         if !senseiImageView.layerAnimating() {
+            SenseiManager.sharedManager.shouldSitBowAfterOpening = false
             SenseiManager.sharedManager.animateSenseiBowsInImageView(self.senseiImageView, completion: nil)
         }
     }
@@ -447,6 +453,7 @@ class SenseiViewController: BaseViewController {
             }
             if !APIManager.sharedInstance.reachability.isReachable() {
                 self.reloadSectionAnimated(false, scroll: true, scrollAnimated: false)
+                print("LINE 454")
                 showSitSenseiAnimation()
             }
         }
@@ -473,7 +480,7 @@ class SenseiViewController: BaseViewController {
         
         self.collectionView.contentInset.top = self.topContentInset
         if self.parentViewController != nil {
-            scrollToItemAtIndexPath(NSIndexPath(forRow: indexInArray, inSection: 0), animated: true)
+            scrollToItemAtIndexPath(NSIndexPath(forRow: indexInArray, inSection: 0), animated: false)
         }
     }
     
@@ -534,7 +541,12 @@ class SenseiViewController: BaseViewController {
             return
         }
         if NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") == nil {
+//            The same for device
+//            NSUserDefaults.standardUserDefaults().setObject(UIDevice.currentDevice().identifierForVendor?.UUIDString, forKey: "AutoUUID")
+
+//            Every time different (for installation)
             NSUserDefaults.standardUserDefaults().setObject(NSUUID().UUIDString, forKey: "AutoUUID")
+            
             NSUserDefaults.standardUserDefaults().synchronize()
         }
         let idfa = NSUserDefaults.standardUserDefaults().objectForKey("AutoUUID") as! String
@@ -558,11 +570,11 @@ class SenseiViewController: BaseViewController {
             
             APIManager.sharedInstance.lessonsHistoryCompletion({ [weak self] (error) in
                 guard let strongSelf = self else { return }
-                
+                if !strongSelf.tutorialViewController!.splashMaskImageView.hidden {
+                    print("LINE 569")
+                    strongSelf.showSitSenseiAnimation()
+                }
                 if strongSelf.dataSourceEqualTo(oldDataSource) {
-                    if !strongSelf.tutorialViewController!.splashMaskImageView.hidden {
-                        strongSelf.showSitSenseiAnimation()
-                    }
                     strongSelf.reloadSectionAnimated(false, scroll: true, scrollAnimated: false)
                 }
             })
@@ -610,8 +622,13 @@ class SenseiViewController: BaseViewController {
             let collectionViewHeightWithoutBottomInset = CGRectGetHeight(collectionView.frame) - bottomContentInset
             let offset = CGRectGetMaxY(attributes.frame) - collectionViewHeightWithoutBottomInset
             
+            
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({
+                self.tutorialViewController?.splashMaskImageView.hidden = true
+            })
             collectionView.contentInset.top = topContentInset
-            self.collectionView.setContentOffset(CGPoint(x: self.collectionView.contentOffset.x, y: offset), animated: animated)
+            collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: offset), animated: animated)
         }
     }
     
@@ -646,6 +663,7 @@ class SenseiViewController: BaseViewController {
                 CATransaction.begin()
                 CATransaction.setCompletionBlock({
                     self.tutorialViewController?.splashMaskImageView.hidden = true
+                    print("LINE 660")
                     self.showSitSenseiAnimation()
                 })
                 scrollToItemAtIndexPath(indexPath, animated: animated)
@@ -654,6 +672,7 @@ class SenseiViewController: BaseViewController {
                 CATransaction.begin()
                 CATransaction.setCompletionBlock({
                     self.tutorialViewController?.splashMaskImageView.hidden = true
+                    print("LINE 669")
                     self.showSitSenseiAnimation()
                 })
                 let collectionViewHeightWithoutBottomInset = CGRectGetHeight(collectionView.frame) - bottomContentInset
@@ -663,6 +682,7 @@ class SenseiViewController: BaseViewController {
             }
         } else {
             self.tutorialViewController?.splashMaskImageView.hidden = true
+            print("LINE 679")
             self.showSitSenseiAnimation()
         }
     }
@@ -722,7 +742,9 @@ class SenseiViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationWillResignActiveNotification, object: nil, queue: nil) { [unowned self] notification in
             self.senseiTapView.userInteractionEnabled = false
             self.previousApplicationState = .Inactive
-//            self.dismissViewController()
+            if let hidden = self.tutorialViewController?.splashMaskImageView.hidden where hidden == true {
+                self.dismissViewController()
+            }
         }
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [unowned self] notification in
@@ -763,11 +785,6 @@ class SenseiViewController: BaseViewController {
             self.senseiImageView.image = SenseiManager.sharedManager.standingImage()
         }
         self.senseiImageView.hidden = false
-        if let push = (UIApplication.sharedApplication().delegate as! AppDelegate).pushNotification {
-            NSLog("    PUSH WITH TYPE \(push.type)")
-        } else {
- 
-        }
     }
     
     func appOpenedFromTray() {
@@ -780,6 +797,7 @@ class SenseiViewController: BaseViewController {
     
         tutorialViewController?.splashMaskImageView.hidden = true //TUT
         if !self.startFromVis {
+            print("LINE 788")
             self.showSitSenseiAnimation()
         } else {
             self.didBecomeActive()
@@ -1217,7 +1235,8 @@ extension SenseiViewController {
         if let _ = CoreDataManager.sharedInstance.fetchObjectsWithEntityName("Lesson", sortDescriptors: [], predicate: NSPredicate(format: "date == %@", pushDate))?.first {
             return
         }
-        
+        removeAllExeptLessons()
+
         let message = PlainMessage(text: "")
         
         switch push.type {
@@ -1228,10 +1247,9 @@ extension SenseiViewController {
             lessonMessage = lessonMessage.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             message.text = "\(push.preMessage) \(lessonMessage)"
         default:
-            print("nothing at all")
+            break
         }
         message.date = pushDate
-        removeAllExeptLessons()
         insertMessage(message)
     }
     
@@ -1398,7 +1416,7 @@ extension SenseiViewController: TextImagePreviewControllerDelegate {
     func textImagePreviewControllerWillDismiss() {
         if self.startFromVis == true {
             self.startFromVis = false
-            
+            print("LINE 1407")
             showSitSenseiAnimation()
         }
     }
@@ -1466,6 +1484,7 @@ extension SenseiViewController: NSFetchedResultsControllerDelegate {
     
     func hideSplashImage() {
         if let tutorial = tutorialViewController where tutorial.splashMaskImageView.hidden {
+            print("LINE 1475")
             self.showSitSenseiAnimation()
         }
         tutorialViewController?.splashMaskImageView.hidden = true

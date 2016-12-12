@@ -21,7 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+//        pushNotification = PushNotification.pushExample(type: .Visualisation)
         pushNotification = extractPushFromLaunchOptions(launchOptions)
+        
         Fabric.with([Crashlytics()])
         
         if TutorialManager.sharedInstance.completed {
@@ -70,9 +72,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         
     }
-    //4f0b0a986922738aa55e2a4c3376f43a29498c55463637e609efa3151b69a7dd
-    //4f0b0a986922738aa55e2a4c3376f43a29498c55463637e609efa3151b69a7dd
-    //4f0b0a986922738aa55e2a4c3376f43a29498c55463637e609efa3151b69a7dd
     
     func applicationWillEnterForeground(application: UIApplication) {
         if APIManager.sharedInstance.reachability.isReachable() && TutorialManager.sharedInstance.completed && !APIManager.sharedInstance.logined && !APIManager.sharedInstance.loggingIn {

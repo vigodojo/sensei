@@ -46,6 +46,32 @@ extension NSDate {
     }
 }
 
+// MARK: - NSObject
+
+extension NSObject {
+    func addLoader() {
+        removeLoader()
+        
+        let loaderView = UIView(frame: UIScreen.mainScreen().bounds)
+        loaderView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+        loaderView.tag = 999
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+        activityIndicator.center = CGPoint(x: UIScreen.mainScreen().bounds.size.width/2, y: UIScreen.mainScreen().bounds.size.height/2)
+        activityIndicator.startAnimating()
+        loaderView.addSubview(activityIndicator)
+        UIApplication.sharedApplication().keyWindow?.addSubview(loaderView)
+    }
+    
+    func removeLoader() {
+        guard let subviews = UIApplication.sharedApplication().keyWindow?.subviews else { return }
+        for view in subviews {
+            if view.tag == 999 {
+                view.removeFromSuperview()
+            }
+        }
+    }
+}
+
 // MARK: - UIViewController
 
 extension UIViewController {

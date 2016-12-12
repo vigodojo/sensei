@@ -26,6 +26,7 @@
 		3DDF38FC1CD1EAFC00FD534A /* PlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF38FB1CD1EAFC00FD534A /* PlanViewController.swift */; };
 		3DDF38FE1CD1F52300FD534A /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF38FD1CD1F52300FD534A /* MessageCell.swift */; };
 		3DE3BF2C1C74D09C00F38052 /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */; };
+		3DE8E2621DE5FC4D006211A5 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE8E2611DE5FC4D006211A5 /* LoaderView.swift */; };
 		3DFFFAC51DC8DA7C0064C2C5 /* Bloop_3.aif in Resources */ = {isa = PBXBuildFile; fileRef = 3DFFFAC31DC8DA7C0064C2C5 /* Bloop_3.aif */; };
 		400CA4A01B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */; };
 		400CA4A11B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */; };
@@ -124,6 +125,7 @@
 		3DDF38FB1CD1EAFC00FD534A /* PlanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanViewController.swift; sourceTree = "<group>"; };
 		3DDF38FD1CD1F52300FD534A /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		3DE3BF2B1C74D09C00F38052 /* DisclaimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
+		3DE8E2611DE5FC4D006211A5 /* LoaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		3DFFFAC31DC8DA7C0064C2C5 /* Bloop_3.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bloop_3.aif; sourceTree = "<group>"; };
 		400CA49E1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		400CA49F1B57BC83005665D6 /* TutorialBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 				404E0CA81B568B2000FE2F3F /* AnimatableImageView.swift */,
 				3DDF38FD1CD1F52300FD534A /* MessageCell.swift */,
 				3D3B5B1E1CDB79A00033FBD2 /* SoundCell.swift */,
+				3DE8E2611DE5FC4D006211A5 /* LoaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -677,6 +680,7 @@
 				4016F3331B04EDF200728202 /* SenseiViewController.swift in Sources */,
 				405389AB1B287FCF0035607E /* TextImageView.swift in Sources */,
 				40B960131B25A04600D36938 /* TextImagePreviewController.swift in Sources */,
+				3DE8E2621DE5FC4D006211A5 /* LoaderView.swift in Sources */,
 				4084CFDC1AFA611B000F8D47 /* AppDelegate.swift in Sources */,
 				404E0C981B5647CB00FE2F3F /* Lesson.swift in Sources */,
 				40A7B6C01B12F7A00097852F /* CoreDataManager.swift in Sources */,

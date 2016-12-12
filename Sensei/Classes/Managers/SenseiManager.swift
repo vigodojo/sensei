@@ -101,12 +101,16 @@ class SenseiManager {
     }
     
     private func shouldSenseiSit() -> Bool {
+        let beginOfTutorial = isBeginOfTutorial()
+        let showSenseiStandAnimatio = showSenseiStandAnimation
+        let sleepTime = isSleepTime()
+        let sitbowAfterOpening = shouldSitBowAfterOpening
         NSLog("&&&&&&&&&&&&&&&&")
-        NSLog("isBeginOfTutorial:\(isBeginOfTutorial())")
-        NSLog("showSenseiStandAnimation:\(showSenseiStandAnimation)")
-        NSLog("isSleepTime:\(isSleepTime())")
-        NSLog("shouldSitBowAfterOpening:\(shouldSitBowAfterOpening)")
-        return isBeginOfTutorial() || showSenseiStandAnimation || isSleepTime() || shouldSitBowAfterOpening
+        NSLog("isBeginOfTutorial:\(beginOfTutorial)")
+        NSLog("showSenseiStandAnimation:\(showSenseiStandAnimatio)")
+        NSLog("isSleepTime:\(sleepTime)")
+        NSLog("shouldSitBowAfterOpening:\(sitbowAfterOpening)")
+        return beginOfTutorial || showSenseiStandAnimatio || sleepTime || sitbowAfterOpening
     }
 
     func isSleepTime() -> Bool {
@@ -123,10 +127,10 @@ class SenseiManager {
         let isStartBeforeNow = now.compare(sleepStartBeforeNow) == NSComparisonResult.OrderedDescending
         let isEndAfterNow = now.compare(sleepEnd) == NSComparisonResult.OrderedAscending
         
-        print("******* isSleepTime *******")
-        print("start: \(sleepStartBeforeNow)\nnow: \(now)\nend: \(sleepEnd)")
-        print("isSleepTime: \(isStartBeforeNow && isEndAfterNow ? "true" : "false")")
-        print("**************")
+//        print("******* isSleepTime *******")
+//        print("start: \(sleepStartBeforeNow)\nnow: \(now)\nend: \(sleepEnd)")
+//        print("isSleepTime: \(isStartBeforeNow && isEndAfterNow ? "true" : "false")")
+//        print("**************")
         
         return isStartBeforeNow && isEndAfterNow && TutorialManager.sharedInstance.completed
     }
@@ -151,10 +155,10 @@ class SenseiManager {
         let now = NSDate()
         let nowAfterSleep = now.compare(sleepEndAfterActivity) == NSComparisonResult.OrderedDescending
         
-        print("******* isFirstTimeAfterSleep *******")
-        print("lastActivity: \(lastActivity)\nend: \(sleepEndAfterActivity)\nnow: \(now)")
-        print("isFirstTimeAfterSleep: \(lastActivityBeforeSleepEnd && nowAfterSleep)")
-        print("**************")
+//        print("******* isFirstTimeAfterSleep *******")
+//        print("lastActivity: \(lastActivity)\nend: \(sleepEndAfterActivity)\nnow: \(now)")
+//        print("isFirstTimeAfterSleep: \(lastActivityBeforeSleepEnd && nowAfterSleep)")
+//        print("**************")
         
         return lastActivityBeforeSleepEnd && nowAfterSleep
     }
@@ -170,9 +174,9 @@ class SenseiManager {
             timeIntervalSinceNow *= -1
         }
         
-        print("******* shouldBowAfterLastActivity *******")
-        print("shouldBowAfterLastActivity: \(timeIntervalSinceNow > 60*60)")
-        print("**************")
+//        print("******* shouldBowAfterLastActivity *******")
+//        print("shouldBowAfterLastActivity: \(timeIntervalSinceNow > 10)")//60*60)")
+//        print("**************")
         
         return timeIntervalSinceNow > 60*60
     }

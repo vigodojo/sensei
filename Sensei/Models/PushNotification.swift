@@ -45,6 +45,21 @@ struct PushNotification: CustomStringConvertible {
         }
     }
     
+    static func pushExample(id: Int = 0, preMessage: String = "Test premessage:", message: String = "Test Message", type: PushType) -> PushNotification? {
+        let preMessage = "\(type.rawValue) | \(preMessage)"
+        let alert = "\(preMessage) \(message)"
+        let type = type
+        let id = id
+        let str = "{\"id\": \"\(id)\", \"aps\": { \"alert\" : \"\(alert)\", \"sound\" : \"default\" }, \"preMessage\": \"\(preMessage)\", \"type\": \"\(type.rawValue)\", \"date\": \"2016-11-28T16:49:07.319Z\"}"
+        let data = str.dataUsingEncoding(NSUTF8StringEncoding)
+        let dict = try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)
+        
+        if let userInfo = dict as? [NSObject: AnyObject] {
+            return PushNotification(userInfo: userInfo)
+        }
+        return nil
+    }
+
     var description: String {
         return "id = \(id); date = \(date); timeInterval = \(date?.timeIntervalSince1970); type = \(type); alert =\(alert)"
     }

@@ -587,6 +587,8 @@ class SettingsTableViewController: UITableViewController {
     
     private func showConfirmation(question: ConfirmationQuestion) {
         view.endEditing(true)
+        SoundController.playBloop()
+        tutorialViewController?.tapSenseiGesture.enabled = false
         tutorialViewController?.askConfirmationQuestion(question)
         fieldToChange = nil
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsTableViewController.tutorialDidHideNotification(_:)), name: TutorialViewController.Notifications.TutorialDidHide, object: nil)
@@ -703,10 +705,12 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func handleNoAnswerNotification(notification: NSNotification) {
+        tutorialViewController?.tapSenseiGesture.enabled = true
         fillFromSettings()
     }
     
     func handleYesAnswerNotification(notification: NSNotification) {
+        tutorialViewController?.tapSenseiGesture.enabled = true
         performYesAnswerAction()
     }
     

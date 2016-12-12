@@ -36,8 +36,11 @@ class UpgradeManager:NSObject {
     
     func buyUpgrade() {
         IAPurchaseManager.sharedManager.delegate = self
+        addLoader()
         IAPurchaseManager.sharedManager.requestProducts { (success, products) in
+
             guard let products = products, let product = products.first else {
+                self.removeLoader()
                 UIAlertView(title: "Warning", message: "Something went wrong. Cannot find any products to buy", delegate: nil, cancelButtonTitle: "Okay").show()
                 return
             }
@@ -45,6 +48,7 @@ class UpgradeManager:NSObject {
         }
     }
 }
+
 extension UpgradeManager: IAPurchaseDelegate {
     func didPurchase(identifier productIdentifier: String, transaction: SKPaymentTransaction, success: Bool, error: NSError?) {
         if success {

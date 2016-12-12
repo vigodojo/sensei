@@ -50,8 +50,10 @@ class IAPHelper: NSObject {
         productRequest?.start()
     }
     
+    
     func buyProduct(product: SKProduct) {
         print("Buying \(product.productIdentifier)")
+        addLoader()
         let payment = SKPayment(product: product)
         SKPaymentQueue.defaultQueue().addPayment(payment)
     }
@@ -61,6 +63,9 @@ class IAPHelper: NSObject {
     }
     
     func restorePurchaseWithIdentifier(productIdentifier: String) {
+        let loader = LoaderView()
+        UIApplication.sharedApplication().keyWindow?.addSubview(loader)
+
         productIdentifierToRestore = productIdentifier
         SKPaymentQueue.defaultQueue().restoreCompletedTransactions()
     }
@@ -77,10 +82,12 @@ class IAPHelper: NSObject {
 
 extension IAPHelper: SKPaymentTransactionObserver {
     func paymentQueueRestoreCompletedTransactionsFinished(queue: SKPaymentQueue) {
-        
+        removeLoader()
     }
     
     func paymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        removeLoader()
+        
         for transaction in transactions {
             switch transaction.transactionState {
                 case .Purchased:
