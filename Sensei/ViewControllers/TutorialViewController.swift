@@ -529,7 +529,7 @@ class TutorialViewController: BaseViewController {
             type = .Sensei
         } else if TutorialManager.sharedInstance.currentStep?.number >= StepIndexes.YouCanHideMeByTappingIndex.rawValue {
             if let animatableImage = AnimationManager.sharedManager.bowsAnimatableImage() {
-                showWarningMessage("Not yet, we need to complete the tutorial first please.", disappear:  true)
+                showWarningMessage("Not yet, we need to complete the tutorial first, please.", disappear:  true)
                 senseiImageView.animateAnimatableImage(animatableImage, completion: nil)
             }
         }

@@ -92,7 +92,7 @@
 		<key>QuestionType</key>
 		<string>TEXT</string>
 		<key>Message</key>
-		<string>Welcome to Vigo Dojo and thank you for downloading the Vigo Sensei app. I am your Sensei. What is your name please?</string>
+		<string>Welcome to Vigo Dojo and thank you for downloading the Vigo Sensei app. I am your Sensei. What is your name, please?</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
@@ -269,7 +269,7 @@
 		<key>QuestionType</key>
 		<string>RADIO</string>
 		<key>Message</key>
-		<string>May I ask your sex please?</string>
+		<string>May I ask your sex, please?</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
@@ -309,7 +309,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>The first tool I want to introduce to you is affirmations. Click the green [affirmations] button below please.</string>
+		<string>The first tool I want to introduce to you is affirmations. Click the green [affirmations] button below, please.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>Number</key>
@@ -533,7 +533,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Try to create a positive visualization. A picture of a loved one with the word “Love!” for instance</string>
+		<string>Try to create a positive visualization. A by picture of a loved one with the word “Love!” for instance.</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
@@ -633,7 +633,7 @@
 		<key>RequiresActionToProceed</key>
 		<false/>
 		<key>Message</key>
-		<string>To delete a Visualization or an Affirmation, press and hold the slot number</string>
+		<string>To delete a Visualization or an Affirmation, press and hold the slot number.</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
@@ -650,7 +650,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Now tap the back arrow to go back to the main screen please.</string>
+		<string>Now tap the back arrow to go back to the main screen, please.</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
 		<key>Number</key>
@@ -692,7 +692,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Scroll down to the bottom please.</string>
+		<string>Scroll down to the bottom, please.</string>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
@@ -742,7 +742,7 @@
 		<key>RequiresActionToProceed</key>
 		<true/>
 		<key>Message</key>
-		<string>Now scroll up to the top of the page again please.</string>
+		<string>Now scroll up to the top of the page again, please.</string>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
 		<key>Number</key>
