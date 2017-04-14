@@ -22,7 +22,7 @@ class TutorialViewController: BaseViewController {
     }
     
     private struct Constants {
-        static let SpeechBubbleHeight: CGFloat = 82.0
+        static let SpeechBubbleHeight: CGFloat = 115.0
     }
     
     enum MessageType {
@@ -32,7 +32,11 @@ class TutorialViewController: BaseViewController {
     }
 
     @IBOutlet weak var tutorialContainerViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var tutorialContainerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tutorialContainerViewHeightConstraint: NSLayoutConstraint! {
+        didSet {
+            tutorialContainerViewHeightConstraint.constant = Constants.SpeechBubbleHeight
+        }
+    }
     @IBOutlet weak var tutorialCollectionView: UICollectionView!
     @IBOutlet weak var senseiImageView: AnimatableImageView!
     @IBOutlet weak var senseiTapView: UIView!
@@ -573,7 +577,6 @@ extension TutorialViewController: UICollectionViewDelegateFlowLayout {
             textView.text = message.text
         }
         textView.layoutIfNeeded()
-        
         let height = ceil(textView.contentSize.height/collectionView.bounds.size.height) * collectionView.bounds.size.height
         return CGSize(width: CGRectGetWidth(collectionView.bounds), height: height)
     }

@@ -19,9 +19,9 @@ class APIManager: NSObject {
     static let sharedInstance = APIManager()
 
 //	static let BaseURL = NSURL(string: "http://54.183.230.244:8831")! //LA
-	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
-//    static let BaseURL = NSURL(string: "http://192.168.89.131:8832")! //Local
-    
+//	static let BaseURL = NSURL(string: "http://54.183.230.244:8832")! //LA test
+    static let BaseURL = NSURL(string: "https://omnidojo.com")!
+
     struct APIPath {
         static let Login = "/user/signIn"
         static let LessonsHistory = "/user/history"
@@ -58,9 +58,20 @@ class APIManager: NSObject {
     override init() {
         super.init()
         do {
+//            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(APIManager.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: nil)
             try reachability.startNotifier()
         } catch {
             //print("could not start notifier")
+        }
+    }
+    
+//    func reachabilityChanged(notification: NSNotification) {
+//        showCellularAlertIfNeeded()
+//    }
+    
+    private func showCellularAlertIfNeeded() {
+        if reachability.isReachableViaWWAN() || !reachability.isReachable() {
+            showAlert("The change you made did not register due to limited internet connectivity. Please connect to Wi-Fi for your change to take effect.")
         }
     }
     
@@ -251,7 +262,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = affirmation
         }, completion: { (response) -> Void in
-            self.checkWarning(response)
+            self.checkWarning(response, path: APIPath.Affirmation)
             //print("\(response.request.HTTPBody)")
             //print("POST \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
@@ -266,7 +277,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Affirmation + "\(affirmation.number)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-            self.checkWarning(response)
+            self.checkWarning(response, path: APIPath.Affirmation)
             //print("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmation.number) \(response.statusCode)")
 //            //print("\(response)")
@@ -281,7 +292,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Affirmation + "\(affirmationNumber)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-            self.checkWarning(response)
+            self.checkWarning(response, path: APIPath.Affirmation)
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Affirmation)\(affirmationNumber) \(response.statusCode)")
             if let handler = handler {
                 handler(error: response.error)
@@ -297,7 +308,7 @@ class APIManager: NSObject {
             builder.requestMethod = RCRequestMethod.POST
             builder.object = visualization
         }, completion: { (response) -> Void in
-            self.checkWarning(response)
+            self.checkWarning(response, path: APIPath.Affirmation)
             self.addToLog("POST \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
             if let handler = handler {
                 handler(error: response.error)
@@ -310,7 +321,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Visualization + "\(visualization.number)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-            self.checkWarning(response)
+            self.checkWarning(response, path: APIPath.Affirmation)
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualization.number) \(response.statusCode)")
             if let handler = handler {
                 handler(error: response.error)
@@ -323,7 +334,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Visualization + "\(visualizationNumber)"
             builder.requestMethod = RCRequestMethod.DELETE
         }, completion: { (response) -> Void in
-            self.checkWarning(response)
+            self.checkWarning(response, path: APIPath.Affirmation)
             self.addToLog("DELETE \(APIManager.BaseURL)\(APIPath.Visualization)\(visualizationNumber) \(response.statusCode)")
 
             if let handler = handler {
@@ -347,7 +358,7 @@ class APIManager: NSObject {
             builder.path = APIPath.Settings
             builder.requestMethod = RCRequestMethod.GET
         }, completion: { (response) -> Void in
-            self.checkWarning(response)
+            self.checkWarning(response, path: APIPath.Settings)
             self.addToLog("GET \(APIManager.BaseURL)\(APIPath.Settings) \(response.statusCode)")
             
             if let json = response.object as? JSONObject {
@@ -392,16 +403,22 @@ class APIManager: NSObject {
             }
         })
     }
-    
-    private func checkWarning(response: RCResponse) {
-        if let error = response.error where reachability.isReachable() {
-            let alertController = UIAlertController(title: "Warning", message: "\(error.localizedDescription)\n\nSorry, your action didn't register. Please try again.", preferredStyle: .Alert)
-            alertController.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            appDelegate.window?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
+
+    private func checkWarning(response: RCResponse, path: String? = nil) {
+        if let path = path where path == APIPath.Affirmation || path == APIPath.Visualization || path == APIPath.Settings {
+            showCellularAlertIfNeeded()
+        } else {
+            guard let error = response.error where reachability.isReachable() else { return }
+            showAlert(error.localizedDescription)
         }
     }
     
+    func showAlert(message: String) {
+        let alertController = UIAlertController(title: "Warning", message: message, preferredStyle: .Alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.window?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
+    }
     // MARK: - Private
     
     private func addResponseDescriptoresForSessionManager(manager: RCSessionManager) {

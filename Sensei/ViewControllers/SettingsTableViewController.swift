@@ -739,6 +739,9 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        return TutorialManager.sharedInstance.completed
+    }
     
     private func configureTimeFieldsBorder(nonSleepTimeInterval: (Double, Double)) -> Bool {
         
@@ -931,7 +934,7 @@ extension SettingsTableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch (indexPath.row) {
             case 0: return CellHeight.TeachingIntencityHeight.rawValue
-            case 1: return CellHeight.InstructionSwitchHeight.rawValue
+            case 1, 5: return CellHeight.InstructionSwitchHeight.rawValue
             case 2: return UpgradeManager.sharedInstance.isProVersion() ? CellHeight.ShareUpgradeSleepTimeHeightPro.rawValue : CellHeight.ShareUpgradeSleepTimeHeightReg.rawValue
             case 3: return CellHeight.DateFormatHeight.rawValue;
             case 4: return CellHeight.PersonalProfileHeight.rawValue
