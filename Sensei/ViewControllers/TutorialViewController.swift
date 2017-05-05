@@ -194,7 +194,7 @@ class TutorialViewController: BaseViewController {
             }
         }
     }
-    
+
     func hideTutorialAnimated(animated: Bool) {
         if !_tutorialHidden {
             _tutorialHidden = true
@@ -506,9 +506,7 @@ class TutorialViewController: BaseViewController {
         SoundController.playTock()
         NSNotificationCenter.defaultCenter().postNotificationName(Notifications.YesAnswer, object: nil)
         performConfirmationSelectedAction()
-        if !APIManager.sharedInstance.reachability.isReachable() {
-            showNoInternetConnection()
-        } else if TutorialManager.sharedInstance.completed {
+        if TutorialManager.sharedInstance.completed {
             hideTutorialAnimated(true)
         }
     }

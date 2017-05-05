@@ -577,7 +577,9 @@ class SettingsTableViewController: UITableViewController {
         saveProfile()
         APIManager.sharedInstance.saveSettings(Settings.sharedSettings) { [weak self](error) in
             guard let strongSelf = self else { return }
-            strongSelf.showNoInternetError(error)
+            strongSelf.dispatchInMainThreadAfter(delay: 1.0, completion: {
+                strongSelf.showNoInternetError(error)
+            })
         }
     }
     
@@ -915,15 +917,15 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func upgrade() {
-//        if !TutorialManager.sharedInstance.completed {
-//            let alert = UIAlertView(title: "Alert", message: "You need to finish the tutorial first", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "OK")
-//            alert.show()
-//            return
-//        }
-//        if !APIManager.sharedInstance.reachability.isReachable() {
-//            self.tutorialViewController?.showNoInternetConnection()
-//            return
-//        }
+        if !TutorialManager.sharedInstance.completed {
+            let alert = UIAlertView(title: "Alert", message: "You need to finish the tutorial first", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "OK")
+            alert.show()
+            return
+        }
+        if !APIManager.sharedInstance.reachability.isReachable() {
+            self.tutorialViewController?.showNoInternetConnection()
+            return
+        }
         UpgradeManager.sharedInstance.askForUpgrade()
     }
 }

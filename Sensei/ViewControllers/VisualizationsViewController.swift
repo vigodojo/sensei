@@ -421,11 +421,11 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 				selectedVisualization = visualization
 				messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
 				if TutorialManager.sharedInstance.completed {
-					APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
+                    APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
 				}
 			case .Update:
 				if TutorialManager.sharedInstance.completed {
-					APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
+                    APIManager.sharedInstance.saveVisualization(visualization, handler: nil)
 				}
 			case .Delete:
 				messageSwitchView.reloadSlotAtIndex(visualization.number.integerValue)
@@ -436,6 +436,7 @@ class VisualizationsViewController: UserMessageViewController, NSFetchedResultsC
 			}
 		}
 	}
+
 }
 
 // MARK: - TextImagePreviewControllerDelegate

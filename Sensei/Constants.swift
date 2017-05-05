@@ -10,7 +10,8 @@ import Foundation
 
 let AnimationDuration = 0.25
 let TutorialStepTimeinteval = UInt64(2)
-let LinkToAppOnAppStore = NSURL(string: "https://itunes.apple.com/us/genre/ios/id36?mt=8")!
+//let LinkToAppOnAppStore = NSURL(string: "https://itunes.apple.com/us/app/gpforum/id1207803579")!
+let LinkToAppOnAppStore = NSURL(string: "https://itunes.apple.com/us/app/vigo-sensei/id1174329284")!
 
 let LinkToAffirmation = NSURL(string: "AffirmationUrl")!
 let LinkToVisualization = NSURL(string: "VizualizationUrl")!

@@ -374,13 +374,13 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
 			case .Insert:
 				selectedAffirmation = affirmation
 				if TutorialManager.sharedInstance.completed {
-					APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
+                    APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
 				}
 				messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
 			case .Update:
 				if TutorialManager.sharedInstance.completed {
-					APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
-				}
+                    APIManager.sharedInstance.saveAffirmation(affirmation, handler: nil)
+                }
 			case .Delete:
 				messageSwitchView.reloadSlotAtIndex(affirmation.number.integerValue)
                 APIManager.sharedInstance.deleteAffirmationWithNumber(affirmation.number, handler: nil)
@@ -389,6 +389,10 @@ class AffirmationsViewController: UserMessageViewController, NSFetchedResultsCon
 			}
 		}
 	}
+    
+    func didChangeAffirmation() {
+        APIManager.sharedInstance.showCellularAlertIfNeeded()
+    }
 }
 
 // MARK: - MessageSwitchViewDelegate
