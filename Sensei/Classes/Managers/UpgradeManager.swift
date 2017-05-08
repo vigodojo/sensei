@@ -19,7 +19,7 @@ class UpgradeManager:NSObject {
     static let sharedInstance = UpgradeManager()
 
     func askForUpgrade() {
-        let alert = UIAlertView(title: "Alert", message: "Are you sure you want to upgrade Sensei app to Premium version?", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Upgrade")
+        let alert = UIAlertView(title: "Alert", message: "Are you sure you want to upgrade Sensei app to Premium version?", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Upgrade", "Restore upgrade")
         alert.show()
     }
     
@@ -41,11 +41,17 @@ class UpgradeManager:NSObject {
 
             guard let products = products, let product = products.first else {
                 self.removeLoader()
-                UIAlertView(title: "Warning", message: "Something went wrong. Cannot find any products to buy", delegate: nil, cancelButtonTitle: "Okay").show()
+                UIAlertView(title: "Warning", message: "Something went wrong. Cannot find any products to buy", delegate: nil, cancelButtonTitle: "Ok").show()
                 return
             }
             IAPurchaseManager.sharedManager.buyProduct(product)
         }
+    }
+
+    func restoreUpgrade() {
+        IAPurchaseManager.sharedManager.delegate = self
+        addLoader()
+        IAPurchaseManager.sharedManager.restorePurchaseWithIdentifier("VS01")
     }
 }
 
@@ -57,6 +63,9 @@ extension UpgradeManager: IAPurchaseDelegate {
             APIManager.sharedInstance.saveSettings(Settings.sharedSettings, handler: nil)
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidUpgrade, object: nil);
         }
+        if let error = error {
+            UIAlertView(title: "Warning", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "Ok").show()
+        }
     }
 }
 
@@ -64,6 +73,9 @@ extension UpgradeManager: UIAlertViewDelegate{
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
             buyUpgrade()
+        }
+        if buttonIndex == 2 {
+            restoreUpgrade()
         }
     }
 }
