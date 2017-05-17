@@ -33,7 +33,7 @@ class AnimatableImageView: UIImageView, CAAnimationDelegate {
         animation.delegate = self
         animation.removedOnCompletion = true
         self.image = animatableImage.images.last
-        layer.addAnimation(animation, forKey: Constants.AnimatableImageAnimationKey)
+        self.layer.addAnimation(animation, forKey: Constants.AnimatableImageAnimationKey)
     }
     
     func stopAnimatableImageAnimation() {

@@ -11,6 +11,8 @@ import UIKit
 
 class TutorialManager {
     
+    let tutorialStepsCount = 37
+    
     struct Notifications {
         static let DidMoveToNextStep = "TutorialManagerNotificationsDidMoveToNextStep"
         static let DidFinishTutorial = "TutorialManagerNotificationsDidFinishTutorial"
@@ -270,7 +272,7 @@ class TutorialManager {
     }
     
     private func checkCompletion() {
-        if stepCounter >= (35) {
+        if stepCounter >= tutorialStepsCount {
             let firstInstallTime = NSUserDefaults.standardUserDefaults().objectForKey("AppInstalationDateTime") as? NSDate
             if firstInstallTime == nil {
                 NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "AppInstalationDateTime")

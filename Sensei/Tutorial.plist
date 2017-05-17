@@ -3,10 +3,16 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>Number</key>
+		<integer>0</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 		<key>AnimatableImage</key>
 		<dict>
-			<key>AnimationDuration</key>
-			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>1_bow_0001</string>
@@ -74,37 +80,39 @@
 				<string>1_bow_0063</string>
 				<string>1_bow_0064</string>
 			</array>
-		</dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Number</key>
-		<integer>0</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
-	</dict>
-	<dict>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>QuestionSubject</key>
-		<string>Name</string>
-		<key>QuestionType</key>
-		<string>TEXT</string>
-		<key>Message</key>
-		<string>Welcome to Vigo Dojo and thank you for downloading the Vigo Sensei app. I am your Sensei. What is your name, please?</string>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
-		<key>Number</key>
-		<integer>1</integer>
-		<key>DelayBefore</key>
-		<integer>0</integer>
-	</dict>
-	<dict>
-		<key>AnimatableImage</key>
-		<dict>
 			<key>AnimationDuration</key>
 			<integer>2</integer>
+		</dict>
+	</dict>
+	<dict>
+		<key>Message</key>
+		<string>Welcome to Vigo Dojo and thank you for downloading the Vigo Sensei app. I am your Sensei. What is your name, please?</string>
+		<key>Number</key>
+		<integer>1</integer>
+		<key>QuestionSubject</key>
+		<string>Name</string>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>0</integer>
+		<key>QuestionType</key>
+		<string>TEXT</string>
+	</dict>
+	<dict>
+		<key>Message</key>
+		<string>Nice to meet you &lt;#Name&gt;, I look forward to working with you.</string>
+		<key>Number</key>
+		<integer>2</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>1</integer>
+		<key>AnimatableImage</key>
+		<dict>
 			<key>ImageNames</key>
 			<array>
 				<string>2_sistand_0001</string>
@@ -172,28 +180,32 @@
 				<string>2_sistand_0063</string>
 				<string>2_sistand_0064</string>
 			</array>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
 		</dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>Nice to meet you &lt;#Name&gt;, I look forward to working with you.</string>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
-		<key>Number</key>
-		<integer>2</integer>
-		<key>DelayBefore</key>
-		<integer>0</integer>
 	</dict>
 	<dict>
+		<key>QuestionType</key>
+		<string>RADIO</string>
 		<key>Answers</key>
 		<array>
 			<string>male</string>
 			<string>female</string>
 		</array>
+		<key>QuestionSubject</key>
+		<string>Gender</string>
+		<key>RequiresActionToProceed</key>
+		<true/>
+		<key>Message</key>
+		<string>May I ask your sex, please?</string>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>Number</key>
+		<integer>3</integer>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 		<key>AnimatableImage</key>
 		<dict>
-			<key>AnimationDuration</key>
-			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>3_standbow_0001</string>
@@ -261,135 +273,155 @@
 				<string>3_standbow_0063</string>
 				<string>3_standbow_0064</string>
 			</array>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
 		</dict>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>QuestionSubject</key>
-		<string>Gender</string>
-		<key>QuestionType</key>
-		<string>RADIO</string>
-		<key>Message</key>
-		<string>May I ask your sex, please?</string>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
-		<key>Number</key>
-		<integer>3</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
 	</dict>
 	<dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>Thank you &lt;#PersonalTitle&gt;.</string>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
 		<key>Number</key>
 		<integer>4</integer>
-		<key>DelayBefore</key>
-		<integer>1</integer>
-	</dict>
-	<dict>
 		<key>RequiresActionToProceed</key>
 		<false/>
-		<key>Message</key>
-		<string>I will now guide you through how to use this app and the tools it contains.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
-		<key>Number</key>
-		<integer>5</integer>
 		<key>DelayBefore</key>
-		<integer>2</integer>
+		<integer>1</integer>
+		<key>Message</key>
+		<string>Thank you &lt;#PersonalTitle&gt;.</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>5</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Message</key>
+		<string>&lt;#Name&gt;, I ask for your full attention and patience for the next five minutes as I walk you through this tutorial.</string>
+	</dict>
+	<dict>
+		<key>Number</key>
+		<integer>6</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Message</key>
+		<string>The functions of the app will be locked until the tutorial is complete. Please follow along step by step, as I instruct you.</string>
+	</dict>
+	<dict>
+		<key>Number</key>
+		<integer>7</integer>
+		<key>RequiresActionToProceed</key>
+		<true/>
 		<key>EnabledContols</key>
 		<array>
 			<string>AffirmationsButton</string>
 		</array>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>Message</key>
-		<string>The first tool I want to introduce to you is affirmations. Click the green [affirmations] button below, please.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
-		<key>Number</key>
-		<integer>6</integer>
 		<key>DelayBefore</key>
-		<integer>2</integer>
+		<integer>1</integer>
+		<key>Message</key>
+		<string>First, click the green [affirmations] button below, please.</string>
 	</dict>
 	<dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>This is the Affirmation screen. Let me briefly explain what an affirmation is. It is a statement you write down and say out loud every day. It should be present tense, positive and personal.</string>
-		<key>ScreenName</key>
-		<string>AffirmationScreen</string>
-		<key>Number</key>
-		<integer>7</integer>
-		<key>DelayBefore</key>
-		<integer>0</integer>
-	</dict>
-	<dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>I will message you and remind you to say the affirmations you have created.</string>
-		<key>ScreenName</key>
-		<string>AffirmationScreen</string>
 		<key>Number</key>
 		<integer>8</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-	</dict>
-	<dict>
 		<key>RequiresActionToProceed</key>
 		<false/>
-		<key>Message</key>
-		<string>You have six message slots. Simply tap one of the numbers below to reveal that message. Once you have selected the slot you want to edit, you simply tap in the text field below to enter or modify the text.</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
-		<key>Number</key>
-		<integer>9</integer>
 		<key>DelayBefore</key>
-		<integer>2</integer>
+		<integer>0</integer>
+		<key>Message</key>
+		<string>Swipe up inside this speech bubble when the blue arrow appears in the lower right corner.</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>9</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>AffirmationScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Message</key>
+		<string>Affirmations are statements you write down and focus on or say out loud every day. They should be present tense, positive, personal and specific.</string>
+	</dict>
+	<dict>
+		<key>Number</key>
+		<integer>10</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>AffirmationScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Message</key>
+		<string>I will message you and remind you to say the affirmations you have created.</string>
+	</dict>
+	<dict>
+		<key>Number</key>
+		<integer>11</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>AffirmationScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Message</key>
+		<string>You have six message slots. Simply tap one of the numbers below to reveal that message. Once you have selected the slot you want to edit, you simply tap in the text field below to enter or modify the text.</string>
+	</dict>
+	<dict>
+		<key>Number</key>
+		<integer>12</integer>
+		<key>RequiresActionToProceed</key>
+		<true/>
 		<key>EnabledContols</key>
 		<array>
 			<string>TextView</string>
 		</array>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>Message</key>
-		<string>Let’s create a test affirmation. Tap number 1, then tap the text field below, type “I am happy!” and hit [done].</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
-		<key>Number</key>
-		<integer>10</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
+		<key>Message</key>
+		<string>Let’s create a test affirmation. Tap number 1, then tap the text field below, type “I am happy!” and hit [done].</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>13</integer>
+		<key>RequiresActionToProceed</key>
+		<true/>
 		<key>EnabledContols</key>
 		<array>
 			<string>ReceiveTimeTextView</string>
 		</array>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>Message</key>
-		<string>Now set the message timing by tapping the message timing field and choosing from one of the three possible values. [start of day] will send the message right after you wake up, [any time] will send the message during the day or evening, [end of day] will send the message shortly before bedtime.</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
-		<key>Number</key>
-		<integer>11</integer>
 		<key>DelayBefore</key>
 		<integer>0</integer>
+		<key>Message</key>
+		<string>Now set the message timing by tapping the message timing field and choosing from one of the three possible values. [start of day] will send the message right after you wake up, [any time] will send the message during the day or evening, [end of day] will send the message shortly before bedtime.</string>
 	</dict>
 	<dict>
+		<key>Message</key>
+		<string>Good job &lt;#Name&gt;! You’ve created your first affirmation.</string>
+		<key>Number</key>
+		<integer>14</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>AffirmationScreen</string>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 		<key>AnimatableImage</key>
 		<dict>
-			<key>AnimationDuration</key>
-			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>6_punch_0001</string>
@@ -457,95 +489,95 @@
 				<string>6_punch_0063</string>
 				<string>6_punch_0064</string>
 			</array>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
 		</dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>Good job &lt;#Name&gt;! You’ve created your first affirmation.</string>
-		<key>ScreenName</key>
-		<string>AffirmationScreen</string>
-		<key>Number</key>
-		<integer>12</integer>
-		<key>DelayBefore</key>
-		<integer>0</integer>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>15</integer>
+		<key>RequiresActionToProceed</key>
+		<true/>
 		<key>EnabledContols</key>
 		<array>
 			<string>BackButton</string>
 		</array>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>Message</key>
-		<string>I will provide more guidance on how to use affirmations later, let’s continue on our tour of the app. Please hit the back arrow to go back to the main screen.</string>
 		<key>ScreenName</key>
 		<string>AffirmationScreen</string>
-		<key>Number</key>
-		<integer>13</integer>
 		<key>DelayBefore</key>
 		<integer>0</integer>
+		<key>Message</key>
+		<string>I will provide more guidance on how to use affirmations later, let’s continue on our tour of the app. Please hit the back arrow to go back to the main screen.</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>16</integer>
+		<key>RequiresActionToProceed</key>
+		<true/>
 		<key>EnabledContols</key>
 		<array>
 			<string>VisualisationsButton</string>
 		</array>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>Message</key>
-		<string>Now hit the blue [visualization] button below please.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
-		<key>Number</key>
-		<integer>14</integer>
 		<key>DelayBefore</key>
 		<integer>0</integer>
+		<key>Message</key>
+		<string>Now hit the blue [visualization] button below please.</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>17</integer>
 		<key>RequiresActionToProceed</key>
 		<false/>
+		<key>ScreenName</key>
+		<string>VisualisationScreen</string>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 		<key>Message</key>
 		<string>This is the Visualization screen. It works the same as the Affirmation screen, except here you create picture messages, and you only have 5 slots. The idea of a visualization is that it either represents something you strive for or something positive in your life which you want to focus on.</string>
-		<key>ScreenName</key>
-		<string>VisualisationScreen</string>
-		<key>Number</key>
-		<integer>15</integer>
-		<key>DelayBefore</key>
-		<integer>0</integer>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>18</integer>
 		<key>RequiresActionToProceed</key>
 		<false/>
-		<key>Message</key>
-		<string>Select a picture by tapping the camera icon in the lower left corner, and then enter text to be superimposed on top of the image.</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
-		<key>Number</key>
-		<integer>16</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
+		<key>Message</key>
+		<string>Select a picture by tapping the camera icon in the lower left corner, and then enter text to be superimposed on top of the image.</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>19</integer>
+		<key>RequiresActionToProceed</key>
+		<true/>
 		<key>EnabledContols</key>
 		<array>
 			<string>CameraButton</string>
 		</array>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>Message</key>
-		<string>Try to create a positive visualization. A by picture of a loved one with the word “Love!” for instance.</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
-		<key>Number</key>
-		<integer>17</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
+		<key>Message</key>
+		<string>Try to create a positive visualization. A by picture of a loved one with the word “Love!” for instance.</string>
 	</dict>
 	<dict>
+		<key>Message</key>
+		<string>That is a beautiful visualization &lt;#Name&gt;, well done!</string>
+		<key>Number</key>
+		<integer>20</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>VisualisationScreen</string>
+		<key>DelayBefore</key>
+		<integer>0</integer>
 		<key>AnimatableImage</key>
 		<dict>
-			<key>AnimationDuration</key>
-			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>3_standbow_0001</string>
@@ -613,224 +645,224 @@
 				<string>3_standbow_0063</string>
 				<string>3_standbow_0064</string>
 			</array>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
 		</dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>That is a beautiful visualization &lt;#Name&gt;, well done!</string>
-		<key>ScreenName</key>
-		<string>VisualisationScreen</string>
-		<key>Number</key>
-		<integer>18</integer>
-		<key>DelayBefore</key>
-		<integer>0</integer>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>21</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
 		<key>EnabledContols</key>
 		<array>
 			<string>MessageSwitchViewLongPress</string>
 		</array>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>To delete a Visualization or an Affirmation, press and hold the slot number.</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
-		<key>Number</key>
-		<integer>19</integer>
 		<key>DelayBefore</key>
 		<integer>0</integer>
+		<key>Message</key>
+		<string>To delete a Visualization or an Affirmation, press and hold the slot number.</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>22</integer>
+		<key>RequiresActionToProceed</key>
+		<true/>
 		<key>EnabledContols</key>
 		<array>
 			<string>MessageSwitchViewLongPress</string>
 			<string>BackButton</string>
 		</array>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>Message</key>
-		<string>Now tap the back arrow to go back to the main screen, please.</string>
 		<key>ScreenName</key>
 		<string>VisualisationScreen</string>
-		<key>Number</key>
-		<integer>20</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
+		<key>Message</key>
+		<string>Now tap the back arrow to go back to the main screen, please.</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>23</integer>
 		<key>RequiresActionToProceed</key>
 		<false/>
-		<key>Message</key>
-		<string>You have now learned how to use the main tools of this application. I hope you will have fun with it and get creative with your use of affirmations and visualizations. I think you will find it will improve your outlook, boost your energy and even make you a more powerful person.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
-		<key>Number</key>
-		<integer>21</integer>
 		<key>DelayBefore</key>
 		<integer>0</integer>
+		<key>Message</key>
+		<string>You have now learned how to use the main tools of this application. I hope you will have fun with it and get creative with your use of affirmations and visualizations. I think you will find it will improve your outlook, boost your energy and even make you a more powerful person.</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>24</integer>
+		<key>RequiresActionToProceed</key>
+		<true/>
 		<key>EnabledContols</key>
 		<array>
 			<string>MoreTab</string>
 		</array>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>Message</key>
-		<string>Let’s look at the additional functions on the ‘more’ screen. Please tap the link in the top right corner.</string>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
-		<key>Number</key>
-		<integer>22</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
+		<key>Message</key>
+		<string>Let’s look at the additional functions on the ‘more’ screen. Please tap the link in the top right corner.</string>
 	</dict>
 	<dict>
-		<key>AllowedActionName</key>
-		<string>ScrollToBottom</string>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>Message</key>
-		<string>Scroll down to the bottom, please.</string>
-		<key>ScreenName</key>
-		<string>MoreScreen</string>
-		<key>Number</key>
-		<integer>23</integer>
-		<key>DelayBefore</key>
-		<integer>0</integer>
-	</dict>
-	<dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>The sleep time panel allows you to tell me when you are typically sleeping, so that I know when to not bother you, and to allow me to time the ‘start of day’ and ‘end of day’ messages.</string>
-		<key>ScreenName</key>
-		<string>MoreScreen</string>
-		<key>Number</key>
-		<integer>24</integer>
-		<key>DelayBefore</key>
-		<integer>0</integer>
-	</dict>
-	<dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>The data format fields control the format of time, date, weight and height to either U.S. or Metric standards.</string>
-		<key>ScreenName</key>
-		<string>MoreScreen</string>
 		<key>Number</key>
 		<integer>25</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-	</dict>
-	<dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>The personal profile information is optional, but if you provide me this information it allows me to help you better, by giving you lessons and guidance which fit your profile. You can enter that now or later, or never, it’s up to you.</string>
-		<key>ScreenName</key>
-		<string>MoreScreen</string>
-		<key>Number</key>
-		<integer>26</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-	</dict>
-	<dict>
-		<key>AllowedActionName</key>
-		<string>ScrollToTop</string>
 		<key>RequiresActionToProceed</key>
 		<true/>
-		<key>Message</key>
-		<string>Now scroll up to the top of the page again, please.</string>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
-		<key>Number</key>
-		<integer>27</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-	</dict>
-	<dict>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>The ‘Sensei teaching intensity’ control allows you to set the intensity of my teachings both in terms of quantity and tone. Keep in mind though that lessons are only available in the full version of the app, you will need to upgrade to get this feature. I hope you will love the app and decide to do so soon!</string>
-		<key>ScreenName</key>
-		<string>MoreScreen</string>
-		<key>Number</key>
-		<integer>28</integer>
+		<key>AllowedActionName</key>
+		<string>ScrollToBottom</string>
 		<key>DelayBefore</key>
 		<integer>0</integer>
+		<key>Message</key>
+		<string>Scroll down to the bottom of this screen, please.</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>26</integer>
 		<key>RequiresActionToProceed</key>
 		<false/>
-		<key>Message</key>
-		<string>The instructions control turns instructions on or off. If they are on, I will continue to provide pointers on how to use affirmations and visualizations. You may want to leave this on for a while until you feel you master it.</string>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
+		<key>DelayBefore</key>
+		<integer>0</integer>
+		<key>Message</key>
+		<string>The sleep time panel allows you to tell me when you are typically sleeping, so that I know when to not bother you, and to allow me to time the ‘start of day’ and ‘end of day’ messages.</string>
+	</dict>
+	<dict>
+		<key>Number</key>
+		<integer>27</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Message</key>
+		<string>The data format fields control the format of time, date, weight and height to either U.S. or Metric standards.</string>
+	</dict>
+	<dict>
+		<key>Number</key>
+		<integer>28</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Message</key>
+		<string>The personal profile information is optional, but if you provide me this information it allows me to help you better, by giving you lessons and guidance which fit your profile. You can enter that now or later, or never, it’s up to you.</string>
+	</dict>
+	<dict>
 		<key>Number</key>
 		<integer>29</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-	</dict>
-	<dict>
 		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Message</key>
-		<string>Whenever I slide in from above with instructions or notifications, you can always ask me to leave by tapping me.</string>
+		<true/>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
+		<key>AllowedActionName</key>
+		<string>ScrollToTop</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Message</key>
+		<string>Now scroll up to the top of the page again, please.</string>
+	</dict>
+	<dict>
 		<key>Number</key>
 		<integer>30</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-	</dict>
-	<dict>
 		<key>RequiresActionToProceed</key>
 		<false/>
-		<key>Message</key>
-		<string>The other links on this page should be self-explanatory. We really hope that you will love the app, upgrade it, share it, tweet about it, and rate it well. If for any reason you don’t think the app meets your expectations, or if you have any suggestions or feedback, we encourage you to use the feedback function to send us an email.</string>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
-		<key>Number</key>
-		<integer>31</integer>
 		<key>DelayBefore</key>
-		<integer>2</integer>
+		<integer>0</integer>
+		<key>Message</key>
+		<string>The ‘Sensei teaching intensity’ control allows you to set the intensity of my teachings both in terms of quantity and tone. Keep in mind though that lessons are only available in the full version of the app, you will need to upgrade to get this feature. I hope you will love the app and decide to do so soon!</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>31</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Message</key>
+		<string>The instructions control turns instructions on or off. If they are on, I will continue to provide pointers on how to use affirmations and visualizations. You may want to leave this on for a while until you feel you master it.</string>
+	</dict>
+	<dict>
+		<key>Number</key>
+		<integer>32</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Message</key>
+		<string>Whenever I slide in from above with instructions or notifications, you can always ask me to leave by tapping me.</string>
+	</dict>
+	<dict>
+		<key>Number</key>
+		<integer>33</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>MoreScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Message</key>
+		<string>The other links on this page should be self-explanatory. We really hope that you will love the app, upgrade it, share it, tweet about it, and rate it well. If for any reason you don’t think the app meets your expectations, or if you have any suggestions or feedback, we encourage you to use the feedback function to send us an email.</string>
+	</dict>
+	<dict>
+		<key>Number</key>
+		<integer>34</integer>
+		<key>RequiresActionToProceed</key>
+		<true/>
 		<key>EnabledContols</key>
 		<array>
 			<string>SenseiTab</string>
 		</array>
-		<key>RequiresActionToProceed</key>
-		<true/>
-		<key>Message</key>
-		<string>Please go back to the main screen to conclude this tutorial.</string>
 		<key>ScreenName</key>
 		<string>MoreScreen</string>
-		<key>Number</key>
-		<integer>32</integer>
 		<key>DelayBefore</key>
 		<integer>2</integer>
+		<key>Message</key>
+		<string>Please go back to the main screen to conclude this tutorial.</string>
 	</dict>
 	<dict>
-		<key>Message</key>
-		<string>You have now completed the tutorial, well done &lt;#Name&gt;!</string>
+		<key>Number</key>
+		<integer>35</integer>
 		<key>RequiresActionToProceed</key>
 		<false/>
-		<key>Number</key>
-		<integer>33</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>DelayBefore</key>
 		<integer>0</integer>
+		<key>Message</key>
+		<string>You have now completed the tutorial, well done &lt;#Name&gt;!</string>
 	</dict>
 	<dict>
+		<key>Message</key>
+		<string>You are now ready to use the app. I trust you will enjoy!</string>
+		<key>Number</key>
+		<integer>36</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 		<key>AnimatableImage</key>
 		<dict>
-			<key>AnimationDuration</key>
-			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>4_kick_0001</string>
@@ -898,23 +930,28 @@
 				<string>4_kick_0063</string>
 				<string>4_kick_0064</string>
 			</array>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
 		</dict>
-		<key>Message</key>
-		<string>You are now ready to use the app. I trust you will enjoy!</string>
+	</dict>
+	<dict>
+		<key>Number</key>
+		<integer>37</integer>
 		<key>RequiresActionToProceed</key>
 		<false/>
-		<key>Number</key>
-		<integer>34</integer>
+		<key>EnabledContols</key>
+		<array>
+			<string>AffirmationsButton</string>
+			<string>VisualisationsButton</string>
+			<string>MoreTab</string>
+			<string>SenseiTab</string>
+		</array>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
 		<key>DelayBefore</key>
 		<integer>2</integer>
-	</dict>
-	<dict>
 		<key>AnimatableImage</key>
 		<dict>
-			<key>AnimationDuration</key>
-			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>3_standbow_0001</string>
@@ -982,46 +1019,41 @@
 				<string>3_standbow_0063</string>
 				<string>3_standbow_0064</string>
 			</array>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
 		</dict>
-		<key>EnabledContols</key>
-		<array>
-			<string>AffirmationsButton</string>
-			<string>VisualisationsButton</string>
-			<string>MoreTab</string>
-			<string>SenseiTab</string>
-		</array>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
-		<key>Number</key>
-		<integer>35</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
 	</dict>
 	<dict>
-		<key>Upgraded</key>
-		<true/>
+		<key>Number</key>
+		<integer>38</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
 		<key>EnabledContols</key>
 		<array/>
-		<key>Message</key>
-		<string>Thank you for upgrading the app.</string>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Number</key>
-		<integer>36</integer>
-		<key>DelayBefore</key>
-		<integer>0</integer>
 		<key>ScreenName</key>
 		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>0</integer>
+		<key>Upgraded</key>
+		<true/>
+		<key>Message</key>
+		<string>Thank you for upgrading the app.</string>
 	</dict>
 	<dict>
+		<key>Message</key>
+		<string>Now you can use six affirmation and five visualization slots to create the perfect mix of messages. Play around with it and have fun.</string>
+		<key>Number</key>
+		<integer>39</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 		<key>Upgraded</key>
 		<true/>
 		<key>AnimatableImage</key>
 		<dict>
-			<key>AnimationDuration</key>
-			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>7_punch_0001</string>
@@ -1089,55 +1121,51 @@
 				<string>7_punch_0063</string>
 				<string>7_punch_0064</string>
 			</array>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
 		</dict>
-		<key>Message</key>
-		<string>Now you can use six affirmation and five visualization slots to create the perfect mix of messages. Play around with it and have fun.</string>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Number</key>
-		<integer>37</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>40</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 		<key>Upgraded</key>
 		<true/>
 		<key>Message</key>
 		<string>You will now receive my lessons. By default the teaching intensity is set to &apos;3&apos;, which is a medium intensity. ‘0’ turns off lessons all together.</string>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Number</key>
-		<integer>38</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
 	</dict>
 	<dict>
+		<key>Number</key>
+		<integer>41</integer>
+		<key>RequiresActionToProceed</key>
+		<false/>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
 		<key>Upgraded</key>
 		<true/>
 		<key>Message</key>
 		<string>Enjoy!</string>
-		<key>RequiresActionToProceed</key>
-		<false/>
-		<key>Number</key>
-		<integer>39</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
 	</dict>
 	<dict>
-		<key>Upgraded</key>
-		<true/>
+		<key>Number</key>
+		<integer>42</integer>
 		<key>RequiresActionToProceed</key>
 		<false/>
+		<key>ScreenName</key>
+		<string>SenseiScreen</string>
+		<key>DelayBefore</key>
+		<integer>2</integer>
+		<key>Upgraded</key>
+		<true/>
 		<key>AnimatableImage</key>
 		<dict>
-			<key>AnimationDuration</key>
-			<integer>2</integer>
 			<key>ImageNames</key>
 			<array>
 				<string>3_standbow_0001</string>
@@ -1205,13 +1233,9 @@
 				<string>3_standbow_0063</string>
 				<string>3_standbow_0064</string>
 			</array>
+			<key>AnimationDuration</key>
+			<integer>2</integer>
 		</dict>
-		<key>Number</key>
-		<integer>40</integer>
-		<key>DelayBefore</key>
-		<integer>2</integer>
-		<key>ScreenName</key>
-		<string>SenseiScreen</string>
 	</dict>
 </array>
 </plist>

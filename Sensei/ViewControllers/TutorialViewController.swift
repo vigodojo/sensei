@@ -126,11 +126,27 @@ class TutorialViewController: BaseViewController {
 
     // MARK: - Lifecycle
     
+    @IBAction func arrowMoreButtonAction(sender: AnyObject) {
+        
+
+        let currentOffset = tutorialCollectionView.contentOffset
+        let newOffset = currentOffset.y + tutorialCollectionView.frame.height
+        tutorialCollectionView.setContentOffset(CGPoint(x: 0, y: newOffset), animated: true)
+        
+        if self.senseiImageView.layerAnimating() {
+            return
+        }
+        
+        if canLoadNextStep && self.nextTimer == nil && TutorialManager.sharedInstance.currentStep?.screen != .Sensei && self.presentedViewController == nil {
+            TutorialManager.sharedInstance.nextStep()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         splashMaskImageView.hidden = !TutorialManager.sharedInstance.completed
         tutorialHidden = !Settings.sharedSettings.tutorialOn.boolValue
-        
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TutorialViewController.timeZoneChanged(_:)), name: NSSystemTimeZoneDidChangeNotification, object: nil)
 
         addTutorialObservers()
@@ -391,6 +407,9 @@ class TutorialViewController: BaseViewController {
     // MARK: - Tutorial
     
     override func didMoveToNextTutorial(tutorialStep: TutorialStep) {
+        if tutorialStep.screen == .Sensei {
+            return
+        }
         if self.nextTimer == nil || self.nextTimer?.valid == false {
             let visibleCells = tutorialCollectionView.indexPathsForVisibleItems()
             if visibleCells.count > 0 {
@@ -430,7 +449,8 @@ class TutorialViewController: BaseViewController {
     }
     
     func shouldShowAnimationAfterTutorialStep(tutorialStep: TutorialStep) -> Bool {
-        return tutorialStep.number == StepIndexes.CreatedAffirmationIndex.rawValue || tutorialStep.number == StepIndexes.CreatedVisualizationIndex.rawValue
+        return true
+//        return tutorialStep.number == StepIndexes.CreatedAffirmationIndex.rawValue || tutorialStep.number == StepIndexes.CreatedVisualizationIndex.rawValue
     }
     
     func showTutorialStep(tutorialStep: TutorialStep) {

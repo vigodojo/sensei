@@ -906,7 +906,7 @@ class SettingsTableViewController: UITableViewController {
         if MFMailComposeViewController.canSendMail() {
             let mailComposeController = MFMailComposeViewController()
             mailComposeController.mailComposeDelegate = self
-            mailComposeController.setToRecipients(["sensei@vigosensei.com"])
+            mailComposeController.setToRecipients(["sensei@vigodojo.com"])
             mailComposeController.setSubject("Note from a user")
             self.presentViewController(mailComposeController, animated: true, completion: nil)
         } else {

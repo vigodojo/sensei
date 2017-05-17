@@ -930,16 +930,16 @@ class SenseiViewController: BaseViewController {
             }
         }
     }
-    
+
     private func handleTutorialStep(tutorialStep: TutorialStep) {
         var delay = self.dataSource.count > 0 ? TutorialManager.sharedInstance.delayForCurrentStep() : 0
-        if tutorialStep.number == StepIndexes.AfterThankYouIndex.rawValue {
-            delay = 1
-        }
         if tutorialStep.number == 0 {
             delay = tutorialStep.delayBefore
         }
-        
+        if tutorialStep.number == StepIndexes.AfterThankYouIndex.rawValue || tutorialStep.number == 2  {
+            delay = 1
+        }
+
         dispatchInMainThreadAfter(delay: delay) {
             if let animatableimage = tutorialStep.animatableImage {
                 
@@ -947,16 +947,14 @@ class SenseiViewController: BaseViewController {
                     SenseiManager.sharedManager.isSleepTime() &&
                     animatableimage.imageNames.first?.containsString("1_bow") == false &&
                     animatableimage.imageNames.first?.containsString("2_sistand") == false &&
-                    tutorialStep.number > 35 && tutorialStep.number < 40 {
+                    tutorialStep.number > 37 && tutorialStep.number < 42 {
                     
                     SenseiManager.sharedManager.animateSenseiSittingInImageView(self.senseiImageView, completion: { (finished) in
                         self.animateTutorialStep(tutorialStep)
                     })
                 } else {
-                    var delay: Float = 0
-                    if TutorialManager.sharedInstance.completed {
-                        delay = 1.0
-                    }
+                    let delay: Float = TutorialManager.sharedInstance.completed ? 1 : 0
+                    
                     self.dispatchInMainThreadAfter(delay: delay, completion: {
                         self.animateTutorialStep(tutorialStep)
                     })

@@ -65,7 +65,6 @@ class BaseViewController: UIViewController {
     }
     
     func affirmationTapped(notification: NSNotification) { }
-  
     func visualizationTapped(notification: NSNotification) { }
     
     func didMoveToNextTutorialNotification(notification: NSNotification) {
@@ -84,7 +83,7 @@ class BaseViewController: UIViewController {
             self.enableControls(tutorialStep.enabledContols)
         }
     }
-    
+
     func enableControls(controlNames: [String]?) {
         
     }

@@ -152,7 +152,7 @@
                                                 </collectionViewFlowLayout>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TutorialTextViewCell" id="Tce-vm-510" customClass="TutorialTextViewCell" customModule="Sensei" customModuleProvider="target">
-                                                        <rect key="frame" x="-28" y="0.0" width="294" height="74"/>
+                                                        <rect key="frame" x="-28.5" y="0.0" width="294" height="74"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                             <rect key="frame" x="0.0" y="0.0" width="294" height="74"/>
@@ -207,6 +207,9 @@
                                                 <state key="normal" image="triangle_icone">
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="arrowMoreButtonAction:" destination="goE-cF-bxi" eventType="touchUpInside" id="D93-ZR-u3l"/>
+                                                </connections>
                                             </button>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wY8-ok-0Yc">
                                                 <rect key="frame" x="8" y="56" width="230.5" height="24"/>
