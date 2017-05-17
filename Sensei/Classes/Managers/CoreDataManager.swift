@@ -102,7 +102,6 @@ class CoreDataManager {
     // MARK: Merging
     
     func mergeJSONs(jsons: [JSONObject]?, entityMapping: EntityMapping) {
-//        print("Started: \(NSDate().timeIntervalSince1970)")
         if let jsons = jsons where NSJSONSerialization.isValidJSONObject(jsons) {
             let newPrimaryValues = jsons.map { entityMapping.valueForProperty(entityMapping.primaryProperty, json: $0)! }
             let sortDescriptor = [NSSortDescriptor(key: entityMapping.primaryProperty, ascending: true)]

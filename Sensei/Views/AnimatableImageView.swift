@@ -24,6 +24,7 @@ class AnimatableImageView: UIImageView, CAAnimationDelegate {
             }
             return
         }
+        
         completionClosure = completion
         let animation = CAKeyframeAnimation()
         animation.keyPath = Constants.KeyPathContents

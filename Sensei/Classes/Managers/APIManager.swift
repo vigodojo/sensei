@@ -69,10 +69,12 @@ class APIManager: NSObject {
 //        showCellularAlertIfNeeded()
 //    }
     
-    private func showCellularAlertIfNeeded() {
+    func showCellularAlertIfNeeded() -> Bool {
         if reachability.isReachableViaWWAN() || !reachability.isReachable() {
             showAlert("The change you made did not register due to limited internet connectivity. Please connect to Wi-Fi for your change to take effect.")
+            return true
         }
+        return false
     }
     
     lazy var sessionManager: RCSessionManager = { [unowned self] in
@@ -406,14 +408,12 @@ class APIManager: NSObject {
 
     private func checkWarning(response: RCResponse, path: String? = nil) {
         if let path = path where path == APIPath.Affirmation || path == APIPath.Visualization || path == APIPath.Settings {
-            showCellularAlertIfNeeded()
-        } else {
-            guard let error = response.error where reachability.isReachable() else { return }
-            showAlert(error.localizedDescription)
+//            showCellularAlertIfNeeded()
         }
     }
     
     func showAlert(message: String) {
+        
         let alertController = UIAlertController(title: "Warning", message: message, preferredStyle: .Alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate

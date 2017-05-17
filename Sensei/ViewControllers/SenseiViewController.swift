@@ -942,7 +942,7 @@ class SenseiViewController: BaseViewController {
 
         dispatchInMainThreadAfter(delay: delay) {
             if let animatableimage = tutorialStep.animatableImage {
-                
+
                 if TutorialManager.sharedInstance.completed &&
                     SenseiManager.sharedManager.isSleepTime() &&
                     animatableimage.imageNames.first?.containsString("1_bow") == false &&
@@ -953,8 +953,7 @@ class SenseiViewController: BaseViewController {
                         self.animateTutorialStep(tutorialStep)
                     })
                 } else {
-                    let delay: Float = TutorialManager.sharedInstance.completed ? 1 : 0
-                    
+                    let delay: Float = TutorialManager.sharedInstance.completed ? 1 : 0.2
                     self.dispatchInMainThreadAfter(delay: delay, completion: {
                         self.animateTutorialStep(tutorialStep)
                     })
@@ -972,7 +971,9 @@ class SenseiViewController: BaseViewController {
     
     func animateTutorialStep(tutorialStep: TutorialStep) {
         if let animatableimage = tutorialStep.animatableImage {
+            print(NSDate())
             self.senseiImageView.animateAnimatableImage(animatableimage) { (finished) -> Void in
+                print(NSDate())
                 self.senseiImageView.image = animatableimage.images.last
                 self.handleTutorialStepAction(tutorialStep)
             }
